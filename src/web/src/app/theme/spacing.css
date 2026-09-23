@@ -1,0 +1,8 @@
+:root{
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;--space-20:80px;
+--radius-sm:6px;--radius:10px;--radius-lg:14px;--radius-xl:20px;--radius-full:999px;
+--shadow-sm:0 1px 2px rgba(16,24,40,.06);
+--shadow-card:0 1px 3px rgba(16,24,40,.10),0 1px 2px rgba(16,24,40,.06);
+--shadow-lg:0 4px 12px rgba(16,24,40,.12),0 2px 4px rgba(16,24,40,.08);
+--shadow-focus:0 0 0 4px rgba(46,144,250,.25);
+}

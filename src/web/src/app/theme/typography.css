@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap');
+:root{
+--font-ui:'IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif;
+--font-display:'Plus Jakarta Sans','IBM Plex Sans Thai',sans-serif;
+--font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+--text-xs:12px;--text-sm:14px;--text-base:16px;--text-lg:18px;--text-xl:20px;--text-2xl:24px;--text-3xl:30px;--text-4xl:36px;--text-5xl:48px;
+--leading-tight:1.2;--leading-normal:1.5;--leading-relaxed:1.65;
+--tracking-wordmark:-0.02em;
+--tabular-nums:tabular-nums; /* @kind other */
+}

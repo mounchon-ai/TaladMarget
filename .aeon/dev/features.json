@@ -31,8 +31,6 @@
         "path": "src/web",
         "skill": "vercel-react-best-practices",
         "skill_with": [
-          "vercel-composition-patterns",
-          "typescript-lsp",
           "frontend-design"
         ],
         "dockerfile": "src/web/Dockerfile",
@@ -41,7 +39,7 @@
         ],
         "source": "asked",
         "nfr_ref": "NFR-talad-003",
-        "notes_th": "NFR-talad-003 ระบุแค่ \"React\" · Next.js 16 (latest 16.3.6 ณ 2026-09-23) เป็นคำตอบที่ถาม · แยก api/web ยังไม่มี apps[] roster ใน sitemap",
+        "notes_th": "NFR-talad-003 ระบุแค่ \"React\" · Next.js 16 (latest 16.3.6 ณ 2026-09-23) เป็นคำตอบที่ถาม · แยก api/web ยังไม่มี apps[] roster ใน sitemap · 2026-09-23 skill: เขียนโค้ด Next.js ใช้ vercel-react-best-practices (ติดตั้งระดับโปรเจกต์ที่ .claude/skills/ ด้วย npx skills add vercel-labs/agent-skills เมื่อ 2026-09-23) · ออกแบบหน้า HTML ใช้ frontend-design",
         "decided_by": "mon sai",
         "decided_at": "2026-09-23"
       }
@@ -153,7 +151,20 @@
             ]
           }
         ],
-        "tests": "tests"
+        "tests": "tests",
+        "manifests": [
+          "package.json",
+          "package-lock.json",
+          "next.config.ts",
+          "tsconfig.json",
+          "postcss.config.mjs",
+          "eslint.config.mjs",
+          "vitest.config.mts",
+          ".gitignore",
+          "AGENTS.md",
+          "CLAUDE.md",
+          "src/proxy.ts"
+        ]
       }
     ],
     "scripts": {
@@ -331,7 +342,104 @@
           "hash": "sha256:a507cbeae54cf75a059042cc711dceb7c1f55bd9e5a0f67bc31791c984aca3f4"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · routes ƒ /login + ƒ Proxy (Middleware) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T20:51:17+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-002",
+            "result": "vitest: Test Files 2 passed (2) · Tests 19 passed (19) · exit 0",
+            "at": "2026-09-23T20:51:17+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems reported · exit 0",
+            "at": "2026-09-23T20:51:17+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/.gitignore",
+          "src/web/AGENTS.md",
+          "src/web/CLAUDE.md",
+          "src/web/eslint.config.mjs",
+          "src/web/next.config.ts",
+          "src/web/package-lock.json",
+          "src/web/package.json",
+          "src/web/postcss.config.mjs",
+          "src/web/src/app/favicon.ico",
+          "src/web/src/app/globals.css",
+          "src/web/src/app/layout.tsx",
+          "src/web/src/app/login/actions.ts",
+          "src/web/src/app/login/page.tsx",
+          "src/web/src/app/theme/colors.css",
+          "src/web/src/app/theme/spacing.css",
+          "src/web/src/app/theme/typography.css",
+          "src/web/src/components/login-form.tsx",
+          "src/web/src/lib/auth-api.ts",
+          "src/web/src/lib/auth-routing.ts",
+          "src/web/src/lib/login-errors.ts",
+          "src/web/src/proxy.ts",
+          "src/web/tests/auth-routing.test.ts",
+          "src/web/tests/sign-in.test.tsx",
+          "src/web/tsconfig.json",
+          "src/web/vitest.config.mts"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/auth-routing.test.ts",
+            "calc_ref": null,
+            "gd_ref": null
+          },
+          {
+            "file": "src/web/tests/sign-in.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "username",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-001-ent-008-username",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "password",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-001-password",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "signIn",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-001-sign-in",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-003",
@@ -3354,8 +3462,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 1,
-      "draft": 45
+      "validated": 2,
+      "draft": 44
     },
     "by_origin": {
       "new": 46

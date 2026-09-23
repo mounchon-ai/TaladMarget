@@ -1,0 +1,118 @@
+/* Theme tokens are mock's (.aeon/mockup/theme.json · handoff talad-ds), copied verbatim into ./theme —
+   colours, spacing, radii and type below only ever reference them (DV14 · RQ23). */
+@import "./theme/typography.css";
+@import "./theme/colors.css";
+@import "./theme/spacing.css";
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+/* daisyUI 5 theme mapped onto the token names — daisyUI draws the components, the tokens pick the values. */
+@plugin "daisyui/theme" {
+  name: "talad";
+  default: true;
+  color-scheme: light;
+  --color-base-100: var(--bg-surface);
+  --color-base-200: var(--bg-page);
+  --color-base-300: var(--border);
+  --color-base-content: var(--text-primary);
+  --color-primary: var(--brand-primary);
+  --color-primary-content: var(--brand-on-primary);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--danger);
+  --radius-field: var(--radius-sm);
+  --radius-box: var(--radius-xl);
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  line-height: var(--leading-normal);
+}
+
+/* UI-talad-001 — the auth card, arrangement as mockups/UI-talad-001/default.html draws it */
+.authwrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-4);
+}
+.authcard {
+  width: 100%;
+  max-width: calc(var(--space-20) * 5);
+  background: var(--bg-surface);
+  border: thin solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-10);
+}
+.authcard .wordmark {
+  display: block;
+  text-align: center;
+  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  letter-spacing: var(--tracking-wordmark);
+  margin-bottom: var(--space-6);
+}
+.authcard .wordmark .mark {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  margin-right: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--brand-primary);
+  color: var(--brand-on-primary);
+}
+.authcard h1 {
+  text-align: center;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0 0 var(--space-1);
+}
+.authcard .sub {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  margin: 0 0 var(--space-8);
+}
+.field {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+.field .lbl {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-1);
+}
+.field .req,
+.field .err {
+  color: var(--danger);
+}
+.field .err {
+  display: block;
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+}
+.field .input {
+  width: 100%;
+}
+.field.invalid .input {
+  border-color: var(--danger);
+  box-shadow: var(--shadow-focus);
+}
+.authcard .alert {
+  margin-top: var(--space-4);
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: thin solid var(--danger);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}

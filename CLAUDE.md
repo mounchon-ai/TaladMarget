@@ -24,7 +24,7 @@ powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1   # Release build
 
 ไม่มี cache · ไม่มี queue · ไม่มีโค้ดร่วมระหว่างแอป (สัญญาคือ OpenAPI ของ api)
 
-Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได้ติดตั้ง) · web → `vercel-react-best-practices` (+ `vercel-composition-patterns` · `typescript-lsp` · `frontend-design`)
+Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได้ติดตั้ง) · web → เขียนโค้ด Next.js ใช้ `vercel-react-best-practices` (ระดับโปรเจกต์ `.claude/skills/` · ติดตั้งซ้ำด้วย `npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices --agent claude-code --copy -y`) · ออกแบบหน้า HTML ใช้ `frontend-design`
 
 ## Architecture
 
@@ -34,6 +34,8 @@ Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได�
 - **web** — `src/web/src/lib` ← `components` ← `app` (App Router) · tests ที่ `src/web/tests`
 - **ใครต่ออะไรได้**: api → database เท่านั้น · web → api เท่านั้น — **web ห้ามแตะฐานข้อมูลตรง**
   ไม่มีเครื่องมือไหนอ่าน import หรือ connection string จริง คนอ่าน diff คือคนจับ
+
+ตั้งค่าตอนรัน: api ต้องมี `Jwt__SigningKey` (≥ 32 ไบต์ · ไม่ commit) และ `ConnectionStrings__Talad` · web เรียก api ที่ `TALAD_API_URL` (ค่าเริ่มต้น `http://localhost:5010`) · session ของ web คือ JWT ใน cookie `talad_session` (httpOnly)
 
 ## Conventions
 
@@ -50,4 +52,7 @@ Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได�
 - **เสนอเวอร์ชันจากความจำ** (Next.js 15 ทั้งที่ล่าสุดคือ 16 · daisyUI v4 คู่กับ Tailwind รุ่นไหน) — ตรวจจาก registry ก่อนเสนอทุกครั้ง (`npm view <pkg> dist-tags` · release index ของ .NET · postgresql.org/versions.json)
 - **NFR-talad-003 เขียน "Tailwind v5 + daisy v4"** — Tailwind v5 ไม่มีจริง (latest 4.3.3 ณ 2026-09-23) และ daisyUI 4 สร้างคู่กับ Tailwind 3 · ทีมเลือก Tailwind 4 + daisyUI 5 แล้วต้องยกแก้ผ่าน `/req:change` → `/design:change` ให้ลูกค้าเซ็นใหม่ · จนกว่าจะแก้ NFR-003 ข้อนี้นับเป็นไม่ผ่าน
 - **บันทึก skill ที่ไม่ได้ติดตั้ง** (`dotnet-dev`) ทำให้ `/dev:build` หยุดที่รั้วข้อ 5 — ก่อนบันทึก skill ให้เช็กว่าติดตั้งอยู่จริง · api เปลี่ยนเป็น `csharp-lsp` เมื่อ 2026-09-23
+- **Next.js 16 ไม่ใช่ Next ที่จำได้** — อ่าน `src/web/node_modules/next/dist/docs/` ก่อนเขียน · `middleware.ts` เปลี่ยนชื่อเป็น `src/proxy.ts` (export `proxy`) · `searchParams`/`cookies()` เป็น async
+- ไฟล์ที่เครื่องมือบังคับให้อยู่รากแอป (`Talad.slnx` · `package.json` · config · `src/proxy.ts`) ต้องประกาศใน `structure.apps[].manifests[]` ผ่าน `/dev:stack` ก่อน `build.mjs --write` ไม่งั้นถูกปฏิเสธ (DV15)
+- vitest 5 ต้องใช้ `@types/node` ≥ 22 — Node ของเครื่องนี้คือ 24
 - `sitemap.json` ไม่มี `apps[]` roster — การแยก api/web ยังเป็นคำตอบที่ถาม ไม่ใช่การ์ดที่ลูกค้าเซ็น
