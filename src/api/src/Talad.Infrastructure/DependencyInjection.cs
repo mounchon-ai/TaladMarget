@@ -32,6 +32,7 @@ public static class DependencyInjection
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<MemberRegistration>();
         services.AddScoped<MemberDirectory>();
+        services.AddScoped<MemberProfile>();
         services.Configure<StorageOptions>(config.GetSection(StorageOptions.Section));
         services.AddSingleton<ProductImageFiles>();
         return services;

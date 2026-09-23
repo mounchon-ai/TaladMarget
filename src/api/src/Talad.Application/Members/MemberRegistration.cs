@@ -4,8 +4,11 @@ namespace Talad.Application.Members;
 
 public interface IMemberRepository
 {
-    /// <summary>BR-talad-030@v1 — is this (already normalized) phone an ACTIVE member's? Hidden members do not count.</summary>
-    Task<bool> ActivePhoneExistsAsync(string phone, CancellationToken ct);
+    /// <summary>
+    /// BR-talad-030@v1 — is this (already normalized) phone an ACTIVE member's? Hidden members do not count,
+    /// and neither does <paramref name="exceptMemberId"/> — the member being edited keeps their own phone.
+    /// </summary>
+    Task<bool> ActivePhoneExistsAsync(string phone, CancellationToken ct, int? exceptMemberId = null);
 
     /// <summary>
     /// API-012 · BR-talad-004@v1 — ACTIVE members whose phone is the whole (normalized) term, or whose name

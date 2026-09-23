@@ -7,6 +7,8 @@ namespace Talad.Api.Members;
 
 public sealed record RegisterMemberRequest(string? Name, string? Phone);
 
+public sealed record EditMemberRequest(string? Name, string? Phone);
+
 /// <summary>
 /// What a refused member change answers. Each error names the ENT-004 field it sits under, and `message`
 /// is the sentence the person reads — one shape for the 400 and the 409.
@@ -39,8 +41,45 @@ public static class MemberEndpoints
             }
         });
 
+        // API-014 · GET /api/members/{id} — one ACTIVE member; a hidden or unknown one is not found
+        app.MapGet("/api/members/{id:int}", async (int id, MemberProfile profile, CancellationToken ct) =>
+        {
+            try
+            {
+                return Results.Ok(await profile.GetAsync(id, ct));
+            }
+            catch (MemberNotFoundException)
+            {
+                return NotFound();
+            }
+        });
+
+        // API-015 · PUT /api/members/{id} — a new name or phone, or why not (BR-talad-002@v1 · BR-talad-030@v1)
+        app.MapPut("/api/members/{id:int}", async (int id, EditMemberRequest body, MemberProfile profile, CancellationToken ct) =>
+        {
+            try
+            {
+                return Results.Ok(await profile.EditAsync(id, body.Name, body.Phone, ct));
+            }
+            catch (Exception e) when (e is MemberNotFoundException or MemberNotActiveException)
+            {
+                return NotFound();
+            }
+            catch (MemberInvalidException e)
+            {
+                return Results.BadRequest(new MemberError("MEMBER_INVALID", e.Errors));
+            }
+            catch (MemberPhoneTakenException e)
+            {
+                return Results.Conflict(new MemberError("PHONE_TAKEN", e.Errors));
+            }
+        });
+
         return app;
     }
+
+    /// <summary>A hidden or unknown member — no field is at fault, so no field error.</summary>
+    private static IResult NotFound() => Results.NotFound(new MemberError("MEMBER_NOT_FOUND", []));
 
     /// <summary>ENT-004.createdBy is the caller — taken from the token, never from the request.</summary>
     private static int CallerId(ClaimsPrincipal user) => int.Parse(user.FindFirstValue(JwtRegisteredClaimNames.Sub)!);

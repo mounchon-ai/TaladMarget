@@ -2175,7 +2175,71 @@
           "hash": "sha256:7d1657f37a24c3bbc408b3766e1acdaa30800b5bd9a105d6fbc65d06e424e986"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: MemberRepository.ActivePhoneExistsAsync counting the member being edited, then dev-test.ps1 -App api -Filter FE-talad-013",
+            "result": "Failed! - Failed: 1, Passed: 8, Total: 9 — AC-talad-043 catches a rename refused because the member's own phone looks taken · file restored",
+            "at": "2026-09-23T21:57:29+07:00"
+          },
+          {
+            "cmd": "mutation check: MemberProfile.EditAsync without the duplicate-phone check, then dev-test.ps1 -App api -Filter FE-talad-013",
+            "result": "Failed! - Failed: 1, Passed: 8, Total: 9 — AC-talad-010 catches มานะ taking สมหญิง's phone · file restored",
+            "at": "2026-09-23T21:57:33+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T21:57:35+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-013",
+            "result": "Passed! - Failed: 0, Passed: 9, Skipped: 0, Total: 9 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T21:57:39+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 80, Skipped: 0, Total: 80 · exit 0",
+            "at": "2026-09-23T21:57:43+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Members/Member.cs",
+          "src/api/src/Talad.Application/Members/MemberRegistration.cs",
+          "src/api/src/Talad.Application/Members/MemberProfile.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/MemberRepository.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Members/MemberEndpoints.cs",
+          "src/api/tests/Talad.Tests/Members/MemberEditTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Members/MemberEditTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-014",
+            "route": "GET /api/members/{id}",
+            "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
+          },
+          {
+            "api_ref": "API-015",
+            "route": "PUT /api/members/{id}",
+            "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-014",
@@ -4580,8 +4644,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 12,
-      "draft": 34
+      "validated": 13,
+      "draft": 33
     },
     "by_origin": {
       "new": 46

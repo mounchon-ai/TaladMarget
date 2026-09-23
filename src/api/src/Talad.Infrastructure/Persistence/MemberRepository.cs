@@ -7,8 +7,8 @@ namespace Talad.Infrastructure.Persistence;
 
 internal sealed class MemberRepository(TaladDbContext db) : IMemberRepository
 {
-    public Task<bool> ActivePhoneExistsAsync(string phone, CancellationToken ct) =>
-        db.Members.AnyAsync(m => m.Phone == phone && m.Status == MemberStatus.Active, ct);
+    public Task<bool> ActivePhoneExistsAsync(string phone, CancellationToken ct, int? exceptMemberId = null) =>
+        db.Members.AnyAsync(m => m.Phone == phone && m.Status == MemberStatus.Active && m.Id != exceptMemberId, ct);
 
     public async Task<(IReadOnlyList<Member> Items, int Total)> SearchActiveAsync(string? term, int page, int pageSize, CancellationToken ct)
     {

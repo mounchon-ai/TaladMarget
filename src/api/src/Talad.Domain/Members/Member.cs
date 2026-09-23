@@ -39,13 +39,31 @@ public class Member
     /// </summary>
     public static Member Register(string? name, string? phone, int createdById, DateTimeOffset createdAt)
     {
+        var (cleanName, cleanPhone) = Checked(name, phone);
+        return new Member(cleanName, cleanPhone, createdById, createdAt);
+    }
+
+    /// <summary>
+    /// UC-talad-008 — a new name and phone for an ACTIVE member, under the same rules as registering
+    /// (BR-talad-002@v1). A hidden member is not edited (ACL-008 · STM-talad-003). Whether the new phone is
+    /// another ACTIVE member's (BR-talad-030@v1) is the caller's to ask first; nothing changes on refusal.
+    /// </summary>
+    public void Edit(string? name, string? phone)
+    {
+        if (Status != MemberStatus.Active) throw new MemberNotActiveException(Id);
+        (Name, Phone) = Checked(name, phone);
+    }
+
+    /// <summary>BR-talad-002@v1 — trimmed name and normalized phone, or every field that is wrong.</summary>
+    private static (string Name, string Phone) Checked(string? name, string? phone)
+    {
         var cleanName = (name ?? "").Trim();
         var cleanPhone = NormalizePhone(phone);
         var errors = new List<MemberFieldError>();
         if (cleanName.Length == 0) errors.Add(new(MemberField.Name, MemberMessages.NameRequired));
         if (!IsValidPhone(cleanPhone)) errors.Add(new(MemberField.Phone, MemberMessages.PhoneFormat));
         if (errors.Count > 0) throw new MemberInvalidException(errors);
-        return new Member(cleanName, cleanPhone, createdById, createdAt);
+        return (cleanName, cleanPhone);
     }
 
     /// <summary>ENT-004.phone — dashes and spaces come out before checking and before storing.</summary>
@@ -96,3 +114,6 @@ public sealed class MemberInvalidException(IReadOnlyList<MemberFieldError> error
 /// <summary>BR-talad-030@v1 — the phone is an ACTIVE member's already (a hidden member's does not count).</summary>
 public sealed class MemberPhoneTakenException()
     : MemberRuleException([new MemberFieldError(MemberField.Phone, MemberMessages.PhoneTaken)]);
+
+/// <summary>ACL-008 — only an ACTIVE member is edited; a hidden one is as if they were not there.</summary>
+public sealed class MemberNotActiveException(int memberId) : Exception($"member {memberId} is hidden");
