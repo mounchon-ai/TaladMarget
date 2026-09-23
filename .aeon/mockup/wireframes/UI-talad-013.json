@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-024",
+  "screen": "UI-talad-013",
+  "title": "แก้ราคาสินค้า",
+  "purpose": "เจ้าของร้านตั้งราคาใหม่ของสินค้า จากหน้ารายละเอียดสินค้าหรือทางลัดที่หน้าขาย",
+  "level": "L1",
+  "layout": "form",
+  "kind": "modal",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "แก้ราคาสินค้า"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ราคาปัจจุบัน",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "แสดงราคาของเวอร์ชันราคาที่ใช้อยู่ของสินค้า (ENT-002 แถวปัจจุบัน) อ่านอย่างเดียว — ไม่ผูกคอลัมน์ เพราะช่องราคาใหม่เป็นผู้ถือ ENT-002.price ของเวอร์ชันที่จะสร้าง (ADR-001)",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ราคาใหม่",
+          "required": true,
+          "entity": "ENT-002",
+          "attribute": "price",
+          "validation": "มากกว่า 0 ทศนิยม 2 ตำแหน่ง",
+          "rules": [
+            "BR-talad-033@v1",
+            "BR-talad-035@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "form",
+          "container": "inline",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "ปิดหน้าต่างและกลับหน้าที่เปิดมา (หน้าขาย หรือรายละเอียดสินค้า)",
+          "rules": [
+            "BR-talad-033@v1",
+            "BR-talad-035@v1",
+            "BR-talad-036@v1",
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "inline",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "กลับหน้าที่เปิดมา (หน้าขาย หรือรายละเอียดสินค้า)",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-013-current-price",
+      "type": "field",
+      "key": "current-price",
+      "name": "ราคาปัจจุบัน"
+    },
+    {
+      "id": "ui-talad-013-ent-002-price",
+      "type": "field",
+      "key": "ent-002-price",
+      "name": "ราคาใหม่"
+    },
+    {
+      "id": "ui-talad-013-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-013-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้าต่างเปิดจากสินค้าที่เลือกเสมอ"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มบันทึกถูกปิดระหว่างบันทึก"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ราคาไม่มากกว่า 0: แสดงข้อความใต้ช่อง ไม่บันทึก · สินค้าถูกเลิกขายระหว่างเปิดหน้าต่าง: แจ้งและปิดหน้าต่าง"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": false,
+      "text": "ไม่เกิด — มีช่องกรอกช่องเดียว"
+    }
+  },
+  "extensions": {}
+}

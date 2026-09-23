@@ -488,6 +488,15 @@
           "statesWithPicture": [],
           "pages": [],
           "usesComponent": []
+        },
+        {
+          "screen": "UI-talad-013",
+          "mockup": "MCK-talad-024",
+          "level": "L1",
+          "wireframe": "../mockup/wireframes/UI-talad-013.json",
+          "statesWithPicture": [],
+          "pages": [],
+          "usesComponent": []
         }
       ],
       "requirement": "the MCK -> REQ half is design's to answer, never walked here (§10.1): ask /mock:trace --screen <UI-id>, which asks design's queries.mjs, or read ../design/trace.design.json",
@@ -522,7 +531,7 @@
       "ref": [
         "../mockup/wireframes/"
       ],
-      "files": 23,
+      "files": 24,
       "note": "the per-screen file is on each screen-map row · the ids on it are the ones dev stores and qa searches by and they never change once minted (gate 37 · 45), the zones and their order are design's arrangement (gate 47), and the states are design's list · the L2 page is ONE drawing of this file, which is why it is labelled reference: whatever a picture adds beyond this is a choice, not a fact"
     },
     {

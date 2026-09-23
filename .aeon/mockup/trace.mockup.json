@@ -118,6 +118,11 @@
       "from": "UI-talad-019",
       "rel": "mockedBy",
       "to": "MCK-talad-023"
+    },
+    {
+      "from": "UI-talad-013",
+      "rel": "mockedBy",
+      "to": "MCK-talad-024"
     }
   ],
   "extensions": {}

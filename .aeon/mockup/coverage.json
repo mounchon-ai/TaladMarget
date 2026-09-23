@@ -114,14 +114,11 @@
     },
     {
       "screen": "UI-talad-013",
-      "level": "L0",
-      "decision": "wait",
+      "level": "L1",
+      "decision": "build",
       "decidedBy": "mon sai",
-      "decidedAt": "2026-09-23T12:20:38Z",
-      "reason": "รอ design แก้การผูกฟิลด์",
-      "blockedBy": [
-        "design: ราคาปัจจุบัน และ ราคาใหม่ ผูก ENT-002.price ทั้งคู่ — data-testid ซ้ำ ui-talad-013-ent-002-price"
-      ]
+      "decidedAt": "2026-09-23T12:51:32Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-009 เป็นตัวแทน (design ตอบการ์ดแล้ว · ADR-001)"
     },
     {
       "screen": "UI-talad-014",

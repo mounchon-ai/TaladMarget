@@ -463,6 +463,20 @@
       ],
       "followsConvention": [],
       "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-024",
+      "screen": "UI-talad-013",
+      "level": "L1",
+      "file": "wireframes/UI-talad-013.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
     }
   ],
   "extensions": {}

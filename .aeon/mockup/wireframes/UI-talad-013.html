@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>แก้ราคาสินค้า — UI-talad-013 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-013" data-mockup="MCK-talad-024" data-layout="form">
+<header><h1>แก้ราคาสินค้า</h1><p>เจ้าของร้านตั้งราคาใหม่ของสินค้า จากหน้ารายละเอียดสินค้าหรือทางลัดที่หน้าขาย</p><p><small>visible to: ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="form" data-source="design"><dt>ราคาปัจจุบัน</dt><dd data-testid="ui-talad-013-current-price">แสดงราคาของเวอร์ชันราคาที่ใช้อยู่ของสินค้า (ENT-002 แถวปัจจุบัน) อ่านอย่างเดียว — ไม่ผูกคอลัมน์ เพราะช่องราคาใหม่เป็นผู้ถือ ENT-002.price ของเวอร์ชันที่จะสร้าง (ADR-001)</dd><p><label>ราคาใหม่ <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-013-ent-002-price" name="ราคาใหม่" placeholder="มากกว่า 0 ทศนิยม 2 ตำแหน่ง"></label></p><button type="button" data-testid="ui-talad-013-save" data-key="save" data-kind="edit" data-presentation="text" data-placement="form" data-container="inline">บันทึก</button><button type="button" data-testid="ui-talad-013-cancel" data-key="cancel" data-kind="navigate" data-presentation="text" data-placement="form" data-container="inline">ยกเลิก</button></form>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — หน้าต่างเปิดจากสินค้าที่เลือกเสมอ</dd><dt>loading</dt><dd>ปุ่มบันทึกถูกปิดระหว่างบันทึก</dd><dt>error</dt><dd>ราคาไม่มากกว่า 0: แสดงข้อความใต้ช่อง ไม่บันทึก · สินค้าถูกเลิกขายระหว่างเปิดหน้าต่าง: แจ้งและปิดหน้าต่าง</dd><dt>unauthorized</dt><dd>พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง &quot;คุณไม่มีสิทธิ์เข้าถึงหน้านี้&quot; โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow (does not occur)</dt><dd>ไม่เกิด — มีช่องกรอกช่องเดียว</dd></dl></section>
+<footer><small>MCK-talad-024 · wireframe L1 of UI-talad-013 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>
