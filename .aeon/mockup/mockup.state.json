@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/state.mjs",
+  "phase": "mockup",
+  "project": "talad",
+  "prompts": [],
+  "handoffs": [],
+  "designMap": [],
+  "steps": [
+    {
+      "id": "init",
+      "command": "/mock:init",
+      "status": "done",
+      "requires": [],
+      "artifacts": [
+        "mockup.state.json",
+        "coverage.json"
+      ],
+      "attempts": 1,
+      "updatedAt": "2026-09-23T11:46:08Z"
+    },
+    {
+      "id": "convention",
+      "command": "/mock:convention",
+      "status": "done",
+      "requires": [
+        "init"
+      ],
+      "artifacts": [
+        "conventions.json"
+      ],
+      "attempts": 1,
+      "updatedAt": "2026-09-23T11:48:54Z"
+    },
+    {
+      "id": "wireframe",
+      "command": "/mock:wireframe",
+      "status": "pending",
+      "requires": [
+        "convention"
+      ],
+      "artifacts": [
+        "wireframes/<UI-id>.json",
+        "wireframes/<UI-id>.html",
+        "wireframes/<UI-id>.md",
+        "mockup-map.json",
+        "trace.mockup.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "theme",
+      "command": "/mock:theme",
+      "status": "pending",
+      "requires": [
+        "init"
+      ],
+      "artifacts": [
+        "theme.json",
+        "theme-decisions.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "html",
+      "command": "/mock:html",
+      "status": "pending",
+      "requires": [
+        "wireframe",
+        "theme"
+      ],
+      "artifacts": [
+        "../../mockups/<UI-id>/<state>.html"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "handoff",
+      "command": "/mock:deliver",
+      "status": "pending",
+      "requires": [
+        "theme",
+        "wireframe"
+      ],
+      "artifacts": [
+        "../export/mockup-handoff.json"
+      ],
+      "attempts": 0
+    }
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "mock · scripts/state.mjs",
+  "project": "talad",
+  "levels": [
+    "L0",
+    "L1",
+    "L2"
+  ],
+  "screens": [
+    {
+      "screen": "UI-talad-001",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-002",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-003",
+      "level": "L0"
+    },
+    {
+      "screen": "RPT-talad-001",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-004",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-005",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-006",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-007",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-008",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-009",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-010",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-011",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-012",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-013",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-014",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-015",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-016",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-017",
+      "level": "L0"
+    },
+    {
+      "screen": "RPT-talad-002",
+      "level": "L0"
+    },
+    {
+      "screen": "RPT-talad-003",
+      "level": "L0"
+    },
+    {
+      "screen": "RPT-talad-004",
+      "level": "L0"
+    },
+    {
+      "screen": "RPT-talad-005",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-018",
+      "level": "L0"
+    },
+    {
+      "screen": "UI-talad-019",
+      "level": "L0"
+    }
+  ],
+  "exceptions": [],
+  "extensions": {}
+}

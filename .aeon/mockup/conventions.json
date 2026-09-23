@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "1.5",
+  "producedBy": "mock · scripts/conventions.mjs",
+  "project": "talad",
+  "kinds": [
+    "view",
+    "create",
+    "edit",
+    "delete",
+    "manage",
+    "filter",
+    "command",
+    "navigate",
+    "export",
+    "other"
+  ],
+  "catalogue": [
+    {
+      "id": "UIC-001",
+      "appliesTo": {
+        "kinds": [
+          "view",
+          "edit",
+          "delete",
+          "manage",
+          "command"
+        ],
+        "screens": "every",
+        "text": "ทุกหน้าที่แสดงเป็นรายการแถว — ปุ่มประจำแถวทุกปุ่ม (ชนิด view · edit · delete · manage · command — ชนิดเป็นของ design ตั้งแต่ประตู 35)"
+      },
+      "rule": "ปุ่มประจำแถวอยู่คอลัมน์แรกของแถว เรียงลำดับตายตัว: view · edit · delete · manage · command",
+      "readsField": "actions[] of screens.json, through the kind map (specification 7.4)",
+      "prevents": "the same row actions landing in a different column on every screen, so a user re-learns each list",
+      "decides": {
+        "placement": "first-column",
+        "order": [
+          "view",
+          "edit",
+          "delete",
+          "manage",
+          "command"
+        ]
+      },
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z",
+      "supersededBy": null,
+      "origin": {
+        "kind": "template",
+        "ref": "plugins/mock/assets/conventions.seed.json",
+        "pluginVersion": "0.3.0",
+        "importedAt": "2026-09-23T11:46:54Z"
+      }
+    },
+    {
+      "id": "UIC-002",
+      "appliesTo": {
+        "kinds": [
+          "view",
+          "edit",
+          "delete",
+          "manage",
+          "command"
+        ],
+        "screens": "every",
+        "text": "ปุ่มประจำแถวทุกปุ่ม"
+      },
+      "rule": "แสดงเป็นไอคอน ไม่ใช่ปุ่มตัวหนังสือ และใช้ชื่อ action ที่ design ประกาศไว้ใน actions[].name เป็นชื่อสำหรับ screen reader",
+      "readsField": "actions[].name",
+      "prevents": "an icon with no accessible name (MV15), and a label invented by the renderer that disagrees with the declared name",
+      "decides": {
+        "presentation": "icon",
+        "accessibleName": "declared-name"
+      },
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z",
+      "supersededBy": null,
+      "boundary": "WHAT affordance appears is structure and may sit in a wireframe (an icon button, first column); HOW it looks — which glyph, which colour, how many pixels — is theme and may not (specification 7.3, the MV1 line)",
+      "origin": {
+        "kind": "template",
+        "ref": "plugins/mock/assets/conventions.seed.json",
+        "pluginVersion": "0.3.0",
+        "importedAt": "2026-09-23T11:46:54Z"
+      }
+    },
+    {
+      "id": "UIC-003",
+      "appliesTo": {
+        "kinds": [
+          "view"
+        ],
+        "screens": "every",
+        "text": "ปุ่มประจำแถวชนิด view"
+      },
+      "rule": "เปิดเป็น modal ทับรายการ ไม่พาไปหน้ารายละเอียดแยก",
+      "readsField": "actions[].destination",
+      "prevents": "losing the list position on every detail view",
+      "decides": {
+        "container": "modal"
+      },
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z",
+      "supersededBy": null,
+      "conflictsWith": "a declared destination of the form UI-/RPT- — reported, never applied silently; the kind-map row records the convention under notApplied and the route stays (MV14 · specification 7.5 item 1)",
+      "origin": {
+        "kind": "template",
+        "ref": "plugins/mock/assets/conventions.seed.json",
+        "pluginVersion": "0.3.0",
+        "importedAt": "2026-09-23T11:46:54Z"
+      }
+    }
+  ],
+  "kindMap": [
+    {
+      "screen": "UI-talad-004",
+      "key": "open-member",
+      "notApplied": [
+        {
+          "convention": "UIC-003",
+          "because": "design ประกาศปลายทางเป็นหน้าแยก UI-talad-006 — route เป็นของ design จึงไม่เปิดเป็น modal ทับรายการ (7.5 ข้อ 1)"
+        }
+      ]
+    },
+    {
+      "screen": "UI-talad-007",
+      "key": "open-sale",
+      "notApplied": [
+        {
+          "convention": "UIC-003",
+          "because": "design ประกาศปลายทางเป็นหน้าแยก UI-talad-008 — route เป็นของ design จึงไม่เปิดเป็น modal ทับรายการ (7.5 ข้อ 1)"
+        }
+      ]
+    },
+    {
+      "screen": "UI-talad-010",
+      "key": "open-product",
+      "notApplied": [
+        {
+          "convention": "UIC-003",
+          "because": "design ประกาศปลายทางเป็นหน้าแยก UI-talad-012 — route เป็นของ design จึงไม่เปิดเป็น modal ทับรายการ (7.5 ข้อ 1)"
+        }
+      ]
+    }
+  ],
+  "fieldMap": [
+    {
+      "screen": "UI-talad-001",
+      "name": "รหัสผ่าน",
+      "slug": "password",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ค้นหาสินค้า",
+      "slug": "product-search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ค้นหาสมาชิก",
+      "slug": "member-search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ยอดรวมหลังโปรระดับสินค้า",
+      "slug": "subtotal-after-item-promo",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ส่วนลดทั้งบิล",
+      "slug": "bill-discount",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ส่วนลดสมาชิก",
+      "slug": "member-discount",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-002",
+      "name": "ยอดที่ต้องชำระ",
+      "slug": "amount-due",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-003",
+      "name": "ส่วนลดของโปร (บาท)",
+      "slug": "promo-discount",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-004",
+      "name": "ค้นหา",
+      "slug": "search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-007",
+      "name": "ค้นหา",
+      "slug": "search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-010",
+      "name": "ค้นหา",
+      "slug": "search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-015",
+      "name": "ค้นหา",
+      "slug": "search",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "UI-talad-019",
+      "name": "รหัสผ่าน (ตอนสร้าง) / รหัสผ่านใหม่ (ตอนรีเซ็ต)",
+      "slug": "password",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "RPT-talad-002",
+      "name": "ช่วงเวลา",
+      "slug": "date-range",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "RPT-talad-002",
+      "name": "จำนวนบิล",
+      "slug": "bill-count",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "RPT-talad-003",
+      "name": "ช่วงเวลา",
+      "slug": "date-range",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "RPT-talad-004",
+      "name": "ช่วงเวลา",
+      "slug": "date-range",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    },
+    {
+      "screen": "RPT-talad-005",
+      "name": "ณ วันที่",
+      "slug": "as-of-date",
+      "confirmedBy": "mon sai",
+      "confirmedAt": "2026-09-23T11:48:45Z"
+    }
+  ],
+  "screenOptions": [],
+  "extensions": {}
+}
