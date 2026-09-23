@@ -3164,6 +3164,16 @@
             "cmd": "dotnet ef migrations script AddMemberDiscountVersions AddPromotions --project src/Talad.Infrastructure --startup-project src/Talad.Api --no-build (in src/api)",
             "result": "CREATE TABLE promotion_versions (6 CHECK constraints incl. end_date >= start_date) · CREATE TABLE promotions · FOREIGN KEY (current_version_id) REFERENCES promotion_versions — SQL only: Docker was not running, the migration was NOT applied to PostgreSQL",
             "at": "2026-09-23T22:28:39+07:00"
+          },
+          {
+            "cmd": "docker run postgres:18 as talad-verify-db (port 5433, scratch) · dotnet ef database update (src/api)",
+            "result": "every migration applied incl. 20260923152624_AddPromotions · Done. — the migration the proof above could not apply now runs on PostgreSQL 18",
+            "at": "2026-09-23T22:44:32+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · curl /api/promotions as owner, seller and no token (bodies sent as UTF-8 files)",
+            "result": "no token 401 · bad signature 401 · seller 403 · create 201 · AC-talad-062: edit 10%→20% gave version 5, current_version_id 5, version 3 (10%) unchanged · rate 150 + end before start + empty name → 400 under name/ratePercent/endDate · BUY_X_GET_Y without free item → 400 freeProduct/freeQty · discontinued product → 400 productA · BILL_PERCENT with a stray productA saved with product_a_id NULL · GET /api/promotions/999 → 404 PROMOTION_NOT_FOUND",
+            "at": "2026-09-23T22:45:51+07:00"
           }
         ],
         "last_error": null,
@@ -3251,7 +3261,361 @@
           "hash": "sha256:93558399af5eeb3aa8af2bc6bccc2bf683f2cbe56cbcd96eb7f86ea93df791a8"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 3,
+        "proof": [
+          {
+            "cmd": "mutation check: an edit sent to POST /api/promotions instead of /api/promotions/{id}/versions, then npx vitest run tests/promotions.test.tsx (src/web, final files)",
+            "result": "Tests 1 failed | 23 passed (24) — the AC-talad-062 test catches an edit that would open a second promotion · file restored",
+            "at": "2026-09-23T22:42:08+07:00"
+          },
+          {
+            "cmd": "mutation check: rows keyed by versionId instead of the promotion id, then npx vitest run tests/promotions.test.tsx (src/web, final files)",
+            "result": "Tests 1 failed | 23 passed (24) — the row test catches data-row-key that would change with every edit · file restored",
+            "at": "2026-09-23T22:42:11+07:00"
+          },
+          {
+            "cmd": "docker run postgres:18 as talad-verify-db (port 5433, scratch) · dotnet ef database update (src/api)",
+            "result": "every migration applied incl. 20260923152624_AddPromotions · Done.",
+            "at": "2026-09-23T22:44:32+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · curl /api/promotions as owner, seller and no token (bodies sent as UTF-8 files)",
+            "result": "no token 401 · bad signature 401 · seller 403 · create 201 · edit 201 → promotions.current_version_id 5, versions 3 (10%) and 5 (20%) both kept · rate 150 + end before start + empty name → 400 under name/ratePercent/endDate · BUY_X_GET_Y without free item → 400 freeProduct/freeQty · discontinued product → 400 productA · BILL_PERCENT with a stray productA saved with product_a_id NULL · search ส้ม → 1 · API-003 search ส้ม → 2 active, discontinued product not listed",
+            "at": "2026-09-23T22:45:51+07:00"
+          },
+          {
+            "cmd": "next dev :3100 (TALAD_API_URL=http://localhost:5010) · Playwright as owner: /promotions → create BUY_X_GET_Y through the form → edit ส้มลด 20% to 25% → search แถม",
+            "result": "list shows ลด % ทั้งบิล · 1 ก.ย. 2569 · ไม่มีวันสิ้นสุด · ใช้อยู่ · picker found 2 products from the api · refused save showed 3 messages under qtyA/endDate/freeProduct with type and values kept · saved row product_a 1 qty 2 free 3 × 1 · edit opened at 20% and saved version 7 (25%), versions 3 and 5 unchanged, still 3 promotions · search kept แถม and found 1 row",
+            "at": "2026-09-23T22:47:38+07:00"
+          },
+          {
+            "cmd": "Playwright: /promotions/999 as owner (first run)",
+            "result": "FOUND A DEFECT: the list showed ไม่พบสมาชิก as well — (app)/layout.tsx answers ?missing=1 with the member notice · fixed by MISSING_PARAM = \"gone\" + a test; rerun shows only ไม่พบโปรโมชั่น at /promotions?gone=1",
+            "at": "2026-09-23T22:48:37+07:00"
+          },
+          {
+            "cmd": "Playwright as seller: menu, /promotions, /promotions/2, /promotions/new",
+            "result": "no โปรโมชั่น link in the menu · all three → /?denied=1 with คุณไม่มีสิทธิ์เข้าถึงหน้านี้ · no promotion name in the page HTML",
+            "at": "2026-09-23T22:48:58+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:49:16+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-026",
+            "result": "vitest: Tests 25 passed | 125 skipped (150) · exit 0",
+            "at": "2026-09-23T22:49:19+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 11 passed (11) · Tests 150 passed (150) · exit 0",
+            "at": "2026-09-23T22:49:22+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T22:49:25+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/promotions/page.tsx",
+          "src/web/src/app/(app)/promotions/actions.ts",
+          "src/web/src/app/(app)/promotions/new/page.tsx",
+          "src/web/src/app/(app)/promotions/[id]/page.tsx",
+          "src/web/src/app/(app)/promotions/[id]/loading.tsx",
+          "src/web/src/components/promotion-list.tsx",
+          "src/web/src/components/promotion-search-button.tsx",
+          "src/web/src/components/promotion-form.tsx",
+          "src/web/src/components/product-picker.tsx",
+          "src/web/src/lib/promotions-api.ts",
+          "src/web/src/lib/promotion-form.ts",
+          "src/web/src/lib/screen-routes.ts",
+          "src/web/src/app/globals.css",
+          "src/web/tests/promotions.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/promotions.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "promoName",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-ent-006-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "promoType",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-ent-006-type",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "promoStartDate",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-ent-006-start-date",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "promoEndDate",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-ent-006-end-date",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "promoStatus",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-ent-005-status",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "search",
+            "kind": "filter",
+            "dd_ref": null,
+            "testid": "ui-talad-015-search",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "addPromotion",
+            "kind": "create",
+            "dd_ref": null,
+            "testid": "ui-talad-015-add-promo",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "editPromotion",
+            "kind": "edit",
+            "dd_ref": null,
+            "testid": "ui-talad-015-edit-promo",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "name",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "type",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-type",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "productA",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-product-a",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "qtyA",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-qty-a",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "productB",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-product-b",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "qtyB",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-qty-b",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "freeProduct",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-free-product",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "freeQty",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-free-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "ratePercent",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-rate-percent",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "minSubtotal",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-min-subtotal",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "startDate",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-start-date",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "endDate",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-016-ent-006-end-date",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "save",
+            "kind": "create",
+            "dd_ref": null,
+            "testid": "ui-talad-016-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "cancel",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-016-cancel",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "searchText",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-015-search-text",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": [],
+        "presentation": [
+          {
+            "screen": "UI-talad-016",
+            "what_th": "ฟอร์มแสดงเฉพาะช่องเงื่อนไขที่รูปแบบโปรที่เลือกใช้ (เช่น ลด % ทั้งบิล แสดงแค่ % ส่วนลดกับยอดขั้นต่ำ) แทนการแสดงครบแปดช่องตาม wireframe",
+            "because": "ช่องที่รูปแบบนั้นไม่ใช้ domain ล้างทิ้งอยู่แล้ว การแสดงครบแปดช่องทำให้เจ้าของร้านกรอกช่องที่ไม่มีผล",
+            "confirmedBy": "mon sai",
+            "confirmedAt": "2026-09-23T22:55:00+07:00",
+            "files": [
+              "src/web/src/components/promotion-form.tsx",
+              "src/web/src/lib/promotion-form.ts"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-027",
@@ -5173,8 +5537,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 19,
-      "draft": 27
+      "validated": 20,
+      "draft": 26
     },
     "by_origin": {
       "new": 46

@@ -9,6 +9,7 @@ export const SCREEN_ROUTES: Readonly<Record<string, string>> = {
   "UI-talad-007": "/sales",
   "UI-talad-010": "/stock",
   "UI-talad-015": "/promotions",
+  "UI-talad-016": "/promotions/[id]", // edit, opened from a UI-talad-015 row; /promotions/new is the same screen creating
   "UI-talad-017": "/member-discount",
   "RPT-talad-002": "/reports/sales",
   "RPT-talad-003": "/reports/top-products",

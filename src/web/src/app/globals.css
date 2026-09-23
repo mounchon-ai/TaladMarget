@@ -598,3 +598,50 @@ body {
 .dangerzone h2 {
   color: var(--state-rejected-fg);
 }
+
+/* UI-talad-016 เพิ่ม/แก้ไขโปรโมชั่น — zones general · conditions · footer as the wireframe MCK-talad-016 orders them */
+.formcard .select {
+  width: 100%;
+}
+.conditions {
+  border-top: thin solid var(--border);
+  padding-top: var(--space-4);
+  margin-top: var(--space-2);
+}
+.picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.picker-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: var(--space-1) 0 0;
+  padding: var(--space-1);
+  list-style: none;
+  max-height: calc(var(--space-20) * 3);
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: thin solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+.picker-list li.muted {
+  padding: var(--space-2);
+}
+.picker-list button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+.picker-list button:hover,
+.picker-list button:focus-visible {
+  background: var(--brand-subtle);
+  color: var(--brand-primary);
+}
