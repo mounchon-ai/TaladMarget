@@ -49,6 +49,15 @@ public static class PromotionEndpoints
         promotions.MapPost("/{id:int}/versions", (int id, PromotionRequest body, ClaimsPrincipal user, PromotionCatalog catalog, CancellationToken ct) =>
             Guard(async () => Results.Created($"/api/promotions/{id}", await catalog.ReviseAsync(id, body.Terms(), CallerId(user), ct))));
 
+        // API-029 · POST /api/promotions/{id}/discontinue — ACTIVE → DISCONTINUED (ACL-024); already
+        // discontinued or never there is PROMOTION_NOT_FOUND
+        promotions.MapPost("/{id:int}/discontinue", (int id, ClaimsPrincipal user, PromotionCatalog catalog, CancellationToken ct) =>
+            Guard(async () =>
+            {
+                await catalog.DiscontinueAsync(id, CallerId(user), ct);
+                return Results.NoContent();
+            }));
+
         return app;
     }
 

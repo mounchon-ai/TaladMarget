@@ -82,6 +82,18 @@ public sealed class PromotionCatalog(IPromotionRepository promotions, IProductRe
         return PromotionView.Of((await promotions.FindAsync(promotion.Id, ct))!);
     }
 
+    /// <summary>
+    /// API-029 — ACTIVE → DISCONTINUED. From then on the list leaves it out and the api answers it as not
+    /// found; its versions are not touched, so the bills that used it keep their discount (AC-talad-064).
+    /// </summary>
+    public async Task DiscontinueAsync(int id, int callerId, CancellationToken ct = default)
+    {
+        var owner = await accounts.FindByIdAsync(callerId, ct) ?? throw new PromotionOwnerOnlyException();
+        var promotion = await promotions.FindAsync(id, ct) ?? throw new PromotionNotFoundException(id);
+        promotion.Discontinue(owner);
+        await promotions.SaveChangesAsync(ct);
+    }
+
     private async Task PutInForceAsync(Promotion promotion, PromotionVersion version, CancellationToken ct)
     {
         promotions.Add(version);

@@ -50,6 +50,17 @@ public class Promotion
         CurrentVersionId = version.Id;
     }
 
+    /// <summary>
+    /// API-029 · STM-talad-002 ACTIVE → DISCONTINUED, final (ACL-024). Whether or not a bill ever used it,
+    /// a promotion is never deleted (BR-talad-037@v1): every version stays for the bills that point at it.
+    /// </summary>
+    public void Discontinue(UserAccount by)
+    {
+        EnsureOwner(by);
+        if (Status != PromotionStatus.Active) throw new PromotionNotActiveException(Id);
+        Status = PromotionStatus.Discontinued;
+    }
+
     private static void EnsureOwner(UserAccount by)
     {
         if (by.Role != UserRole.Owner) throw new PromotionOwnerOnlyException();
