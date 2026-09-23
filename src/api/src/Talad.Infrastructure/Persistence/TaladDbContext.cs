@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talad.Domain.Accounts;
 using Talad.Domain.Catalog;
 using Talad.Domain.Members;
+using Talad.Domain.Promotions;
 using Talad.Domain.Sales;
 using Talad.Domain.Settings;
 
@@ -16,6 +17,8 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<Member> Members => Set<Member>();
     public DbSet<MemberDiscountVersion> MemberDiscountVersions => Set<MemberDiscountVersion>();
+    public DbSet<Promotion> Promotions => Set<Promotion>();
+    public DbSet<PromotionVersion> PromotionVersions => Set<PromotionVersion>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +29,8 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
         modelBuilder.ApplyConfiguration(new CartLineConfiguration());
         modelBuilder.ApplyConfiguration(new MemberConfiguration());
         modelBuilder.ApplyConfiguration(new MemberDiscountVersionConfiguration());
+        modelBuilder.ApplyConfiguration(new PromotionConfiguration());
+        modelBuilder.ApplyConfiguration(new PromotionVersionConfiguration());
     }
 }
 

@@ -3126,7 +3126,95 @@
           "hash": "sha256:de8e6c553d5a6d7a1f1405a1441385fb1e67cfbfdf1191634acd218279c5936f"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: an edit whose new version never takes over from the first, then dev-test.ps1 -App api -Filter FE-talad-025",
+            "result": "Failed! - Failed: 1, Passed: 32, Total: 33 — AC-talad-062 catches 10% still in force after the edit to 20% · file restored",
+            "at": "2026-09-23T22:28:02+07:00"
+          },
+          {
+            "cmd": "mutation check: BUY_X_GET_Y without its free item, then dev-test.ps1 -App api -Filter FE-talad-025",
+            "result": "Failed! - Failed: 1, Passed: 32, Total: 33 — the missing-field theory catches BUY_X_GET_Y saved with no freeProduct · file restored",
+            "at": "2026-09-23T22:28:08+07:00"
+          },
+          {
+            "cmd": "mutation check: a discontinued product accepted, then dev-test.ps1 -App api -Filter FE-talad-025",
+            "result": "Failed! - Failed: 1, Passed: 32, Total: 33 — the product test catches a promotion on a product no longer sold · file restored",
+            "at": "2026-09-23T22:28:15+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:28:24+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-025",
+            "result": "Passed! - Failed: 0, Passed: 33, Skipped: 0, Total: 33 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T22:28:31+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 131, Skipped: 0, Total: 131 · exit 0",
+            "at": "2026-09-23T22:28:38+07:00"
+          },
+          {
+            "cmd": "dotnet ef migrations script AddMemberDiscountVersions AddPromotions --project src/Talad.Infrastructure --startup-project src/Talad.Api --no-build (in src/api)",
+            "result": "CREATE TABLE promotion_versions (6 CHECK constraints incl. end_date >= start_date) · CREATE TABLE promotions · FOREIGN KEY (current_version_id) REFERENCES promotion_versions — SQL only: Docker was not running, the migration was NOT applied to PostgreSQL",
+            "at": "2026-09-23T22:28:39+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Promotions/Promotion.cs",
+          "src/api/src/Talad.Application/Promotions/PromotionCatalog.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/PromotionPersistence.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/TaladDbContext.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923152624_AddPromotions.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923152624_AddPromotions.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs",
+          "src/api/src/Talad.Api/Program.cs",
+          "src/api/tests/Talad.Tests/Promotions/PromotionTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Promotions/PromotionTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-025",
+            "route": "GET /api/promotions",
+            "file": "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs"
+          },
+          {
+            "api_ref": "API-026",
+            "route": "GET /api/promotions/{id}",
+            "file": "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs"
+          },
+          {
+            "api_ref": "API-027",
+            "route": "POST /api/promotions",
+            "file": "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs"
+          },
+          {
+            "api_ref": "API-028",
+            "route": "POST /api/promotions/{id}/versions",
+            "file": "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-026",
@@ -5082,8 +5170,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 18,
-      "draft": 28
+      "validated": 19,
+      "draft": 27
     },
     "by_origin": {
       "new": 46
