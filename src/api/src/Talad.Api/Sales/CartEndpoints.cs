@@ -11,6 +11,9 @@ public sealed record AddLineRequest(int ProductId);
 
 public sealed record SetQtyRequest(int Qty);
 
+/// <summary>API-008 — the member to bind, or null to unbind.</summary>
+public sealed record SetMemberRequest(int? MemberId);
+
 /// <summary>What a refused cart change answers — `message` is the sentence the person reads.</summary>
 public sealed record CartError(string Code, string Message);
 
@@ -48,6 +51,10 @@ public static class CartEndpoints
         cart.MapDelete("/lines/{productId:int}", (int productId, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>
             Guard(() => carts.RemoveAsync(OwnerId(user), productId, ct)));
 
+        // API-008 · PUT /api/cart/member — bind an ACTIVE member to the caller's own cart, or unbind
+        cart.MapPut("/member", (SetMemberRequest body, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>
+            Guard(() => carts.SetMemberAsync(OwnerId(user), body.MemberId, ct)));
+
         return app;
     }
 
@@ -79,6 +86,10 @@ public static class CartEndpoints
         catch (CartLineNotFoundException e)
         {
             return Results.NotFound(new CartError("LINE_NOT_FOUND", e.Message));
+        }
+        catch (MemberNotBindableException e)
+        {
+            return Results.NotFound(new CartError("MEMBER_NOT_FOUND", e.Message)); // BR-talad-040@v2
         }
     }
 }

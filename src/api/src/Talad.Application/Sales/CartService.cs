@@ -1,4 +1,5 @@
 using Talad.Application.Catalog;
+using Talad.Application.Members;
 using Talad.Domain.Catalog;
 using Talad.Domain.Sales;
 
@@ -14,8 +15,11 @@ public interface ICartRepository
 
 public sealed record CartLineView(int ProductId, string Name, decimal Price, int Qty, decimal LineTotal, int StockQty, bool LowStock);
 
-/// <summary>`Subtotal` is price × qty before any promotion or member discount — those are UC-talad-004's.</summary>
-public sealed record CartView(int Id, string Status, IReadOnlyList<CartLineView> Lines, decimal Subtotal);
+/// <summary>
+/// `Subtotal` is price × qty before any promotion or member discount — those are UC-talad-004's.
+/// `Member` is who the cart is bound to, or null (API-004 · API-008).
+/// </summary>
+public sealed record CartView(int Id, string Status, IReadOnlyList<CartLineView> Lines, decimal Subtotal, MemberView? Member);
 
 public sealed class ProductNotFoundException(int productId) : Exception($"product {productId} does not exist or is no longer sold");
 
@@ -23,7 +27,7 @@ public sealed class ProductNotFoundException(int productId) : Exception($"produc
 /// UC-talad-001 · API-004..007. Every call acts on the caller's own OPEN cart — there is no parameter that
 /// names someone else's (BR-talad-020@v1).
 /// </summary>
-public sealed class CartService(ICartRepository carts, IProductRepository products, TimeProvider clock)
+public sealed class CartService(ICartRepository carts, IProductRepository products, IMemberRepository members, TimeProvider clock)
 {
     /// <summary>API-004 — the caller's OPEN cart, opened now if they have none.</summary>
     public async Task<CartView> GetAsync(int ownerId, CancellationToken ct = default) =>
@@ -58,6 +62,26 @@ public sealed class CartService(ICartRepository carts, IProductRepository produc
         return View(cart);
     }
 
+    /// <summary>
+    /// API-008 — bind an ACTIVE member to the caller's own cart, or unbind with null (BR-talad-004@v1 ·
+    /// BR-talad-020@v1). A member who does not exist or is hidden is not found (BR-talad-040@v2).
+    /// </summary>
+    public async Task<CartView> SetMemberAsync(int ownerId, int? memberId, CancellationToken ct = default)
+    {
+        var cart = await OpenCartAsync(ownerId, ct);
+        if (memberId is { } id)
+        {
+            var member = await members.FindAsync(id, ct) ?? throw new MemberNotBindableException(id);
+            cart.AttachMember(member);
+        }
+        else
+        {
+            cart.DetachMember();
+        }
+        await carts.SaveChangesAsync(ct);
+        return View(cart);
+    }
+
     private async Task<Cart> OpenCartAsync(int ownerId, CancellationToken ct)
     {
         var cart = await carts.FindOpenAsync(ownerId, ct);
@@ -81,6 +105,7 @@ public sealed class CartService(ICartRepository carts, IProductRepository produc
             .OrderBy(l => l.AddedAt)
             .Select(l => new CartLineView(l.ProductId, l.Product.Name, l.Product.CurrentPrice, l.Qty, l.Product.CurrentPrice * l.Qty, l.Product.StockQty, l.Product.IsLowStock))
             .ToList();
-        return new CartView(cart.Id, cart.Status.ToString(), lines, lines.Sum(l => l.LineTotal));
+        return new CartView(cart.Id, cart.Status.ToString(), lines, lines.Sum(l => l.LineTotal),
+            cart.Member is { } m ? MemberView.Of(m) : null);
     }
 }

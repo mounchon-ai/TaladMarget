@@ -36,6 +36,7 @@ internal sealed class CartRepository(TaladDbContext db) : ICartRepository
     public Task<Cart?> FindOpenAsync(int ownerId, CancellationToken ct) =>
         db.Carts
             .Include(c => c.Lines).ThenInclude(l => l.Product).ThenInclude(p => p.CurrentPriceVersion)
+            .Include(c => c.Member)
             .SingleOrDefaultAsync(c => c.OwnerId == ownerId && c.Status == CartStatus.Open, ct);
 
     public void Add(Cart cart) => db.Carts.Add(cart);

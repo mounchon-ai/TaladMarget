@@ -17,6 +17,10 @@ public static class MemberEndpoints
 {
     public static IEndpointRouteBuilder MapMemberEndpoints(this IEndpointRouteBuilder app)
     {
+        // API-012 · GET /api/members?q=&page= — ACTIVE members by whole phone or part of the name, 20 a page
+        app.MapGet("/api/members", (string? q, int? page, MemberDirectory directory, CancellationToken ct) =>
+            directory.SearchAsync(q, page ?? 1, ct));
+
         // API-013 · POST /api/members — a new member at ฿0, or why not
         app.MapPost("/api/members", async (RegisterMemberRequest body, ClaimsPrincipal user, MemberRegistration registration, CancellationToken ct) =>
         {

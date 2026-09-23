@@ -1,4 +1,5 @@
 using Talad.Domain.Catalog;
+using Talad.Domain.Members;
 
 namespace Talad.Domain.Sales;
 
@@ -16,6 +17,10 @@ public class Cart
     public CartStatus Status { get; private set; }
     public DateTimeOffset OpenedAt { get; private set; }
     public IReadOnlyList<CartLine> Lines => _lines;
+
+    /// <summary>ENT-009.member — the member this sale is for, if any (BR-talad-004@v1).</summary>
+    public int? MemberId { get; private set; }
+    public Member? Member { get; private set; }
 
     private Cart() { } // EF
 
@@ -68,6 +73,26 @@ public class Cart
         EnsureOpen();
         var line = _lines.SingleOrDefault(l => l.ProductId == productId) ?? throw new CartLineNotFoundException(productId);
         _lines.Remove(line);
+    }
+
+    /// <summary>
+    /// API-008 — bind a member to this cart, replacing any bound before. Only an ACTIVE member may be
+    /// bound; a hidden one is as if they were not there (BR-talad-040@v2 · ENT-009.member).
+    /// </summary>
+    public void AttachMember(Member member)
+    {
+        EnsureOpen();
+        if (member.Status != MemberStatus.Active) throw new MemberNotBindableException(member.Id);
+        Member = member;
+        MemberId = member.Id;
+    }
+
+    /// <summary>API-008 with no member — the cart is for nobody in particular again.</summary>
+    public void DetachMember()
+    {
+        EnsureOpen();
+        Member = null;
+        MemberId = null;
     }
 
     private void EnsureOpen()
@@ -129,3 +154,6 @@ public sealed class ProductDiscontinuedException(string productName)
 public sealed class CartNotOpenException() : CartRuleException("ตะกร้านี้ชำระเงินไปแล้ว");
 
 public sealed class CartLineNotFoundException(int productId) : CartRuleException($"product {productId} is not in the cart");
+
+/// <summary>BR-talad-040@v2 — the member does not exist, or is hidden; either way there is nobody to bind.</summary>
+public sealed class MemberNotBindableException(int memberId) : CartRuleException($"member {memberId} does not exist or is hidden");

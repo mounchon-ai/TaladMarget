@@ -66,6 +66,9 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
         b.HasIndex(x => x.OwnerId).IsUnique().HasFilter("status = 'Open'");
         b.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired();
         b.Property(x => x.OpenedAt).HasColumnName("opened_at");
+        // ENT-009.member — optional; a member is never deleted, so the cart never loses them (BR-talad-040@v2)
+        b.Property(x => x.MemberId).HasColumnName("member_id");
+        b.HasOne(x => x.Member).WithMany().HasForeignKey(x => x.MemberId).OnDelete(DeleteBehavior.Restrict);
         b.HasMany(x => x.Lines).WithOne().HasForeignKey(x => x.CartId).OnDelete(DeleteBehavior.Cascade);
         b.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
     }

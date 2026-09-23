@@ -31,6 +31,7 @@ public static class DependencyInjection
         services.AddScoped<CartService>();
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<MemberRegistration>();
+        services.AddScoped<MemberDirectory>();
         services.Configure<StorageOptions>(config.GetSection(StorageOptions.Section));
         services.AddSingleton<ProductImageFiles>();
         return services;

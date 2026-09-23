@@ -1791,7 +1791,83 @@
           "hash": "sha256:07580438d755ed8c589983200f092ddeb1bf0cd8e6d689be19d1b11f943fa513"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: MemberRepository.SearchActiveAsync matching the phone with Contains instead of equality, then dev-test.ps1 -App api -Filter FE-talad-011",
+            "result": "Failed! - Failed: 2, Passed: 9, Total: 11 — AC-talad-019 (last four digits) and the dashed-phone test catch a partial-phone match · file restored",
+            "at": "2026-09-23T21:39:51+07:00"
+          },
+          {
+            "cmd": "mutation check: Cart.AttachMember without the ACTIVE check, then dev-test.ps1 -App api -Filter FE-talad-011",
+            "result": "Failed! - Failed: 1, Passed: 10, Total: 11 — AC-talad-012 catches a hidden member being bound · file restored",
+            "at": "2026-09-23T21:39:56+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T21:40:04+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-011",
+            "result": "Passed! - Failed: 0, Passed: 11, Skipped: 0, Total: 11 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T21:40:08+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 71, Skipped: 0, Total: 71 · exit 0",
+            "at": "2026-09-23T21:40:12+07:00"
+          },
+          {
+            "cmd": "dotnet ef migrations script AddMembers AddCartMember --project src/Talad.Infrastructure --startup-project src/Talad.Api --no-build (in src/api)",
+            "result": "ALTER TABLE carts ADD member_id integer; · CREATE INDEX \"IX_carts_member_id\" ON carts (member_id); · FOREIGN KEY (member_id) REFERENCES members (id) ON DELETE RESTRICT — SQL only: Docker was not running, the migration was NOT applied to PostgreSQL",
+            "at": "2026-09-23T21:40:13+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Sales/Cart.cs",
+          "src/api/src/Talad.Application/Members/MemberRegistration.cs",
+          "src/api/src/Talad.Application/Members/MemberDirectory.cs",
+          "src/api/src/Talad.Application/Sales/CartService.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/MemberRepository.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartConfiguration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923143854_AddCartMember.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923143854_AddCartMember.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Members/MemberEndpoints.cs",
+          "src/api/src/Talad.Api/Sales/CartEndpoints.cs",
+          "src/api/tests/Talad.Tests/Members/MemberSearchAndBindTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Members/MemberSearchAndBindTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-012",
+            "route": "GET /api/members",
+            "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
+          },
+          {
+            "api_ref": "API-008",
+            "route": "PUT /api/cart/member",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-012",
@@ -4298,8 +4374,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 10,
-      "draft": 36
+      "validated": 11,
+      "draft": 35
     },
     "by_origin": {
       "new": 46
