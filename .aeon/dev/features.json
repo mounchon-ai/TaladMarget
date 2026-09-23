@@ -1566,7 +1566,10 @@
             "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "57c1ba8"
+      ]
     },
     {
       "id": "FE-talad-010",
