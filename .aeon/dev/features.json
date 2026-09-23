@@ -533,7 +533,10 @@
             "file": "src/api/src/Talad.Api/Auth/MeEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "eb9870a"
+      ]
     },
     {
       "id": "FE-talad-004",
