@@ -3214,7 +3214,10 @@
             "file": "src/api/src/Talad.Api/Promotions/PromotionEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "db8dc43"
+      ]
     },
     {
       "id": "FE-talad-026",
