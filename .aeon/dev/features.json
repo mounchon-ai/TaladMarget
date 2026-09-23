@@ -1,0 +1,3294 @@
+{
+  "meta": {
+    "module": "talad",
+    "schema_version": "0.3.0"
+  },
+  "stack": {
+    "apps": [
+      {
+        "name": "api",
+        "framework": "dotnet",
+        "version": "10",
+        "path": "src/api",
+        "skill": "dotnet-dev",
+        "skill_with": [
+          "efcore-patterns",
+          "csharp-lsp"
+        ],
+        "dockerfile": "src/api/Dockerfile",
+        "may_reach": [
+          "database"
+        ],
+        "source": "asked",
+        "nfr_ref": "NFR-talad-003",
+        "notes_th": "framework กับ version (.NET 10) ตรงกับ NFR-talad-003 ที่ลูกค้าเซ็น · path · skill · dockerfile · may_reach เป็นคำตอบที่ถาม ยังไม่มีใครเซ็น",
+        "decided_by": "mon sai",
+        "decided_at": "2026-09-23"
+      },
+      {
+        "name": "web",
+        "framework": "nextjs",
+        "version": "16",
+        "path": "src/web",
+        "skill": "vercel-react-best-practices",
+        "skill_with": [
+          "vercel-composition-patterns",
+          "typescript-lsp",
+          "frontend-design"
+        ],
+        "dockerfile": "src/web/Dockerfile",
+        "may_reach": [
+          "api"
+        ],
+        "source": "asked",
+        "nfr_ref": "NFR-talad-003",
+        "notes_th": "NFR-talad-003 ระบุแค่ \"React\" · Next.js 16 (latest 16.3.6 ณ 2026-09-23) เป็นคำตอบที่ถาม · แยก api/web ยังไม่มี apps[] roster ใน sitemap",
+        "decided_by": "mon sai",
+        "decided_at": "2026-09-23"
+      }
+    ],
+    "tools": [
+      {
+        "name": "tailwindcss",
+        "version": "4",
+        "purpose_th": "CSS framework ฝั่ง web — map token ของ theme เข้า theme ของ daisyUI",
+        "required": true,
+        "source": "asked",
+        "notes_th": "⚠️ ขัด NFR-talad-003 ที่เขียน Tailwind v5 — v5 ไม่มีบน npm (latest 4.3.3 ณ 2026-09-23) · ต้องยกแก้ผ่าน /req:change → /design:change",
+        "decided_by": "mon sai",
+        "decided_at": "2026-09-23"
+      },
+      {
+        "name": "daisyui",
+        "version": "v5",
+        "purpose_th": "ชุด component บน Tailwind ฝั่ง web",
+        "required": true,
+        "source": "asked",
+        "notes_th": "⚠️ ขัด NFR-talad-003 ที่เขียน daisy v4 — daisyUI 4.12.24 สร้างคู่กับ tailwindcss 3.4.4 จึงไม่เข้ากับ Tailwind 4 · latest 5.7.43",
+        "decided_by": "mon sai",
+        "decided_at": "2026-09-23"
+      }
+    ],
+    "server": {
+      "name": "เครื่องในร้าน (on-premise)",
+      "notes_th": "ใช้ผ่าน LAN ในร้าน · ร้านดูแลเครื่องและการสำรองข้อมูลเอง",
+      "source": "design-decision",
+      "dec_ref": "DEC-001",
+      "decided_by": null,
+      "decided_at": null
+    },
+    "database": {
+      "kind": "postgresql",
+      "name": "talad_db",
+      "version": "18",
+      "source": "nfr",
+      "nfr_ref": "NFR-talad-003",
+      "decided_by": "mon sai",
+      "decided_at": "2026-09-23T11:39:38Z",
+      "notes_th": "PostgreSQL 18 มาจาก NFR-talad-003 (latest 18.6) · ชื่อฐาน talad_db เป็นคำตอบที่ถาม"
+    }
+  },
+  "structure": {
+    "apps": [
+      {
+        "app_ref": "api",
+        "root": "src/api",
+        "layers": [
+          {
+            "name": "Domain",
+            "path": "src/Talad.Domain",
+            "depends": []
+          },
+          {
+            "name": "Application",
+            "path": "src/Talad.Application",
+            "depends": [
+              "Domain"
+            ]
+          },
+          {
+            "name": "Infrastructure",
+            "path": "src/Talad.Infrastructure",
+            "depends": [
+              "Domain",
+              "Application"
+            ]
+          },
+          {
+            "name": "Api",
+            "path": "src/Talad.Api",
+            "depends": [
+              "Application",
+              "Infrastructure"
+            ]
+          }
+        ],
+        "tests": "tests"
+      },
+      {
+        "app_ref": "web",
+        "root": "src/web",
+        "layers": [
+          {
+            "name": "lib",
+            "path": "src/lib",
+            "depends": []
+          },
+          {
+            "name": "components",
+            "path": "src/components",
+            "depends": [
+              "lib"
+            ]
+          },
+          {
+            "name": "app",
+            "path": "src/app",
+            "depends": [
+              "components",
+              "lib"
+            ]
+          }
+        ],
+        "tests": "tests"
+      }
+    ],
+    "scripts": {
+      "init": "scripts/dev-init.ps1",
+      "test": "scripts/dev-test.ps1",
+      "build": "scripts/dev-build.ps1"
+    },
+    "docker": {
+      "compose": "docker/docker-compose.yml",
+      "reason_th": null
+    }
+  },
+  "features": [
+    {
+      "id": "FE-talad-001",
+      "title_th": "เข้าสู่ระบบ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [],
+      "acceptance_refs": [
+        "AC-talad-033",
+        "AC-talad-034",
+        "AC-talad-035",
+        "AC-talad-036"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-011",
+          "hash": "sha256:ce97800d25d98164d0a5c70a9c3c4fdd553c401e5d28b1cef228bae433f7a613"
+        },
+        {
+          "ref": "AC-talad-033",
+          "hash": "sha256:841cec010d97a15061bdbb7a09e9c29d45d5a580123173ab45c543424c3d9813"
+        },
+        {
+          "ref": "AC-talad-034",
+          "hash": "sha256:6bc8bb33a0b4106acad8ba9690798a9d4bbd8c2b0c9e8f362ff2f6e9b0b95bbb"
+        },
+        {
+          "ref": "AC-talad-035",
+          "hash": "sha256:e9f0b37d475e0eb8b7912194e74657795dd93b18d534b3e397ab25064e890f07"
+        },
+        {
+          "ref": "AC-talad-036",
+          "hash": "sha256:130e546f0a94eb2e38655aa6a19b51438292a78c33f3e226efa2fa9e8d2ff4b6"
+        },
+        {
+          "ref": "ENT-008",
+          "hash": "sha256:e8db047b67d1180ef0e2b89ba85dfcddb3782283876511a9051653fca6d9dbec"
+        },
+        {
+          "ref": "API-001",
+          "hash": "sha256:7477282bae06ff76e9efb76a0c9a452524c3bcc10f828ff90b06ed1a4db1a9ce"
+        },
+        {
+          "ref": "API-002",
+          "hash": "sha256:d51814ea68e823b4c322847dcfa7f1c9348e73805aa2a677b5b8fc9920d44003"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-002",
+      "title_th": "เข้าสู่ระบบ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-033",
+        "AC-talad-034",
+        "AC-talad-035",
+        "AC-talad-036"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-011",
+          "hash": "sha256:ce97800d25d98164d0a5c70a9c3c4fdd553c401e5d28b1cef228bae433f7a613"
+        },
+        {
+          "ref": "AC-talad-033",
+          "hash": "sha256:841cec010d97a15061bdbb7a09e9c29d45d5a580123173ab45c543424c3d9813"
+        },
+        {
+          "ref": "AC-talad-034",
+          "hash": "sha256:6bc8bb33a0b4106acad8ba9690798a9d4bbd8c2b0c9e8f362ff2f6e9b0b95bbb"
+        },
+        {
+          "ref": "AC-talad-035",
+          "hash": "sha256:e9f0b37d475e0eb8b7912194e74657795dd93b18d534b3e397ab25064e890f07"
+        },
+        {
+          "ref": "AC-talad-036",
+          "hash": "sha256:130e546f0a94eb2e38655aa6a19b51438292a78c33f3e226efa2fa9e8d2ff4b6"
+        },
+        {
+          "ref": "UI-talad-001",
+          "hash": "sha256:a507cbeae54cf75a059042cc711dceb7c1f55bd9e5a0f67bc31791c984aca3f4"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-003",
+      "title_th": "ใช้เมนูและเปิดหน้าตามสิทธิ์ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-044",
+        "AC-talad-045"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-012",
+          "hash": "sha256:e701ab492d538faf49bc4ce4caafc4e4dfb8729e89309f84d7866d0c5bdf85b2"
+        },
+        {
+          "ref": "AC-talad-044",
+          "hash": "sha256:038bf094026ceef0e1c251174ee01eecaee597a4d220a609a6a4e9fbb4bae149"
+        },
+        {
+          "ref": "AC-talad-045",
+          "hash": "sha256:c9aa095407c21910ae1aa16743e1809dc737b4a1ea621e430b3f526ddbbe3862"
+        },
+        {
+          "ref": "ENT-008",
+          "hash": "sha256:e8db047b67d1180ef0e2b89ba85dfcddb3782283876511a9051653fca6d9dbec"
+        },
+        {
+          "ref": "API-044",
+          "hash": "sha256:0ea2c1a588aa5fac6830588709227447dd602604b78300a73496fda35304fcd9"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-004",
+      "title_th": "ใช้เมนูและเปิดหน้าตามสิทธิ์ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-003",
+        "FE-talad-002"
+      ],
+      "acceptance_refs": [
+        "AC-talad-044",
+        "AC-talad-045"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-012",
+          "hash": "sha256:e701ab492d538faf49bc4ce4caafc4e4dfb8729e89309f84d7866d0c5bdf85b2"
+        },
+        {
+          "ref": "AC-talad-044",
+          "hash": "sha256:038bf094026ceef0e1c251174ee01eecaee597a4d220a609a6a4e9fbb4bae149"
+        },
+        {
+          "ref": "AC-talad-045",
+          "hash": "sha256:c9aa095407c21910ae1aa16743e1809dc737b4a1ea621e430b3f526ddbbe3862"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-005",
+      "title_th": "หยิบสินค้าและปรับจำนวนในตะกร้า — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-001",
+        "AC-talad-002",
+        "AC-talad-003",
+        "AC-talad-049",
+        "AC-talad-069",
+        "AC-talad-071",
+        "AC-talad-072",
+        "AC-talad-110",
+        "AC-talad-114"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-001",
+          "hash": "sha256:7c866ad99ef6c4d8ed82d944fb837c2cb16eb0b93d2a840c8b578dc3e60b1de1"
+        },
+        {
+          "ref": "AC-talad-001",
+          "hash": "sha256:0c989508d2e1e3d098d6af6bb0f9cabf2b95c615f978cd75e456833438d120ba"
+        },
+        {
+          "ref": "AC-talad-002",
+          "hash": "sha256:9309e698936d32cd013e7b7eebf9453d9f87f3262c4bfd3314d60d33edfe8ea0"
+        },
+        {
+          "ref": "AC-talad-003",
+          "hash": "sha256:7ec9de0976af6f756ca9eb84864eb46c4c367539c05f9d776c9751c7c9426a6e"
+        },
+        {
+          "ref": "AC-talad-049",
+          "hash": "sha256:dc84267229cfe52dab8a89546dfaabc2bcbad7906157e6c6a7b5d35f7c2e462c"
+        },
+        {
+          "ref": "AC-talad-069",
+          "hash": "sha256:dca6c612e264ee97127988ee630b21ac1fccafd061e7609e49cac5bc43bbe0dd"
+        },
+        {
+          "ref": "AC-talad-071",
+          "hash": "sha256:ff7d985d3c7e51f08cc9de6154953447b48be40b805de4f011113b804ca30829"
+        },
+        {
+          "ref": "AC-talad-072",
+          "hash": "sha256:ba95e35489d24f4cfd5794cf2f379927ea8f0434b4996d15005acbef58c7872a"
+        },
+        {
+          "ref": "AC-talad-110",
+          "hash": "sha256:0d271439e2c98b725fccec8d21fdf8b8c79b4198ad1055418a3bc751872fbad2"
+        },
+        {
+          "ref": "AC-talad-114",
+          "hash": "sha256:933ee2859863b4eb9f4910c8abe156be0d1861144b2b193aa5fdd1f1a73f5b67"
+        },
+        {
+          "ref": "ENT-009",
+          "hash": "sha256:421b39142003dc6992f607b3607fc21fb5e3c3a8901c9b3b061cb2eaf5e2800a"
+        },
+        {
+          "ref": "ENT-010",
+          "hash": "sha256:86301cec7edabe74c4d757505308bc77122775fb82cab67abd25443ae1e23f8a"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "API-003",
+          "hash": "sha256:aca172107c59b210069099864ebdb2c4e7d05f6f6e8ea394ba5fa5329bbf97e4"
+        },
+        {
+          "ref": "API-004",
+          "hash": "sha256:8940b583e331fc0ba139259e8e35973a9840d3082a7151b8c8b81c8336ba3e99"
+        },
+        {
+          "ref": "API-005",
+          "hash": "sha256:07ae301f6930241fa49507b9a37a419321c66728d71153729210f499e54b1631"
+        },
+        {
+          "ref": "API-006",
+          "hash": "sha256:50e186c0498b029e01d2c0a4f13497cc8bfa3f98e33bcb8a158eec859f5a6fed"
+        },
+        {
+          "ref": "API-007",
+          "hash": "sha256:1de23465998b71fadfab92e88ec9860fca009f7e920f82ccb8a00a17b4c97379"
+        },
+        {
+          "ref": "API-043",
+          "hash": "sha256:12375a06a25bc6fcbb0702565cf8de867654f40d31a9e8cf01d094d0e34b2ab9"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-006",
+      "title_th": "หยิบสินค้าและปรับจำนวนในตะกร้า — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-005",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-001",
+        "AC-talad-002",
+        "AC-talad-003",
+        "AC-talad-049",
+        "AC-talad-069",
+        "AC-talad-071",
+        "AC-talad-072",
+        "AC-talad-110",
+        "AC-talad-114"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-001",
+          "hash": "sha256:7c866ad99ef6c4d8ed82d944fb837c2cb16eb0b93d2a840c8b578dc3e60b1de1"
+        },
+        {
+          "ref": "AC-talad-001",
+          "hash": "sha256:0c989508d2e1e3d098d6af6bb0f9cabf2b95c615f978cd75e456833438d120ba"
+        },
+        {
+          "ref": "AC-talad-002",
+          "hash": "sha256:9309e698936d32cd013e7b7eebf9453d9f87f3262c4bfd3314d60d33edfe8ea0"
+        },
+        {
+          "ref": "AC-talad-003",
+          "hash": "sha256:7ec9de0976af6f756ca9eb84864eb46c4c367539c05f9d776c9751c7c9426a6e"
+        },
+        {
+          "ref": "AC-talad-049",
+          "hash": "sha256:dc84267229cfe52dab8a89546dfaabc2bcbad7906157e6c6a7b5d35f7c2e462c"
+        },
+        {
+          "ref": "AC-talad-069",
+          "hash": "sha256:dca6c612e264ee97127988ee630b21ac1fccafd061e7609e49cac5bc43bbe0dd"
+        },
+        {
+          "ref": "AC-talad-071",
+          "hash": "sha256:ff7d985d3c7e51f08cc9de6154953447b48be40b805de4f011113b804ca30829"
+        },
+        {
+          "ref": "AC-talad-072",
+          "hash": "sha256:ba95e35489d24f4cfd5794cf2f379927ea8f0434b4996d15005acbef58c7872a"
+        },
+        {
+          "ref": "AC-talad-110",
+          "hash": "sha256:0d271439e2c98b725fccec8d21fdf8b8c79b4198ad1055418a3bc751872fbad2"
+        },
+        {
+          "ref": "AC-talad-114",
+          "hash": "sha256:933ee2859863b4eb9f4910c8abe156be0d1861144b2b193aa5fdd1f1a73f5b67"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-007",
+      "title_th": "กลับมาทำตะกร้าที่ค้างไว้หลังล็อกอินใหม่ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-005"
+      ],
+      "acceptance_refs": [
+        "AC-talad-020",
+        "AC-talad-021",
+        "AC-talad-022"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-002",
+          "hash": "sha256:7fed9488267ae7c52fd180e5f6eabb1065e205f6cd175e9ecde396f47a87d83e"
+        },
+        {
+          "ref": "AC-talad-020",
+          "hash": "sha256:403e9941afa4901d0ef3a83651b0aec39d19b0c867c9355d8854b719f8b39e9c"
+        },
+        {
+          "ref": "AC-talad-021",
+          "hash": "sha256:8150daab3e21f54bad0032bb3be6b91ca252d4a7b0d946b247a3351c5e841907"
+        },
+        {
+          "ref": "AC-talad-022",
+          "hash": "sha256:6c4ab06d561e2fce6dbb9ffea52b212ff60167282950efbd7e5b5bb3602fdf62"
+        },
+        {
+          "ref": "ENT-009",
+          "hash": "sha256:421b39142003dc6992f607b3607fc21fb5e3c3a8901c9b3b061cb2eaf5e2800a"
+        },
+        {
+          "ref": "ENT-010",
+          "hash": "sha256:86301cec7edabe74c4d757505308bc77122775fb82cab67abd25443ae1e23f8a"
+        },
+        {
+          "ref": "API-004",
+          "hash": "sha256:8940b583e331fc0ba139259e8e35973a9840d3082a7151b8c8b81c8336ba3e99"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-008",
+      "title_th": "กลับมาทำตะกร้าที่ค้างไว้หลังล็อกอินใหม่ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-007",
+        "FE-talad-006"
+      ],
+      "acceptance_refs": [
+        "AC-talad-020",
+        "AC-talad-021",
+        "AC-talad-022"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-002",
+          "hash": "sha256:7fed9488267ae7c52fd180e5f6eabb1065e205f6cd175e9ecde396f47a87d83e"
+        },
+        {
+          "ref": "AC-talad-020",
+          "hash": "sha256:403e9941afa4901d0ef3a83651b0aec39d19b0c867c9355d8854b719f8b39e9c"
+        },
+        {
+          "ref": "AC-talad-021",
+          "hash": "sha256:8150daab3e21f54bad0032bb3be6b91ca252d4a7b0d946b247a3351c5e841907"
+        },
+        {
+          "ref": "AC-talad-022",
+          "hash": "sha256:6c4ab06d561e2fce6dbb9ffea52b212ff60167282950efbd7e5b5bb3602fdf62"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-009",
+      "title_th": "สมัครสมาชิกใหม่ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-005",
+        "AC-talad-006",
+        "AC-talad-007",
+        "AC-talad-009",
+        "AC-talad-011",
+        "AC-talad-040",
+        "AC-talad-090"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-007",
+          "hash": "sha256:803cca9f497b5ac9bbe53776482b29c2d18d70ccd5d757a40571cc542f86b376"
+        },
+        {
+          "ref": "AC-talad-005",
+          "hash": "sha256:56b5a79812ced258987dc9b41ebfdd02896409de25047d6fc6774ec5f680f7ec"
+        },
+        {
+          "ref": "AC-talad-006",
+          "hash": "sha256:f7bac9cb6fff301c84022124cd3d6512656b5a49850237605ba07ff127be65ab"
+        },
+        {
+          "ref": "AC-talad-007",
+          "hash": "sha256:c5c24f8050c10cbee6a6df6f89083597984f6fc0c780cc73b735535f5df8d815"
+        },
+        {
+          "ref": "AC-talad-009",
+          "hash": "sha256:2db0a9f19198b8690c319fd7b0026e433c7a98e94c845734658aded6f960ce11"
+        },
+        {
+          "ref": "AC-talad-011",
+          "hash": "sha256:33e50d3f14b86e841e6714805ea8a6ec99e59a5ba7c5053229b0a495cf39b150"
+        },
+        {
+          "ref": "AC-talad-040",
+          "hash": "sha256:669664030c609be7363ed5620590b302414dfe65e88a5f324a1c475e44764083"
+        },
+        {
+          "ref": "AC-talad-090",
+          "hash": "sha256:c2eac7f6ebf118a825e94a79c545deec4b3f16eca66086b9a1bccf1d74946098"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "API-013",
+          "hash": "sha256:36391fa57309f1bbdd688e8a746436098ef960350bf4065d12f9022c21ec1c41"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-010",
+      "title_th": "สมัครสมาชิกใหม่ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-009",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-005",
+        "AC-talad-006",
+        "AC-talad-007",
+        "AC-talad-009",
+        "AC-talad-011",
+        "AC-talad-040",
+        "AC-talad-090"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-007",
+          "hash": "sha256:803cca9f497b5ac9bbe53776482b29c2d18d70ccd5d757a40571cc542f86b376"
+        },
+        {
+          "ref": "AC-talad-005",
+          "hash": "sha256:56b5a79812ced258987dc9b41ebfdd02896409de25047d6fc6774ec5f680f7ec"
+        },
+        {
+          "ref": "AC-talad-006",
+          "hash": "sha256:f7bac9cb6fff301c84022124cd3d6512656b5a49850237605ba07ff127be65ab"
+        },
+        {
+          "ref": "AC-talad-007",
+          "hash": "sha256:c5c24f8050c10cbee6a6df6f89083597984f6fc0c780cc73b735535f5df8d815"
+        },
+        {
+          "ref": "AC-talad-009",
+          "hash": "sha256:2db0a9f19198b8690c319fd7b0026e433c7a98e94c845734658aded6f960ce11"
+        },
+        {
+          "ref": "AC-talad-011",
+          "hash": "sha256:33e50d3f14b86e841e6714805ea8a6ec99e59a5ba7c5053229b0a495cf39b150"
+        },
+        {
+          "ref": "AC-talad-040",
+          "hash": "sha256:669664030c609be7363ed5620590b302414dfe65e88a5f324a1c475e44764083"
+        },
+        {
+          "ref": "AC-talad-090",
+          "hash": "sha256:c2eac7f6ebf118a825e94a79c545deec4b3f16eca66086b9a1bccf1d74946098"
+        },
+        {
+          "ref": "UI-talad-005",
+          "hash": "sha256:a51114b4061256e8ae3adf983e0ae12c6b639e3cf9ab72e0f91931bdc5ed7488"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-011",
+      "title_th": "ค้นหาสมาชิกและผูกกับตะกร้า — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-009",
+        "FE-talad-005"
+      ],
+      "acceptance_refs": [
+        "AC-talad-012",
+        "AC-talad-016",
+        "AC-talad-017",
+        "AC-talad-018",
+        "AC-talad-019"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-009",
+          "hash": "sha256:f78bdf810e1fe89ff0ebc777487d21744c2f020b0a56ffaa787322f68abe2e42"
+        },
+        {
+          "ref": "AC-talad-012",
+          "hash": "sha256:196c3824ef7dbecc9f1a79aaf0769127f6f13f38259e696afc6846e647bf4c89"
+        },
+        {
+          "ref": "AC-talad-016",
+          "hash": "sha256:85d8dff6e80ae50b0d6c661575e443cf143eb2fe015539dd9b895a8c4291d5c1"
+        },
+        {
+          "ref": "AC-talad-017",
+          "hash": "sha256:deb4d443c9d3a8c947129e94aa8c582ccfc2127928eb0b85717115a0c162a517"
+        },
+        {
+          "ref": "AC-talad-018",
+          "hash": "sha256:6fcf07d6602428f5b6d96ddc30bd9b5513781240493160dcc1f7b67c80471a1d"
+        },
+        {
+          "ref": "AC-talad-019",
+          "hash": "sha256:3475c357640e39f8c95ed2d49939a493130cb72c2f063042a3951ecb2d77cf68"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "ENT-009",
+          "hash": "sha256:421b39142003dc6992f607b3607fc21fb5e3c3a8901c9b3b061cb2eaf5e2800a"
+        },
+        {
+          "ref": "API-012",
+          "hash": "sha256:8a8daeec4e43afbb1efc84b42917becdef13e0bd3f54d0dd628da87e3f5ea83a"
+        },
+        {
+          "ref": "API-008",
+          "hash": "sha256:07580438d755ed8c589983200f092ddeb1bf0cd8e6d689be19d1b11f943fa513"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-012",
+      "title_th": "ค้นหาสมาชิกและผูกกับตะกร้า — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-011",
+        "FE-talad-006",
+        "FE-talad-010"
+      ],
+      "acceptance_refs": [
+        "AC-talad-012",
+        "AC-talad-016",
+        "AC-talad-017",
+        "AC-talad-018",
+        "AC-talad-019"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-009",
+          "hash": "sha256:f78bdf810e1fe89ff0ebc777487d21744c2f020b0a56ffaa787322f68abe2e42"
+        },
+        {
+          "ref": "AC-talad-012",
+          "hash": "sha256:196c3824ef7dbecc9f1a79aaf0769127f6f13f38259e696afc6846e647bf4c89"
+        },
+        {
+          "ref": "AC-talad-016",
+          "hash": "sha256:85d8dff6e80ae50b0d6c661575e443cf143eb2fe015539dd9b895a8c4291d5c1"
+        },
+        {
+          "ref": "AC-talad-017",
+          "hash": "sha256:deb4d443c9d3a8c947129e94aa8c582ccfc2127928eb0b85717115a0c162a517"
+        },
+        {
+          "ref": "AC-talad-018",
+          "hash": "sha256:6fcf07d6602428f5b6d96ddc30bd9b5513781240493160dcc1f7b67c80471a1d"
+        },
+        {
+          "ref": "AC-talad-019",
+          "hash": "sha256:3475c357640e39f8c95ed2d49939a493130cb72c2f063042a3951ecb2d77cf68"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        },
+        {
+          "ref": "UI-talad-004",
+          "hash": "sha256:20b699ad356378f4df596976af142276982b9d8441a06b41e607fe87eea6eb37"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-013",
+      "title_th": "แก้ชื่อหรือเบอร์โทรสมาชิก — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-009"
+      ],
+      "acceptance_refs": [
+        "AC-talad-008",
+        "AC-talad-010",
+        "AC-talad-043"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-008",
+          "hash": "sha256:78173657b9dea2d7062ced1449a087d456e05dbc35ebc23b6be201caac74e701"
+        },
+        {
+          "ref": "AC-talad-008",
+          "hash": "sha256:4c86232fb32c230878fb1078e889b2e933d22dc6f0bdbeb62252733fc1c8d733"
+        },
+        {
+          "ref": "AC-talad-010",
+          "hash": "sha256:55c5b268d29c4af425a3efd9c1acffbb5782dfc68c89417d0292597f524bad12"
+        },
+        {
+          "ref": "AC-talad-043",
+          "hash": "sha256:cead7280b9c4a9038c751f9b25e2bfe140cef85991fa585884532c53bd9aaff9"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "API-014",
+          "hash": "sha256:e2feed16dc7f56726705b63e9b26f5282b9528bc54ea1e456d63d12529376e15"
+        },
+        {
+          "ref": "API-015",
+          "hash": "sha256:7d1657f37a24c3bbc408b3766e1acdaa30800b5bd9a105d6fbc65d06e424e986"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-014",
+      "title_th": "แก้ชื่อหรือเบอร์โทรสมาชิก — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-013",
+        "FE-talad-012"
+      ],
+      "acceptance_refs": [
+        "AC-talad-008",
+        "AC-talad-010",
+        "AC-talad-043"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-008",
+          "hash": "sha256:78173657b9dea2d7062ced1449a087d456e05dbc35ebc23b6be201caac74e701"
+        },
+        {
+          "ref": "AC-talad-008",
+          "hash": "sha256:4c86232fb32c230878fb1078e889b2e933d22dc6f0bdbeb62252733fc1c8d733"
+        },
+        {
+          "ref": "AC-talad-010",
+          "hash": "sha256:55c5b268d29c4af425a3efd9c1acffbb5782dfc68c89417d0292597f524bad12"
+        },
+        {
+          "ref": "AC-talad-043",
+          "hash": "sha256:cead7280b9c4a9038c751f9b25e2bfe140cef85991fa585884532c53bd9aaff9"
+        },
+        {
+          "ref": "UI-talad-006",
+          "hash": "sha256:c5813d8087e0c45a36bce2b2caf38f490cbcc4f9f190f99f730190be3db723cc"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-015",
+      "title_th": "ลบ (ซ่อน) สมาชิก — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-013"
+      ],
+      "acceptance_refs": [
+        "AC-talad-012",
+        "AC-talad-013",
+        "AC-talad-089",
+        "AC-talad-090"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-010",
+          "hash": "sha256:8c2ba07f67952a1bcbc6b3edf643b814405c44758df50dacba6445a0ca9b89c8"
+        },
+        {
+          "ref": "AC-talad-012",
+          "hash": "sha256:196c3824ef7dbecc9f1a79aaf0769127f6f13f38259e696afc6846e647bf4c89"
+        },
+        {
+          "ref": "AC-talad-013",
+          "hash": "sha256:f2a70ea953dc3efc0562ce21587f088c53f8b42f413e4e1fe0fae4ef7ce945ad"
+        },
+        {
+          "ref": "AC-talad-089",
+          "hash": "sha256:2a32ef76fc16207a2b9ef2158ffcfd4eeb9dc4b60cabd0c20bb4d4ead13e98d6"
+        },
+        {
+          "ref": "AC-talad-090",
+          "hash": "sha256:c2eac7f6ebf118a825e94a79c545deec4b3f16eca66086b9a1bccf1d74946098"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "API-016",
+          "hash": "sha256:c42710c10f3adcf6138b22ebe785fbf3d6833d31b3eb0bc52953eb43b53a9d1a"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-016",
+      "title_th": "ลบ (ซ่อน) สมาชิก — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-015",
+        "FE-talad-014"
+      ],
+      "acceptance_refs": [
+        "AC-talad-012",
+        "AC-talad-013",
+        "AC-talad-089",
+        "AC-talad-090"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-010",
+          "hash": "sha256:8c2ba07f67952a1bcbc6b3edf643b814405c44758df50dacba6445a0ca9b89c8"
+        },
+        {
+          "ref": "AC-talad-012",
+          "hash": "sha256:196c3824ef7dbecc9f1a79aaf0769127f6f13f38259e696afc6846e647bf4c89"
+        },
+        {
+          "ref": "AC-talad-013",
+          "hash": "sha256:f2a70ea953dc3efc0562ce21587f088c53f8b42f413e4e1fe0fae4ef7ce945ad"
+        },
+        {
+          "ref": "AC-talad-089",
+          "hash": "sha256:2a32ef76fc16207a2b9ef2158ffcfd4eeb9dc4b60cabd0c20bb4d4ead13e98d6"
+        },
+        {
+          "ref": "AC-talad-090",
+          "hash": "sha256:c2eac7f6ebf118a825e94a79c545deec4b3f16eca66086b9a1bccf1d74946098"
+        },
+        {
+          "ref": "UI-talad-006",
+          "hash": "sha256:c5813d8087e0c45a36bce2b2caf38f490cbcc4f9f190f99f730190be3db723cc"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-017",
+      "title_th": "ดูรายการสต็อกและป้ายใกล้หมด — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-005"
+      ],
+      "acceptance_refs": [
+        "AC-talad-071",
+        "AC-talad-072",
+        "AC-talad-073",
+        "AC-talad-074"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-019",
+          "hash": "sha256:189d954c34f0370941c76907691b2af96a1d354bd80f72418790b4bb76e40378"
+        },
+        {
+          "ref": "AC-talad-071",
+          "hash": "sha256:ff7d985d3c7e51f08cc9de6154953447b48be40b805de4f011113b804ca30829"
+        },
+        {
+          "ref": "AC-talad-072",
+          "hash": "sha256:ba95e35489d24f4cfd5794cf2f379927ea8f0434b4996d15005acbef58c7872a"
+        },
+        {
+          "ref": "AC-talad-073",
+          "hash": "sha256:0384d965e2575337fb446daf643f23df46bc6974647fdd6e42d18ae5de09ea73"
+        },
+        {
+          "ref": "AC-talad-074",
+          "hash": "sha256:b904406f46eacf8cbbdc524d2d98fc958c99c9e0abfbead7077c908fed8fbee8"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "API-003",
+          "hash": "sha256:aca172107c59b210069099864ebdb2c4e7d05f6f6e8ea394ba5fa5329bbf97e4"
+        },
+        {
+          "ref": "API-043",
+          "hash": "sha256:12375a06a25bc6fcbb0702565cf8de867654f40d31a9e8cf01d094d0e34b2ab9"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-018",
+      "title_th": "ดูรายการสต็อกและป้ายใกล้หมด — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-017",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-071",
+        "AC-talad-072",
+        "AC-talad-073",
+        "AC-talad-074"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-019",
+          "hash": "sha256:189d954c34f0370941c76907691b2af96a1d354bd80f72418790b4bb76e40378"
+        },
+        {
+          "ref": "AC-talad-071",
+          "hash": "sha256:ff7d985d3c7e51f08cc9de6154953447b48be40b805de4f011113b804ca30829"
+        },
+        {
+          "ref": "AC-talad-072",
+          "hash": "sha256:ba95e35489d24f4cfd5794cf2f379927ea8f0434b4996d15005acbef58c7872a"
+        },
+        {
+          "ref": "AC-talad-073",
+          "hash": "sha256:0384d965e2575337fb446daf643f23df46bc6974647fdd6e42d18ae5de09ea73"
+        },
+        {
+          "ref": "AC-talad-074",
+          "hash": "sha256:b904406f46eacf8cbbdc524d2d98fc958c99c9e0abfbead7077c908fed8fbee8"
+        },
+        {
+          "ref": "UI-talad-010",
+          "hash": "sha256:1d8f732b86cfef3a7dbd8c9d9f84ccb3ad66b921380822043ec086a60d183ba2"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-019",
+      "title_th": "แก้ราคาสินค้าและดูประวัติราคา — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-017"
+      ],
+      "acceptance_refs": [
+        "AC-talad-048",
+        "AC-talad-060",
+        "AC-talad-082",
+        "AC-talad-083",
+        "AC-talad-084"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-017",
+          "hash": "sha256:cbc753bf6934f619a5691dacc568521b2b2689062df31f1a5004de2b9d679044"
+        },
+        {
+          "ref": "AC-talad-048",
+          "hash": "sha256:ee6ff4fc6f2ed0fe02cf071fa2f031825aa710bc9c4525f9a1eb597d3873f589"
+        },
+        {
+          "ref": "AC-talad-060",
+          "hash": "sha256:0111c15e3542d9212a88eb12b5f6ce2006e45485e2bf0efb8687dac12508cb40"
+        },
+        {
+          "ref": "AC-talad-082",
+          "hash": "sha256:1d6b4bdf7611a0b94431a8133aeecf19abd7534ececead0aed2fb87c42dc29d0"
+        },
+        {
+          "ref": "AC-talad-083",
+          "hash": "sha256:41123bf6f4aa3d9f17fc2a610b805d87347e540cbe48bfb7d89e76f9120a64d3"
+        },
+        {
+          "ref": "AC-talad-084",
+          "hash": "sha256:ce3e2cc33e0e5d07ce5e6fe602456cb704cadc694d2235362cb47b55c15e39b9"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "ENT-002",
+          "hash": "sha256:4b7219014a4ede1821190f1f38ace7164848970dab4ab170d1ea9a9c02e1bfe2"
+        },
+        {
+          "ref": "API-019",
+          "hash": "sha256:62991b896495c4d6db23e508383a668214711c7f26cc8ecb279f0dbfacc56798"
+        },
+        {
+          "ref": "API-022",
+          "hash": "sha256:66776434a9f36fb306d388f77cbf95117317efcaf288222d47c13bcb3cabae0e"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-020",
+      "title_th": "แก้ราคาสินค้าและดูประวัติราคา — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-019",
+        "FE-talad-018"
+      ],
+      "acceptance_refs": [
+        "AC-talad-048",
+        "AC-talad-060",
+        "AC-talad-082",
+        "AC-talad-083",
+        "AC-talad-084"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-017",
+          "hash": "sha256:cbc753bf6934f619a5691dacc568521b2b2689062df31f1a5004de2b9d679044"
+        },
+        {
+          "ref": "AC-talad-048",
+          "hash": "sha256:ee6ff4fc6f2ed0fe02cf071fa2f031825aa710bc9c4525f9a1eb597d3873f589"
+        },
+        {
+          "ref": "AC-talad-060",
+          "hash": "sha256:0111c15e3542d9212a88eb12b5f6ce2006e45485e2bf0efb8687dac12508cb40"
+        },
+        {
+          "ref": "AC-talad-082",
+          "hash": "sha256:1d6b4bdf7611a0b94431a8133aeecf19abd7534ececead0aed2fb87c42dc29d0"
+        },
+        {
+          "ref": "AC-talad-083",
+          "hash": "sha256:41123bf6f4aa3d9f17fc2a610b805d87347e540cbe48bfb7d89e76f9120a64d3"
+        },
+        {
+          "ref": "AC-talad-084",
+          "hash": "sha256:ce3e2cc33e0e5d07ce5e6fe602456cb704cadc694d2235362cb47b55c15e39b9"
+        },
+        {
+          "ref": "UI-talad-012",
+          "hash": "sha256:7eb1fa6dc0e2cc831e140e9a9981304411e06b43208f9547268ea67bf3f3a60f"
+        },
+        {
+          "ref": "UI-talad-013",
+          "hash": "sha256:6ce1fced6a3fb22824482cf971d4e4076965adfae0ad4bcf41bb00b734729584"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-021",
+      "title_th": "ลบ (เลิกขาย) สินค้า — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-017"
+      ],
+      "acceptance_refs": [
+        "AC-talad-085",
+        "AC-talad-086",
+        "AC-talad-087"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-018",
+          "hash": "sha256:88a551856cda193040d95f88ce318e5a93ca781a56cc7a74e89a2b67862dff34"
+        },
+        {
+          "ref": "AC-talad-085",
+          "hash": "sha256:9be0f2441827f4caa6732b588cdfd098c0e68e3b88b6091f7a36942b694aa52c"
+        },
+        {
+          "ref": "AC-talad-086",
+          "hash": "sha256:06e5f8bf35750d8579a5fcb92062c1135ceeb65e1556e826d523ec7d0a331f8c"
+        },
+        {
+          "ref": "AC-talad-087",
+          "hash": "sha256:1aee4c19f13d1be77eb14acff1baf8c304c1815e6289099ab18deb215d39098a"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "API-023",
+          "hash": "sha256:d74fe8efb61473e5150e2370bd79ba989e402717a58b8cdf16a0c61612629e42"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-022",
+      "title_th": "ลบ (เลิกขาย) สินค้า — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-021",
+        "FE-talad-020"
+      ],
+      "acceptance_refs": [
+        "AC-talad-085",
+        "AC-talad-086",
+        "AC-talad-087"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-018",
+          "hash": "sha256:88a551856cda193040d95f88ce318e5a93ca781a56cc7a74e89a2b67862dff34"
+        },
+        {
+          "ref": "AC-talad-085",
+          "hash": "sha256:9be0f2441827f4caa6732b588cdfd098c0e68e3b88b6091f7a36942b694aa52c"
+        },
+        {
+          "ref": "AC-talad-086",
+          "hash": "sha256:06e5f8bf35750d8579a5fcb92062c1135ceeb65e1556e826d523ec7d0a331f8c"
+        },
+        {
+          "ref": "AC-talad-087",
+          "hash": "sha256:1aee4c19f13d1be77eb14acff1baf8c304c1815e6289099ab18deb215d39098a"
+        },
+        {
+          "ref": "UI-talad-012",
+          "hash": "sha256:7eb1fa6dc0e2cc831e140e9a9981304411e06b43208f9547268ea67bf3f3a60f"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-023",
+      "title_th": "บันทึกรายการปรับสต็อก — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-017"
+      ],
+      "acceptance_refs": [
+        "AC-talad-074",
+        "AC-talad-075",
+        "AC-talad-076",
+        "AC-talad-077",
+        "AC-talad-078",
+        "AC-talad-079",
+        "AC-talad-080",
+        "AC-talad-081"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-020",
+          "hash": "sha256:ac80dbd51805ec83d4dbd5e6d0ec48457ffb602c11fb3c8ae9a0aba7cde725ad"
+        },
+        {
+          "ref": "AC-talad-074",
+          "hash": "sha256:b904406f46eacf8cbbdc524d2d98fc958c99c9e0abfbead7077c908fed8fbee8"
+        },
+        {
+          "ref": "AC-talad-075",
+          "hash": "sha256:b5691969629f7d2abac7320b5752502ffe151d082b5bae6db8c9217afeb3f224"
+        },
+        {
+          "ref": "AC-talad-076",
+          "hash": "sha256:85cad36d3e1460fb4f63e046377e3713db1fb51011f1cabf9cb7b9f3bc4322ba"
+        },
+        {
+          "ref": "AC-talad-077",
+          "hash": "sha256:24cb7787a3fd968be90efdc4ecd1d33214a9fcf3f73066a059ac9550eca9928c"
+        },
+        {
+          "ref": "AC-talad-078",
+          "hash": "sha256:6a066cdb6a432062f8ea1da281b93691312ec354cf0d34d4e86b6fb9830d5673"
+        },
+        {
+          "ref": "AC-talad-079",
+          "hash": "sha256:822572b38a51c0381135751cb7ad154b30f7576b2a11c63c1df3870188aa0894"
+        },
+        {
+          "ref": "AC-talad-080",
+          "hash": "sha256:ffee9d73af632c80af90829589e5eb9764cce53964c4fd65b6f876713365c03d"
+        },
+        {
+          "ref": "AC-talad-081",
+          "hash": "sha256:9cac2ba6718cc4c2cdd11f9077ad4a88a97d68868b918db00450ee80cf8391a0"
+        },
+        {
+          "ref": "ENT-003",
+          "hash": "sha256:752604d83fc3f5494c52e760230a06cebbee1f530b0f80a23439e4dc774372d8"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "API-019",
+          "hash": "sha256:62991b896495c4d6db23e508383a668214711c7f26cc8ecb279f0dbfacc56798"
+        },
+        {
+          "ref": "API-024",
+          "hash": "sha256:64b4c9a023d8aef8b819e9f4417cd0ce2531316df9ee72cf3eb058379940ec59"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-024",
+      "title_th": "บันทึกรายการปรับสต็อก — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-023",
+        "FE-talad-020"
+      ],
+      "acceptance_refs": [
+        "AC-talad-074",
+        "AC-talad-075",
+        "AC-talad-076",
+        "AC-talad-077",
+        "AC-talad-078",
+        "AC-talad-079",
+        "AC-talad-080",
+        "AC-talad-081"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-020",
+          "hash": "sha256:ac80dbd51805ec83d4dbd5e6d0ec48457ffb602c11fb3c8ae9a0aba7cde725ad"
+        },
+        {
+          "ref": "AC-talad-074",
+          "hash": "sha256:b904406f46eacf8cbbdc524d2d98fc958c99c9e0abfbead7077c908fed8fbee8"
+        },
+        {
+          "ref": "AC-talad-075",
+          "hash": "sha256:b5691969629f7d2abac7320b5752502ffe151d082b5bae6db8c9217afeb3f224"
+        },
+        {
+          "ref": "AC-talad-076",
+          "hash": "sha256:85cad36d3e1460fb4f63e046377e3713db1fb51011f1cabf9cb7b9f3bc4322ba"
+        },
+        {
+          "ref": "AC-talad-077",
+          "hash": "sha256:24cb7787a3fd968be90efdc4ecd1d33214a9fcf3f73066a059ac9550eca9928c"
+        },
+        {
+          "ref": "AC-talad-078",
+          "hash": "sha256:6a066cdb6a432062f8ea1da281b93691312ec354cf0d34d4e86b6fb9830d5673"
+        },
+        {
+          "ref": "AC-talad-079",
+          "hash": "sha256:822572b38a51c0381135751cb7ad154b30f7576b2a11c63c1df3870188aa0894"
+        },
+        {
+          "ref": "AC-talad-080",
+          "hash": "sha256:ffee9d73af632c80af90829589e5eb9764cce53964c4fd65b6f876713365c03d"
+        },
+        {
+          "ref": "AC-talad-081",
+          "hash": "sha256:9cac2ba6718cc4c2cdd11f9077ad4a88a97d68868b918db00450ee80cf8391a0"
+        },
+        {
+          "ref": "UI-talad-012",
+          "hash": "sha256:7eb1fa6dc0e2cc831e140e9a9981304411e06b43208f9547268ea67bf3f3a60f"
+        },
+        {
+          "ref": "UI-talad-014",
+          "hash": "sha256:2ab7815ee7011d81f7c18dafba91b3fca7101040f8e75de107683f340664da50"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-025",
+      "title_th": "สร้างหรือแก้ไขโปรโมชั่น — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-062"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-021",
+          "hash": "sha256:51a8e0fd39925671972113262583355bbd711931046eebb846c62781b338099a"
+        },
+        {
+          "ref": "AC-talad-062",
+          "hash": "sha256:f76ad6daef6785eb369a839abcc583060e49f410a946c339960704c6f6eb9aaf"
+        },
+        {
+          "ref": "ENT-005",
+          "hash": "sha256:f824d0846ccdb34d72e6e6fb9c9f2215cc8a56842a8fd17bac97ab2fd1de247e"
+        },
+        {
+          "ref": "ENT-006",
+          "hash": "sha256:226e966baa2414946c377e95420a079dadaa34e8fa218669f29431f90572678f"
+        },
+        {
+          "ref": "API-025",
+          "hash": "sha256:c5e2efb6727f4539f1614cc71254810d5198db5319196067ff3d9b5201ae63e3"
+        },
+        {
+          "ref": "API-026",
+          "hash": "sha256:0aa2128d5b45e6806858032dd223926e75744692ec7b56924e750b73e185549e"
+        },
+        {
+          "ref": "API-027",
+          "hash": "sha256:4ae9e9c346ffeec5de3e34ef2f5b6077b516b060d8172e26b0b50ea1ef9a864b"
+        },
+        {
+          "ref": "API-028",
+          "hash": "sha256:de8e6c553d5a6d7a1f1405a1441385fb1e67cfbfdf1191634acd218279c5936f"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-026",
+      "title_th": "สร้างหรือแก้ไขโปรโมชั่น — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-025",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-062"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-021",
+          "hash": "sha256:51a8e0fd39925671972113262583355bbd711931046eebb846c62781b338099a"
+        },
+        {
+          "ref": "AC-talad-062",
+          "hash": "sha256:f76ad6daef6785eb369a839abcc583060e49f410a946c339960704c6f6eb9aaf"
+        },
+        {
+          "ref": "UI-talad-015",
+          "hash": "sha256:40b9c49553a62374bf1a3021dcf27afdd22a0040c0df05a49a52d44cc5d9af5a"
+        },
+        {
+          "ref": "UI-talad-016",
+          "hash": "sha256:93558399af5eeb3aa8af2bc6bccc2bf683f2cbe56cbcd96eb7f86ea93df791a8"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-027",
+      "title_th": "ลบ (เลิกใช้) โปรโมชั่น — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-025"
+      ],
+      "acceptance_refs": [
+        "AC-talad-064",
+        "AC-talad-088"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-022",
+          "hash": "sha256:ecf472c8bd95769b67de6d82c6b8938e90b5876c663c00e758a4e3634c921d68"
+        },
+        {
+          "ref": "AC-talad-064",
+          "hash": "sha256:605012722fd5bafd53a3dfc35e4acce5f6170cc58f71e4dca8145ff37d33605c"
+        },
+        {
+          "ref": "AC-talad-088",
+          "hash": "sha256:e7f2ffea3901802c03bfebe990abee382260e2f7d528628a16865683ae185f1a"
+        },
+        {
+          "ref": "ENT-005",
+          "hash": "sha256:f824d0846ccdb34d72e6e6fb9c9f2215cc8a56842a8fd17bac97ab2fd1de247e"
+        },
+        {
+          "ref": "API-029",
+          "hash": "sha256:2122d51815b7a8af8010a5e924e81c94022990ae2552e62879abd7d311c47a21"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-028",
+      "title_th": "ลบ (เลิกใช้) โปรโมชั่น — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-027",
+        "FE-talad-026"
+      ],
+      "acceptance_refs": [
+        "AC-talad-064",
+        "AC-talad-088"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-022",
+          "hash": "sha256:ecf472c8bd95769b67de6d82c6b8938e90b5876c663c00e758a4e3634c921d68"
+        },
+        {
+          "ref": "AC-talad-064",
+          "hash": "sha256:605012722fd5bafd53a3dfc35e4acce5f6170cc58f71e4dca8145ff37d33605c"
+        },
+        {
+          "ref": "AC-talad-088",
+          "hash": "sha256:e7f2ffea3901802c03bfebe990abee382260e2f7d528628a16865683ae185f1a"
+        },
+        {
+          "ref": "UI-talad-015",
+          "hash": "sha256:40b9c49553a62374bf1a3021dcf27afdd22a0040c0df05a49a52d44cc5d9af5a"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-029",
+      "title_th": "ตั้งส่วนลดสมาชิก — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-001"
+      ],
+      "acceptance_refs": [
+        "AC-talad-061"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-023",
+          "hash": "sha256:395715ed84de7eada008225aae05fb15239838c2a36627c5fed5d7ec76d54691"
+        },
+        {
+          "ref": "AC-talad-061",
+          "hash": "sha256:1fa04209be84ee80e7d51a670632df1c5e9313e8f3ef72b78c59ce65f7839e53"
+        },
+        {
+          "ref": "ENT-007",
+          "hash": "sha256:91ee4666f6ac1a39dc43c75a8d2733fb4ae9f4d141ca4fa3ad2b9b737f8524d7"
+        },
+        {
+          "ref": "API-030",
+          "hash": "sha256:809c525f67f8b066ecb7b3c13cf868d86d690139f2e2aa82f7aad1351a838c88"
+        },
+        {
+          "ref": "API-031",
+          "hash": "sha256:d80694f51fceaf96e0237a4cfddb7c36c0663a18d1694b73def512bdaf3d73ea"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-030",
+      "title_th": "ตั้งส่วนลดสมาชิก — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-029",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-061"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-023",
+          "hash": "sha256:395715ed84de7eada008225aae05fb15239838c2a36627c5fed5d7ec76d54691"
+        },
+        {
+          "ref": "AC-talad-061",
+          "hash": "sha256:1fa04209be84ee80e7d51a670632df1c5e9313e8f3ef72b78c59ce65f7839e53"
+        },
+        {
+          "ref": "UI-talad-017",
+          "hash": "sha256:5d4dfd4290bf0309774aa46887ff36a2fbbf4895decfa93552401a76dccd64a4"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-031",
+      "title_th": "ตรวจยอดและส่วนลดของตะกร้าก่อนชำระ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-005",
+        "FE-talad-011",
+        "FE-talad-025",
+        "FE-talad-029"
+      ],
+      "acceptance_refs": [
+        "AC-talad-023",
+        "AC-talad-024",
+        "AC-talad-025",
+        "AC-talad-026",
+        "AC-talad-065",
+        "AC-talad-091",
+        "AC-talad-092",
+        "AC-talad-093",
+        "AC-talad-094",
+        "AC-talad-095",
+        "AC-talad-096",
+        "AC-talad-097",
+        "AC-talad-098",
+        "AC-talad-099",
+        "AC-talad-100",
+        "AC-talad-101",
+        "AC-talad-102",
+        "AC-talad-109",
+        "AC-talad-110",
+        "AC-talad-111",
+        "AC-talad-112",
+        "AC-talad-113",
+        "AC-talad-114",
+        "AC-talad-115",
+        "AC-talad-116",
+        "AC-talad-117",
+        "AC-talad-118",
+        "AC-talad-119",
+        "AC-talad-120",
+        "AC-talad-121",
+        "AC-talad-122",
+        "AC-talad-123",
+        "AC-talad-124",
+        "AC-talad-125",
+        "AC-talad-126",
+        "AC-talad-127",
+        "AC-talad-128"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-004",
+          "hash": "sha256:aaf1a0f017366caf6aa937e4ab9042eb400a4e2c93f84650730364a680cdc8e8"
+        },
+        {
+          "ref": "AC-talad-023",
+          "hash": "sha256:daeaedb9c8397569144550104f032d3a9c00fd290466bde1a0234a9ac4c86713"
+        },
+        {
+          "ref": "AC-talad-024",
+          "hash": "sha256:0fde5413d52246998009d9cb393fbb9038773b78e69e23d3eedc790fa2b0b78f"
+        },
+        {
+          "ref": "AC-talad-025",
+          "hash": "sha256:f467efa6df556bf751b0c5e75ed40addf9a235d9affa77fc5c2acc161f848748"
+        },
+        {
+          "ref": "AC-talad-026",
+          "hash": "sha256:17c78eb8918579a40d1ae6c62fa3dc2eda7a7eeb8a31e12ba27f744736311d37"
+        },
+        {
+          "ref": "AC-talad-065",
+          "hash": "sha256:ebfde6f48a8cff7c3f127d8cd6039f14268cd4c8adfd9eee829ed81be0c72847"
+        },
+        {
+          "ref": "AC-talad-091",
+          "hash": "sha256:b213e7af3de698c4c5521a7119492cfa7d366dad063b57f09ad11bb6bff6f517"
+        },
+        {
+          "ref": "AC-talad-092",
+          "hash": "sha256:8bc888d7b167327e998b80853795d80ca1693afa838057bba632ee851640baf2"
+        },
+        {
+          "ref": "AC-talad-093",
+          "hash": "sha256:12d535a086d970bd3a72013ac181267e546af819da536530c16ec72bcd51391e"
+        },
+        {
+          "ref": "AC-talad-094",
+          "hash": "sha256:6f48edc725c448c8466b2653be1acd021a139fdc7e5d3265428aeedf376a2256"
+        },
+        {
+          "ref": "AC-talad-095",
+          "hash": "sha256:006e1a1b7b738edd5be72e6c23df44312260035b00677a6efc7f0178e5b92be1"
+        },
+        {
+          "ref": "AC-talad-096",
+          "hash": "sha256:e75a848c5f19fab6dd26cb72082e86d227b0fb16e18e6d63186fec5d2f024c1a"
+        },
+        {
+          "ref": "AC-talad-097",
+          "hash": "sha256:cf6b8fd1d7fd8189488c6c569e520bf912a024e8e63ba8b8148e26ad84e2b062"
+        },
+        {
+          "ref": "AC-talad-098",
+          "hash": "sha256:6188ed64578cde6bd6e23159da2953834a88c4dd39ae953dbe3da5eb798990b0"
+        },
+        {
+          "ref": "AC-talad-099",
+          "hash": "sha256:0f0bee4ea11b699de35a980d57b2142bbdaa9353f929f6a4cb16ad99769b8b82"
+        },
+        {
+          "ref": "AC-talad-100",
+          "hash": "sha256:fae26baa31bc1fc5a21dbe843ae62bbc123c1ec1c72151f5f94d47eba36db69c"
+        },
+        {
+          "ref": "AC-talad-101",
+          "hash": "sha256:3f87d34131197f10983e2b0436fe570af2b04e71b05ed8dfdd21be28d228a205"
+        },
+        {
+          "ref": "AC-talad-102",
+          "hash": "sha256:8cc2c2664b40395ac1742acf1b166aed85db29e26c3efd35ac6843ea0288c7b6"
+        },
+        {
+          "ref": "AC-talad-109",
+          "hash": "sha256:faadbfda45c369297b1d4d2ab0133a737b5943a28c31a521ac2e1a28358681d2"
+        },
+        {
+          "ref": "AC-talad-110",
+          "hash": "sha256:0d271439e2c98b725fccec8d21fdf8b8c79b4198ad1055418a3bc751872fbad2"
+        },
+        {
+          "ref": "AC-talad-111",
+          "hash": "sha256:f55e6734dd39c68036be2ba4f8fd24945d1798ed5e15df6a0d4fd18b68a8bc6a"
+        },
+        {
+          "ref": "AC-talad-112",
+          "hash": "sha256:2942e4d18a33bbf9a01aae7a6cef5d1bf267950fb1b38fdcc1972200a7d3b1c4"
+        },
+        {
+          "ref": "AC-talad-113",
+          "hash": "sha256:d73266631ac9b6f6edb6a0211933d19124dfecf9e02f305f84fb315186b1b0fe"
+        },
+        {
+          "ref": "AC-talad-114",
+          "hash": "sha256:933ee2859863b4eb9f4910c8abe156be0d1861144b2b193aa5fdd1f1a73f5b67"
+        },
+        {
+          "ref": "AC-talad-115",
+          "hash": "sha256:19cd2408db51f90ef01d31242664bd83643a57bbff5fa8791d831d8d551c7053"
+        },
+        {
+          "ref": "AC-talad-116",
+          "hash": "sha256:babced56a412864c0f4eeb2623d2b74899a0a6733fcba657c4d716eac90866fe"
+        },
+        {
+          "ref": "AC-talad-117",
+          "hash": "sha256:06dd88b255130aa77a786790ec92b9a9e5fcb2344e4db4fc108961d59d14b6d1"
+        },
+        {
+          "ref": "AC-talad-118",
+          "hash": "sha256:2526deafd82e0ccf408905114677cebe20da9e986d163155bce3e26e61e18c3a"
+        },
+        {
+          "ref": "AC-talad-119",
+          "hash": "sha256:37d922ffff666225d2a07016decbbacaba0c1bdf9900e64ab62347b7c0cb5170"
+        },
+        {
+          "ref": "AC-talad-120",
+          "hash": "sha256:227fe26c9e7a114dd2a60e5a9c02be38572aeb1274264850c9d5a29b9a8fc174"
+        },
+        {
+          "ref": "AC-talad-121",
+          "hash": "sha256:84a5c2e604b60e7fb95a839de4702b3657ef0e4a98174a82b7a5d3d3d9a0df93"
+        },
+        {
+          "ref": "AC-talad-122",
+          "hash": "sha256:f3ea69b48fe23a1b6ebc10a7c94bc69dae05b78104c4d22ff7b25406aad627b5"
+        },
+        {
+          "ref": "AC-talad-123",
+          "hash": "sha256:09b9a8e7806032d8803da0fcddf3e6ffaea5e4f735e26af8d3e3d35050871f8a"
+        },
+        {
+          "ref": "AC-talad-124",
+          "hash": "sha256:c66d1d8f256ec1c88aae08a62af10d2e387371b8a3904bcd2e39db020739c1a4"
+        },
+        {
+          "ref": "AC-talad-125",
+          "hash": "sha256:091c18fd92a4f1f4e497cbd902c782815e977d2c53493d59745d00d5f03ea3ea"
+        },
+        {
+          "ref": "AC-talad-126",
+          "hash": "sha256:2b4cb68eeafa8b09e905154a98ad1ee38151d0016d6f9b70ec0c9e5c9c29edfc"
+        },
+        {
+          "ref": "AC-talad-127",
+          "hash": "sha256:ed0de2a42adb3119a6c5a35c2fd93ef89b21e3bdafafff325e27dd1c5782c2fd"
+        },
+        {
+          "ref": "AC-talad-128",
+          "hash": "sha256:10a83c88ca673f7e41452d472360359a361c6de9ff72b27ae27787b2f98a2d32"
+        },
+        {
+          "ref": "ENT-009",
+          "hash": "sha256:421b39142003dc6992f607b3607fc21fb5e3c3a8901c9b3b061cb2eaf5e2800a"
+        },
+        {
+          "ref": "ENT-010",
+          "hash": "sha256:86301cec7edabe74c4d757505308bc77122775fb82cab67abd25443ae1e23f8a"
+        },
+        {
+          "ref": "ENT-002",
+          "hash": "sha256:4b7219014a4ede1821190f1f38ace7164848970dab4ab170d1ea9a9c02e1bfe2"
+        },
+        {
+          "ref": "ENT-006",
+          "hash": "sha256:226e966baa2414946c377e95420a079dadaa34e8fa218669f29431f90572678f"
+        },
+        {
+          "ref": "ENT-007",
+          "hash": "sha256:91ee4666f6ac1a39dc43c75a8d2733fb4ae9f4d141ca4fa3ad2b9b737f8524d7"
+        },
+        {
+          "ref": "API-009",
+          "hash": "sha256:74d1117dce06393a49b5b36963963a263e1d6fd9a3a5d18b37cef1267f946a2f"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-032",
+      "title_th": "ตรวจยอดและส่วนลดของตะกร้าก่อนชำระ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-031",
+        "FE-talad-006",
+        "FE-talad-012"
+      ],
+      "acceptance_refs": [
+        "AC-talad-023",
+        "AC-talad-024",
+        "AC-talad-025",
+        "AC-talad-026",
+        "AC-talad-065",
+        "AC-talad-091",
+        "AC-talad-092",
+        "AC-talad-093",
+        "AC-talad-094",
+        "AC-talad-095",
+        "AC-talad-096",
+        "AC-talad-097",
+        "AC-talad-098",
+        "AC-talad-099",
+        "AC-talad-100",
+        "AC-talad-101",
+        "AC-talad-102",
+        "AC-talad-109",
+        "AC-talad-110",
+        "AC-talad-111",
+        "AC-talad-112",
+        "AC-talad-113",
+        "AC-talad-114",
+        "AC-talad-115",
+        "AC-talad-116",
+        "AC-talad-117",
+        "AC-talad-118",
+        "AC-talad-119",
+        "AC-talad-120",
+        "AC-talad-121",
+        "AC-talad-122",
+        "AC-talad-123",
+        "AC-talad-124",
+        "AC-talad-125",
+        "AC-talad-126",
+        "AC-talad-127",
+        "AC-talad-128"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-004",
+          "hash": "sha256:aaf1a0f017366caf6aa937e4ab9042eb400a4e2c93f84650730364a680cdc8e8"
+        },
+        {
+          "ref": "AC-talad-023",
+          "hash": "sha256:daeaedb9c8397569144550104f032d3a9c00fd290466bde1a0234a9ac4c86713"
+        },
+        {
+          "ref": "AC-talad-024",
+          "hash": "sha256:0fde5413d52246998009d9cb393fbb9038773b78e69e23d3eedc790fa2b0b78f"
+        },
+        {
+          "ref": "AC-talad-025",
+          "hash": "sha256:f467efa6df556bf751b0c5e75ed40addf9a235d9affa77fc5c2acc161f848748"
+        },
+        {
+          "ref": "AC-talad-026",
+          "hash": "sha256:17c78eb8918579a40d1ae6c62fa3dc2eda7a7eeb8a31e12ba27f744736311d37"
+        },
+        {
+          "ref": "AC-talad-065",
+          "hash": "sha256:ebfde6f48a8cff7c3f127d8cd6039f14268cd4c8adfd9eee829ed81be0c72847"
+        },
+        {
+          "ref": "AC-talad-091",
+          "hash": "sha256:b213e7af3de698c4c5521a7119492cfa7d366dad063b57f09ad11bb6bff6f517"
+        },
+        {
+          "ref": "AC-talad-092",
+          "hash": "sha256:8bc888d7b167327e998b80853795d80ca1693afa838057bba632ee851640baf2"
+        },
+        {
+          "ref": "AC-talad-093",
+          "hash": "sha256:12d535a086d970bd3a72013ac181267e546af819da536530c16ec72bcd51391e"
+        },
+        {
+          "ref": "AC-talad-094",
+          "hash": "sha256:6f48edc725c448c8466b2653be1acd021a139fdc7e5d3265428aeedf376a2256"
+        },
+        {
+          "ref": "AC-talad-095",
+          "hash": "sha256:006e1a1b7b738edd5be72e6c23df44312260035b00677a6efc7f0178e5b92be1"
+        },
+        {
+          "ref": "AC-talad-096",
+          "hash": "sha256:e75a848c5f19fab6dd26cb72082e86d227b0fb16e18e6d63186fec5d2f024c1a"
+        },
+        {
+          "ref": "AC-talad-097",
+          "hash": "sha256:cf6b8fd1d7fd8189488c6c569e520bf912a024e8e63ba8b8148e26ad84e2b062"
+        },
+        {
+          "ref": "AC-talad-098",
+          "hash": "sha256:6188ed64578cde6bd6e23159da2953834a88c4dd39ae953dbe3da5eb798990b0"
+        },
+        {
+          "ref": "AC-talad-099",
+          "hash": "sha256:0f0bee4ea11b699de35a980d57b2142bbdaa9353f929f6a4cb16ad99769b8b82"
+        },
+        {
+          "ref": "AC-talad-100",
+          "hash": "sha256:fae26baa31bc1fc5a21dbe843ae62bbc123c1ec1c72151f5f94d47eba36db69c"
+        },
+        {
+          "ref": "AC-talad-101",
+          "hash": "sha256:3f87d34131197f10983e2b0436fe570af2b04e71b05ed8dfdd21be28d228a205"
+        },
+        {
+          "ref": "AC-talad-102",
+          "hash": "sha256:8cc2c2664b40395ac1742acf1b166aed85db29e26c3efd35ac6843ea0288c7b6"
+        },
+        {
+          "ref": "AC-talad-109",
+          "hash": "sha256:faadbfda45c369297b1d4d2ab0133a737b5943a28c31a521ac2e1a28358681d2"
+        },
+        {
+          "ref": "AC-talad-110",
+          "hash": "sha256:0d271439e2c98b725fccec8d21fdf8b8c79b4198ad1055418a3bc751872fbad2"
+        },
+        {
+          "ref": "AC-talad-111",
+          "hash": "sha256:f55e6734dd39c68036be2ba4f8fd24945d1798ed5e15df6a0d4fd18b68a8bc6a"
+        },
+        {
+          "ref": "AC-talad-112",
+          "hash": "sha256:2942e4d18a33bbf9a01aae7a6cef5d1bf267950fb1b38fdcc1972200a7d3b1c4"
+        },
+        {
+          "ref": "AC-talad-113",
+          "hash": "sha256:d73266631ac9b6f6edb6a0211933d19124dfecf9e02f305f84fb315186b1b0fe"
+        },
+        {
+          "ref": "AC-talad-114",
+          "hash": "sha256:933ee2859863b4eb9f4910c8abe156be0d1861144b2b193aa5fdd1f1a73f5b67"
+        },
+        {
+          "ref": "AC-talad-115",
+          "hash": "sha256:19cd2408db51f90ef01d31242664bd83643a57bbff5fa8791d831d8d551c7053"
+        },
+        {
+          "ref": "AC-talad-116",
+          "hash": "sha256:babced56a412864c0f4eeb2623d2b74899a0a6733fcba657c4d716eac90866fe"
+        },
+        {
+          "ref": "AC-talad-117",
+          "hash": "sha256:06dd88b255130aa77a786790ec92b9a9e5fcb2344e4db4fc108961d59d14b6d1"
+        },
+        {
+          "ref": "AC-talad-118",
+          "hash": "sha256:2526deafd82e0ccf408905114677cebe20da9e986d163155bce3e26e61e18c3a"
+        },
+        {
+          "ref": "AC-talad-119",
+          "hash": "sha256:37d922ffff666225d2a07016decbbacaba0c1bdf9900e64ab62347b7c0cb5170"
+        },
+        {
+          "ref": "AC-talad-120",
+          "hash": "sha256:227fe26c9e7a114dd2a60e5a9c02be38572aeb1274264850c9d5a29b9a8fc174"
+        },
+        {
+          "ref": "AC-talad-121",
+          "hash": "sha256:84a5c2e604b60e7fb95a839de4702b3657ef0e4a98174a82b7a5d3d3d9a0df93"
+        },
+        {
+          "ref": "AC-talad-122",
+          "hash": "sha256:f3ea69b48fe23a1b6ebc10a7c94bc69dae05b78104c4d22ff7b25406aad627b5"
+        },
+        {
+          "ref": "AC-talad-123",
+          "hash": "sha256:09b9a8e7806032d8803da0fcddf3e6ffaea5e4f735e26af8d3e3d35050871f8a"
+        },
+        {
+          "ref": "AC-talad-124",
+          "hash": "sha256:c66d1d8f256ec1c88aae08a62af10d2e387371b8a3904bcd2e39db020739c1a4"
+        },
+        {
+          "ref": "AC-talad-125",
+          "hash": "sha256:091c18fd92a4f1f4e497cbd902c782815e977d2c53493d59745d00d5f03ea3ea"
+        },
+        {
+          "ref": "AC-talad-126",
+          "hash": "sha256:2b4cb68eeafa8b09e905154a98ad1ee38151d0016d6f9b70ec0c9e5c9c29edfc"
+        },
+        {
+          "ref": "AC-talad-127",
+          "hash": "sha256:ed0de2a42adb3119a6c5a35c2fd93ef89b21e3bdafafff325e27dd1c5782c2fd"
+        },
+        {
+          "ref": "AC-talad-128",
+          "hash": "sha256:10a83c88ca673f7e41452d472360359a361c6de9ff72b27ae27787b2f98a2d32"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        },
+        {
+          "ref": "UI-talad-003",
+          "hash": "sha256:be363957dc378744573780956dd16a0b204a5dc5ea7d4baf08b47c2f3f50df21"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-033",
+      "title_th": "ชำระเงินตะกร้า — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-031"
+      ],
+      "acceptance_refs": [
+        "AC-talad-004",
+        "AC-talad-014",
+        "AC-talad-015",
+        "AC-talad-023",
+        "AC-talad-024",
+        "AC-talad-025",
+        "AC-talad-026",
+        "AC-talad-027",
+        "AC-talad-028",
+        "AC-talad-037",
+        "AC-talad-038",
+        "AC-talad-039",
+        "AC-talad-067",
+        "AC-talad-068",
+        "AC-talad-070",
+        "AC-talad-087",
+        "AC-talad-092"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-003",
+          "hash": "sha256:99670072287135f7ce739635836ba90d6d0e42109ed4f4ab6741127a2c261b7a"
+        },
+        {
+          "ref": "AC-talad-004",
+          "hash": "sha256:a7b8456c4e559ee374e396c0c7bef2e60c90f7bd4d0cef84a4e8481a0af3942e"
+        },
+        {
+          "ref": "AC-talad-014",
+          "hash": "sha256:8955d004ae2b46028c7ee6a531a168b341ac5ad0fe6f685f23582a7ba03ba5ac"
+        },
+        {
+          "ref": "AC-talad-015",
+          "hash": "sha256:10d0417e211e40416a15ae22fc9a59612e120a6d640480dfaff42381f5cbbffb"
+        },
+        {
+          "ref": "AC-talad-023",
+          "hash": "sha256:daeaedb9c8397569144550104f032d3a9c00fd290466bde1a0234a9ac4c86713"
+        },
+        {
+          "ref": "AC-talad-024",
+          "hash": "sha256:0fde5413d52246998009d9cb393fbb9038773b78e69e23d3eedc790fa2b0b78f"
+        },
+        {
+          "ref": "AC-talad-025",
+          "hash": "sha256:f467efa6df556bf751b0c5e75ed40addf9a235d9affa77fc5c2acc161f848748"
+        },
+        {
+          "ref": "AC-talad-026",
+          "hash": "sha256:17c78eb8918579a40d1ae6c62fa3dc2eda7a7eeb8a31e12ba27f744736311d37"
+        },
+        {
+          "ref": "AC-talad-027",
+          "hash": "sha256:a29c7a041f9fb1a154a5d9188fb1092b66dca2773309a30977d17c7af8522ab3"
+        },
+        {
+          "ref": "AC-talad-028",
+          "hash": "sha256:a09e2731987a1c1097d997f2fc78f58dcf614a8f8f9c882b64d5560c8d4b79af"
+        },
+        {
+          "ref": "AC-talad-037",
+          "hash": "sha256:c294104cec5a3b7c93683457248f29cec469f3ccc7779e20a2d90c4448365773"
+        },
+        {
+          "ref": "AC-talad-038",
+          "hash": "sha256:55ef58b15e994b4c56b46cbc1c89dab91afc806a886d8e236411c0dee2c952c9"
+        },
+        {
+          "ref": "AC-talad-039",
+          "hash": "sha256:71595c23c0cf363229bbe55cae70837e21cab8bf08301246fa3d514c5073f7f7"
+        },
+        {
+          "ref": "AC-talad-067",
+          "hash": "sha256:6d1635897344cd41824cc77c6d05f8bcef979e45db3fb6ef0bc42732a037fe5f"
+        },
+        {
+          "ref": "AC-talad-068",
+          "hash": "sha256:477376c41ad1817ff1f731cccb47f23395d74fa7518df18dc6f063f33c7c4111"
+        },
+        {
+          "ref": "AC-talad-070",
+          "hash": "sha256:b23941fe27c5e77617773eb9caf577f8d2f8ff9eb097f75875130f9406ab8dad"
+        },
+        {
+          "ref": "AC-talad-087",
+          "hash": "sha256:1aee4c19f13d1be77eb14acff1baf8c304c1815e6289099ab18deb215d39098a"
+        },
+        {
+          "ref": "AC-talad-092",
+          "hash": "sha256:8bc888d7b167327e998b80853795d80ca1693afa838057bba632ee851640baf2"
+        },
+        {
+          "ref": "ENT-009",
+          "hash": "sha256:421b39142003dc6992f607b3607fc21fb5e3c3a8901c9b3b061cb2eaf5e2800a"
+        },
+        {
+          "ref": "ENT-010",
+          "hash": "sha256:86301cec7edabe74c4d757505308bc77122775fb82cab67abd25443ae1e23f8a"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "API-010",
+          "hash": "sha256:c7b42e10eb894009d31b42ef71f087151e775c4cf50cfea4d41be723770508c1"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-034",
+      "title_th": "ชำระเงินตะกร้า — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-033",
+        "FE-talad-032"
+      ],
+      "acceptance_refs": [
+        "AC-talad-004",
+        "AC-talad-014",
+        "AC-talad-015",
+        "AC-talad-023",
+        "AC-talad-024",
+        "AC-talad-025",
+        "AC-talad-026",
+        "AC-talad-027",
+        "AC-talad-028",
+        "AC-talad-037",
+        "AC-talad-038",
+        "AC-talad-039",
+        "AC-talad-067",
+        "AC-talad-068",
+        "AC-talad-070",
+        "AC-talad-087",
+        "AC-talad-092"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-003",
+          "hash": "sha256:99670072287135f7ce739635836ba90d6d0e42109ed4f4ab6741127a2c261b7a"
+        },
+        {
+          "ref": "AC-talad-004",
+          "hash": "sha256:a7b8456c4e559ee374e396c0c7bef2e60c90f7bd4d0cef84a4e8481a0af3942e"
+        },
+        {
+          "ref": "AC-talad-014",
+          "hash": "sha256:8955d004ae2b46028c7ee6a531a168b341ac5ad0fe6f685f23582a7ba03ba5ac"
+        },
+        {
+          "ref": "AC-talad-015",
+          "hash": "sha256:10d0417e211e40416a15ae22fc9a59612e120a6d640480dfaff42381f5cbbffb"
+        },
+        {
+          "ref": "AC-talad-023",
+          "hash": "sha256:daeaedb9c8397569144550104f032d3a9c00fd290466bde1a0234a9ac4c86713"
+        },
+        {
+          "ref": "AC-talad-024",
+          "hash": "sha256:0fde5413d52246998009d9cb393fbb9038773b78e69e23d3eedc790fa2b0b78f"
+        },
+        {
+          "ref": "AC-talad-025",
+          "hash": "sha256:f467efa6df556bf751b0c5e75ed40addf9a235d9affa77fc5c2acc161f848748"
+        },
+        {
+          "ref": "AC-talad-026",
+          "hash": "sha256:17c78eb8918579a40d1ae6c62fa3dc2eda7a7eeb8a31e12ba27f744736311d37"
+        },
+        {
+          "ref": "AC-talad-027",
+          "hash": "sha256:a29c7a041f9fb1a154a5d9188fb1092b66dca2773309a30977d17c7af8522ab3"
+        },
+        {
+          "ref": "AC-talad-028",
+          "hash": "sha256:a09e2731987a1c1097d997f2fc78f58dcf614a8f8f9c882b64d5560c8d4b79af"
+        },
+        {
+          "ref": "AC-talad-037",
+          "hash": "sha256:c294104cec5a3b7c93683457248f29cec469f3ccc7779e20a2d90c4448365773"
+        },
+        {
+          "ref": "AC-talad-038",
+          "hash": "sha256:55ef58b15e994b4c56b46cbc1c89dab91afc806a886d8e236411c0dee2c952c9"
+        },
+        {
+          "ref": "AC-talad-039",
+          "hash": "sha256:71595c23c0cf363229bbe55cae70837e21cab8bf08301246fa3d514c5073f7f7"
+        },
+        {
+          "ref": "AC-talad-067",
+          "hash": "sha256:6d1635897344cd41824cc77c6d05f8bcef979e45db3fb6ef0bc42732a037fe5f"
+        },
+        {
+          "ref": "AC-talad-068",
+          "hash": "sha256:477376c41ad1817ff1f731cccb47f23395d74fa7518df18dc6f063f33c7c4111"
+        },
+        {
+          "ref": "AC-talad-070",
+          "hash": "sha256:b23941fe27c5e77617773eb9caf577f8d2f8ff9eb097f75875130f9406ab8dad"
+        },
+        {
+          "ref": "AC-talad-087",
+          "hash": "sha256:1aee4c19f13d1be77eb14acff1baf8c304c1815e6289099ab18deb215d39098a"
+        },
+        {
+          "ref": "AC-talad-092",
+          "hash": "sha256:8bc888d7b167327e998b80853795d80ca1693afa838057bba632ee851640baf2"
+        },
+        {
+          "ref": "UI-talad-002",
+          "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-035",
+      "title_th": "แสดงและพิมพ์ใบเสร็จหลังชำระ — ฝั่ง api",
+      "app_ref": "api",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-033"
+      ],
+      "acceptance_refs": [
+        "AC-talad-004",
+        "AC-talad-029",
+        "AC-talad-030",
+        "AC-talad-032"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-005",
+          "hash": "sha256:6318f236a9d0776ac6a427de93a203474e1dc2e85cc855ba5b905c23ace1d2b9"
+        },
+        {
+          "ref": "AC-talad-004",
+          "hash": "sha256:a7b8456c4e559ee374e396c0c7bef2e60c90f7bd4d0cef84a4e8481a0af3942e"
+        },
+        {
+          "ref": "AC-talad-029",
+          "hash": "sha256:6dced13c4f0fbbe16d369a6a8344cf0c6c0f31571a91d17fe5c70d4b34f24d00"
+        },
+        {
+          "ref": "AC-talad-030",
+          "hash": "sha256:385d6aac60627dee2fb91a4f19b8a10494331bbbfc7b6b251dfcd8196d0302fa"
+        },
+        {
+          "ref": "AC-talad-032",
+          "hash": "sha256:54e836ed53ae4da99492537dd77149a007edadeafa362b482ce8ed475470b4a0"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "API-011",
+          "hash": "sha256:15cd625ab6851d1b9915a3a8340ad2b3f794f090411b3400f0f98e1f41f35938"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-036",
+      "title_th": "แสดงและพิมพ์ใบเสร็จหลังชำระ — ฝั่ง web",
+      "app_ref": "web",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-035",
+        "FE-talad-034"
+      ],
+      "acceptance_refs": [
+        "AC-talad-004",
+        "AC-talad-029",
+        "AC-talad-030",
+        "AC-talad-032"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-005",
+          "hash": "sha256:6318f236a9d0776ac6a427de93a203474e1dc2e85cc855ba5b905c23ace1d2b9"
+        },
+        {
+          "ref": "AC-talad-004",
+          "hash": "sha256:a7b8456c4e559ee374e396c0c7bef2e60c90f7bd4d0cef84a4e8481a0af3942e"
+        },
+        {
+          "ref": "AC-talad-029",
+          "hash": "sha256:6dced13c4f0fbbe16d369a6a8344cf0c6c0f31571a91d17fe5c70d4b34f24d00"
+        },
+        {
+          "ref": "AC-talad-030",
+          "hash": "sha256:385d6aac60627dee2fb91a4f19b8a10494331bbbfc7b6b251dfcd8196d0302fa"
+        },
+        {
+          "ref": "AC-talad-032",
+          "hash": "sha256:54e836ed53ae4da99492537dd77149a007edadeafa362b482ce8ed475470b4a0"
+        },
+        {
+          "ref": "RPT-talad-001",
+          "hash": "sha256:0d30bbf20b7f8914d6d37ab23182098b906486e8447d34a18005d17f9860a0d1"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-037",
+      "title_th": "ดูประวัติการขายและรายละเอียดบิล — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-033"
+      ],
+      "acceptance_refs": [
+        "AC-talad-013",
+        "AC-talad-037",
+        "AC-talad-038",
+        "AC-talad-041",
+        "AC-talad-042",
+        "AC-talad-049",
+        "AC-talad-054",
+        "AC-talad-057",
+        "AC-talad-058",
+        "AC-talad-059",
+        "AC-talad-060",
+        "AC-talad-061",
+        "AC-talad-062",
+        "AC-talad-063",
+        "AC-talad-064",
+        "AC-talad-065",
+        "AC-talad-066",
+        "AC-talad-125",
+        "AC-talad-128"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-024",
+          "hash": "sha256:6102122f44d490567e6f19539262a185f3e4558db203555c03bdb137f438adad"
+        },
+        {
+          "ref": "AC-talad-013",
+          "hash": "sha256:f2a70ea953dc3efc0562ce21587f088c53f8b42f413e4e1fe0fae4ef7ce945ad"
+        },
+        {
+          "ref": "AC-talad-037",
+          "hash": "sha256:c294104cec5a3b7c93683457248f29cec469f3ccc7779e20a2d90c4448365773"
+        },
+        {
+          "ref": "AC-talad-038",
+          "hash": "sha256:55ef58b15e994b4c56b46cbc1c89dab91afc806a886d8e236411c0dee2c952c9"
+        },
+        {
+          "ref": "AC-talad-041",
+          "hash": "sha256:38fa2e41dc9d8c392b60b42f6d2e5eab9bebc5ed4cee0ae27c873385e8ab5aea"
+        },
+        {
+          "ref": "AC-talad-042",
+          "hash": "sha256:494124e3e17adb2d3b1ee7092557982d7a3b6aceb3e47a72ce0c65c8b7f58594"
+        },
+        {
+          "ref": "AC-talad-049",
+          "hash": "sha256:dc84267229cfe52dab8a89546dfaabc2bcbad7906157e6c6a7b5d35f7c2e462c"
+        },
+        {
+          "ref": "AC-talad-054",
+          "hash": "sha256:7d8b19582b83ed93d88708eae50ddcfdce5ef947fd289800614f4942297edc65"
+        },
+        {
+          "ref": "AC-talad-057",
+          "hash": "sha256:6522677cfffb862d965f47551c3c781c8f0480513f36593be9ec5ff2f563e1fa"
+        },
+        {
+          "ref": "AC-talad-058",
+          "hash": "sha256:cc00a6acca4025f7369766d09afaa7a91c5f310e36d8a9e371e04754fb5548d6"
+        },
+        {
+          "ref": "AC-talad-059",
+          "hash": "sha256:229a268fcc47c94032788206e7466528d1b849dbe3a2c0e4be9d56e763ae9b79"
+        },
+        {
+          "ref": "AC-talad-060",
+          "hash": "sha256:0111c15e3542d9212a88eb12b5f6ce2006e45485e2bf0efb8687dac12508cb40"
+        },
+        {
+          "ref": "AC-talad-061",
+          "hash": "sha256:1fa04209be84ee80e7d51a670632df1c5e9313e8f3ef72b78c59ce65f7839e53"
+        },
+        {
+          "ref": "AC-talad-062",
+          "hash": "sha256:f76ad6daef6785eb369a839abcc583060e49f410a946c339960704c6f6eb9aaf"
+        },
+        {
+          "ref": "AC-talad-063",
+          "hash": "sha256:cf735ced103ff939173025cc5974a0d09381ae192ea809a44adb260ddd7d0ed1"
+        },
+        {
+          "ref": "AC-talad-064",
+          "hash": "sha256:605012722fd5bafd53a3dfc35e4acce5f6170cc58f71e4dca8145ff37d33605c"
+        },
+        {
+          "ref": "AC-talad-065",
+          "hash": "sha256:ebfde6f48a8cff7c3f127d8cd6039f14268cd4c8adfd9eee829ed81be0c72847"
+        },
+        {
+          "ref": "AC-talad-066",
+          "hash": "sha256:a88ff9d7daf3ba7fcad93a85f181e01a3770e0112060d1a7e4166551db0fc400"
+        },
+        {
+          "ref": "AC-talad-125",
+          "hash": "sha256:091c18fd92a4f1f4e497cbd902c782815e977d2c53493d59745d00d5f03ea3ea"
+        },
+        {
+          "ref": "AC-talad-128",
+          "hash": "sha256:10a83c88ca673f7e41452d472360359a361c6de9ff72b27ae27787b2f98a2d32"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "API-017",
+          "hash": "sha256:af162365a11443536ae3de80376aba44ae294a57f6635c83742b978a8507155d"
+        },
+        {
+          "ref": "API-011",
+          "hash": "sha256:15cd625ab6851d1b9915a3a8340ad2b3f794f090411b3400f0f98e1f41f35938"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-038",
+      "title_th": "ดูประวัติการขายและรายละเอียดบิล — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-037",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-013",
+        "AC-talad-037",
+        "AC-talad-038",
+        "AC-talad-041",
+        "AC-talad-042",
+        "AC-talad-049",
+        "AC-talad-054",
+        "AC-talad-057",
+        "AC-talad-058",
+        "AC-talad-059",
+        "AC-talad-060",
+        "AC-talad-061",
+        "AC-talad-062",
+        "AC-talad-063",
+        "AC-talad-064",
+        "AC-talad-065",
+        "AC-talad-066",
+        "AC-talad-125",
+        "AC-talad-128"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-024",
+          "hash": "sha256:6102122f44d490567e6f19539262a185f3e4558db203555c03bdb137f438adad"
+        },
+        {
+          "ref": "AC-talad-013",
+          "hash": "sha256:f2a70ea953dc3efc0562ce21587f088c53f8b42f413e4e1fe0fae4ef7ce945ad"
+        },
+        {
+          "ref": "AC-talad-037",
+          "hash": "sha256:c294104cec5a3b7c93683457248f29cec469f3ccc7779e20a2d90c4448365773"
+        },
+        {
+          "ref": "AC-talad-038",
+          "hash": "sha256:55ef58b15e994b4c56b46cbc1c89dab91afc806a886d8e236411c0dee2c952c9"
+        },
+        {
+          "ref": "AC-talad-041",
+          "hash": "sha256:38fa2e41dc9d8c392b60b42f6d2e5eab9bebc5ed4cee0ae27c873385e8ab5aea"
+        },
+        {
+          "ref": "AC-talad-042",
+          "hash": "sha256:494124e3e17adb2d3b1ee7092557982d7a3b6aceb3e47a72ce0c65c8b7f58594"
+        },
+        {
+          "ref": "AC-talad-049",
+          "hash": "sha256:dc84267229cfe52dab8a89546dfaabc2bcbad7906157e6c6a7b5d35f7c2e462c"
+        },
+        {
+          "ref": "AC-talad-054",
+          "hash": "sha256:7d8b19582b83ed93d88708eae50ddcfdce5ef947fd289800614f4942297edc65"
+        },
+        {
+          "ref": "AC-talad-057",
+          "hash": "sha256:6522677cfffb862d965f47551c3c781c8f0480513f36593be9ec5ff2f563e1fa"
+        },
+        {
+          "ref": "AC-talad-058",
+          "hash": "sha256:cc00a6acca4025f7369766d09afaa7a91c5f310e36d8a9e371e04754fb5548d6"
+        },
+        {
+          "ref": "AC-talad-059",
+          "hash": "sha256:229a268fcc47c94032788206e7466528d1b849dbe3a2c0e4be9d56e763ae9b79"
+        },
+        {
+          "ref": "AC-talad-060",
+          "hash": "sha256:0111c15e3542d9212a88eb12b5f6ce2006e45485e2bf0efb8687dac12508cb40"
+        },
+        {
+          "ref": "AC-talad-061",
+          "hash": "sha256:1fa04209be84ee80e7d51a670632df1c5e9313e8f3ef72b78c59ce65f7839e53"
+        },
+        {
+          "ref": "AC-talad-062",
+          "hash": "sha256:f76ad6daef6785eb369a839abcc583060e49f410a946c339960704c6f6eb9aaf"
+        },
+        {
+          "ref": "AC-talad-063",
+          "hash": "sha256:cf735ced103ff939173025cc5974a0d09381ae192ea809a44adb260ddd7d0ed1"
+        },
+        {
+          "ref": "AC-talad-064",
+          "hash": "sha256:605012722fd5bafd53a3dfc35e4acce5f6170cc58f71e4dca8145ff37d33605c"
+        },
+        {
+          "ref": "AC-talad-065",
+          "hash": "sha256:ebfde6f48a8cff7c3f127d8cd6039f14268cd4c8adfd9eee829ed81be0c72847"
+        },
+        {
+          "ref": "AC-talad-066",
+          "hash": "sha256:a88ff9d7daf3ba7fcad93a85f181e01a3770e0112060d1a7e4166551db0fc400"
+        },
+        {
+          "ref": "AC-talad-125",
+          "hash": "sha256:091c18fd92a4f1f4e497cbd902c782815e977d2c53493d59745d00d5f03ea3ea"
+        },
+        {
+          "ref": "AC-talad-128",
+          "hash": "sha256:10a83c88ca673f7e41452d472360359a361c6de9ff72b27ae27787b2f98a2d32"
+        },
+        {
+          "ref": "UI-talad-007",
+          "hash": "sha256:1593309dd5447698ab470867d810585f1a84dae6ee727892c6af0f6341455bca"
+        },
+        {
+          "ref": "UI-talad-008",
+          "hash": "sha256:587816c4dc9cc7408bed2563e709c03e741f9e2fcd5b6bf267d90cff1b4edaec"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-039",
+      "title_th": "พิมพ์ใบเสร็จซ้ำจากประวัติการขาย — ฝั่ง api",
+      "app_ref": "api",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-035",
+        "FE-talad-037"
+      ],
+      "acceptance_refs": [
+        "AC-talad-030",
+        "AC-talad-031",
+        "AC-talad-041"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-006",
+          "hash": "sha256:875e061f46f9097ec557a6f16547b9452731fc08c5bb6c8f1e29719b1d3842d7"
+        },
+        {
+          "ref": "AC-talad-030",
+          "hash": "sha256:385d6aac60627dee2fb91a4f19b8a10494331bbbfc7b6b251dfcd8196d0302fa"
+        },
+        {
+          "ref": "AC-talad-031",
+          "hash": "sha256:5d912c69c9f9da62ab863274c93708eaee756ca0fd6de4868163341367e766fc"
+        },
+        {
+          "ref": "AC-talad-041",
+          "hash": "sha256:38fa2e41dc9d8c392b60b42f6d2e5eab9bebc5ed4cee0ae27c873385e8ab5aea"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "API-011",
+          "hash": "sha256:15cd625ab6851d1b9915a3a8340ad2b3f794f090411b3400f0f98e1f41f35938"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-040",
+      "title_th": "พิมพ์ใบเสร็จซ้ำจากประวัติการขาย — ฝั่ง web",
+      "app_ref": "web",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-039",
+        "FE-talad-036",
+        "FE-talad-038"
+      ],
+      "acceptance_refs": [
+        "AC-talad-030",
+        "AC-talad-031",
+        "AC-talad-041"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-006",
+          "hash": "sha256:875e061f46f9097ec557a6f16547b9452731fc08c5bb6c8f1e29719b1d3842d7"
+        },
+        {
+          "ref": "AC-talad-030",
+          "hash": "sha256:385d6aac60627dee2fb91a4f19b8a10494331bbbfc7b6b251dfcd8196d0302fa"
+        },
+        {
+          "ref": "AC-talad-031",
+          "hash": "sha256:5d912c69c9f9da62ab863274c93708eaee756ca0fd6de4868163341367e766fc"
+        },
+        {
+          "ref": "AC-talad-041",
+          "hash": "sha256:38fa2e41dc9d8c392b60b42f6d2e5eab9bebc5ed4cee0ae27c873385e8ab5aea"
+        },
+        {
+          "ref": "RPT-talad-001",
+          "hash": "sha256:0d30bbf20b7f8914d6d37ab23182098b906486e8447d34a18005d17f9860a0d1"
+        },
+        {
+          "ref": "UI-talad-008",
+          "hash": "sha256:587816c4dc9cc7408bed2563e709c03e741f9e2fcd5b6bf267d90cff1b4edaec"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-041",
+      "title_th": "ยกเลิกบิลขาย — ฝั่ง api",
+      "app_ref": "api",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-037"
+      ],
+      "acceptance_refs": [
+        "AC-talad-031",
+        "AC-talad-046",
+        "AC-talad-047",
+        "AC-talad-050",
+        "AC-talad-051",
+        "AC-talad-052",
+        "AC-talad-053",
+        "AC-talad-054",
+        "AC-talad-055",
+        "AC-talad-056"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-025",
+          "hash": "sha256:bef0a211d821a2fbdf0e666096dd69004e78e9fc8cfa2062a3cd5c136a070a92"
+        },
+        {
+          "ref": "AC-talad-031",
+          "hash": "sha256:5d912c69c9f9da62ab863274c93708eaee756ca0fd6de4868163341367e766fc"
+        },
+        {
+          "ref": "AC-talad-046",
+          "hash": "sha256:fdfae8cda6ca4d2d6153aaf0cae044c6817830552a1874911aeeae2d4e4fa248"
+        },
+        {
+          "ref": "AC-talad-047",
+          "hash": "sha256:fbe5cdd7cdad0ff557ebe8dba6e9c3745276a4463e4dff5919abfd0745a8f7c8"
+        },
+        {
+          "ref": "AC-talad-050",
+          "hash": "sha256:086c3088752625591a1a53e3cbe8922fce8b97633203a95f4c8646e6429264b8"
+        },
+        {
+          "ref": "AC-talad-051",
+          "hash": "sha256:3848bfb235704e60b3d9c8b6457801c99e5e8d219dd0d1ee3282e4c5019ac3e6"
+        },
+        {
+          "ref": "AC-talad-052",
+          "hash": "sha256:e637fedb3837ca9ad836565e58a3a90824028baf2462fd95658d1d092e581141"
+        },
+        {
+          "ref": "AC-talad-053",
+          "hash": "sha256:082cd135c57810a118708a5160a4bacfbd73b4a79de480ade68525bcc57227fc"
+        },
+        {
+          "ref": "AC-talad-054",
+          "hash": "sha256:7d8b19582b83ed93d88708eae50ddcfdce5ef947fd289800614f4942297edc65"
+        },
+        {
+          "ref": "AC-talad-055",
+          "hash": "sha256:21ffbd2a2037d6cb86040febcb6162d5d827a179d2d5e94c6b23cc98d2e675e8"
+        },
+        {
+          "ref": "AC-talad-056",
+          "hash": "sha256:1b360d0c482695e33310a18cb0fbe3d5a5cb4d434a1f77bb6706a703d416d14d"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "ENT-004",
+          "hash": "sha256:289b32e7c4be3d67e7d12a58fbaa81fe4ce01c13a96d12461bd2c24d7b00f2aa"
+        },
+        {
+          "ref": "API-018",
+          "hash": "sha256:3f1aa2bd5d5d55f3ce81fbf5e36d6f85770b40d7e60e0bc59aeab4c7f9eff935"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-042",
+      "title_th": "ยกเลิกบิลขาย — ฝั่ง web",
+      "app_ref": "web",
+      "type": "command",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-041",
+        "FE-talad-038"
+      ],
+      "acceptance_refs": [
+        "AC-talad-031",
+        "AC-talad-046",
+        "AC-talad-047",
+        "AC-talad-050",
+        "AC-talad-051",
+        "AC-talad-052",
+        "AC-talad-053",
+        "AC-talad-054",
+        "AC-talad-055",
+        "AC-talad-056"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-025",
+          "hash": "sha256:bef0a211d821a2fbdf0e666096dd69004e78e9fc8cfa2062a3cd5c136a070a92"
+        },
+        {
+          "ref": "AC-talad-031",
+          "hash": "sha256:5d912c69c9f9da62ab863274c93708eaee756ca0fd6de4868163341367e766fc"
+        },
+        {
+          "ref": "AC-talad-046",
+          "hash": "sha256:fdfae8cda6ca4d2d6153aaf0cae044c6817830552a1874911aeeae2d4e4fa248"
+        },
+        {
+          "ref": "AC-talad-047",
+          "hash": "sha256:fbe5cdd7cdad0ff557ebe8dba6e9c3745276a4463e4dff5919abfd0745a8f7c8"
+        },
+        {
+          "ref": "AC-talad-050",
+          "hash": "sha256:086c3088752625591a1a53e3cbe8922fce8b97633203a95f4c8646e6429264b8"
+        },
+        {
+          "ref": "AC-talad-051",
+          "hash": "sha256:3848bfb235704e60b3d9c8b6457801c99e5e8d219dd0d1ee3282e4c5019ac3e6"
+        },
+        {
+          "ref": "AC-talad-052",
+          "hash": "sha256:e637fedb3837ca9ad836565e58a3a90824028baf2462fd95658d1d092e581141"
+        },
+        {
+          "ref": "AC-talad-053",
+          "hash": "sha256:082cd135c57810a118708a5160a4bacfbd73b4a79de480ade68525bcc57227fc"
+        },
+        {
+          "ref": "AC-talad-054",
+          "hash": "sha256:7d8b19582b83ed93d88708eae50ddcfdce5ef947fd289800614f4942297edc65"
+        },
+        {
+          "ref": "AC-talad-055",
+          "hash": "sha256:21ffbd2a2037d6cb86040febcb6162d5d827a179d2d5e94c6b23cc98d2e675e8"
+        },
+        {
+          "ref": "AC-talad-056",
+          "hash": "sha256:1b360d0c482695e33310a18cb0fbe3d5a5cb4d434a1f77bb6706a703d416d14d"
+        },
+        {
+          "ref": "UI-talad-008",
+          "hash": "sha256:587816c4dc9cc7408bed2563e709c03e741f9e2fcd5b6bf267d90cff1b4edaec"
+        },
+        {
+          "ref": "UI-talad-009",
+          "hash": "sha256:55e72ee724000b262bfb374f3bbb9b03eb8d1a33fa831b849b52b6216bb0fd97"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-043",
+      "title_th": "ดูรายงาน — ฝั่ง api",
+      "app_ref": "api",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-033",
+        "FE-talad-041"
+      ],
+      "acceptance_refs": [
+        "AC-talad-052",
+        "AC-talad-103",
+        "AC-talad-104",
+        "AC-talad-105"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-026",
+          "hash": "sha256:f24082e6fa9613dedfacaae986c6f0316ddd6fbf9246c42f2d6c9fe45b3550f2"
+        },
+        {
+          "ref": "AC-talad-052",
+          "hash": "sha256:e637fedb3837ca9ad836565e58a3a90824028baf2462fd95658d1d092e581141"
+        },
+        {
+          "ref": "AC-talad-103",
+          "hash": "sha256:df2609ad4504b33cd937f43f2c5b6f695f049b48d8eb48915f256decd2209de2"
+        },
+        {
+          "ref": "AC-talad-104",
+          "hash": "sha256:a4523c6521915b0f7c4cbb7961941b0f868f439b79e0f507b043b1138f2b7b22"
+        },
+        {
+          "ref": "AC-talad-105",
+          "hash": "sha256:ceefe0ba6d376f6da9bcdf9208440c5610463fd88bfcecdec8e9ee26c1d30784"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "ENT-008",
+          "hash": "sha256:e8db047b67d1180ef0e2b89ba85dfcddb3782283876511a9051653fca6d9dbec"
+        },
+        {
+          "ref": "API-038",
+          "hash": "sha256:a009b1480e7e2b8528059cb6314d08c89e00526bf43d70bb42cafab3568d54c4"
+        },
+        {
+          "ref": "API-039",
+          "hash": "sha256:2daefaa26d4a7684bf3fa407a88badd0f80064a2bd81828d454236349253487f"
+        },
+        {
+          "ref": "API-040",
+          "hash": "sha256:a7d53e7596f76dae1cedebbafc83a054cd63865e1bfe01566581a14873c15b6e"
+        },
+        {
+          "ref": "API-041",
+          "hash": "sha256:28ebda0a32f5e81413a9a4e7191c3942e8049335f1547198819ea13e6de58c31"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-044",
+      "title_th": "ดูรายงาน — ฝั่ง web",
+      "app_ref": "web",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-043",
+        "FE-talad-004"
+      ],
+      "acceptance_refs": [
+        "AC-talad-052",
+        "AC-talad-103",
+        "AC-talad-104",
+        "AC-talad-105"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-026",
+          "hash": "sha256:f24082e6fa9613dedfacaae986c6f0316ddd6fbf9246c42f2d6c9fe45b3550f2"
+        },
+        {
+          "ref": "AC-talad-052",
+          "hash": "sha256:e637fedb3837ca9ad836565e58a3a90824028baf2462fd95658d1d092e581141"
+        },
+        {
+          "ref": "AC-talad-103",
+          "hash": "sha256:df2609ad4504b33cd937f43f2c5b6f695f049b48d8eb48915f256decd2209de2"
+        },
+        {
+          "ref": "AC-talad-104",
+          "hash": "sha256:a4523c6521915b0f7c4cbb7961941b0f868f439b79e0f507b043b1138f2b7b22"
+        },
+        {
+          "ref": "AC-talad-105",
+          "hash": "sha256:ceefe0ba6d376f6da9bcdf9208440c5610463fd88bfcecdec8e9ee26c1d30784"
+        },
+        {
+          "ref": "RPT-talad-002",
+          "hash": "sha256:5e3b8636db495d630b174b04b406201a0a9f2584e485cc6ae79e270e4d30256e"
+        },
+        {
+          "ref": "RPT-talad-003",
+          "hash": "sha256:fd8b0d9ad335942fb0922e84e2b67b215a587bfd27a61374b6f9e57349746b06"
+        },
+        {
+          "ref": "RPT-talad-004",
+          "hash": "sha256:7d6e8da6f4515b35bfa66241cfbd28e1a8c212a6e147b1255d0d7ac8b693a8cb"
+        },
+        {
+          "ref": "RPT-talad-005",
+          "hash": "sha256:3e764e19064254e94a3c3489c4addd8255cc46b00a09d1ab1767a12518ad2b96"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-045",
+      "title_th": "Export Excel — ฝั่ง api",
+      "app_ref": "api",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-043",
+        "FE-talad-037",
+        "FE-talad-017"
+      ],
+      "acceptance_refs": [
+        "AC-talad-106",
+        "AC-talad-107",
+        "AC-talad-108"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-027",
+          "hash": "sha256:3a87b640710c983b2931b0c10daa8f27bdce7f796d43c5c99f582789973830bd"
+        },
+        {
+          "ref": "AC-talad-106",
+          "hash": "sha256:3f874bd489dcda648e1667d84ed7600229cfd467f6fe0e5173564c1a4a3483ef"
+        },
+        {
+          "ref": "AC-talad-107",
+          "hash": "sha256:cdcc98ecfaec4ba6010faf0415e13c5b8bbc4f0345c8f1d711b0e9637d20677e"
+        },
+        {
+          "ref": "AC-talad-108",
+          "hash": "sha256:fc81e73789ea83d59882ce901fa0abbeac4d0e7dc6df728778792b122bcf7c18"
+        },
+        {
+          "ref": "ENT-011",
+          "hash": "sha256:2b32818a171a187ab6bf079d6615b0e11d9df48a7c47a512ea85eca69db0ab0e"
+        },
+        {
+          "ref": "ENT-012",
+          "hash": "sha256:a1a29b0db16cd68f0f09dfcb43bd50d6922300af7508e3fe7a9149b9d6f7df89"
+        },
+        {
+          "ref": "ENT-001",
+          "hash": "sha256:4ad6c0fc21c4f2b07cd1b956fba0557765cd08b6a0c031857b6f485625187bf3"
+        },
+        {
+          "ref": "API-042",
+          "hash": "sha256:5ebcdc3710233c25f6deaffb5a67fb9f4cac9be6a3d9c29995343738ad18debe"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "id": "FE-talad-046",
+      "title_th": "Export Excel — ฝั่ง web",
+      "app_ref": "web",
+      "type": "report",
+      "origin": "new",
+      "files_planned": [],
+      "depends_on": [
+        "FE-talad-045",
+        "FE-talad-044",
+        "FE-talad-038",
+        "FE-talad-018"
+      ],
+      "acceptance_refs": [
+        "AC-talad-106",
+        "AC-talad-107",
+        "AC-talad-108"
+      ],
+      "traces_up": [
+        {
+          "ref": "UC-talad-027",
+          "hash": "sha256:3a87b640710c983b2931b0c10daa8f27bdce7f796d43c5c99f582789973830bd"
+        },
+        {
+          "ref": "AC-talad-106",
+          "hash": "sha256:3f874bd489dcda648e1667d84ed7600229cfd467f6fe0e5173564c1a4a3483ef"
+        },
+        {
+          "ref": "AC-talad-107",
+          "hash": "sha256:cdcc98ecfaec4ba6010faf0415e13c5b8bbc4f0345c8f1d711b0e9637d20677e"
+        },
+        {
+          "ref": "AC-talad-108",
+          "hash": "sha256:fc81e73789ea83d59882ce901fa0abbeac4d0e7dc6df728778792b122bcf7c18"
+        },
+        {
+          "ref": "UI-talad-007",
+          "hash": "sha256:1593309dd5447698ab470867d810585f1a84dae6ee727892c6af0f6341455bca"
+        },
+        {
+          "ref": "UI-talad-010",
+          "hash": "sha256:1d8f732b86cfef3a7dbd8c9d9f84ccb3ad66b921380822043ec086a60d183ba2"
+        },
+        {
+          "ref": "RPT-talad-002",
+          "hash": "sha256:5e3b8636db495d630b174b04b406201a0a9f2584e485cc6ae79e270e4d30256e"
+        },
+        {
+          "ref": "RPT-talad-003",
+          "hash": "sha256:fd8b0d9ad335942fb0922e84e2b67b215a587bfd27a61374b6f9e57349746b06"
+        },
+        {
+          "ref": "RPT-talad-004",
+          "hash": "sha256:7d6e8da6f4515b35bfa66241cfbd28e1a8c212a6e147b1255d0d7ac8b693a8cb"
+        },
+        {
+          "ref": "RPT-talad-005",
+          "hash": "sha256:3e764e19064254e94a3c3489c4addd8255cc46b00a09d1ab1767a12518ad2b96"
+        }
+      ],
+      "status": "draft"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "GAP-talad-001",
+      "to": "design",
+      "about": "UC-talad-013",
+      "question_th": "UC-talad-013 สร้างบัญชีพนักงาน · UC-talad-014 รีเซ็ตรหัสผ่านพนักงาน · UC-talad-015 ปิดใช้งานบัญชีพนักงาน ไม่มีเกณฑ์รับ (AC) สักข้อ — ขอเกณฑ์รับที่บอกผลที่ตรวจได้ของแต่ละ use case (เช่น ชื่อผู้ใช้ซ้ำ · รหัสผ่านใหม่ใช้ล็อกอินได้ · บัญชีที่ปิดแล้วล็อกอินไม่ได้และตะกร้าที่ค้างอยู่เป็นอย่างไร) เพื่อให้ dev หั่นหน่วยและพิสูจน์ว่าเสร็จได้",
+      "found_at": "2026-09-23",
+      "found_by": "/dev:plan",
+      "status": "open",
+      "answer_th": null,
+      "answered_in": null,
+      "closed_by": null,
+      "blocks": []
+    },
+    {
+      "id": "GAP-talad-002",
+      "to": "design",
+      "about": "UC-talad-016",
+      "question_th": "UC-talad-016 เพิ่มหรือแก้ไขข้อมูลสินค้า ไม่มีเกณฑ์รับ (AC) สักข้อ — ขอเกณฑ์รับที่ตรวจได้ (ช่องบังคับ · บาร์โค้ดซ้ำ · อัปโหลดรูปตาม DEC-002 · ราคาเริ่มต้นสร้าง ProductPriceVersion แรก) · ระหว่างนี้หน้า UI-talad-011 กับ API-020 · API-021 ไม่มีหน่วยไหนสร้าง",
+      "found_at": "2026-09-23",
+      "found_by": "/dev:plan",
+      "status": "open",
+      "answer_th": null,
+      "answered_in": null,
+      "closed_by": null,
+      "blocks": []
+    },
+    {
+      "id": "GAP-talad-003",
+      "to": "design",
+      "about": "UI-talad-001",
+      "question_th": "sitemap.json มี apps: [] และไม่มีหน้าจอไหนระบุ app — แต่ /dev:stack บันทึกสองแอป (api · web) · ขอให้ประกาศ apps[] roster (อย่างน้อย slug \"web\") และระบุ app ของทุกหน้าจอ เพื่อให้ dev วางหน่วยเปลือก (shell) ของแอป web ได้ และ DV19 ตรวจเมนูได้ · ระหว่างนี้เมนูด้านซ้ายถูกสร้างในครึ่ง web ของ UC-talad-012",
+      "found_at": "2026-09-23",
+      "found_by": "/dev:plan",
+      "status": "open",
+      "answer_th": null,
+      "answered_in": null,
+      "closed_by": null,
+      "blocks": []
+    },
+    {
+      "id": "GAP-talad-004",
+      "to": "req",
+      "about": "NFR-talad-003",
+      "question_th": "NFR-talad-003 ล็อกเว็บเป็น \"React + Tailwind v5 + daisy v4\" — Tailwind v5 ไม่มีบน npm (latest 4.3.3 ณ 2026-09-23) และ daisyUI 4.12.24 สร้างคู่กับ tailwindcss 3.4.4 · ทีม (mon sai, /dev:stack 2026-09-23) เลือก Tailwind 4 + daisyUI v5 · ขอให้ลูกค้ายืนยันรุ่นใหม่ผ่าน /req:change แล้ว /design:change แก้ NFR-talad-003",
+      "found_at": "2026-09-23",
+      "found_by": "/dev:plan",
+      "status": "open",
+      "answer_th": null,
+      "answered_in": null,
+      "closed_by": null,
+      "blocks": []
+    }
+  ],
+  "rollup": {
+    "features_total": 46,
+    "by_status": {
+      "draft": 46
+    },
+    "by_origin": {
+      "new": 46
+    },
+    "by_app": {
+      "api": 23,
+      "web": 23
+    },
+    "gaps_open": 4,
+    "ready_for_phase5": false
+  }
+}
