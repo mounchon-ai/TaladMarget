@@ -14,6 +14,11 @@ export const NO_MEMBER_FOUND = "ไม่พบสมาชิก — สมั�
 /** Save and cancel both go to UI-talad-004 หน้าสมาชิก; a save carries this so the frame says it worked. */
 export const MEMBERS_PATH = "/members";
 export const REGISTERED_PARAM = "registered";
+/** UI-talad-006 state "error" — the member was hidden while the page was open: back to the list, saying so. */
+export const MISSING_PARAM = "missing";
+export const MEMBER_MISSING = "ไม่พบสมาชิก";
+/** AC-talad-043 — a save that went through, in the AC's own word. */
+export const SAVED = "บันทึกสำเร็จ";
 
 /** ENT-004.phone — dashes and spaces come out before checking and before storing. */
 export const normalizePhone = (phone: string) => phone.replace(/[-\s]/g, "");
@@ -32,4 +37,9 @@ export function validateMember(name: string, phone: string): MemberFieldErrors {
 /** What the form shows after a save that did not go through — the typed values come back so nothing is lost. */
 export type RegisterFormState =
   | { values: { name: string; phone: string }; errors: MemberFieldErrors; message?: string }
+  | undefined;
+
+/** UI-talad-006 after a save — what the fields hold now, and whether it went through. */
+export type EditFormState =
+  | { values: { name: string; phone: string }; errors: MemberFieldErrors; saved?: boolean; message?: string }
   | undefined;

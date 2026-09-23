@@ -2282,7 +2282,132 @@
           "hash": "sha256:c5813d8087e0c45a36bce2b2caf38f490cbcc4f9f190f99f730190be3db723cc"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: editMember without its MEMBER_NOT_FOUND branch, then dev-test.ps1 -App web -Filter FE-talad-014",
+            "result": "Tests 1 failed | 12 passed — the hidden-while-open test catches a 404 shown as \"try again\" instead of going back to the list · file restored",
+            "at": "2026-09-23T22:03:27+07:00"
+          },
+          {
+            "cmd": "mutation check: saveMemberEdit without the form's own check, then dev-test.ps1 -App web -Filter FE-talad-014",
+            "result": "Tests 1 failed | 12 passed — AC-talad-008 catches an eleven-digit phone reaching the api · file restored",
+            "at": "2026-09-23T22:03:29+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · routes ƒ /members · ƒ /members/[id] · ƒ /members/new · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:03:40+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-014",
+            "result": "vitest: Tests 13 passed | 90 skipped (103) · exit 0",
+            "at": "2026-09-23T22:03:42+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 8 passed (8) · Tests 103 passed (103) · exit 0",
+            "at": "2026-09-23T22:03:44+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T22:03:47+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/members/[id]/page.tsx",
+          "src/web/src/app/(app)/members/[id]/actions.ts",
+          "src/web/src/app/(app)/members/[id]/loading.tsx",
+          "src/web/src/app/(app)/layout.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/src/components/edit-member-form.tsx",
+          "src/web/src/components/registered-notice.tsx",
+          "src/web/src/lib/member-form.ts",
+          "src/web/src/lib/members-api.ts",
+          "src/web/src/lib/screen-routes.ts",
+          "src/web/tests/member-edit.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/member-edit.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "name",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-006-ent-004-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "phone",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-006-ent-004-phone",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "accumulatedAmount",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-006-ent-004-accumulated-amount",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "save",
+            "kind": "edit",
+            "dd_ref": null,
+            "testid": "ui-talad-006-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "back",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-006-back",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": [],
+        "presentation": [
+          {
+            "screen": "UI-talad-006",
+            "what_th": "เปิดข้อมูลสมาชิกเป็นหน้าเต็มที่ /members/[id] ยังไม่ใช่ modal ทับรายการตาม UIC-003",
+            "because": "ผู้ใช้เลือกหน้าเต็มก่อน — modal ต้องใช้ intercepting route (.)[id] ซึ่งอาจดักลิงก์ /members/new และยังลองบนเบราว์เซอร์ไม่ได้เพราะ Docker ปิด · หน้าเต็มต้องมีอยู่แล้วสำหรับลิงก์ตรงและรีเฟรช ต่อ modal ทีหลังได้โดยไม่ต้องเขียนหน้านี้ใหม่",
+            "confirmedBy": "mon sai",
+            "confirmedAt": "2026-09-23",
+            "files": [
+              "src/web/src/app/(app)/members/[id]/page.tsx"
+            ]
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-015",
@@ -4647,8 +4772,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 13,
-      "draft": 33
+      "validated": 14,
+      "draft": 32
     },
     "by_origin": {
       "new": 46

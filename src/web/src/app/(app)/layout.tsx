@@ -2,7 +2,7 @@ import { Suspense, type ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { AppFrame } from "@/components/app-frame";
 import { DeniedNotice } from "@/components/denied-notice";
-import { RegisteredNotice } from "@/components/registered-notice";
+import { MemberMissingNotice, RegisteredNotice } from "@/components/registered-notice";
 import { getMe } from "@/lib/me";
 
 // Every signed-in screen sits in this route group. A token the api no longer accepts ends the session
@@ -17,6 +17,7 @@ export default async function FramedLayout({ children }: { children: ReactNode }
         <Suspense fallback={null}>
           <DeniedNotice />
           <RegisteredNotice />
+          <MemberMissingNotice />
         </Suspense>
       }
     >

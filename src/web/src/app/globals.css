@@ -571,3 +571,24 @@ body {
   color: var(--brand-on-primary);
   font-weight: 700;
 }
+
+/* UI-talad-006 ข้อมูลสมาชิก — arrangement as mockups/UI-talad-006 draws it */
+.crumbs {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-1);
+}
+.field .value {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-variant-numeric: var(--tabular-nums);
+}
+.formcard .skeleton {
+  display: block;
+  background: var(--gray-100);
+  border-radius: var(--radius-sm);
+  min-height: var(--space-8);
+}
+.formcard .toast {
+  margin-bottom: var(--space-4);
+}
