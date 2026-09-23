@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.2",
+  "producedBy": "design · scripts/sitemap.mjs",
+  "project": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "apps": [],
+  "nodes": [
+    {
+      "screen": "UI-talad-001",
+      "parent": null,
+      "order": 0,
+      "label": "เข้าสู่ระบบ",
+      "entry": true
+    },
+    {
+      "screen": "UI-talad-002",
+      "parent": null,
+      "order": 1,
+      "label": "หน้าขาย",
+      "entry": true
+    },
+    {
+      "screen": "UI-talad-003",
+      "parent": "UI-talad-002",
+      "order": 1,
+      "label": "เลือกโปรโมชั่น",
+      "entry": false
+    },
+    {
+      "screen": "RPT-talad-001",
+      "parent": "UI-talad-002",
+      "order": 2,
+      "label": "ใบเสร็จ",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-004",
+      "parent": null,
+      "order": 2,
+      "label": "สมาชิก",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-005",
+      "parent": "UI-talad-004",
+      "order": 1,
+      "label": "สมัครสมาชิก",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-006",
+      "parent": "UI-talad-004",
+      "order": 2,
+      "label": "ข้อมูลสมาชิก",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-007",
+      "parent": null,
+      "order": 3,
+      "label": "ประวัติการขาย",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-008",
+      "parent": "UI-talad-007",
+      "order": 1,
+      "label": "รายละเอียดบิล",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-009",
+      "parent": "UI-talad-008",
+      "order": 1,
+      "label": "ยกเลิกบิล",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-010",
+      "parent": null,
+      "order": 4,
+      "label": "สต็อก",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-011",
+      "parent": "UI-talad-010",
+      "order": 1,
+      "label": "เพิ่ม/แก้ไขสินค้า",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-012",
+      "parent": "UI-talad-010",
+      "order": 2,
+      "label": "รายละเอียดสินค้า",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-013",
+      "parent": "UI-talad-012",
+      "order": 1,
+      "label": "แก้ราคา",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-014",
+      "parent": "UI-talad-012",
+      "order": 2,
+      "label": "ปรับสต็อก",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-015",
+      "parent": null,
+      "order": 5,
+      "label": "โปรโมชั่น",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-016",
+      "parent": "UI-talad-015",
+      "order": 1,
+      "label": "เพิ่ม/แก้ไขโปรโมชั่น",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-017",
+      "parent": null,
+      "order": 6,
+      "label": "ส่วนลดสมาชิก",
+      "entry": false
+    },
+    {
+      "screen": "RPT-talad-002",
+      "parent": null,
+      "order": 7,
+      "label": "รายงานยอดขาย",
+      "entry": false
+    },
+    {
+      "screen": "RPT-talad-003",
+      "parent": null,
+      "order": 8,
+      "label": "รายงานสินค้าขายดี",
+      "entry": false
+    },
+    {
+      "screen": "RPT-talad-004",
+      "parent": null,
+      "order": 9,
+      "label": "รายงานยอดขายแยกตามผู้ขาย",
+      "entry": false
+    },
+    {
+      "screen": "RPT-talad-005",
+      "parent": null,
+      "order": 10,
+      "label": "รายงานสต็อกคงเหลือ",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-018",
+      "parent": null,
+      "order": 11,
+      "label": "บัญชีพนักงาน",
+      "entry": false
+    },
+    {
+      "screen": "UI-talad-019",
+      "parent": "UI-talad-018",
+      "order": 1,
+      "label": "เพิ่ม/แก้ไขบัญชี",
+      "entry": false
+    }
+  ]
+}

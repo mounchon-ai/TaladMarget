@@ -20,6 +20,12 @@
       "inherits": [
         "ROLE-001"
       ]
+    },
+    {
+      "id": "ROLE-003",
+      "label": "ผู้ที่ยังไม่เข้าสู่ระบบ",
+      "anonymous": true,
+      "inherits": []
     }
   ],
   "entries": [
@@ -456,6 +462,18 @@
       "resource": "UC-talad-027",
       "action": "Export Excel ของรายงาน สต็อก และประวัติการขาย",
       "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-029",
+      "role": "ROLE-003",
+      "resource": "UC-talad-011",
+      "action": "เปิดหน้าเข้าสู่ระบบและยืนยันตัวตนด้วยชื่อผู้ใช้และรหัสผ่าน",
+      "scope": "own",
       "enforceAt": [
         "ui",
         "api",

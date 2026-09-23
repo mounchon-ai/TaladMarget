@@ -1,0 +1,3320 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "design · scripts/screens.mjs",
+  "project": "talad",
+  "module": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "screens": [
+    {
+      "id": "UI-talad-001",
+      "title": "เข้าสู่ระบบ",
+      "purpose": "ผู้ใช้ยืนยันตัวตนด้วยชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้งานหน้าขาย",
+      "kind": "auth",
+      "dataBearing": false,
+      "roles": [
+        "ROLE-003"
+      ],
+      "fields": [
+        {
+          "key": "username",
+          "name": "ชื่อผู้ใช้",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-008",
+          "attribute": "username",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        },
+        {
+          "key": "password",
+          "name": "รหัสผ่าน",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง ไม่แสดงตัวอักษรที่พิมพ์",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "sign-in",
+          "name": "เข้าสู่ระบบ",
+          "kind": "command",
+          "effect": "ตรวจชื่อผู้ใช้และรหัสผ่าน แล้วเริ่มการใช้งานของผู้ใช้คนนั้น",
+          "destination": "หน้าขาย หรือหน้าที่ผู้ใช้ตั้งใจเปิดก่อนถูกพามาหน้านี้",
+          "destinationRef": "UI-talad-002",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "sign-in-form",
+          "fields": [
+            "username",
+            "password"
+          ],
+          "actions": [
+            "sign-in"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้านี้เป็นฟอร์มสองช่อง ไม่แสดงรายการข้อมูล",
+        "loading": "ปุ่มเข้าสู่ระบบถูกปิดและแสดงตัวหมุนระหว่างตรวจสอบ",
+        "error": "แสดง \"ไม่พบชื่อผู้ใช้\" หรือ \"รหัสผ่านไม่ถูกต้อง\" ใต้ฟอร์มตาม BR-talad-005@v1 และยังอยู่ที่หน้านี้ · บัญชีที่ปิดใช้งาน: ไม่ให้เข้า (ข้อความรอกำหนดที่ req) · เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: แจ้งให้ลองใหม่",
+        "unauthorized": "ไม่เกิด — หน้านี้เปิดได้โดยไม่ต้องล็อกอิน · ผู้ที่ล็อกอินอยู่แล้วถูกพาไปหน้าขาย",
+        "overflow": "ไม่เกิด — ฟอร์มสองช่อง ไม่มีรายการ"
+      }
+    },
+    {
+      "id": "UI-talad-002",
+      "title": "หน้าขาย",
+      "purpose": "พนักงานเลือกสินค้าใส่ตะกร้า ผูกสมาชิก ตรวจยอดและส่วนลด แล้วชำระเงิน",
+      "kind": "workflow",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "product-search",
+          "name": "ค้นหาสินค้า",
+          "io": "capture",
+          "required": false,
+          "validation": "ชื่อสินค้าบางส่วนหรือเลขบาร์โค้ดเต็ม ไม่บังคับ",
+          "rules": []
+        },
+        {
+          "key": "product-name",
+          "name": "ชื่อสินค้า (การ์ด)",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "product-image",
+          "name": "รูปสินค้า (การ์ด)",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "image",
+          "rules": []
+        },
+        {
+          "key": "product-price",
+          "name": "ราคา (การ์ด)",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": []
+        },
+        {
+          "key": "low-stock-badge",
+          "name": "ป้ายใกล้หมด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงป้าย \"ใกล้หมด\" เมื่อ stockQty ≤ ค่านี้",
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        },
+        {
+          "key": "line-product",
+          "name": "สินค้าในตะกร้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-010",
+          "attribute": "product",
+          "rules": []
+        },
+        {
+          "key": "line-qty",
+          "name": "จำนวน",
+          "io": "capture",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 1 ปรับด้วยปุ่ม + และ − ไม่เกินคงเหลือ",
+          "entity": "ENT-010",
+          "attribute": "qty",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "key": "line-promo",
+          "name": "ชื่อโปรของบรรทัด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงใต้บรรทัดเมื่อบรรทัดนั้นได้โปร",
+          "entity": "ENT-006",
+          "attribute": "name",
+          "rules": [
+            "BR-talad-029@v1",
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "key": "member-search",
+          "name": "ค้นหาสมาชิก",
+          "io": "capture",
+          "required": false,
+          "validation": "เบอร์โทรเต็ม 10 หลัก หรือชื่อบางส่วน · เบอร์บางส่วนค้นไม่เจอ",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "key": "cart-member",
+          "name": "สมาชิกที่ผูกกับตะกร้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-009",
+          "attribute": "member",
+          "rules": []
+        },
+        {
+          "key": "subtotal",
+          "name": "ยอดรวมหลังโปรระดับสินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-001@v1"
+          ]
+        },
+        {
+          "key": "bill-discount",
+          "name": "ส่วนลดทั้งบิล",
+          "io": "display",
+          "required": false,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-003@v1"
+          ]
+        },
+        {
+          "key": "member-discount",
+          "name": "ส่วนลดสมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-009@v1"
+          ]
+        },
+        {
+          "key": "net-total",
+          "name": "ยอดที่ต้องชำระ",
+          "io": "display",
+          "required": false,
+          "validation": "คำนวณตามสัญญาการคำนวณ ด้วยค่า ณ ตอนกดชำระ",
+          "rules": [
+            "CALC-talad-001@v1",
+            "BR-talad-038@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search-product",
+          "name": "ค้นหาสินค้า",
+          "kind": "filter",
+          "effect": "กรองการ์ดสินค้าตามคำค้น",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": []
+        },
+        {
+          "key": "add-to-cart",
+          "name": "หยิบใส่ตะกร้า",
+          "kind": "create",
+          "effect": "เพิ่มสินค้าลงตะกร้าจำนวน 1 หรือเพิ่มจำนวนถ้ามีอยู่แล้ว",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "key": "increase-qty",
+          "name": "+",
+          "kind": "edit",
+          "effect": "เพิ่มจำนวนของบรรทัดทีละ 1 ไม่เกินคงเหลือ",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "key": "decrease-qty",
+          "name": "−",
+          "kind": "edit",
+          "effect": "ลดจำนวนของบรรทัดทีละ 1 · ที่จำนวน 1 ถามยืนยันการลบรายการ",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-001@v1"
+          ]
+        },
+        {
+          "key": "remove-line",
+          "name": "ลบรายการ",
+          "kind": "delete",
+          "effect": "เอาบรรทัดออกจากตะกร้าหลังยืนยัน",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-001@v1"
+          ]
+        },
+        {
+          "key": "search-member",
+          "name": "ค้นหาสมาชิก",
+          "kind": "filter",
+          "effect": "แสดงสมาชิกที่ตรงกับเบอร์เต็มหรือชื่อบางส่วน",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-004@v1",
+            "BR-talad-031@v1"
+          ]
+        },
+        {
+          "key": "bind-member",
+          "name": "เลือกสมาชิก",
+          "kind": "edit",
+          "effect": "ผูกสมาชิกที่เลือกกับตะกร้าและคิดส่วนลดสมาชิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "key": "register-member",
+          "name": "สมัครสมาชิกใหม่",
+          "kind": "navigate",
+          "effect": "เปิดหน้าสมัครสมาชิก",
+          "destination": "หน้าสมัครสมาชิก",
+          "destinationRef": "UI-talad-005",
+          "rules": []
+        },
+        {
+          "key": "edit-price",
+          "name": "แก้ราคา",
+          "kind": "edit",
+          "effect": "เปิดหน้าต่างแก้ราคาสินค้า (เฉพาะเจ้าของร้าน) มีผลกับบิลถัดไป",
+          "destination": "หน้าต่างแก้ราคาสินค้า",
+          "destinationRef": "UI-talad-013",
+          "rules": [
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "key": "checkout",
+          "name": "ชำระเงิน",
+          "kind": "command",
+          "effect": "ชำระตะกร้าเป็นบิลขาย ตัดสต็อก และสะสมยอดสมาชิก · ถ้ามีโปรลดเท่ากันให้เลือกก่อน",
+          "destination": "ใบเสร็จเต็มจอ",
+          "destinationRef": "RPT-talad-001",
+          "rules": [
+            "BR-talad-038@v1",
+            "BR-talad-039@v1",
+            "BR-talad-007@v1",
+            "BR-talad-037@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "product-browser",
+          "fields": [
+            "product-search",
+            "product-name",
+            "product-image",
+            "product-price",
+            "low-stock-badge"
+          ],
+          "actions": [
+            "search-product",
+            "add-to-cart",
+            "edit-price"
+          ]
+        },
+        {
+          "name": "cart",
+          "fields": [
+            "line-product",
+            "line-qty",
+            "line-promo"
+          ],
+          "actions": [
+            "increase-qty",
+            "decrease-qty",
+            "remove-line"
+          ]
+        },
+        {
+          "name": "member",
+          "fields": [
+            "member-search",
+            "cart-member"
+          ],
+          "actions": [
+            "search-member",
+            "bind-member",
+            "register-member"
+          ]
+        },
+        {
+          "name": "totals",
+          "fields": [
+            "subtotal",
+            "bill-discount",
+            "member-discount",
+            "net-total"
+          ],
+          "actions": [
+            "checkout"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ตะกร้าว่าง: แสดง \"ยังไม่มีสินค้าในตะกร้า\" และปุ่มชำระเงินกดไม่ได้ · ค้นหาสินค้าไม่พบ: แสดง \"ไม่พบสินค้า\" · ค้นหาสมาชิกไม่พบ: แสดง \"ไม่พบสมาชิก — สมัครสมาชิกใหม่?\"",
+        "loading": "การ์ดสินค้าแสดงโครงระหว่างโหลด ตะกร้ายังแก้ได้ · ระหว่างชำระปุ่มชำระเงินถูกปิดเพื่อกันกดซ้ำ",
+        "error": "ชำระไม่สำเร็จ: แสดงข้อความตามกฎ (คงเหลือไม่พอ BR-talad-007@v1 · เลิกขายแล้ว BR-talad-037@v1 · ชำระไปแล้ว BR-talad-039@v1) ตะกร้าคงเดิม · เชื่อมต่อไม่ได้: แจ้งให้ลองใหม่ ตะกร้าคงเดิม",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)",
+        "overflow": "สินค้าหลายพันรายการ: การ์ดแบ่งหน้าจากเซิร์ฟเวอร์ · ชื่อสินค้ายาวตัดด้วย … · ตะกร้ายาวเลื่อนภายในกรอบตะกร้า ยอดรวมอยู่กับที่"
+      }
+    },
+    {
+      "id": "UI-talad-003",
+      "title": "เลือกโปรโมชั่นที่ลดเท่ากัน",
+      "purpose": "พนักงานเลือกโปรเมื่อโปรที่ลดมากที่สุดลดเท่ากันพอดี ก่อนชำระเงิน",
+      "kind": "modal",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "promo-option-name",
+          "name": "ชื่อโปร",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงทุกโปรที่ลดเท่ากัน",
+          "entity": "ENT-006",
+          "attribute": "name",
+          "rules": [
+            "BR-talad-029@v1"
+          ]
+        },
+        {
+          "key": "promo-option-discount",
+          "name": "ส่วนลดของโปร (บาท)",
+          "io": "display",
+          "required": false,
+          "validation": "คำนวณตามสัญญาการคำนวณของโปรนั้น",
+          "rules": [
+            "CALC-talad-008@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "choose-promo",
+          "name": "เลือกโปรนี้",
+          "kind": "command",
+          "effect": "ใช้โปรที่เลือกกับบรรทัดนั้นแล้วชำระต่อ",
+          "destination": "ใบเสร็จเต็มจอเมื่อชำระสำเร็จ",
+          "destinationRef": "RPT-talad-001",
+          "rules": [
+            "BR-talad-029@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ปิดหน้าต่างโดยไม่ชำระ",
+          "destination": "หน้าขาย ตะกร้าคงเดิม",
+          "destinationRef": "UI-talad-002",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "options",
+          "fields": [
+            "promo-option-name",
+            "promo-option-discount"
+          ],
+          "actions": [
+            "choose-promo",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้าต่างนี้เปิดเฉพาะเมื่อมีโปรลดเท่ากันอย่างน้อยสองโปร",
+        "loading": "ปุ่มเลือกถูกปิดระหว่างชำระ",
+        "error": "ชำระไม่สำเร็จ: ปิดหน้าต่างและแสดงข้อความตามกฎที่หน้าขาย",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)",
+        "overflow": "โปรลดเท่ากันหลายโปร: รายการเลื่อนภายในหน้าต่าง"
+      }
+    },
+    {
+      "id": "RPT-talad-001",
+      "title": "ใบเสร็จ",
+      "purpose": "แสดงใบเสร็จของบิลเต็มจอหลังชำระ และพิมพ์ให้ลูกค้าเมื่อต้องการ",
+      "kind": "report",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "receipt-no",
+          "name": "เลขใบเสร็จ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "receiptNo",
+          "rules": [
+            "BR-talad-026@v1"
+          ]
+        },
+        {
+          "key": "paid-at",
+          "name": "วันเวลา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "rules": []
+        },
+        {
+          "key": "seller",
+          "name": "ผู้ขาย",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "seller",
+          "rules": [
+            "BR-talad-006@v1"
+          ]
+        },
+        {
+          "key": "member",
+          "name": "สมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "member",
+          "rules": []
+        },
+        {
+          "key": "line-product",
+          "name": "สินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "product",
+          "rules": []
+        },
+        {
+          "key": "line-qty",
+          "name": "จำนวน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "qty",
+          "rules": []
+        },
+        {
+          "key": "line-price",
+          "name": "ราคา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "unitPrice",
+          "rules": []
+        },
+        {
+          "key": "line-promo",
+          "name": "โปรของบรรทัด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงชื่อโปรและส่วนลดใต้บรรทัด",
+          "entity": "ENT-012",
+          "attribute": "promotionVersion",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "key": "line-promo-discount",
+          "name": "ส่วนลดของบรรทัด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "promoDiscount",
+          "rules": []
+        },
+        {
+          "key": "promo-total",
+          "name": "ส่วนลดโปรโมชั่น",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "promoDiscountTotal",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "key": "bill-discount",
+          "name": "ส่วนลดทั้งบิล",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "billDiscount",
+          "rules": []
+        },
+        {
+          "key": "member-discount",
+          "name": "ส่วนลดสมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "memberDiscount",
+          "rules": []
+        },
+        {
+          "key": "net-total",
+          "name": "ยอดชำระ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "print",
+          "name": "พิมพ์",
+          "kind": "other",
+          "effect": "เปิดหน้าต่างพิมพ์ของเบราว์เซอร์พร้อมใบเสร็จนี้",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-026@v1"
+          ]
+        },
+        {
+          "key": "close",
+          "name": "ปิด",
+          "kind": "navigate",
+          "effect": "ปิดใบเสร็จและเริ่มตะกร้าว่างใบใหม่",
+          "destination": "หน้าขายพร้อมตะกร้าว่าง",
+          "destinationRef": "UI-talad-002",
+          "rules": [
+            "BR-talad-026@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "header",
+          "fields": [
+            "receipt-no",
+            "paid-at",
+            "seller",
+            "member"
+          ],
+          "actions": []
+        },
+        {
+          "name": "lines",
+          "fields": [
+            "line-product",
+            "line-qty",
+            "line-price",
+            "line-promo",
+            "line-promo-discount"
+          ],
+          "actions": []
+        },
+        {
+          "name": "totals",
+          "fields": [
+            "promo-total",
+            "bill-discount",
+            "member-discount",
+            "net-total"
+          ],
+          "actions": [
+            "print",
+            "close"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ใบเสร็จเกิดจากบิลที่มีอย่างน้อยหนึ่งบรรทัดเสมอ",
+        "loading": "ไม่เกิด — ใบเสร็จแสดงจากผลการชำระที่เพิ่งได้รับ",
+        "error": "หน้าต่างพิมพ์เปิดไม่ได้หรือถูกยกเลิก: บิลบันทึกแล้วไม่เปลี่ยน พิมพ์ซ้ำได้จากประวัติการขาย",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)",
+        "overflow": "บิลหลายบรรทัด: ใบเสร็จเลื่อนบนจอ และพิมพ์ต่อเนื่องหลายหน้า"
+      }
+    },
+    {
+      "id": "UI-talad-004",
+      "title": "สมาชิก",
+      "purpose": "ค้นหาสมาชิกทุกคนของร้าน เพื่อเปิดดูหรือแก้ข้อมูล และสมัครสมาชิกใหม่",
+      "kind": "list",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "io": "capture",
+          "required": false,
+          "validation": "เบอร์โทรเต็ม 10 หลัก หรือชื่อบางส่วน",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "key": "member-name",
+          "name": "ชื่อ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-004",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "member-phone",
+          "name": "เบอร์โทร",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงเบอร์เต็ม",
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "rules": [
+            "BR-talad-031@v1"
+          ]
+        },
+        {
+          "key": "member-accumulated",
+          "name": "ยอดซื้อสะสม",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-004",
+          "attribute": "accumulatedAmount",
+          "rules": [
+            "BR-talad-031@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงสมาชิกที่ตรงกับคำค้น",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "key": "open-member",
+          "name": "ดูข้อมูล",
+          "kind": "view",
+          "effect": "เปิดข้อมูลสมาชิกคนนั้น",
+          "destination": "หน้าข้อมูลสมาชิก",
+          "destinationRef": "UI-talad-006",
+          "rules": []
+        },
+        {
+          "key": "register",
+          "name": "สมัครสมาชิก",
+          "kind": "navigate",
+          "effect": "เปิดหน้าสมัครสมาชิก",
+          "destination": "หน้าสมัครสมาชิก",
+          "destinationRef": "UI-talad-005",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "search"
+          ],
+          "actions": [
+            "search",
+            "register"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "member-name",
+            "member-phone",
+            "member-accumulated"
+          ],
+          "actions": [
+            "open-member"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่มีสมาชิกหรือค้นหาไม่พบ: แสดง \"ไม่พบสมาชิก — สมัครสมาชิกใหม่?\" พร้อมปุ่มสมัคร",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "UI-talad-005",
+      "title": "สมัครสมาชิก",
+      "purpose": "สร้างสมาชิกใหม่ด้วยชื่อและเบอร์โทร",
+      "kind": "create",
+      "dataBearing": false,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "name",
+          "name": "ชื่อ",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-004",
+          "attribute": "name",
+          "rules": [
+            "BR-talad-002@v1"
+          ]
+        },
+        {
+          "key": "phone",
+          "name": "เบอร์โทร",
+          "io": "capture",
+          "required": true,
+          "validation": "ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกที่ใช้งานอยู่",
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "effect": "สร้างสมาชิกใหม่ ยอดซื้อสะสม 0 บาท และแสดง \"สมัครสมาชิกสำเร็จ\"",
+          "destination": "หน้าสมาชิก",
+          "destinationRef": "UI-talad-004",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ออกโดยไม่บันทึก",
+          "destination": "หน้าสมาชิก",
+          "destinationRef": "UI-talad-004",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "name",
+            "phone"
+          ],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของหน้านี้",
+        "loading": "ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ",
+        "error": "แสดงข้อความใต้ช่องที่ผิด: \"กรุณากรอกชื่อ\" · \"เบอร์โทรต้องเป็นตัวเลข 10 หลัก ขึ้นต้นด้วย 0\" · \"เบอร์โทรนี้เป็นสมาชิกอยู่แล้ว\" ไม่มีสมาชิกถูกสร้าง",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)",
+        "overflow": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+      }
+    },
+    {
+      "id": "UI-talad-006",
+      "title": "ข้อมูลสมาชิก",
+      "purpose": "ดูและแก้ชื่อหรือเบอร์โทรของสมาชิก และให้เจ้าของร้านซ่อนสมาชิก",
+      "kind": "edit",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "name",
+          "name": "ชื่อ",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-004",
+          "attribute": "name",
+          "rules": [
+            "BR-talad-002@v1"
+          ]
+        },
+        {
+          "key": "phone",
+          "name": "เบอร์โทร",
+          "io": "capture",
+          "required": true,
+          "validation": "ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกคนอื่นที่ใช้งานอยู่",
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        },
+        {
+          "key": "accumulated",
+          "name": "ยอดซื้อสะสม",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-004",
+          "attribute": "accumulatedAmount",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "effect": "บันทึกชื่อหรือเบอร์ใหม่",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        },
+        {
+          "key": "hide-member",
+          "name": "ลบสมาชิก",
+          "kind": "delete",
+          "effect": "ซ่อนสมาชิกหลังยืนยัน (เฉพาะเจ้าของร้าน) — ค้นหาไม่เจออีก บิลเก่ายังแสดงครบ",
+          "destination": "หน้าสมาชิก",
+          "destinationRef": "UI-talad-004",
+          "rules": [
+            "BR-talad-040@v2",
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "effect": "กลับรายการสมาชิก",
+          "destination": "หน้าสมาชิก",
+          "destinationRef": "UI-talad-004",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "name",
+            "phone",
+            "accumulated"
+          ],
+          "actions": [
+            "save",
+            "back"
+          ]
+        },
+        {
+          "name": "danger",
+          "fields": [],
+          "actions": [
+            "hide-member"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้าเปิดจากสมาชิกที่มีอยู่เสมอ",
+        "loading": "แสดงโครงฟอร์มระหว่างโหลด · ปุ่มบันทึกถูกปิดระหว่างบันทึก",
+        "error": "บันทึกไม่ผ่าน: แสดงข้อความใต้ช่องที่ผิด ค่าเดิมในระบบไม่เปลี่ยน · สมาชิกถูกซ่อนไปแล้วระหว่างเปิดหน้า: แจ้ง \"ไม่พบสมาชิก\" และกลับรายการ",
+        "unauthorized": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งสองบทบาทเปิดได้ แต่พนักงานขายไม่เห็นปุ่มลบสมาชิก และ API ปฏิเสธถ้าเรียกตรง (BR-talad-019@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+      }
+    },
+    {
+      "id": "UI-talad-007",
+      "title": "ประวัติการขาย",
+      "purpose": "ค้นหาบิลขายย้อนหลังตามสิทธิ์ เพื่อเปิดดู พิมพ์ซ้ำ หรือยกเลิก",
+      "kind": "list",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "io": "capture",
+          "required": false,
+          "validation": "เลขใบเสร็จ หรือช่วงวันที่ ไม่บังคับ",
+          "rules": []
+        },
+        {
+          "key": "receipt-no",
+          "name": "เลขใบเสร็จ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "receiptNo",
+          "rules": []
+        },
+        {
+          "key": "paid-at",
+          "name": "วันเวลา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "rules": []
+        },
+        {
+          "key": "seller",
+          "name": "ผู้ขาย",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "seller",
+          "rules": []
+        },
+        {
+          "key": "member",
+          "name": "สมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "member",
+          "rules": []
+        },
+        {
+          "key": "net-total",
+          "name": "ยอดชำระ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "rules": []
+        },
+        {
+          "key": "status",
+          "name": "สถานะ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "status",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงบิลที่ตรงกับคำค้น ตามสิทธิ์ของผู้ดู",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "key": "open-sale",
+          "name": "ดูบิล",
+          "kind": "view",
+          "effect": "เปิดรายละเอียดบิล",
+          "destination": "หน้ารายละเอียดบิล",
+          "destinationRef": "UI-talad-008",
+          "rules": []
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ของแถวที่แสดง (เฉพาะเจ้าของร้าน)",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1",
+            "BR-talad-018@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "search"
+          ],
+          "actions": [
+            "search",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "receipt-no",
+            "paid-at",
+            "seller",
+            "member",
+            "net-total",
+            "status"
+          ],
+          "actions": [
+            "open-sale"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่มีบิลหรือค้นหาไม่พบ: แสดง \"ไม่พบบิลขาย\" · พนักงานขายที่ยังไม่เคยขายเห็นข้อความเดียวกัน ไม่ใช่ข้อความเรื่องสิทธิ์",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "ไม่เกิดในรูปหน้าต้องห้าม — พนักงานขายเปิดได้แต่เห็นเฉพาะบิลที่ตัวเองเป็นผู้ขาย บิลของคนอื่นไม่อยู่ในผลลัพธ์เลย (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "UI-talad-008",
+      "title": "รายละเอียดบิล",
+      "purpose": "ดูรายการ ส่วนลด ผู้ขาย สมาชิก และสถานะของบิล พิมพ์ใบเสร็จซ้ำ และให้เจ้าของร้านยกเลิกบิลของวันนี้",
+      "kind": "detail",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-001",
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "receipt-no",
+          "name": "เลขใบเสร็จ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "receiptNo",
+          "rules": []
+        },
+        {
+          "key": "paid-at",
+          "name": "วันเวลา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "rules": []
+        },
+        {
+          "key": "seller",
+          "name": "ผู้ขาย",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "seller",
+          "rules": [
+            "BR-talad-006@v1"
+          ]
+        },
+        {
+          "key": "member",
+          "name": "สมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงชื่อและเบอร์แม้สมาชิกถูกซ่อนแล้ว",
+          "entity": "ENT-011",
+          "attribute": "member",
+          "rules": [
+            "BR-talad-040@v2"
+          ]
+        },
+        {
+          "key": "line-product",
+          "name": "สินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "product",
+          "rules": []
+        },
+        {
+          "key": "line-qty",
+          "name": "จำนวน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "qty",
+          "rules": []
+        },
+        {
+          "key": "line-price",
+          "name": "ราคา ณ ตอนขาย",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "unitPrice",
+          "rules": [
+            "BR-talad-035@v1"
+          ]
+        },
+        {
+          "key": "line-promo",
+          "name": "โปรของบรรทัด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงชื่อโปรและส่วนลดใต้บรรทัด",
+          "entity": "ENT-012",
+          "attribute": "promotionVersion",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "key": "line-promo-discount",
+          "name": "ส่วนลดของบรรทัด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "promoDiscount",
+          "rules": []
+        },
+        {
+          "key": "promo-total",
+          "name": "ส่วนลดโปรโมชั่น",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "promoDiscountTotal",
+          "rules": []
+        },
+        {
+          "key": "bill-discount",
+          "name": "ส่วนลดทั้งบิล",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "billDiscount",
+          "rules": []
+        },
+        {
+          "key": "member-discount",
+          "name": "ส่วนลดสมาชิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "memberDiscount",
+          "rules": []
+        },
+        {
+          "key": "net-total",
+          "name": "ยอดชำระ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "rules": []
+        },
+        {
+          "key": "status",
+          "name": "สถานะ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "status",
+          "rules": []
+        },
+        {
+          "key": "voided-by",
+          "name": "ผู้ยกเลิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "voidedBy",
+          "rules": [
+            "BR-talad-034@v1"
+          ]
+        },
+        {
+          "key": "voided-at",
+          "name": "เวลาที่ยกเลิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "voidedAt",
+          "rules": [
+            "BR-talad-034@v1"
+          ]
+        },
+        {
+          "key": "void-reason",
+          "name": "เหตุผลการยกเลิก",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "voidReason",
+          "rules": [
+            "BR-talad-034@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "reprint",
+          "name": "พิมพ์ใบเสร็จซ้ำ",
+          "kind": "other",
+          "effect": "เปิดหน้าต่างพิมพ์ของเบราว์เซอร์พร้อมใบเสร็จของบิลนี้ — ไม่มีปุ่มนี้เมื่อบิลถูกยกเลิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-026@v1",
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "key": "void",
+          "name": "ยกเลิกบิล",
+          "kind": "command",
+          "effect": "เปิดหน้าต่างยกเลิกบิล — มีเฉพาะเจ้าของร้าน และเฉพาะบิลของวันนี้ที่ยังชำระแล้ว",
+          "destination": "หน้าต่างยกเลิกบิล",
+          "destinationRef": "UI-talad-009",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-023@v1"
+          ]
+        },
+        {
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "effect": "กลับรายการบิล",
+          "destination": "หน้าประวัติการขาย",
+          "destinationRef": "UI-talad-007",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "header",
+          "fields": [
+            "receipt-no",
+            "paid-at",
+            "seller",
+            "member",
+            "status"
+          ],
+          "actions": [
+            "back"
+          ]
+        },
+        {
+          "name": "lines",
+          "fields": [
+            "line-product",
+            "line-qty",
+            "line-price",
+            "line-promo",
+            "line-promo-discount"
+          ],
+          "actions": []
+        },
+        {
+          "name": "totals",
+          "fields": [
+            "promo-total",
+            "bill-discount",
+            "member-discount",
+            "net-total"
+          ],
+          "actions": [
+            "reprint",
+            "void"
+          ]
+        },
+        {
+          "name": "void-info",
+          "fields": [
+            "voided-by",
+            "voided-at",
+            "void-reason"
+          ],
+          "actions": []
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้าเปิดจากบิลที่มีอยู่เสมอ",
+        "loading": "แสดงโครงบิลระหว่างโหลด",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดบิลของคนอื่นตรง ๆ: API ปฏิเสธและพากลับประวัติการขายพร้อม \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" ไม่แสดงข้อมูลบิล (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "บิลหลายบรรทัด: ส่วนรายการเลื่อนได้ ยอดรวมอยู่กับที่ · เหตุผลการยกเลิกยาวตัดบรรทัด"
+      }
+    },
+    {
+      "id": "UI-talad-009",
+      "title": "ยกเลิกบิล",
+      "purpose": "เจ้าของร้านยืนยันการยกเลิกบิลพร้อมเหตุผล",
+      "kind": "modal",
+      "dataBearing": false,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "void-reason",
+          "name": "เหตุผลการยกเลิก",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-011",
+          "attribute": "voidReason",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-034@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "confirm-void",
+          "name": "ยืนยันยกเลิก",
+          "kind": "command",
+          "effect": "ยกเลิกบิล คืนสต็อก และหักยอดซื้อสะสมคืน",
+          "destination": "หน้ารายละเอียดบิลที่แสดงสถานะ \"ยกเลิก\"",
+          "destinationRef": "UI-talad-008",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-023@v1",
+            "BR-talad-024@v1",
+            "BR-talad-034@v1",
+            "BR-talad-042@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ไม่ยกเลิก",
+          "kind": "navigate",
+          "effect": "ปิดหน้าต่างโดยไม่ยกเลิก",
+          "destination": "หน้ารายละเอียดบิล",
+          "destinationRef": "UI-talad-008",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "void-reason"
+          ],
+          "actions": [
+            "confirm-void",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้าต่างเปิดจากบิลที่เลือกเสมอ",
+        "loading": "ปุ่มยืนยันถูกปิดระหว่างยกเลิกเพื่อกันกดซ้ำ",
+        "error": "ไม่ระบุเหตุผล: แสดง \"กรุณาระบุเหตุผลการยกเลิก\" · บิลถูกยกเลิกไปแล้ว: แสดง error ตาม BR-talad-042@v1 ไม่คืนของซ้ำ · ขึ้นวันใหม่ระหว่างเปิดหน้าต่าง: ปฏิเสธตาม BR-talad-023@v1",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+      }
+    },
+    {
+      "id": "UI-talad-010",
+      "title": "สต็อก",
+      "purpose": "ดูสินค้าที่ยังขายอยู่ จำนวนคงเหลือ และป้ายใกล้หมด เพื่อเปิดจัดการหรือเพิ่มสินค้า",
+      "kind": "list",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "io": "capture",
+          "required": false,
+          "validation": "ชื่อสินค้าบางส่วนหรือเลขบาร์โค้ด ไม่บังคับ",
+          "rules": []
+        },
+        {
+          "key": "product-name",
+          "name": "ชื่อสินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "barcode",
+          "name": "บาร์โค้ด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "barcode",
+          "rules": []
+        },
+        {
+          "key": "price",
+          "name": "ราคา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": []
+        },
+        {
+          "key": "stock-qty",
+          "name": "คงเหลือ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "rules": []
+        },
+        {
+          "key": "low-stock-badge",
+          "name": "ป้ายใกล้หมด",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงป้าย \"ใกล้หมด\" เมื่อ stockQty ≤ ค่านี้",
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงสินค้าที่ตรงกับคำค้น",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": []
+        },
+        {
+          "key": "add-product",
+          "name": "เพิ่มสินค้า",
+          "kind": "create",
+          "effect": "เปิดฟอร์มเพิ่มสินค้า",
+          "destination": "หน้าเพิ่ม/แก้ไขสินค้า",
+          "destinationRef": "UI-talad-011",
+          "rules": []
+        },
+        {
+          "key": "open-product",
+          "name": "ดูสินค้า",
+          "kind": "view",
+          "effect": "เปิดรายละเอียดสินค้า",
+          "destination": "หน้ารายละเอียดสินค้า",
+          "destinationRef": "UI-talad-012",
+          "rules": []
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ของแถวที่แสดง",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "search"
+          ],
+          "actions": [
+            "search",
+            "add-product",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "product-name",
+            "barcode",
+            "price",
+            "stock-qty",
+            "low-stock-badge"
+          ],
+          "actions": [
+            "open-product"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่มีสินค้าหรือค้นหาไม่พบ: แสดง \"ไม่พบสินค้า\" พร้อมปุ่มเพิ่มสินค้า",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "UI-talad-011",
+      "title": "เพิ่ม/แก้ไขสินค้า",
+      "purpose": "เจ้าของร้านเพิ่มสินค้าใหม่ หรือแก้ชื่อ บาร์โค้ด รูป และจุดเตือนของสินค้า",
+      "kind": "edit",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "name",
+          "name": "ชื่อสินค้า",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-001",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "barcode",
+          "name": "บาร์โค้ด",
+          "io": "capture",
+          "required": false,
+          "validation": "ถ้ามี ห้ามซ้ำกับสินค้าที่ยังขายอยู่",
+          "entity": "ENT-001",
+          "attribute": "barcode",
+          "rules": []
+        },
+        {
+          "key": "image",
+          "name": "รูปสินค้า",
+          "io": "capture",
+          "required": false,
+          "validation": "ไฟล์รูปภาพ ไม่บังคับ",
+          "entity": "ENT-001",
+          "attribute": "image",
+          "rules": []
+        },
+        {
+          "key": "price",
+          "name": "ราคา (เฉพาะตอนเพิ่ม)",
+          "io": "capture",
+          "required": true,
+          "validation": "มากกว่า 0 ทศนิยม 2 ตำแหน่ง · แก้ราคาภายหลังผ่านหน้าต่างแก้ราคา",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "key": "stock-qty",
+          "name": "จำนวนคงเหลือเริ่มต้น (เฉพาะตอนเพิ่ม)",
+          "io": "capture",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 0 · ปรับภายหลังผ่านรายการปรับสต็อก",
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "low-stock-threshold",
+          "name": "จุดเตือนใกล้หมด",
+          "io": "capture",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 0",
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "effect": "สร้างสินค้าใหม่ หรือบันทึกข้อมูลที่แก้ (ราคาและจำนวนคงเหลือแก้ที่นี่ไม่ได้หลังสร้าง)",
+          "destination": "หน้ารายละเอียดสินค้า",
+          "destinationRef": "UI-talad-012",
+          "rules": []
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ออกโดยไม่บันทึก",
+          "destination": "หน้าสต็อก",
+          "destinationRef": "UI-talad-010",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "name",
+            "barcode",
+            "image",
+            "price",
+            "stock-qty",
+            "low-stock-threshold"
+          ],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการเพิ่มสินค้า",
+        "loading": "ปุ่มบันทึกถูกปิดระหว่างบันทึก · อัปโหลดรูปแสดงความคืบหน้า",
+        "error": "แสดงข้อความใต้ช่องที่ผิด (ชื่อว่าง · ราคาไม่มากกว่า 0 · บาร์โค้ดซ้ำ) ไม่มีอะไรถูกบันทึก",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ไฟล์รูปใหญ่เกินกำหนด: ปฏิเสธและแจ้งขนาดสูงสุด (ขนาดรอกำหนดที่ /design:interface) · ชื่อยาวเลื่อนในช่อง"
+      }
+    },
+    {
+      "id": "UI-talad-012",
+      "title": "รายละเอียดสินค้า",
+      "purpose": "ดูข้อมูลสินค้า ประวัติราคา และรายการปรับสต็อก และเริ่มแก้ราคา ปรับสต็อก หรือเลิกขาย",
+      "kind": "detail",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "name",
+          "name": "ชื่อสินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "stock-qty",
+          "name": "คงเหลือ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "rules": []
+        },
+        {
+          "key": "low-stock-threshold",
+          "name": "จุดเตือน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        },
+        {
+          "key": "price",
+          "name": "ราคาปัจจุบัน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": []
+        },
+        {
+          "key": "history-previous",
+          "name": "ราคาเดิม",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "previousPrice",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "key": "history-changed-by",
+          "name": "ผู้แก้ราคา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "changedBy",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "key": "history-changed-at",
+          "name": "เวลาที่แก้ราคา",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "changedAt",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "key": "adj-delta",
+          "name": "จำนวนที่ปรับ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-003",
+          "attribute": "quantityDelta",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "adj-reason",
+          "name": "เหตุผล",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-003",
+          "attribute": "reason",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "adj-by",
+          "name": "ผู้ปรับ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-003",
+          "attribute": "adjustedBy",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "adj-at",
+          "name": "เวลาที่ปรับ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-003",
+          "attribute": "adjustedAt",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "adj-note",
+          "name": "หมายเหตุ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-003",
+          "attribute": "note",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "edit",
+          "name": "แก้ไขข้อมูล",
+          "kind": "edit",
+          "effect": "เปิดฟอร์มแก้ไขสินค้า",
+          "destination": "หน้าเพิ่ม/แก้ไขสินค้า",
+          "destinationRef": "UI-talad-011",
+          "rules": []
+        },
+        {
+          "key": "edit-price",
+          "name": "แก้ราคา",
+          "kind": "edit",
+          "effect": "เปิดหน้าต่างแก้ราคา",
+          "destination": "หน้าต่างแก้ราคาสินค้า",
+          "destinationRef": "UI-talad-013",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "key": "adjust-stock",
+          "name": "ปรับสต็อก",
+          "kind": "create",
+          "effect": "เปิดฟอร์มปรับสต็อกพร้อมคีย์กันบันทึกซ้ำใหม่",
+          "destination": "หน้าต่างปรับสต็อก",
+          "destinationRef": "UI-talad-014",
+          "rules": [
+            "BR-talad-041@v1"
+          ]
+        },
+        {
+          "key": "discontinue",
+          "name": "ลบสินค้า",
+          "kind": "delete",
+          "effect": "เปลี่ยนสินค้าเป็นเลิกขายหลังยืนยัน — หายจากหน้าขายและหน้าสต็อก บิลเก่ายังแสดงครบ",
+          "destination": "หน้าสต็อก",
+          "destinationRef": "UI-talad-010",
+          "rules": [
+            "BR-talad-037@v1",
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "effect": "กลับรายการสต็อก",
+          "destination": "หน้าสต็อก",
+          "destinationRef": "UI-talad-010",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "summary",
+          "fields": [
+            "name",
+            "stock-qty",
+            "low-stock-threshold",
+            "price"
+          ],
+          "actions": [
+            "edit",
+            "edit-price",
+            "adjust-stock",
+            "back"
+          ]
+        },
+        {
+          "name": "price-history",
+          "fields": [
+            "history-previous",
+            "history-changed-by",
+            "history-changed-at"
+          ],
+          "actions": []
+        },
+        {
+          "name": "adjustments",
+          "fields": [
+            "adj-delta",
+            "adj-reason",
+            "adj-by",
+            "adj-at",
+            "adj-note"
+          ],
+          "actions": []
+        },
+        {
+          "name": "danger",
+          "fields": [],
+          "actions": [
+            "discontinue"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่มีประวัติราคาหรือรายการปรับสต็อก: แสดง \"ยังไม่มีรายการ\" ในส่วนนั้น",
+        "loading": "แสดงโครงแต่ละส่วนระหว่างโหลด",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ประวัติราคาและรายการปรับสต็อกยาว: แต่ละส่วนแบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว"
+      }
+    },
+    {
+      "id": "UI-talad-013",
+      "title": "แก้ราคาสินค้า",
+      "purpose": "เจ้าของร้านตั้งราคาใหม่ของสินค้า จากหน้ารายละเอียดสินค้าหรือทางลัดที่หน้าขาย",
+      "kind": "modal",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "current-price",
+          "name": "ราคาปัจจุบัน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": []
+        },
+        {
+          "key": "new-price",
+          "name": "ราคาใหม่",
+          "io": "capture",
+          "required": true,
+          "validation": "มากกว่า 0 ทศนิยม 2 ตำแหน่ง",
+          "entity": "ENT-002",
+          "attribute": "price",
+          "rules": [
+            "BR-talad-033@v1",
+            "BR-talad-035@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "effect": "สร้างเวอร์ชันราคาใหม่และประวัติราคา มีผลกับบิลที่ชำระหลังจากนี้",
+          "destination": "ปิดหน้าต่างและกลับหน้าที่เปิดมา (หน้าขาย หรือรายละเอียดสินค้า)",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-033@v1",
+            "BR-talad-035@v1",
+            "BR-talad-036@v1",
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ปิดหน้าต่างโดยไม่บันทึก",
+          "destination": "กลับหน้าที่เปิดมา (หน้าขาย หรือรายละเอียดสินค้า)",
+          "destinationRef": "self",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "current-price",
+            "new-price"
+          ],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — หน้าต่างเปิดจากสินค้าที่เลือกเสมอ",
+        "loading": "ปุ่มบันทึกถูกปิดระหว่างบันทึก",
+        "error": "ราคาไม่มากกว่า 0: แสดงข้อความใต้ช่อง ไม่บันทึก · สินค้าถูกเลิกขายระหว่างเปิดหน้าต่าง: แจ้งและปิดหน้าต่าง",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ไม่เกิด — มีช่องกรอกช่องเดียว"
+      }
+    },
+    {
+      "id": "UI-talad-014",
+      "title": "ปรับสต็อก",
+      "purpose": "เจ้าของร้านบันทึกรับของเข้า ของเน่า/เสีย หรือผลการนับสต็อกใหม่",
+      "kind": "modal",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "current-stock",
+          "name": "คงเหลือปัจจุบัน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "rules": []
+        },
+        {
+          "key": "reason",
+          "name": "เหตุผล",
+          "io": "capture",
+          "required": true,
+          "validation": "เลือกจากรายการ: รับของเข้า · ของเน่า/เสีย · นับสต็อกใหม่",
+          "entity": "ENT-003",
+          "attribute": "reason",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "quantity-delta",
+          "name": "จำนวน +/−",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็มไม่เป็น 0 บังคับเมื่อเหตุผลไม่ใช่นับสต็อกใหม่ · ผลต้องไม่ทำให้คงเหลือติดลบ",
+          "entity": "ENT-003",
+          "attribute": "quantityDelta",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "counted-qty",
+          "name": "จำนวนที่นับได้",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็ม ≥ 0 บังคับเมื่อเหตุผลคือนับสต็อกใหม่",
+          "entity": "ENT-003",
+          "attribute": "countedQty",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "key": "note",
+          "name": "หมายเหตุ",
+          "io": "capture",
+          "required": false,
+          "validation": "ไม่บังคับ",
+          "entity": "ENT-003",
+          "attribute": "note",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "effect": "บันทึกรายการปรับสต็อกหนึ่งรายการและปรับคงเหลือ ด้วยคีย์ของฟอร์มนี้",
+          "destination": "หน้ารายละเอียดสินค้า",
+          "destinationRef": "UI-talad-012",
+          "rules": [
+            "BR-talad-032@v1",
+            "BR-talad-041@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ปิดหน้าต่างโดยไม่บันทึก",
+          "destination": "หน้ารายละเอียดสินค้า",
+          "destinationRef": "UI-talad-012",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "current-stock",
+            "reason",
+            "quantity-delta",
+            "counted-qty",
+            "note"
+          ],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้น",
+        "loading": "ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ",
+        "error": "ติดลบ: แสดง \"จำนวนคงเหลือต้องไม่ติดลบ (เหลือ <จำนวน>)\" · บันทึกซ้ำด้วยฟอร์มเดิม: แสดง \"รายการปรับสต็อกนี้บันทึกไปแล้ว\" ไม่ปรับซ้ำ (BR-talad-041@v1)",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "หมายเหตุยาว: ช่องเลื่อนภายในตัวเอง"
+      }
+    },
+    {
+      "id": "UI-talad-015",
+      "title": "โปรโมชั่น",
+      "purpose": "ดูโปรโมชั่นที่ยังใช้อยู่ เพื่อสร้าง แก้ไข หรือเลิกใช้",
+      "kind": "list",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "io": "capture",
+          "required": false,
+          "validation": "ชื่อโปรบางส่วน ไม่บังคับ",
+          "rules": []
+        },
+        {
+          "key": "promo-name",
+          "name": "ชื่อโปร",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-006",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "promo-type",
+          "name": "รูปแบบ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-006",
+          "attribute": "type",
+          "rules": []
+        },
+        {
+          "key": "start-date",
+          "name": "วันเริ่ม",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-006",
+          "attribute": "startDate",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        },
+        {
+          "key": "end-date",
+          "name": "วันสิ้นสุด",
+          "io": "display",
+          "required": false,
+          "validation": "ว่าง = ไม่มีวันสิ้นสุด",
+          "entity": "ENT-006",
+          "attribute": "endDate",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        },
+        {
+          "key": "status",
+          "name": "สถานะ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-005",
+          "attribute": "status",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงโปรที่ตรงกับคำค้น",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": []
+        },
+        {
+          "key": "add-promo",
+          "name": "สร้างโปรโมชั่น",
+          "kind": "create",
+          "effect": "เปิดฟอร์มสร้างโปร",
+          "destination": "หน้าเพิ่ม/แก้ไขโปรโมชั่น",
+          "destinationRef": "UI-talad-016",
+          "rules": []
+        },
+        {
+          "key": "edit-promo",
+          "name": "แก้ไข",
+          "kind": "edit",
+          "effect": "เปิดฟอร์มแก้โปร (สร้างเวอร์ชันใหม่เมื่อบันทึก)",
+          "destination": "หน้าเพิ่ม/แก้ไขโปรโมชั่น",
+          "destinationRef": "UI-talad-016",
+          "rules": [
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "key": "discontinue",
+          "name": "ลบ",
+          "kind": "delete",
+          "effect": "เปลี่ยนโปรเป็นเลิกใช้หลังยืนยัน บิลเก่ายังแสดงส่วนลดเดิม",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "search"
+          ],
+          "actions": [
+            "search",
+            "add-promo"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "promo-name",
+            "promo-type",
+            "start-date",
+            "end-date",
+            "status"
+          ],
+          "actions": [
+            "edit-promo",
+            "discontinue"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่มีโปรหรือค้นหาไม่พบ: แสดง \"ไม่พบโปรโมชั่น\" พร้อมปุ่มสร้าง",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "UI-talad-016",
+      "title": "เพิ่ม/แก้ไขโปรโมชั่น",
+      "purpose": "เจ้าของร้านกำหนดรูปแบบ เงื่อนไข และช่วงวันที่ของโปรโมชั่น",
+      "kind": "edit",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "name",
+          "name": "ชื่อโปร",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-006",
+          "attribute": "name",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "key": "type",
+          "name": "รูปแบบ",
+          "io": "capture",
+          "required": true,
+          "validation": "เลือกหนึ่งในหกรูปแบบ",
+          "entity": "ENT-006",
+          "attribute": "type",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-011@v1",
+            "BR-talad-012@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ]
+        },
+        {
+          "key": "product-a",
+          "name": "สินค้า A",
+          "io": "capture",
+          "required": false,
+          "validation": "บังคับทุกรูปแบบยกเว้นลด % ทั้งบิล · เลือกจากสินค้าที่ยังขายอยู่",
+          "entity": "ENT-006",
+          "attribute": "productA",
+          "rules": []
+        },
+        {
+          "key": "qty-a",
+          "name": "จำนวน A ต่อชุด",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อรูปแบบต้องใช้",
+          "entity": "ENT-006",
+          "attribute": "qtyA",
+          "rules": []
+        },
+        {
+          "key": "product-b",
+          "name": "สินค้า B",
+          "io": "capture",
+          "required": false,
+          "validation": "บังคับสำหรับรูปแบบซื้อ a + b",
+          "entity": "ENT-006",
+          "attribute": "productB",
+          "rules": []
+        },
+        {
+          "key": "qty-b",
+          "name": "จำนวน B ต่อชุด",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อมีสินค้า B",
+          "entity": "ENT-006",
+          "attribute": "qtyB",
+          "rules": []
+        },
+        {
+          "key": "free-product",
+          "name": "ของแถม",
+          "io": "capture",
+          "required": false,
+          "validation": "บังคับสำหรับรูปแบบแถม",
+          "entity": "ENT-006",
+          "attribute": "freeProduct",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1"
+          ]
+        },
+        {
+          "key": "free-qty",
+          "name": "จำนวนของแถมต่อชุด",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อมีของแถม",
+          "entity": "ENT-006",
+          "attribute": "freeQty",
+          "rules": []
+        },
+        {
+          "key": "rate-percent",
+          "name": "% ส่วนลด",
+          "io": "capture",
+          "required": false,
+          "validation": "จำนวนเต็ม 0–100 บังคับสำหรับรูปแบบที่ลด %",
+          "entity": "ENT-006",
+          "attribute": "ratePercent",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ]
+        },
+        {
+          "key": "min-subtotal",
+          "name": "ยอดขั้นต่ำ",
+          "io": "capture",
+          "required": false,
+          "validation": "≥ 0 บังคับสำหรับลด % ทั้งบิล",
+          "entity": "ENT-006",
+          "attribute": "minSubtotal",
+          "rules": [
+            "BR-talad-009@v1"
+          ]
+        },
+        {
+          "key": "start-date",
+          "name": "วันเริ่ม",
+          "io": "capture",
+          "required": true,
+          "validation": "วันที่ตามเวลาไทย",
+          "entity": "ENT-006",
+          "attribute": "startDate",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        },
+        {
+          "key": "end-date",
+          "name": "วันสิ้นสุด",
+          "io": "capture",
+          "required": false,
+          "validation": "ว่าง = ไม่มีวันสิ้นสุด · ถ้ามีต้องไม่ก่อนวันเริ่ม",
+          "entity": "ENT-006",
+          "attribute": "endDate",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "effect": "สร้างโปรใหม่ หรือสร้างเวอร์ชันใหม่ของโปรที่แก้ มีผลกับบิลที่ชำระหลังจากนี้",
+          "destination": "หน้าโปรโมชั่น",
+          "destinationRef": "UI-talad-015",
+          "rules": [
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ออกโดยไม่บันทึก",
+          "destination": "หน้าโปรโมชั่น",
+          "destinationRef": "UI-talad-015",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "general",
+          "fields": [
+            "name",
+            "type",
+            "start-date",
+            "end-date"
+          ],
+          "actions": []
+        },
+        {
+          "name": "conditions",
+          "fields": [
+            "product-a",
+            "qty-a",
+            "product-b",
+            "qty-b",
+            "free-product",
+            "free-qty",
+            "rate-percent",
+            "min-subtotal"
+          ],
+          "actions": []
+        },
+        {
+          "name": "footer",
+          "fields": [],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการสร้างโปร",
+        "loading": "ปุ่มบันทึกถูกปิดระหว่างบันทึก · รายการสินค้าให้เลือกแสดงตัวหมุนระหว่างโหลด",
+        "error": "แสดงข้อความใต้ช่องที่ผิด (% นอกช่วง 0–100 · จำนวนต่อชุดไม่มากกว่า 0 · วันสิ้นสุดก่อนวันเริ่ม · ช่องที่รูปแบบบังคับว่าง) ไม่มีอะไรถูกบันทึก",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "รายการสินค้าให้เลือกหลายพันรายการ: ช่องเลือกค้นหาจากเซิร์ฟเวอร์ ไม่โหลดทั้งหมด"
+      }
+    },
+    {
+      "id": "UI-talad-017",
+      "title": "ตั้งส่วนลดสมาชิก",
+      "purpose": "เจ้าของร้านตั้ง % ส่วนลดสมาชิกค่าเดียวของทั้งร้าน",
+      "kind": "manage",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "rate-percent",
+          "name": "% ส่วนลดสมาชิก",
+          "io": "capture",
+          "required": true,
+          "validation": "จำนวนเต็ม 0–100 · 0 = ไม่มีส่วนลดสมาชิก",
+          "entity": "ENT-007",
+          "attribute": "ratePercent",
+          "rules": [
+            "BR-talad-010@v1"
+          ]
+        },
+        {
+          "key": "changed-by",
+          "name": "ตั้งล่าสุดโดย",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-007",
+          "attribute": "changedBy",
+          "rules": []
+        },
+        {
+          "key": "changed-at",
+          "name": "ตั้งล่าสุดเมื่อ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-007",
+          "attribute": "changedAt",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "effect": "สร้างเวอร์ชันส่วนลดสมาชิกใหม่ มีผลกับบิลที่ชำระหลังจากนี้",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-010@v1",
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "setting",
+          "fields": [
+            "rate-percent",
+            "changed-by",
+            "changed-at"
+          ],
+          "actions": [
+            "save"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ยังไม่เคยตั้ง: แสดง 0% และข้อความ \"ยังไม่มีส่วนลดสมาชิก\"",
+        "loading": "แสดงโครงระหว่างโหลด · ปุ่มบันทึกถูกปิดระหว่างบันทึก",
+        "error": "% นอกช่วง 0–100: แสดงข้อความใต้ช่อง ไม่บันทึก · บันทึกไม่สำเร็จ: ค่าเดิมยังมีผล",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ไม่เกิด — มีค่าเดียว"
+      }
+    },
+    {
+      "id": "UI-talad-018",
+      "title": "บัญชีพนักงาน",
+      "purpose": "เจ้าของร้านดูบัญชีผู้ใช้ทั้งหมดเพื่อเพิ่ม แก้ไข รีเซ็ตรหัสผ่าน หรือปิดใช้งาน",
+      "kind": "manage",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "display-name",
+          "name": "ชื่อที่แสดง",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "rules": []
+        },
+        {
+          "key": "username",
+          "name": "ชื่อผู้ใช้",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-008",
+          "attribute": "username",
+          "rules": []
+        },
+        {
+          "key": "role",
+          "name": "บทบาท",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-008",
+          "attribute": "role",
+          "rules": []
+        },
+        {
+          "key": "status",
+          "name": "สถานะ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-008",
+          "attribute": "status",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "add-user",
+          "name": "เพิ่มบัญชี",
+          "kind": "create",
+          "effect": "เปิดฟอร์มสร้างบัญชี",
+          "destination": "หน้าเพิ่ม/แก้ไขบัญชีพนักงาน",
+          "destinationRef": "UI-talad-019",
+          "rules": []
+        },
+        {
+          "key": "edit-user",
+          "name": "แก้ไข",
+          "kind": "edit",
+          "effect": "เปิดบัญชีที่เลือก",
+          "destination": "หน้าเพิ่ม/แก้ไขบัญชีพนักงาน",
+          "destinationRef": "UI-talad-019",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "toolbar",
+          "fields": [],
+          "actions": [
+            "add-user"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "display-name",
+            "username",
+            "role",
+            "status"
+          ],
+          "actions": [
+            "edit-user"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — มีบัญชีเจ้าของร้านที่ล็อกอินอยู่อย่างน้อยหนึ่งบัญชีเสมอ",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "UI-talad-019",
+      "title": "เพิ่ม/แก้ไขบัญชีพนักงาน",
+      "purpose": "เจ้าของร้านสร้างบัญชี แก้ชื่อที่แสดงและบทบาท รีเซ็ตรหัสผ่าน และปิดหรือเปิดใช้งานบัญชี",
+      "kind": "edit",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "display-name",
+          "name": "ชื่อที่แสดง",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง",
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "rules": []
+        },
+        {
+          "key": "username",
+          "name": "ชื่อผู้ใช้",
+          "io": "capture",
+          "required": true,
+          "validation": "ไม่ว่าง ห้ามซ้ำกับบัญชีใด ๆ รวมบัญชีที่ปิดใช้งาน",
+          "entity": "ENT-008",
+          "attribute": "username",
+          "rules": []
+        },
+        {
+          "key": "role",
+          "name": "บทบาท",
+          "io": "capture",
+          "required": true,
+          "validation": "พนักงานขาย หรือเจ้าของร้าน/ผู้ดูแล",
+          "entity": "ENT-008",
+          "attribute": "role",
+          "rules": [
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "key": "password",
+          "name": "รหัสผ่าน (ตอนสร้าง) / รหัสผ่านใหม่ (ตอนรีเซ็ต)",
+          "io": "capture",
+          "required": false,
+          "validation": "บังคับตอนสร้างบัญชีและตอนรีเซ็ต ไม่แสดงตัวอักษร · นโยบายความยาวรอกำหนดที่ req",
+          "rules": []
+        },
+        {
+          "key": "status",
+          "name": "สถานะ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-008",
+          "attribute": "status",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "effect": "สร้างบัญชีใหม่ หรือบันทึกชื่อที่แสดงและบทบาท",
+          "destination": "หน้าบัญชีพนักงาน",
+          "destinationRef": "UI-talad-018",
+          "rules": []
+        },
+        {
+          "key": "reset-password",
+          "name": "รีเซ็ตรหัสผ่าน",
+          "kind": "command",
+          "effect": "ตั้งรหัสผ่านใหม่ รหัสเดิมใช้ไม่ได้อีก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": []
+        },
+        {
+          "key": "toggle-active",
+          "name": "ปิด/เปิดใช้งาน",
+          "kind": "command",
+          "effect": "สลับสถานะบัญชีระหว่างเปิดใช้งานและปิดใช้งาน บัญชีที่ปิดล็อกอินไม่ได้",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": []
+        },
+        {
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "effect": "ออกโดยไม่บันทึก",
+          "destination": "หน้าบัญชีพนักงาน",
+          "destinationRef": "UI-talad-018",
+          "rules": []
+        }
+      ],
+      "zones": [
+        {
+          "name": "form",
+          "fields": [
+            "display-name",
+            "username",
+            "role",
+            "password",
+            "status"
+          ],
+          "actions": [
+            "save",
+            "cancel"
+          ]
+        },
+        {
+          "name": "account-actions",
+          "fields": [],
+          "actions": [
+            "reset-password",
+            "toggle-active"
+          ]
+        }
+      ],
+      "states": {
+        "empty": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการสร้างบัญชี",
+        "loading": "ปุ่มถูกปิดระหว่างบันทึก",
+        "error": "ชื่อผู้ใช้ซ้ำ หรือช่องบังคับว่าง: แสดงข้อความใต้ช่อง ไม่บันทึก · รหัสผ่านใหม่ว่างตอนรีเซ็ต: ไม่บันทึก",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+      }
+    },
+    {
+      "id": "RPT-talad-002",
+      "title": "รายงานยอดขายรายวัน/รายเดือน",
+      "purpose": "เจ้าของร้านดูยอดขายสุทธิรายวันหรือรายเดือนในช่วงที่เลือก",
+      "kind": "report",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "period",
+          "name": "ช่วงเวลา",
+          "io": "capture",
+          "required": true,
+          "validation": "วันที่เริ่มและวันที่สิ้นสุดตามเวลาไทย ไม่เกิน 1 เดือนต่อการค้นหา",
+          "rules": []
+        },
+        {
+          "key": "date",
+          "name": "วัน/เดือน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "rules": []
+        },
+        {
+          "key": "bill-count",
+          "name": "จำนวนบิล",
+          "io": "display",
+          "required": false,
+          "validation": "นับบิลสถานะชำระแล้ว",
+          "rules": []
+        },
+        {
+          "key": "sales-total",
+          "name": "ยอดขาย",
+          "io": "display",
+          "required": false,
+          "validation": "ผลรวมยอดชำระจริง ไม่นับบิลที่ยกเลิก",
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "rules": [
+            "BR-talad-024@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงรายงานของช่วงที่เลือก ไม่นับบิลที่ยกเลิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-024@v1"
+          ]
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ที่มีแถวเดียวกับบนจอ ยอดเงินเป็นเซลล์ตัวเลข 2 ตำแหน่ง",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "period"
+          ],
+          "actions": [
+            "search",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "date",
+            "bill-count",
+            "sales-total"
+          ],
+          "actions": []
+        }
+      ],
+      "states": {
+        "empty": "ช่วงที่เลือกไม่มีข้อมูล: แสดง \"ไม่มีข้อมูลในช่วงที่เลือก\" · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "RPT-talad-003",
+      "title": "รายงานสินค้าขายดี",
+      "purpose": "เจ้าของร้านดูสินค้าที่ขายได้มากที่สุดในช่วงที่เลือก",
+      "kind": "report",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "period",
+          "name": "ช่วงเวลา",
+          "io": "capture",
+          "required": true,
+          "validation": "วันที่เริ่มและวันที่สิ้นสุดตามเวลาไทย ไม่เกิน 1 เดือนต่อการค้นหา",
+          "rules": []
+        },
+        {
+          "key": "product",
+          "name": "สินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-012",
+          "attribute": "product",
+          "rules": []
+        },
+        {
+          "key": "qty-sold",
+          "name": "จำนวนที่ขาย",
+          "io": "display",
+          "required": false,
+          "validation": "ผลรวมจำนวนจากบิลที่ชำระแล้ว",
+          "entity": "ENT-012",
+          "attribute": "qty",
+          "rules": []
+        },
+        {
+          "key": "sales-total",
+          "name": "ยอดขาย",
+          "io": "display",
+          "required": false,
+          "validation": "ผลรวมยอดสุทธิของบรรทัด ไม่นับบิลที่ยกเลิก",
+          "entity": "ENT-012",
+          "attribute": "lineNet",
+          "rules": []
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงรายงานของช่วงที่เลือก ไม่นับบิลที่ยกเลิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-024@v1"
+          ]
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ที่มีแถวเดียวกับบนจอ ยอดเงินเป็นเซลล์ตัวเลข 2 ตำแหน่ง",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "period"
+          ],
+          "actions": [
+            "search",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "product",
+            "qty-sold",
+            "sales-total"
+          ],
+          "actions": []
+        }
+      ],
+      "states": {
+        "empty": "ช่วงที่เลือกไม่มีข้อมูล: แสดง \"ไม่มีข้อมูลในช่วงที่เลือก\" · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "RPT-talad-004",
+      "title": "รายงานยอดขายแยกตามผู้ขาย",
+      "purpose": "เจ้าของร้านดูยอดขายของแต่ละผู้ขาย รวมเจ้าของร้าน ในช่วงที่เลือก",
+      "kind": "report",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "period",
+          "name": "ช่วงเวลา",
+          "io": "capture",
+          "required": true,
+          "validation": "วันที่เริ่มและวันที่สิ้นสุดตามเวลาไทย ไม่เกิน 1 เดือนต่อการค้นหา",
+          "rules": []
+        },
+        {
+          "key": "seller",
+          "name": "ผู้ขาย",
+          "io": "display",
+          "required": false,
+          "validation": "หนึ่งแถวต่อผู้ขายทุกคน รวมเจ้าของร้าน ผู้ที่ไม่มียอดแสดง 0.00",
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "rules": [
+            "BR-talad-022@v1"
+          ]
+        },
+        {
+          "key": "sales-total",
+          "name": "ยอดขาย",
+          "io": "display",
+          "required": false,
+          "validation": "ผลรวมยอดชำระจริงของบิลที่คนนั้นเป็นผู้ขาย ไม่นับบิลที่ยกเลิก",
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "rules": [
+            "BR-talad-022@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงรายงานของช่วงที่เลือก ไม่นับบิลที่ยกเลิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-024@v1",
+            "BR-talad-022@v1"
+          ]
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ที่มีแถวเดียวกับบนจอ ยอดเงินเป็นเซลล์ตัวเลข 2 ตำแหน่ง",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "period"
+          ],
+          "actions": [
+            "search",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "seller",
+            "sales-total"
+          ],
+          "actions": []
+        }
+      ],
+      "states": {
+        "empty": "ช่วงที่เลือกไม่มีข้อมูล: แสดง \"ไม่มีข้อมูลในช่วงที่เลือก\" · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    },
+    {
+      "id": "RPT-talad-005",
+      "title": "รายงานสต็อกคงเหลือ",
+      "purpose": "เจ้าของร้านดูจำนวนคงเหลือของสินค้าที่ยังขายอยู่",
+      "kind": "report",
+      "dataBearing": true,
+      "roles": [
+        "ROLE-002"
+      ],
+      "fields": [
+        {
+          "key": "period",
+          "name": "ณ วันที่",
+          "io": "capture",
+          "required": false,
+          "validation": "ว่าง = ณ ตอนนี้ · รายงานคงเหลือไม่ใช้ช่วงเวลา",
+          "rules": []
+        },
+        {
+          "key": "product-name",
+          "name": "สินค้า",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "name",
+          "rules": []
+        },
+        {
+          "key": "stock-qty",
+          "name": "คงเหลือ",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "rules": []
+        },
+        {
+          "key": "low-stock-threshold",
+          "name": "จุดเตือน",
+          "io": "display",
+          "required": false,
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "effect": "แสดงรายงานของช่วงที่เลือก ไม่นับบิลที่ยกเลิก",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-024@v1"
+          ]
+        },
+        {
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "effect": "ดาวน์โหลดไฟล์ .xlsx ที่มีแถวเดียวกับบนจอ ยอดเงินเป็นเซลล์ตัวเลข 2 ตำแหน่ง",
+          "destination": "อยู่ที่หน้าเดิม",
+          "destinationRef": "self",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ],
+      "zones": [
+        {
+          "name": "filters",
+          "fields": [
+            "period"
+          ],
+          "actions": [
+            "search",
+            "export"
+          ]
+        },
+        {
+          "name": "results",
+          "fields": [
+            "product-name",
+            "stock-qty",
+            "low-stock-threshold"
+          ],
+          "actions": []
+        }
+      ],
+      "states": {
+        "empty": "ช่วงที่เลือกไม่มีข้อมูล: แสดง \"ไม่มีข้อมูลในช่วงที่เลือก\" · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)",
+        "loading": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR",
+        "error": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย",
+        "unauthorized": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ",
+        "overflow": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+      }
+    }
+  ]
+}
