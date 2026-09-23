@@ -31,6 +31,15 @@ public static class ProductEndpoints
         products.MapPost("/{id:int}/prices", (int id, RepriceRequest body, ClaimsPrincipal user, ProductPricing pricing, CancellationToken ct) =>
             Guard(async () => Results.Created($"/api/products/{id}", await pricing.RepriceAsync(id, body.Price, body.Source, CallerId(user), ct))));
 
+        // API-023 · POST /api/products/{id}/discontinue — ACTIVE → DISCONTINUED (ACL-020); already discontinued or
+        // never there is PRODUCT_NOT_FOUND
+        products.MapPost("/{id:int}/discontinue", (int id, ClaimsPrincipal user, ProductPricing pricing, CancellationToken ct) =>
+            Guard(async () =>
+            {
+                await pricing.DiscontinueAsync(id, CallerId(user), ct);
+                return Results.NoContent();
+            }));
+
         return app;
     }
 
@@ -50,7 +59,7 @@ public static class ProductEndpoints
         {
             return Results.NotFound(new ProductError("PRODUCT_NOT_FOUND", []));
         }
-        catch (PriceOwnerOnlyException)
+        catch (Exception e) when (e is PriceOwnerOnlyException or ProductOwnerOnlyException)
         {
             return Results.Forbid();
         }

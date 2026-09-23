@@ -47,7 +47,7 @@ public sealed class StockListTests : IDisposable
         db.ProductPriceVersions.Add(version);
         db.SaveChanges();
         product.PointAtPrice(version);
-        if (discontinued) product.Discontinue();
+        if (discontinued) product.Discontinue(owner);
         db.SaveChanges();
         return product.Id;
     }

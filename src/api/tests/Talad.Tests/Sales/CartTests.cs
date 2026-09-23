@@ -1,3 +1,4 @@
+using Talad.Domain.Accounts;
 using Talad.Domain.Catalog;
 using Talad.Domain.Sales;
 
@@ -74,7 +75,7 @@ public class CartTests
     {
         var cart = new Cart(1, Now);
         var orange = Product(1, "ส้มสายน้ำผึ้ง", stock: 10);
-        orange.Discontinue();
+        orange.Discontinue(new UserAccount("owner", "เจ้าของร้าน", UserRole.Owner, Now));
 
         var e = Assert.Throws<ProductDiscontinuedException>(() => cart.AddOne(orange, Now));
 

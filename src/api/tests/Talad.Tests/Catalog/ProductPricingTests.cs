@@ -55,7 +55,7 @@ public sealed class ProductPricingTests : IDisposable
         db.ProductPriceVersions.Add(version);
         db.SaveChanges();
         product.PointAtPrice(version);
-        if (discontinued) product.Discontinue();
+        if (discontinued) product.Discontinue(owner);
         db.SaveChanges();
         return product.Id;
     }
@@ -261,7 +261,7 @@ public sealed class ProductPricingTests : IDisposable
         product.PointAtPrice(new ProductPriceVersion(0, 45m, null, PriceChangeSource.StockScreen, 0, DateTimeOffset.UnixEpoch));
 
         Assert.Throws<PriceOwnerOnlyException>(() => product.Reprice(50m, PriceChangeSource.SalesScreen, seller, DateTimeOffset.UnixEpoch));
-        product.Discontinue();
+        product.Discontinue(owner);
         Assert.Throws<ProductNotActiveException>(() => product.Reprice(50m, PriceChangeSource.StockScreen, owner, DateTimeOffset.UnixEpoch));
     }
 

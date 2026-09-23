@@ -54,7 +54,7 @@ public sealed class PromotionTests : IDisposable
         db.ProductPriceVersions.Add(price);
         db.SaveChanges();
         product.PointAtPrice(price);
-        if (discontinued) product.Discontinue();
+        if (discontinued) product.Discontinue(owner);
         db.SaveChanges();
         return product.Id;
     }

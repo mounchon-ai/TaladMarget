@@ -16,7 +16,7 @@ public sealed record ProductDetail(
 /// UC-talad-017 · API-019 · API-022 — the owner changes a price from the stock screen or the sales screen's
 /// shortcut, and reads its history. A change is a new ENT-002 row the product then points at; nothing is updated,
 /// so a paid bill keeps the price it was paid at (AC-talad-060). The stock adjustments of API-019 are
-/// FE-talad-023's and are not answered here yet.
+/// FE-talad-023's and are not answered here yet. UC-talad-018 · API-023 — the owner discontinues a product.
 /// </summary>
 public sealed class ProductPricing(IProductRepository products, IUserAccountRepository accounts, TimeProvider clock)
 {
@@ -47,6 +47,19 @@ public sealed class ProductPricing(IProductRepository products, IUserAccountRepo
         product.PointAtPrice(version);
         await products.SaveChangesAsync(ct);
         return await GetDetailAsync(id, 1, ct);
+    }
+
+    /// <summary>
+    /// API-023 · UC-talad-018 — ACTIVE → DISCONTINUED. From then on the sales screen's search and the stock list
+    /// leave it out and API-019 answers it as not found; its price versions are not touched, so the bills that
+    /// sold it keep their price (AC-talad-085). Already discontinued or never there is not found.
+    /// </summary>
+    public async Task DiscontinueAsync(int id, int callerId, CancellationToken ct = default)
+    {
+        var owner = await accounts.FindByIdAsync(callerId, ct) ?? throw new ProductOwnerOnlyException();
+        var product = await products.FindAsync(id, ct) ?? throw new ProductNotFoundException(id);
+        product.Discontinue(owner);
+        await products.SaveChangesAsync(ct);
     }
 
     private async Task<Product> ActiveAsync(int id, CancellationToken ct)

@@ -3406,7 +3406,83 @@
           "hash": "sha256:d74fe8efb61473e5150e2370bd79ba989e402717a58b8cdf16a0c61612629e42"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: Product.Discontinue without the owner check, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-021",
+            "result": "Failed! - Failed: 1, Passed: 7, Total: 8 — the domain seller test catches it · file restored",
+            "at": "2026-09-24T06:38:29+07:00"
+          },
+          {
+            "cmd": "mutation check: Product.Discontinue without the ACTIVE check (only that line, not Reprice's), then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-021",
+            "result": "Failed! - Failed: 2, Passed: 6, Total: 8 — the no-way-back and twice/unknown tests catch it · file restored",
+            "at": "2026-09-24T06:38:49+07:00"
+          },
+          {
+            "cmd": "mutation check: POST /api/products/{id}/discontinue mapped under another route, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-021",
+            "result": "Failed! - Failed: 5, Passed: 3, Total: 8 — AC-talad-085 · 086 · 087 · seller · twice tests catch it · file restored",
+            "at": "2026-09-24T06:38:37+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T06:42:41+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-021",
+            "result": "Passed! - Failed: 0, Passed: 8, Skipped: 0, Total: 8 - Talad.Tests.dll (net10.0) · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T06:42:43+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 174, Skipped: 0, Total: 174 · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T06:42:47+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db (PostgreSQL 18, scratch) · curl POST /api/products/6/discontinue on a throwaway ทุเรียนหมอนทอง (250) the seller held 2 of",
+            "result": "no token 401 · seller 403 · owner 204 · again 404 PRODUCT_NOT_FOUND · unknown 999999 404 · seller search ทุเรียน and 8850000000059 total 0 · owner stock list total 4 (3,5,2,1) · GET /api/products/6 404 · seller cart still ทุเรียนหมอนทอง ×2 500 · qty 3 → 409 PRODUCT_DISCONTINUED \"ทุเรียนหมอนทอง เลิกขายแล้ว กรุณาเอาออกจากตะกร้า\" · DELETE line 200 empty cart · psql: product 6 Discontinued, current_price_version_id 12 and its 1 version kept · no migration needed · ran between 06:40:03 (api.log last write, the startup lines — the Production host logs no request) and 06:40:46",
+            "at": "2026-09-24T06:40:03+07:00"
+          },
+          {
+            "cmd": "psql on talad-verify-db in a rolled-back transaction: INSERT an ACTIVE product with the discontinued product's barcode 8850000000059, then a second one",
+            "result": "first INSERT 0 1 (a discontinued product frees its barcode) · second ERROR duplicate key value violates unique constraint \"IX_products_barcode\" · ROLLBACK, products count 6 · ran after the curl flow, before 06:40:46",
+            "at": "2026-09-24T06:40:03+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Catalog/Product.cs",
+          "src/api/src/Talad.Application/Catalog/ProductPricing.cs",
+          "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs",
+          "src/api/tests/Talad.Tests/Catalog/ProductDiscontinueTests.cs",
+          "src/api/tests/Talad.Tests/Catalog/ProductPricingTests.cs",
+          "src/api/tests/Talad.Tests/Catalog/StockListTests.cs",
+          "src/api/tests/Talad.Tests/Promotions/PromotionTests.cs",
+          "src/api/tests/Talad.Tests/Sales/CartApiTests.cs",
+          "src/api/tests/Talad.Tests/Sales/CartTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Catalog/ProductDiscontinueTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-023",
+            "route": "POST /api/products/{id}/discontinue",
+            "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-022",
@@ -6195,8 +6271,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 26,
-      "draft": 20
+      "validated": 27,
+      "draft": 19
     },
     "by_origin": {
       "new": 46

@@ -66,8 +66,17 @@ public class Product
         return new ProductPriceVersion(Id, price, current.Price, source, by.Id, at);
     }
 
-    /// <summary>STM-talad-001 ACTIVE → DISCONTINUED (BR-talad-037@v1 — never a real delete).</summary>
-    public void Discontinue() => Status = ProductStatus.Discontinued;
+    /// <summary>
+    /// API-023 · UC-talad-018 · STM-talad-001 ACTIVE → DISCONTINUED, final: the owner's alone, on a product still
+    /// sold (ACL-020). Whether or not a bill ever sold it, a product is never deleted (BR-talad-037@v1) — its price
+    /// versions stay for the bills that point at them, and an open cart that holds it keeps the line until taken out.
+    /// </summary>
+    public void Discontinue(UserAccount by)
+    {
+        if (by.Role != UserRole.Owner) throw new ProductOwnerOnlyException();
+        if (!IsActive) throw new ProductNotActiveException(Id);
+        Status = ProductStatus.Discontinued;
+    }
 }
 
 public enum ProductStatus
@@ -144,5 +153,8 @@ public sealed class PriceInvalidException(string message, string field = "price"
 /// <summary>ACL-019 · ENT-002.changedBy — only the owner changes a price.</summary>
 public sealed class PriceOwnerOnlyException() : Exception("only the owner may change a price");
 
-/// <summary>STM-talad-001 — a discontinued product's price is not changed.</summary>
+/// <summary>ACL-020 — only the owner discontinues a product.</summary>
+public sealed class ProductOwnerOnlyException() : Exception("only the owner may discontinue a product");
+
+/// <summary>STM-talad-001 — a discontinued product's price is not changed, and it is not discontinued again.</summary>
 public sealed class ProductNotActiveException(int productId) : Exception($"product {productId} is discontinued");
