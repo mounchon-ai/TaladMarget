@@ -3058,6 +3058,811 @@
       "from": "RPT-talad-005",
       "rel": "governedByAcl",
       "to": "ACL-028"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "exposedAs",
+      "to": "API-001"
+    },
+    {
+      "from": "UI-talad-001",
+      "rel": "calls",
+      "to": "API-001"
+    },
+    {
+      "from": "API-001",
+      "rel": "governedByAcl",
+      "to": "ACL-029"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "exposedAs",
+      "to": "API-002"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-002"
+    },
+    {
+      "from": "API-002",
+      "rel": "governedByAcl",
+      "to": "ACL-010"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-003"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-003"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-003"
+    },
+    {
+      "from": "UI-talad-010",
+      "rel": "calls",
+      "to": "API-003"
+    },
+    {
+      "from": "API-003",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "API-003",
+      "rel": "governedByAcl",
+      "to": "ACL-021"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-004"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-004"
+    },
+    {
+      "from": "API-004",
+      "rel": "governedByAcl",
+      "to": "ACL-002"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-005"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-005"
+    },
+    {
+      "from": "API-005",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-006"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-006"
+    },
+    {
+      "from": "API-006",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-007"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-007"
+    },
+    {
+      "from": "API-007",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "exposedAs",
+      "to": "API-008"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-008"
+    },
+    {
+      "from": "API-008",
+      "rel": "governedByAcl",
+      "to": "ACL-009"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "exposedAs",
+      "to": "API-009"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-009"
+    },
+    {
+      "from": "UI-talad-003",
+      "rel": "calls",
+      "to": "API-009"
+    },
+    {
+      "from": "API-009",
+      "rel": "governedByAcl",
+      "to": "ACL-004"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "exposedAs",
+      "to": "API-010"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "exposedAs",
+      "to": "API-010"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-010"
+    },
+    {
+      "from": "UI-talad-003",
+      "rel": "calls",
+      "to": "API-010"
+    },
+    {
+      "from": "API-010",
+      "rel": "governedByAcl",
+      "to": "ACL-003"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "exposedAs",
+      "to": "API-011"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "exposedAs",
+      "to": "API-011"
+    },
+    {
+      "from": "RPT-talad-001",
+      "rel": "calls",
+      "to": "API-011"
+    },
+    {
+      "from": "UI-talad-008",
+      "rel": "calls",
+      "to": "API-011"
+    },
+    {
+      "from": "API-011",
+      "rel": "governedByAcl",
+      "to": "ACL-005"
+    },
+    {
+      "from": "API-011",
+      "rel": "governedByAcl",
+      "to": "ACL-006"
+    },
+    {
+      "from": "API-011",
+      "rel": "governedByAcl",
+      "to": "ACL-011"
+    },
+    {
+      "from": "API-011",
+      "rel": "governedByAcl",
+      "to": "ACL-012"
+    },
+    {
+      "from": "API-011",
+      "rel": "governedByAcl",
+      "to": "ACL-013"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "exposedAs",
+      "to": "API-012"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-012"
+    },
+    {
+      "from": "UI-talad-004",
+      "rel": "calls",
+      "to": "API-012"
+    },
+    {
+      "from": "API-012",
+      "rel": "governedByAcl",
+      "to": "ACL-009"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "exposedAs",
+      "to": "API-013"
+    },
+    {
+      "from": "UI-talad-005",
+      "rel": "calls",
+      "to": "API-013"
+    },
+    {
+      "from": "API-013",
+      "rel": "governedByAcl",
+      "to": "ACL-007"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "exposedAs",
+      "to": "API-014"
+    },
+    {
+      "from": "UI-talad-006",
+      "rel": "calls",
+      "to": "API-014"
+    },
+    {
+      "from": "API-014",
+      "rel": "governedByAcl",
+      "to": "ACL-008"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "exposedAs",
+      "to": "API-015"
+    },
+    {
+      "from": "UI-talad-006",
+      "rel": "calls",
+      "to": "API-015"
+    },
+    {
+      "from": "API-015",
+      "rel": "governedByAcl",
+      "to": "ACL-008"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "exposedAs",
+      "to": "API-016"
+    },
+    {
+      "from": "UI-talad-006",
+      "rel": "calls",
+      "to": "API-016"
+    },
+    {
+      "from": "API-016",
+      "rel": "governedByAcl",
+      "to": "ACL-014"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "exposedAs",
+      "to": "API-017"
+    },
+    {
+      "from": "UI-talad-007",
+      "rel": "calls",
+      "to": "API-017"
+    },
+    {
+      "from": "API-017",
+      "rel": "governedByAcl",
+      "to": "ACL-011"
+    },
+    {
+      "from": "API-017",
+      "rel": "governedByAcl",
+      "to": "ACL-013"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "exposedAs",
+      "to": "API-018"
+    },
+    {
+      "from": "UI-talad-009",
+      "rel": "calls",
+      "to": "API-018"
+    },
+    {
+      "from": "API-018",
+      "rel": "governedByAcl",
+      "to": "ACL-026"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-019"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "exposedAs",
+      "to": "API-019"
+    },
+    {
+      "from": "UI-talad-011",
+      "rel": "calls",
+      "to": "API-019"
+    },
+    {
+      "from": "UI-talad-012",
+      "rel": "calls",
+      "to": "API-019"
+    },
+    {
+      "from": "UI-talad-013",
+      "rel": "calls",
+      "to": "API-019"
+    },
+    {
+      "from": "UI-talad-014",
+      "rel": "calls",
+      "to": "API-019"
+    },
+    {
+      "from": "API-019",
+      "rel": "governedByAcl",
+      "to": "ACL-021"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-020"
+    },
+    {
+      "from": "UI-talad-011",
+      "rel": "calls",
+      "to": "API-020"
+    },
+    {
+      "from": "API-020",
+      "rel": "governedByAcl",
+      "to": "ACL-018"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-021"
+    },
+    {
+      "from": "UI-talad-011",
+      "rel": "calls",
+      "to": "API-021"
+    },
+    {
+      "from": "API-021",
+      "rel": "governedByAcl",
+      "to": "ACL-018"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-022"
+    },
+    {
+      "from": "UI-talad-013",
+      "rel": "calls",
+      "to": "API-022"
+    },
+    {
+      "from": "API-022",
+      "rel": "governedByAcl",
+      "to": "ACL-019"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-023"
+    },
+    {
+      "from": "UI-talad-012",
+      "rel": "calls",
+      "to": "API-023"
+    },
+    {
+      "from": "API-023",
+      "rel": "governedByAcl",
+      "to": "ACL-020"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "exposedAs",
+      "to": "API-024"
+    },
+    {
+      "from": "UI-talad-014",
+      "rel": "calls",
+      "to": "API-024"
+    },
+    {
+      "from": "API-024",
+      "rel": "governedByAcl",
+      "to": "ACL-022"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "exposedAs",
+      "to": "API-025"
+    },
+    {
+      "from": "UI-talad-015",
+      "rel": "calls",
+      "to": "API-025"
+    },
+    {
+      "from": "API-025",
+      "rel": "governedByAcl",
+      "to": "ACL-023"
+    },
+    {
+      "from": "API-025",
+      "rel": "governedByAcl",
+      "to": "ACL-024"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "exposedAs",
+      "to": "API-026"
+    },
+    {
+      "from": "UI-talad-016",
+      "rel": "calls",
+      "to": "API-026"
+    },
+    {
+      "from": "API-026",
+      "rel": "governedByAcl",
+      "to": "ACL-023"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "exposedAs",
+      "to": "API-027"
+    },
+    {
+      "from": "UI-talad-016",
+      "rel": "calls",
+      "to": "API-027"
+    },
+    {
+      "from": "API-027",
+      "rel": "governedByAcl",
+      "to": "ACL-023"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "exposedAs",
+      "to": "API-028"
+    },
+    {
+      "from": "UI-talad-016",
+      "rel": "calls",
+      "to": "API-028"
+    },
+    {
+      "from": "API-028",
+      "rel": "governedByAcl",
+      "to": "ACL-023"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "exposedAs",
+      "to": "API-029"
+    },
+    {
+      "from": "UI-talad-015",
+      "rel": "calls",
+      "to": "API-029"
+    },
+    {
+      "from": "API-029",
+      "rel": "governedByAcl",
+      "to": "ACL-024"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "exposedAs",
+      "to": "API-030"
+    },
+    {
+      "from": "UI-talad-017",
+      "rel": "calls",
+      "to": "API-030"
+    },
+    {
+      "from": "API-030",
+      "rel": "governedByAcl",
+      "to": "ACL-025"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "exposedAs",
+      "to": "API-031"
+    },
+    {
+      "from": "UI-talad-017",
+      "rel": "calls",
+      "to": "API-031"
+    },
+    {
+      "from": "API-031",
+      "rel": "governedByAcl",
+      "to": "ACL-025"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-032"
+    },
+    {
+      "from": "UI-talad-018",
+      "rel": "calls",
+      "to": "API-032"
+    },
+    {
+      "from": "API-032",
+      "rel": "governedByAcl",
+      "to": "ACL-015"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-033"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "calls",
+      "to": "API-033"
+    },
+    {
+      "from": "API-033",
+      "rel": "governedByAcl",
+      "to": "ACL-015"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-034"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "calls",
+      "to": "API-034"
+    },
+    {
+      "from": "API-034",
+      "rel": "governedByAcl",
+      "to": "ACL-015"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-035"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "calls",
+      "to": "API-035"
+    },
+    {
+      "from": "API-035",
+      "rel": "governedByAcl",
+      "to": "ACL-015"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-036"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "calls",
+      "to": "API-036"
+    },
+    {
+      "from": "API-036",
+      "rel": "governedByAcl",
+      "to": "ACL-016"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "exposedAs",
+      "to": "API-037"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "calls",
+      "to": "API-037"
+    },
+    {
+      "from": "API-037",
+      "rel": "governedByAcl",
+      "to": "ACL-017"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "exposedAs",
+      "to": "API-038"
+    },
+    {
+      "from": "RPT-talad-002",
+      "rel": "calls",
+      "to": "API-038"
+    },
+    {
+      "from": "API-038",
+      "rel": "governedByAcl",
+      "to": "ACL-027"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "exposedAs",
+      "to": "API-039"
+    },
+    {
+      "from": "RPT-talad-003",
+      "rel": "calls",
+      "to": "API-039"
+    },
+    {
+      "from": "API-039",
+      "rel": "governedByAcl",
+      "to": "ACL-027"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "exposedAs",
+      "to": "API-040"
+    },
+    {
+      "from": "RPT-talad-004",
+      "rel": "calls",
+      "to": "API-040"
+    },
+    {
+      "from": "API-040",
+      "rel": "governedByAcl",
+      "to": "ACL-027"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "exposedAs",
+      "to": "API-041"
+    },
+    {
+      "from": "RPT-talad-005",
+      "rel": "calls",
+      "to": "API-041"
+    },
+    {
+      "from": "API-041",
+      "rel": "governedByAcl",
+      "to": "ACL-027"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "exposedAs",
+      "to": "API-042"
+    },
+    {
+      "from": "UI-talad-007",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "UI-talad-010",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "RPT-talad-002",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "RPT-talad-003",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "RPT-talad-004",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "RPT-talad-005",
+      "rel": "calls",
+      "to": "API-042"
+    },
+    {
+      "from": "API-042",
+      "rel": "governedByAcl",
+      "to": "ACL-028"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "exposedAs",
+      "to": "API-043"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "exposedAs",
+      "to": "API-043"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-043"
+    },
+    {
+      "from": "UI-talad-010",
+      "rel": "calls",
+      "to": "API-043"
+    },
+    {
+      "from": "UI-talad-012",
+      "rel": "calls",
+      "to": "API-043"
+    },
+    {
+      "from": "API-043",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "API-043",
+      "rel": "governedByAcl",
+      "to": "ACL-021"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "exposedAs",
+      "to": "API-044"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "calls",
+      "to": "API-044"
+    },
+    {
+      "from": "API-044",
+      "rel": "governedByAcl",
+      "to": "ACL-010"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "integratesWith",
+      "to": "INT-001"
     }
   ]
 }

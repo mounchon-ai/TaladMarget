@@ -100,7 +100,7 @@
     {
       "id": "interface",
       "command": "/design:interface",
-      "status": "pending",
+      "status": "done",
       "requires": [
         "function",
         "datamodel"
@@ -108,7 +108,8 @@
       "artifacts": [
         "interfaces.json"
       ],
-      "attempts": 0
+      "attempts": 1,
+      "updatedAt": "2026-09-23T11:30:24Z"
     },
     {
       "id": "export",

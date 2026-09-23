@@ -1,0 +1,682 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "design · scripts/interfaces.mjs",
+  "project": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "integrations": [
+    {
+      "id": "INT-001",
+      "name": "เครื่องพิมพ์ใบเสร็จที่ต่อกับเครื่องขาย",
+      "party": "ร้าน (เจ้าของร้าน/ผู้ดูแล) — เป็นเจ้าของและดูแลเครื่องพิมพ์และไดรเวอร์บนเครื่องขาย",
+      "direction": "outbound",
+      "protocol": "หน้าต่างพิมพ์ของเบราว์เซอร์ (window.print) ส่งงานผ่านไดรเวอร์เครื่องพิมพ์ของระบบปฏิบัติการ — ไม่มี API เชื่อมตรง",
+      "auth": {
+        "required": false,
+        "method": "",
+        "detail": "ไม่มีการยืนยันตัวตน เพราะเครื่องพิมพ์ต่อกับเครื่องขายโดยตรง และรับงานเฉพาะจากหน้าต่างพิมพ์ที่ผู้ใช้ซึ่งล็อกอินแล้วเปิดเอง ระบบไม่ส่งข้อมูลออกนอกเครื่องขาย"
+      },
+      "failure": {
+        "detect": "ระบบตรวจไม่ได้เอง — หน้าต่างพิมพ์ของเบราว์เซอร์ไม่รายงานผลการพิมพ์กลับมา ผู้ใช้เห็นเองว่ากระดาษไม่ออก หรือหน้าต่างพิมพ์แจ้งว่าเครื่องพิมพ์ไม่พร้อม",
+        "behaviour": "ไม่มีผลกับบิล — บิลบันทึกแล้วก่อนเปิดใบเสร็จ การพิมพ์ไม่สำเร็จไม่ยกเลิกหรือแก้บิล และไม่มีการลองพิมพ์ซ้ำอัตโนมัติ",
+        "userVisible": "หน้าจอใบเสร็จยังเปิดอยู่พร้อมปุ่ม [พิมพ์] ให้กดใหม่ หรือกด [ปิด] แล้วพิมพ์ซ้ำภายหลังจากหน้ารายละเอียดบิลในประวัติการขาย",
+        "recovery": "ไม่ต้องกู้คืนข้อมูล — ไม่มีรายการค้างระหว่างทาง เมื่อเครื่องพิมพ์กลับมาใช้งานได้ ผู้ใช้พิมพ์ซ้ำจากประวัติการขายได้ทุกบิลที่ยังไม่ถูกยกเลิก"
+      }
+    }
+  ],
+  "endpoints": [
+    {
+      "id": "API-001",
+      "name": "เข้าสู่ระบบ",
+      "operation": "POST /api/auth/login",
+      "purpose": "ตรวจชื่อผู้ใช้และรหัสผ่าน แล้วได้ JWT ของผู้ใช้คนนั้น หรือเหตุผลที่เข้าไม่ได้"
+    },
+    {
+      "id": "API-002",
+      "name": "ออกจากระบบ",
+      "operation": "POST /api/auth/logout",
+      "purpose": "จบการใช้งานของผู้ใช้ปัจจุบัน ตะกร้าที่ค้างยังอยู่"
+    },
+    {
+      "id": "API-003",
+      "name": "ค้นหาสินค้า",
+      "operation": "GET /api/products?search={คำค้น}&page={n}&pageSize=20",
+      "purpose": "สินค้าที่ยังขายอยู่แบบแบ่งหน้า พร้อมราคาปัจจุบัน คงเหลือ และธงใกล้หมด"
+    },
+    {
+      "id": "API-004",
+      "name": "ตะกร้าของฉัน",
+      "operation": "GET /api/cart",
+      "purpose": "ตะกร้าสถานะ OPEN ของผู้ใช้ปัจจุบัน (สร้างใหม่ถ้ายังไม่มี) พร้อมรายการและสมาชิกที่ผูก"
+    },
+    {
+      "id": "API-005",
+      "name": "หยิบสินค้าใส่ตะกร้า",
+      "operation": "POST /api/cart/lines",
+      "purpose": "เพิ่มสินค้าลงตะกร้าของตัวเอง หรือเพิ่มจำนวนถ้ามีอยู่แล้ว"
+    },
+    {
+      "id": "API-006",
+      "name": "ปรับจำนวนในตะกร้า",
+      "operation": "PATCH /api/cart/lines/{productId}",
+      "purpose": "ตั้งจำนวนใหม่ของบรรทัด ไม่เกินคงเหลือ"
+    },
+    {
+      "id": "API-007",
+      "name": "เอารายการออกจากตะกร้า",
+      "operation": "DELETE /api/cart/lines/{productId}",
+      "purpose": "ลบบรรทัดออกจากตะกร้าของตัวเอง"
+    },
+    {
+      "id": "API-008",
+      "name": "ผูกสมาชิกกับตะกร้า",
+      "operation": "PUT /api/cart/member",
+      "purpose": "ผูกหรือเลิกผูกสมาชิกกับตะกร้าของตัวเอง"
+    },
+    {
+      "id": "API-009",
+      "name": "ยอดและส่วนลดของตะกร้า",
+      "operation": "GET /api/cart/pricing",
+      "purpose": "ยอดแต่ละบรรทัด โปรที่ได้ ส่วนลดทั้งบิล ส่วนลดสมาชิก ยอดสุทธิ และรายการโปรที่ลดเท่ากันซึ่งต้องให้เลือก"
+    },
+    {
+      "id": "API-010",
+      "name": "ชำระเงิน",
+      "operation": "POST /api/cart/checkout",
+      "purpose": "ชำระตะกร้าของตัวเองเป็นบิลขาย (พร้อมโปรที่เลือกเมื่อลดเท่ากัน) แล้วได้ใบเสร็จ หรือเหตุผลที่ชำระไม่ได้"
+    },
+    {
+      "id": "API-011",
+      "name": "รายละเอียดบิล",
+      "operation": "GET /api/sales/{id}",
+      "purpose": "บิลหนึ่งใบพร้อมรายการ ส่วนลด ผู้ขาย สมาชิก และข้อมูลการยกเลิก ตามสิทธิ์ของผู้ดู"
+    },
+    {
+      "id": "API-012",
+      "name": "ค้นหาสมาชิก",
+      "operation": "GET /api/members?q={เบอร์เต็มหรือชื่อบางส่วน}&page={n}",
+      "purpose": "สมาชิกสถานะ ACTIVE ที่ตรงกับคำค้น พร้อมชื่อ เบอร์เต็ม และยอดซื้อสะสม"
+    },
+    {
+      "id": "API-013",
+      "name": "สมัครสมาชิก",
+      "operation": "POST /api/members",
+      "purpose": "สร้างสมาชิกใหม่ หรือเหตุผลที่สร้างไม่ได้"
+    },
+    {
+      "id": "API-014",
+      "name": "ข้อมูลสมาชิก",
+      "operation": "GET /api/members/{id}",
+      "purpose": "สมาชิกหนึ่งคน"
+    },
+    {
+      "id": "API-015",
+      "name": "แก้ข้อมูลสมาชิก",
+      "operation": "PUT /api/members/{id}",
+      "purpose": "บันทึกชื่อหรือเบอร์ใหม่ หรือเหตุผลที่บันทึกไม่ได้"
+    },
+    {
+      "id": "API-016",
+      "name": "ซ่อนสมาชิก",
+      "operation": "POST /api/members/{id}/hide",
+      "purpose": "เปลี่ยนสมาชิกเป็น HIDDEN และปล่อยเบอร์"
+    },
+    {
+      "id": "API-017",
+      "name": "ค้นหาบิลขาย",
+      "operation": "GET /api/sales?search={คำค้น}&from={วันที่}&to={วันที่}&page={n}&pageSize=20",
+      "purpose": "บิลตามสิทธิ์ของผู้ดูแบบแบ่งหน้า"
+    },
+    {
+      "id": "API-018",
+      "name": "ยกเลิกบิล",
+      "operation": "POST /api/sales/{id}/void",
+      "purpose": "ยกเลิกบิลของวันนี้พร้อมเหตุผล คืนสต็อก และหักยอดสะสมคืน หรือเหตุผลที่ยกเลิกไม่ได้"
+    },
+    {
+      "id": "API-019",
+      "name": "รายละเอียดสินค้า",
+      "operation": "GET /api/products/{id}",
+      "purpose": "สินค้าหนึ่งรายการพร้อมประวัติราคาและรายการปรับสต็อก (แบ่งหน้า)"
+    },
+    {
+      "id": "API-020",
+      "name": "เพิ่มสินค้า",
+      "operation": "POST /api/products",
+      "purpose": "สร้างสินค้าใหม่พร้อมราคาแรกและคงเหลือเริ่มต้น"
+    },
+    {
+      "id": "API-021",
+      "name": "แก้ข้อมูลสินค้า",
+      "operation": "PUT /api/products/{id}",
+      "purpose": "บันทึกชื่อ บาร์โค้ด รูป และจุดเตือน"
+    },
+    {
+      "id": "API-022",
+      "name": "แก้ราคาสินค้า",
+      "operation": "POST /api/products/{id}/prices",
+      "purpose": "สร้างเวอร์ชันราคาใหม่และประวัติราคา"
+    },
+    {
+      "id": "API-023",
+      "name": "เลิกขายสินค้า",
+      "operation": "POST /api/products/{id}/discontinue",
+      "purpose": "เปลี่ยนสินค้าเป็น DISCONTINUED"
+    },
+    {
+      "id": "API-024",
+      "name": "ปรับสต็อก",
+      "operation": "POST /api/products/{id}/stock-adjustments",
+      "purpose": "บันทึกรายการปรับสต็อกหนึ่งรายการด้วย requestKey ของฟอร์ม หรือเหตุผลที่บันทึกไม่ได้"
+    },
+    {
+      "id": "API-025",
+      "name": "รายการโปรโมชั่น",
+      "operation": "GET /api/promotions?search={คำค้น}&page={n}",
+      "purpose": "โปรที่ยังใช้อยู่พร้อมเงื่อนไขเวอร์ชันล่าสุด"
+    },
+    {
+      "id": "API-026",
+      "name": "รายละเอียดโปรโมชั่น",
+      "operation": "GET /api/promotions/{id}",
+      "purpose": "โปรหนึ่งรายการพร้อมเงื่อนไขเวอร์ชันล่าสุด"
+    },
+    {
+      "id": "API-027",
+      "name": "สร้างโปรโมชั่น",
+      "operation": "POST /api/promotions",
+      "purpose": "สร้างโปรใหม่พร้อมเวอร์ชันแรก"
+    },
+    {
+      "id": "API-028",
+      "name": "แก้โปรโมชั่น",
+      "operation": "POST /api/promotions/{id}/versions",
+      "purpose": "สร้างเวอร์ชันเงื่อนไขใหม่ของโปร"
+    },
+    {
+      "id": "API-029",
+      "name": "เลิกใช้โปรโมชั่น",
+      "operation": "POST /api/promotions/{id}/discontinue",
+      "purpose": "เปลี่ยนโปรเป็น DISCONTINUED"
+    },
+    {
+      "id": "API-030",
+      "name": "ส่วนลดสมาชิกปัจจุบัน",
+      "operation": "GET /api/settings/member-discount",
+      "purpose": "% ส่วนลดสมาชิกเวอร์ชันล่าสุดพร้อมผู้ตั้งและเวลา"
+    },
+    {
+      "id": "API-031",
+      "name": "ตั้งส่วนลดสมาชิก",
+      "operation": "POST /api/settings/member-discount",
+      "purpose": "สร้างเวอร์ชันส่วนลดสมาชิกใหม่"
+    },
+    {
+      "id": "API-032",
+      "name": "รายการบัญชีพนักงาน",
+      "operation": "GET /api/users",
+      "purpose": "บัญชีผู้ใช้ทั้งหมดพร้อมบทบาทและสถานะ"
+    },
+    {
+      "id": "API-033",
+      "name": "ข้อมูลบัญชีพนักงาน",
+      "operation": "GET /api/users/{id}",
+      "purpose": "บัญชีหนึ่งบัญชี"
+    },
+    {
+      "id": "API-034",
+      "name": "สร้างบัญชีพนักงาน",
+      "operation": "POST /api/users",
+      "purpose": "สร้างบัญชีใหม่ หรือเหตุผลที่สร้างไม่ได้"
+    },
+    {
+      "id": "API-035",
+      "name": "แก้บัญชีพนักงาน",
+      "operation": "PUT /api/users/{id}",
+      "purpose": "บันทึกชื่อที่แสดงและบทบาท"
+    },
+    {
+      "id": "API-036",
+      "name": "รีเซ็ตรหัสผ่าน",
+      "operation": "POST /api/users/{id}/reset-password",
+      "purpose": "ตั้งรหัสผ่านใหม่ รหัสเดิมใช้ไม่ได้อีก"
+    },
+    {
+      "id": "API-037",
+      "name": "ปิด/เปิดใช้งานบัญชี",
+      "operation": "PUT /api/users/{id}/status",
+      "purpose": "ตั้งสถานะบัญชีเป็น ACTIVE หรือ DISABLED"
+    },
+    {
+      "id": "API-038",
+      "name": "รายงานยอดขายรายวัน/รายเดือน",
+      "operation": "GET /api/reports/sales-by-period?from=&to=&groupBy=day|month&page={n}",
+      "purpose": "ยอดขายสุทธิและจำนวนบิลต่อวันหรือเดือน ไม่นับบิลที่ยกเลิก"
+    },
+    {
+      "id": "API-039",
+      "name": "รายงานสินค้าขายดี",
+      "operation": "GET /api/reports/top-products?from=&to=&page={n}",
+      "purpose": "สินค้าเรียงตามยอดขาย ไม่นับบิลที่ยกเลิก"
+    },
+    {
+      "id": "API-040",
+      "name": "รายงานยอดขายแยกตามผู้ขาย",
+      "operation": "GET /api/reports/sales-by-seller?from=&to=",
+      "purpose": "หนึ่งแถวต่อผู้ขายทุกคน รวมเจ้าของร้าน ผู้ที่ไม่มียอดเป็น 0"
+    },
+    {
+      "id": "API-041",
+      "name": "รายงานสต็อกคงเหลือ",
+      "operation": "GET /api/reports/stock?page={n}",
+      "purpose": "คงเหลือและจุดเตือนของสินค้าที่ยังขายอยู่"
+    },
+    {
+      "id": "API-042",
+      "name": "Export Excel",
+      "operation": "GET /api/exports/{sales-by-period|top-products|sales-by-seller|stock|stock-list|sales-history}.xlsx?{ตัวกรองเดียวกับบนจอ}",
+      "purpose": "ไฟล์ .xlsx ที่มีแถวเดียวกับบนจอ ยอดเงินเป็นเซลล์ตัวเลข 2 ตำแหน่ง · ไม่มีข้อมูลได้ไฟล์ที่มีแต่หัวตาราง"
+    },
+    {
+      "id": "API-043",
+      "name": "รูปสินค้า",
+      "operation": "GET /api/products/{id}/image",
+      "purpose": "ไฟล์รูปของสินค้า"
+    },
+    {
+      "id": "API-044",
+      "name": "ข้อมูลผู้ใช้ปัจจุบันและเมนู",
+      "operation": "GET /api/me",
+      "purpose": "ชื่อ บทบาท และรายการเมนูที่บทบาทนี้เปิดได้"
+    }
+  ],
+  "ruleEnforcement": [
+    {
+      "rule": "BR-talad-001@v1",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ],
+      "note": "ปุ่ม +/−/ลบ ทำงานเฉพาะตะกร้าสถานะ OPEN ของผู้ใช้เอง และ domain ปฏิเสธการแก้ตะกร้าที่ชำระแล้ว"
+    },
+    {
+      "rule": "BR-talad-002@v1",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ],
+      "note": "ฟอร์มตรวจก่อนส่ง API ตรวจรูปแบบ และ domain ตรวจอีกครั้งก่อนบันทึก"
+    },
+    {
+      "rule": "BR-talad-003@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "เพิ่มยอดสะสมใน transaction เดียวกับการสร้างบิล"
+    },
+    {
+      "rule": "BR-talad-004@v1",
+      "enforceAt": [
+        "api",
+        "domain"
+      ],
+      "note": "API ค้นเฉพาะเบอร์เต็มหรือชื่อบางส่วน ไม่รองรับเบอร์บางส่วน"
+    },
+    {
+      "rule": "BR-talad-005@v1",
+      "enforceAt": [
+        "api",
+        "domain"
+      ],
+      "note": "ทุก endpoint ยกเว้นเข้าสู่ระบบต้องมี JWT ที่ถูกต้อง"
+    },
+    {
+      "rule": "BR-talad-006@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "ผู้ขายของบิลคือเจ้าของตะกร้า ตั้งโดย domain ไม่รับจากคำขอ"
+    },
+    {
+      "rule": "BR-talad-007@v1",
+      "enforceAt": [
+        "ui",
+        "domain",
+        "db"
+      ],
+      "note": "domain ตรวจคงเหลือตอนเพิ่มและตอนชำระ และฐานข้อมูลมี check stockQty ≥ 0"
+    },
+    {
+      "rule": "BR-talad-008@v1",
+      "enforceAt": [
+        "api",
+        "ui"
+      ],
+      "note": "API คำนวณธงใกล้หมดส่งมากับสินค้า หน้าจอแสดงป้าย — เป็นกฎการแสดงผล ไม่มีการเขียนข้อมูลให้กัน"
+    },
+    {
+      "rule": "BR-talad-009@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-010@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-011@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-012@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-013@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-014@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-015@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-016@v2",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "บันทึกบรรทัด ราคา ส่วนลด และเวอร์ชันโปรใน transaction เดียวกับบิล"
+    },
+    {
+      "rule": "BR-talad-017@v1",
+      "enforceAt": [
+        "api"
+      ],
+      "note": "API สร้างไฟล์จาก query เดียวกับหน้าจอ"
+    },
+    {
+      "rule": "BR-talad-018@v1",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ],
+      "note": "เมนูซ่อนงานที่ไม่มีสิทธิ์ API ปฏิเสธด้วย 403 และ domain กรองบิลตามผู้ขาย"
+    },
+    {
+      "rule": "BR-talad-019@v1",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ],
+      "note": "งานที่เฉพาะเจ้าของร้านทำได้ถูกปฏิเสธที่ API ตามบทบาทใน JWT และตรวจซ้ำที่ domain"
+    },
+    {
+      "rule": "BR-talad-020@v1",
+      "enforceAt": [
+        "api",
+        "domain"
+      ],
+      "note": "ตะกร้าเลือกจากผู้ใช้ใน JWT เท่านั้น ไม่รับ id ตะกร้าของคนอื่น"
+    },
+    {
+      "rule": "BR-talad-021@v1",
+      "enforceAt": [
+        "api",
+        "domain"
+      ],
+      "note": "บทบาท OWNER ได้ขอบเขต all สำหรับประวัติการขายและพิมพ์ซ้ำ"
+    },
+    {
+      "rule": "BR-talad-022@v1",
+      "enforceAt": [
+        "api"
+      ],
+      "note": "query รายงานรวมผู้ขายทุกคนด้วย outer join และตัดบิลที่ยกเลิก"
+    },
+    {
+      "rule": "BR-talad-023@v1",
+      "enforceAt": [
+        "ui",
+        "domain"
+      ],
+      "note": "domain เทียบวันของ paidAt กับวันนี้ตามเวลาไทยก่อนยกเลิก"
+    },
+    {
+      "rule": "BR-talad-024@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "คืนสต็อกและหักยอดสะสมใน transaction เดียวกับการยกเลิก"
+    },
+    {
+      "rule": "BR-talad-025@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "ไม่มี endpoint แก้บรรทัดของบิล และแถวของบิลไม่ถูก update ยกเว้นข้อมูลการยกเลิก"
+    },
+    {
+      "rule": "BR-talad-026@v1",
+      "enforceAt": [
+        "ui",
+        "domain"
+      ],
+      "note": "ใบเสร็จของบิลที่ยกเลิกพิมพ์ซ้ำไม่ได้ เลขใบเสร็จออกโดย domain"
+    },
+    {
+      "rule": "BR-talad-027@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-028@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-029@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "BR-talad-030@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "unique index บางส่วนที่ Member.phone เฉพาะ status = ACTIVE"
+    },
+    {
+      "rule": "BR-talad-031@v1",
+      "enforceAt": [
+        "api"
+      ],
+      "note": "ค้นหาสมาชิกไม่กรองตามผู้สมัคร"
+    },
+    {
+      "rule": "BR-talad-032@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "รายการปรับสต็อกเป็น insert-only และฐานข้อมูลกันคงเหลือติดลบ"
+    },
+    {
+      "rule": "BR-talad-033@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "ทุกการแก้ราคาสร้างแถวเวอร์ชันใหม่ ไม่มี update"
+    },
+    {
+      "rule": "BR-talad-034@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "บันทึกผู้ยกเลิก เวลา และเหตุผลพร้อมเปลี่ยนสถานะ"
+    },
+    {
+      "rule": "BR-talad-035@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "บิลอ้างเวอร์ชันที่ใช้ ณ ตอนชำระ ไม่คำนวณใหม่"
+    },
+    {
+      "rule": "BR-talad-036@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "เวอร์ชันเป็น insert-only และ foreign key จากบิลกันการลบ"
+    },
+    {
+      "rule": "BR-talad-037@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "สินค้า/โปรที่เลิกขายไม่ถูกส่งออกจาก API และทำให้ชำระไม่ได้"
+    },
+    {
+      "rule": "BR-talad-038@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "ราคา โปร และส่วนลดสมาชิกอ่านใหม่ ณ ตอนกดชำระ"
+    },
+    {
+      "rule": "BR-talad-039@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "unique index ที่ Sale.cart และสถานะตะกร้าเปลี่ยนเป็น PAID ใน transaction เดียวกัน"
+    },
+    {
+      "rule": "BR-talad-040@v2",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "ซ่อนด้วยสถานะ ไม่ลบแถว และ unique index บางส่วนปล่อยเบอร์"
+    },
+    {
+      "rule": "BR-talad-041@v1",
+      "enforceAt": [
+        "domain",
+        "db"
+      ],
+      "note": "unique index ที่ StockAdjustment.requestKey"
+    },
+    {
+      "rule": "BR-talad-042@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "domain ปฏิเสธการยกเลิกบิลที่สถานะ VOIDED แล้ว"
+    },
+    {
+      "rule": "CALC-talad-001@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-002@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-003@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-004@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-005@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-006@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-007@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-008@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    },
+    {
+      "rule": "CALC-talad-009@v1",
+      "enforceAt": [
+        "domain"
+      ],
+      "note": "คำนวณใน domain ตามสัญญาการคำนวณของ req ที่เดียว หน้าจอแสดงผลจาก API ไม่คำนวณเอง"
+    }
+  ]
+}
