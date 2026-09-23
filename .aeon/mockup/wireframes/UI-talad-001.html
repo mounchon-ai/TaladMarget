@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>เข้าสู่ระบบ — UI-talad-001 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-001" data-mockup="MCK-talad-001" data-layout="form">
+<header><h1>เข้าสู่ระบบ</h1><p>ผู้ใช้ยืนยันตัวตนด้วยชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้งานหน้าขาย</p><p><small>visible to: ROLE-003 (ผู้ที่ยังไม่เข้าสู่ระบบ)</small></p></header>
+<form data-zone="sign-in-form" data-source="design"><p><label>ชื่อผู้ใช้ <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-001-ent-008-username" name="ชื่อผู้ใช้" placeholder="ไม่ว่าง"></label></p><p><label>รหัสผ่าน <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-001-password" name="รหัสผ่าน" placeholder="ไม่ว่าง ไม่แสดงตัวอักษรที่พิมพ์"></label></p><button type="button" data-testid="ui-talad-001-sign-in" data-key="sign-in" data-kind="command" data-presentation="text" data-placement="sign-in-form" data-container="navigate">เข้าสู่ระบบ</button></form>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — หน้านี้เป็นฟอร์มสองช่อง ไม่แสดงรายการข้อมูล</dd><dt>loading</dt><dd>ปุ่มเข้าสู่ระบบถูกปิดและแสดงตัวหมุนระหว่างตรวจสอบ</dd><dt>error</dt><dd>แสดง &quot;ไม่พบชื่อผู้ใช้&quot; หรือ &quot;รหัสผ่านไม่ถูกต้อง&quot; ใต้ฟอร์มตาม BR-talad-005@v1 และยังอยู่ที่หน้านี้ · บัญชีที่ปิดใช้งาน: ไม่ให้เข้า (ข้อความรอกำหนดที่ req) · เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: แจ้งให้ลองใหม่</dd><dt>unauthorized (does not occur)</dt><dd>ไม่เกิด — หน้านี้เปิดได้โดยไม่ต้องล็อกอิน · ผู้ที่ล็อกอินอยู่แล้วถูกพาไปหน้าขาย</dd><dt>overflow (does not occur)</dt><dd>ไม่เกิด — ฟอร์มสองช่อง ไม่มีรายการ</dd></dl></section>
+<footer><small>MCK-talad-001 · wireframe L1 of UI-talad-001 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,427 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-013",
+  "screen": "UI-talad-012",
+  "title": "รายละเอียดสินค้า",
+  "purpose": "ดูข้อมูลสินค้า ประวัติราคา และรายการปรับสต็อก และเริ่มแก้ราคา ปรับสต็อก หรือเลิกขาย",
+  "level": "L1",
+  "layout": "form",
+  "kind": "detail",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "รายละเอียดสินค้า"
+        }
+      ]
+    },
+    {
+      "name": "summary",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อสินค้า",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "name",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "คงเหลือ",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "จุดเตือน",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-008@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ราคาปัจจุบัน",
+          "required": false,
+          "entity": "ENT-002",
+          "attribute": "price",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "edit",
+          "name": "แก้ไขข้อมูล",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "summary",
+          "container": "navigate",
+          "accessibleName": "แก้ไขข้อมูล",
+          "conventions": [],
+          "destination": "หน้าเพิ่ม/แก้ไขสินค้า",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "edit-price",
+          "name": "แก้ราคา",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "summary",
+          "container": "navigate",
+          "accessibleName": "แก้ราคา",
+          "conventions": [],
+          "destination": "หน้าต่างแก้ราคาสินค้า",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "adjust-stock",
+          "name": "ปรับสต็อก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "summary",
+          "container": "navigate",
+          "accessibleName": "ปรับสต็อก",
+          "conventions": [],
+          "destination": "หน้าต่างปรับสต็อก",
+          "rules": [
+            "BR-talad-041@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "summary",
+          "container": "navigate",
+          "accessibleName": "กลับ",
+          "conventions": [],
+          "destination": "หน้าสต็อก",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "price-history",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ราคาเดิม",
+          "required": false,
+          "entity": "ENT-002",
+          "attribute": "previousPrice",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-033@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ผู้แก้ราคา",
+          "required": false,
+          "entity": "ENT-002",
+          "attribute": "changedBy",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-033@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เวลาที่แก้ราคา",
+          "required": false,
+          "entity": "ENT-002",
+          "attribute": "changedAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-033@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        }
+      ]
+    },
+    {
+      "name": "adjustments",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "จำนวนที่ปรับ",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "quantityDelta",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เหตุผล",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "reason",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ผู้ปรับ",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "adjustedBy",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เวลาที่ปรับ",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "adjustedAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "หมายเหตุ",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "note",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        }
+      ]
+    },
+    {
+      "name": "danger",
+      "kind": "toolbar",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "action",
+          "key": "discontinue",
+          "name": "ลบสินค้า",
+          "kind": "delete",
+          "presentation": "text",
+          "placement": "danger",
+          "container": "navigate",
+          "accessibleName": "ลบสินค้า",
+          "conventions": [],
+          "destination": "หน้าสต็อก",
+          "rules": [
+            "BR-talad-037@v1",
+            "BR-talad-019@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-012-ent-001-name",
+      "type": "field",
+      "key": "ent-001-name",
+      "name": "ชื่อสินค้า"
+    },
+    {
+      "id": "ui-talad-012-ent-001-stock-qty",
+      "type": "field",
+      "key": "ent-001-stock-qty",
+      "name": "คงเหลือ"
+    },
+    {
+      "id": "ui-talad-012-ent-001-low-stock-threshold",
+      "type": "field",
+      "key": "ent-001-low-stock-threshold",
+      "name": "จุดเตือน"
+    },
+    {
+      "id": "ui-talad-012-ent-002-price",
+      "type": "field",
+      "key": "ent-002-price",
+      "name": "ราคาปัจจุบัน"
+    },
+    {
+      "id": "ui-talad-012-edit",
+      "type": "action",
+      "key": "edit"
+    },
+    {
+      "id": "ui-talad-012-edit-price",
+      "type": "action",
+      "key": "edit-price"
+    },
+    {
+      "id": "ui-talad-012-adjust-stock",
+      "type": "action",
+      "key": "adjust-stock"
+    },
+    {
+      "id": "ui-talad-012-back",
+      "type": "action",
+      "key": "back"
+    },
+    {
+      "id": "ui-talad-012-ent-002-previous-price",
+      "type": "field",
+      "key": "ent-002-previous-price",
+      "name": "ราคาเดิม"
+    },
+    {
+      "id": "ui-talad-012-ent-002-changed-by",
+      "type": "field",
+      "key": "ent-002-changed-by",
+      "name": "ผู้แก้ราคา"
+    },
+    {
+      "id": "ui-talad-012-ent-002-changed-at",
+      "type": "field",
+      "key": "ent-002-changed-at",
+      "name": "เวลาที่แก้ราคา"
+    },
+    {
+      "id": "ui-talad-012-ent-003-quantity-delta",
+      "type": "field",
+      "key": "ent-003-quantity-delta",
+      "name": "จำนวนที่ปรับ"
+    },
+    {
+      "id": "ui-talad-012-ent-003-reason",
+      "type": "field",
+      "key": "ent-003-reason",
+      "name": "เหตุผล"
+    },
+    {
+      "id": "ui-talad-012-ent-003-adjusted-by",
+      "type": "field",
+      "key": "ent-003-adjusted-by",
+      "name": "ผู้ปรับ"
+    },
+    {
+      "id": "ui-talad-012-ent-003-adjusted-at",
+      "type": "field",
+      "key": "ent-003-adjusted-at",
+      "name": "เวลาที่ปรับ"
+    },
+    {
+      "id": "ui-talad-012-ent-003-note",
+      "type": "field",
+      "key": "ent-003-note",
+      "name": "หมายเหตุ"
+    },
+    {
+      "id": "ui-talad-012-discontinue",
+      "type": "action",
+      "key": "discontinue"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ยังไม่มีประวัติราคาหรือรายการปรับสต็อก: แสดง \"ยังไม่มีรายการ\" ในส่วนนั้น"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "แสดงโครงแต่ละส่วนระหว่างโหลด"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ประวัติราคาและรายการปรับสต็อกยาว: แต่ละส่วนแบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว"
+    }
+  },
+  "extensions": {}
+}

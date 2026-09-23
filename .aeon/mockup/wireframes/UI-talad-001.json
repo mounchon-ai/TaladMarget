@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-001",
+  "screen": "UI-talad-001",
+  "title": "เข้าสู่ระบบ",
+  "purpose": "ผู้ใช้ยืนยันตัวตนด้วยชื่อผู้ใช้และรหัสผ่านเพื่อเข้าใช้งานหน้าขาย",
+  "level": "L1",
+  "layout": "form",
+  "kind": "auth",
+  "visibleTo": [
+    "ROLE-003"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "เข้าสู่ระบบ"
+        }
+      ]
+    },
+    {
+      "name": "sign-in-form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อผู้ใช้",
+          "required": true,
+          "entity": "ENT-008",
+          "attribute": "username",
+          "validation": "ไม่ว่าง",
+          "rules": [
+            "BR-talad-005@v1"
+          ],
+          "visibleTo": [
+            "ROLE-003"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "รหัสผ่าน",
+          "required": true,
+          "entity": null,
+          "attribute": null,
+          "validation": "ไม่ว่าง ไม่แสดงตัวอักษรที่พิมพ์",
+          "rules": [
+            "BR-talad-005@v1"
+          ],
+          "visibleTo": [
+            "ROLE-003"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "sign-in",
+          "name": "เข้าสู่ระบบ",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "sign-in-form",
+          "container": "navigate",
+          "accessibleName": "เข้าสู่ระบบ",
+          "conventions": [],
+          "destination": "หน้าขาย หรือหน้าที่ผู้ใช้ตั้งใจเปิดก่อนถูกพามาหน้านี้",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-001-ent-008-username",
+      "type": "field",
+      "key": "ent-008-username",
+      "name": "ชื่อผู้ใช้"
+    },
+    {
+      "id": "ui-talad-001-password",
+      "type": "field",
+      "key": "password",
+      "name": "รหัสผ่าน"
+    },
+    {
+      "id": "ui-talad-001-sign-in",
+      "type": "action",
+      "key": "sign-in"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้านี้เป็นฟอร์มสองช่อง ไม่แสดงรายการข้อมูล"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มเข้าสู่ระบบถูกปิดและแสดงตัวหมุนระหว่างตรวจสอบ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "แสดง \"ไม่พบชื่อผู้ใช้\" หรือ \"รหัสผ่านไม่ถูกต้อง\" ใต้ฟอร์มตาม BR-talad-005@v1 และยังอยู่ที่หน้านี้ · บัญชีที่ปิดใช้งาน: ไม่ให้เข้า (ข้อความรอกำหนดที่ req) · เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: แจ้งให้ลองใหม่"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้านี้เปิดได้โดยไม่ต้องล็อกอิน · ผู้ที่ล็อกอินอยู่แล้วถูกพาไปหน้าขาย"
+    },
+    "overflow": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มสองช่อง ไม่มีรายการ"
+    }
+  },
+  "extensions": {}
+}

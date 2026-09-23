@@ -1,0 +1,274 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-008",
+  "screen": "UI-talad-007",
+  "title": "ประวัติการขาย",
+  "purpose": "ค้นหาบิลขายย้อนหลังตามสิทธิ์ เพื่อเปิดดู พิมพ์ซ้ำ หรือยกเลิก",
+  "level": "L1",
+  "layout": "rows",
+  "kind": "list",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "ประวัติการขาย"
+        }
+      ]
+    },
+    {
+      "name": "filters",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ค้นหา",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "เลขใบเสร็จ หรือช่วงวันที่ ไม่บังคับ",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "ค้นหา",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "Export Excel",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-017@v1",
+            "BR-talad-018@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "เลขใบเสร็จ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "receiptNo",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "วันเวลา",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ผู้ขาย",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "seller",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สมาชิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "member",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ยอดชำระ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สถานะ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "status",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "open-sale",
+          "name": "ดูบิล",
+          "kind": "view",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "navigate",
+          "accessibleName": "ดูบิล",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "หน้ารายละเอียดบิล",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-007-search-text",
+      "type": "field",
+      "key": "search-text",
+      "name": "ค้นหา"
+    },
+    {
+      "id": "ui-talad-007-search",
+      "type": "action",
+      "key": "search"
+    },
+    {
+      "id": "ui-talad-007-export",
+      "type": "action",
+      "key": "export"
+    },
+    {
+      "id": "ui-talad-007-ent-011-receipt-no",
+      "type": "field",
+      "key": "ent-011-receipt-no",
+      "name": "เลขใบเสร็จ"
+    },
+    {
+      "id": "ui-talad-007-ent-011-paid-at",
+      "type": "field",
+      "key": "ent-011-paid-at",
+      "name": "วันเวลา"
+    },
+    {
+      "id": "ui-talad-007-ent-011-seller",
+      "type": "field",
+      "key": "ent-011-seller",
+      "name": "ผู้ขาย"
+    },
+    {
+      "id": "ui-talad-007-ent-011-member",
+      "type": "field",
+      "key": "ent-011-member",
+      "name": "สมาชิก"
+    },
+    {
+      "id": "ui-talad-007-ent-011-net-total",
+      "type": "field",
+      "key": "ent-011-net-total",
+      "name": "ยอดชำระ"
+    },
+    {
+      "id": "ui-talad-007-ent-011-status",
+      "type": "field",
+      "key": "ent-011-status",
+      "name": "สถานะ"
+    },
+    {
+      "id": "ui-talad-007-open-sale",
+      "type": "action",
+      "key": "open-sale"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ยังไม่มีบิลหรือค้นหาไม่พบ: แสดง \"ไม่พบบิลขาย\" · พนักงานขายที่ยังไม่เคยขายเห็นข้อความเดียวกัน ไม่ใช่ข้อความเรื่องสิทธิ์"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดในรูปหน้าต้องห้าม — พนักงานขายเปิดได้แต่เห็นเฉพาะบิลที่ตัวเองเป็นผู้ขาย บิลของคนอื่นไม่อยู่ในผลลัพธ์เลย (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+    }
+  },
+  "extensions": {}
+}

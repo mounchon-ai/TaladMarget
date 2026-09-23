@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>สมาชิก — UI-talad-004 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-004" data-mockup="MCK-talad-005" data-layout="rows">
+<header><h1>สมาชิก</h1><p>ค้นหาสมาชิกทุกคนของร้าน เพื่อเปิดดูหรือแก้ข้อมูล และสมัครสมาชิกใหม่</p><p><small>visible to: ROLE-001 (พนักงานขาย), ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="filters" data-source="design"><p><label>ค้นหา <input type="text" data-testid="ui-talad-004-search-text" name="ค้นหา" placeholder="เบอร์โทรเต็ม 10 หลัก หรือชื่อบางส่วน"></label></p><button type="button" data-testid="ui-talad-004-search" data-key="search" data-kind="filter" data-presentation="text" data-placement="filters" data-container="inline">ค้นหา</button><button type="button" data-testid="ui-talad-004-register" data-key="register" data-kind="navigate" data-presentation="text" data-placement="filters" data-container="navigate">สมัครสมาชิก</button></form>
+<table data-zone="results" data-source="design"><caption>rows — sample row shows the bound column, not data</caption><thead><tr><th>actions</th><th>ชื่อ</th><th>เบอร์โทร</th><th>ยอดซื้อสะสม</th></tr></thead><tbody><tr><td><button type="button" data-testid="ui-talad-004-open-member" data-key="open-member" data-kind="view" data-presentation="icon" data-placement="first-column" data-container="navigate" aria-label="ดูข้อมูล">[icon]</button></td><td data-testid="ui-talad-004-ent-004-name">ENT-004.name</td><td data-testid="ui-talad-004-ent-004-phone">ENT-004.phone</td><td data-testid="ui-talad-004-ent-004-accumulated-amount">ENT-004.accumulatedAmount</td></tr></tbody></table>
+<section aria-label="states"><h2>states</h2><dl><dt>empty</dt><dd>ยังไม่มีสมาชิกหรือค้นหาไม่พบ: แสดง &quot;ไม่พบสมาชิก — สมัครสมาชิกใหม่?&quot; พร้อมปุ่มสมัคร</dd><dt>loading</dt><dd>ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR</dd><dt>error</dt><dd>โหลดข้อมูลไม่สำเร็จ แสดงข้อความ &quot;โหลดข้อมูลไม่สำเร็จ&quot; พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย</dd><dt>unauthorized (does not occur)</dt><dd>ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)</dd><dt>overflow</dt><dd>ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้</dd></dl></section>
+<footer><small>MCK-talad-005 · wireframe L1 of UI-talad-004 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

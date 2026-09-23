@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>ยกเลิกบิล — UI-talad-009 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-009" data-mockup="MCK-talad-010" data-layout="form">
+<header><h1>ยกเลิกบิล</h1><p>เจ้าของร้านยืนยันการยกเลิกบิลพร้อมเหตุผล</p><p><small>visible to: ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="form" data-source="design"><p><label>เหตุผลการยกเลิก <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-009-ent-011-void-reason" name="เหตุผลการยกเลิก" placeholder="ไม่ว่าง"></label></p><button type="button" data-testid="ui-talad-009-confirm-void" data-key="confirm-void" data-kind="command" data-presentation="text" data-placement="form" data-container="navigate">ยืนยันยกเลิก</button><button type="button" data-testid="ui-talad-009-cancel" data-key="cancel" data-kind="navigate" data-presentation="text" data-placement="form" data-container="navigate">ไม่ยกเลิก</button></form>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — หน้าต่างเปิดจากบิลที่เลือกเสมอ</dd><dt>loading</dt><dd>ปุ่มยืนยันถูกปิดระหว่างยกเลิกเพื่อกันกดซ้ำ</dd><dt>error</dt><dd>ไม่ระบุเหตุผล: แสดง &quot;กรุณาระบุเหตุผลการยกเลิก&quot; · บิลถูกยกเลิกไปแล้ว: แสดง error ตาม BR-talad-042@v1 ไม่คืนของซ้ำ · ขึ้นวันใหม่ระหว่างเปิดหน้าต่าง: ปฏิเสธตาม BR-talad-023@v1</dd><dt>unauthorized</dt><dd>พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง &quot;คุณไม่มีสิทธิ์เข้าถึงหน้านี้&quot; โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow</dt><dd>ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้</dd></dl></section>
+<footer><small>MCK-talad-010 · wireframe L1 of UI-talad-009 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

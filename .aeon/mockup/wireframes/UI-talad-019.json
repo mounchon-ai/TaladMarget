@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-023",
+  "screen": "UI-talad-019",
+  "title": "เพิ่ม/แก้ไขบัญชีพนักงาน",
+  "purpose": "เจ้าของร้านสร้างบัญชี แก้ชื่อที่แสดงและบทบาท รีเซ็ตรหัสผ่าน และปิดหรือเปิดใช้งานบัญชี",
+  "level": "L1",
+  "layout": "form",
+  "kind": "edit",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "เพิ่ม/แก้ไขบัญชีพนักงาน"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อที่แสดง",
+          "required": true,
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "validation": "ไม่ว่าง",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ชื่อผู้ใช้",
+          "required": true,
+          "entity": "ENT-008",
+          "attribute": "username",
+          "validation": "ไม่ว่าง ห้ามซ้ำกับบัญชีใด ๆ รวมบัญชีที่ปิดใช้งาน",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "บทบาท",
+          "required": true,
+          "entity": "ENT-008",
+          "attribute": "role",
+          "validation": "พนักงานขาย หรือเจ้าของร้าน/ผู้ดูแล",
+          "rules": [
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "รหัสผ่าน (ตอนสร้าง) / รหัสผ่านใหม่ (ตอนรีเซ็ต)",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "บังคับตอนสร้างบัญชีและตอนรีเซ็ต ไม่แสดงตัวอักษร · นโยบายความยาวรอกำหนดที่ req",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "สถานะ",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "status",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "หน้าบัญชีพนักงาน",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้าบัญชีพนักงาน",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "account-actions",
+      "kind": "toolbar",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "action",
+          "key": "reset-password",
+          "name": "รีเซ็ตรหัสผ่าน",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "account-actions",
+          "container": "inline",
+          "accessibleName": "รีเซ็ตรหัสผ่าน",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "toggle-active",
+          "name": "ปิด/เปิดใช้งาน",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "account-actions",
+          "container": "inline",
+          "accessibleName": "ปิด/เปิดใช้งาน",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-019-ent-008-display-name",
+      "type": "field",
+      "key": "ent-008-display-name",
+      "name": "ชื่อที่แสดง"
+    },
+    {
+      "id": "ui-talad-019-ent-008-username",
+      "type": "field",
+      "key": "ent-008-username",
+      "name": "ชื่อผู้ใช้"
+    },
+    {
+      "id": "ui-talad-019-ent-008-role",
+      "type": "field",
+      "key": "ent-008-role",
+      "name": "บทบาท"
+    },
+    {
+      "id": "ui-talad-019-password",
+      "type": "field",
+      "key": "password",
+      "name": "รหัสผ่าน (ตอนสร้าง) / รหัสผ่านใหม่ (ตอนรีเซ็ต)"
+    },
+    {
+      "id": "ui-talad-019-ent-008-status",
+      "type": "field",
+      "key": "ent-008-status",
+      "name": "สถานะ"
+    },
+    {
+      "id": "ui-talad-019-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-019-cancel",
+      "type": "action",
+      "key": "cancel"
+    },
+    {
+      "id": "ui-talad-019-reset-password",
+      "type": "action",
+      "key": "reset-password"
+    },
+    {
+      "id": "ui-talad-019-toggle-active",
+      "type": "action",
+      "key": "toggle-active"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการสร้างบัญชี"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มถูกปิดระหว่างบันทึก"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ชื่อผู้ใช้ซ้ำ หรือช่องบังคับว่าง: แสดงข้อความใต้ช่อง ไม่บันทึก · รหัสผ่านใหม่ว่างตอนรีเซ็ต: ไม่บันทึก"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+    }
+  },
+  "extensions": {}
+}

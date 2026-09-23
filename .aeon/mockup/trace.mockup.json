@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "owner": "mockup",
+  "project": "talad",
+  "edges": [
+    {
+      "from": "UI-talad-001",
+      "rel": "mockedBy",
+      "to": "MCK-talad-001"
+    },
+    {
+      "from": "UI-talad-002",
+      "rel": "mockedBy",
+      "to": "MCK-talad-002"
+    },
+    {
+      "from": "UI-talad-003",
+      "rel": "mockedBy",
+      "to": "MCK-talad-003"
+    },
+    {
+      "from": "RPT-talad-001",
+      "rel": "mockedBy",
+      "to": "MCK-talad-004"
+    },
+    {
+      "from": "UI-talad-004",
+      "rel": "mockedBy",
+      "to": "MCK-talad-005"
+    },
+    {
+      "from": "UI-talad-005",
+      "rel": "mockedBy",
+      "to": "MCK-talad-006"
+    },
+    {
+      "from": "UI-talad-006",
+      "rel": "mockedBy",
+      "to": "MCK-talad-007"
+    },
+    {
+      "from": "UI-talad-007",
+      "rel": "mockedBy",
+      "to": "MCK-talad-008"
+    },
+    {
+      "from": "UI-talad-008",
+      "rel": "mockedBy",
+      "to": "MCK-talad-009"
+    },
+    {
+      "from": "UI-talad-009",
+      "rel": "mockedBy",
+      "to": "MCK-talad-010"
+    },
+    {
+      "from": "UI-talad-010",
+      "rel": "mockedBy",
+      "to": "MCK-talad-011"
+    },
+    {
+      "from": "UI-talad-011",
+      "rel": "mockedBy",
+      "to": "MCK-talad-012"
+    },
+    {
+      "from": "UI-talad-012",
+      "rel": "mockedBy",
+      "to": "MCK-talad-013"
+    },
+    {
+      "from": "UI-talad-014",
+      "rel": "mockedBy",
+      "to": "MCK-talad-014"
+    },
+    {
+      "from": "UI-talad-015",
+      "rel": "mockedBy",
+      "to": "MCK-talad-015"
+    },
+    {
+      "from": "UI-talad-016",
+      "rel": "mockedBy",
+      "to": "MCK-talad-016"
+    },
+    {
+      "from": "UI-talad-017",
+      "rel": "mockedBy",
+      "to": "MCK-talad-017"
+    },
+    {
+      "from": "RPT-talad-002",
+      "rel": "mockedBy",
+      "to": "MCK-talad-018"
+    },
+    {
+      "from": "RPT-talad-003",
+      "rel": "mockedBy",
+      "to": "MCK-talad-019"
+    },
+    {
+      "from": "RPT-talad-004",
+      "rel": "mockedBy",
+      "to": "MCK-talad-020"
+    },
+    {
+      "from": "RPT-talad-005",
+      "rel": "mockedBy",
+      "to": "MCK-talad-021"
+    },
+    {
+      "from": "UI-talad-018",
+      "rel": "mockedBy",
+      "to": "MCK-talad-022"
+    },
+    {
+      "from": "UI-talad-019",
+      "rel": "mockedBy",
+      "to": "MCK-talad-023"
+    }
+  ],
+  "extensions": {}
+}

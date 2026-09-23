@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>ปรับสต็อก — UI-talad-014 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-014" data-mockup="MCK-talad-014" data-layout="form">
+<header><h1>ปรับสต็อก</h1><p>เจ้าของร้านบันทึกรับของเข้า ของเน่า/เสีย หรือผลการนับสต็อกใหม่</p><p><small>visible to: ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="form" data-source="design"><dt>คงเหลือปัจจุบัน</dt><dd data-testid="ui-talad-014-ent-001-stock-qty">แสดงค่าจากระบบ อ่านอย่างเดียว <small>(ENT-001.stockQty)</small></dd><p><label>เหตุผล <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-014-ent-003-reason" name="เหตุผล" placeholder="เลือกจากรายการ: รับของเข้า · ของเน่า/เสีย · นับสต็อกใหม่"></label></p><p><label>จำนวน +/− <input type="text" data-testid="ui-talad-014-ent-003-quantity-delta" name="จำนวน +/−" placeholder="จำนวนเต็มไม่เป็น 0 บังคับเมื่อเหตุผลไม่ใช่นับสต็อกใหม่ · ผลต้องไม่ทำให้คงเหลือติดลบ"></label></p><p><label>จำนวนที่นับได้ <input type="text" data-testid="ui-talad-014-ent-003-counted-qty" name="จำนวนที่นับได้" placeholder="จำนวนเต็ม ≥ 0 บังคับเมื่อเหตุผลคือนับสต็อกใหม่"></label></p><p><label>หมายเหตุ <input type="text" data-testid="ui-talad-014-ent-003-note" name="หมายเหตุ" placeholder="ไม่บังคับ"></label></p><button type="button" data-testid="ui-talad-014-save" data-key="save" data-kind="create" data-presentation="text" data-placement="form" data-container="navigate">บันทึก</button><button type="button" data-testid="ui-talad-014-cancel" data-key="cancel" data-kind="navigate" data-presentation="text" data-placement="form" data-container="navigate">ยกเลิก</button></form>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้น</dd><dt>loading</dt><dd>ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ</dd><dt>error</dt><dd>ติดลบ: แสดง &quot;จำนวนคงเหลือต้องไม่ติดลบ (เหลือ &lt;จำนวน&gt;)&quot; · บันทึกซ้ำด้วยฟอร์มเดิม: แสดง &quot;รายการปรับสต็อกนี้บันทึกไปแล้ว&quot; ไม่ปรับซ้ำ (BR-talad-041@v1)</dd><dt>unauthorized</dt><dd>พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง &quot;คุณไม่มีสิทธิ์เข้าถึงหน้านี้&quot; โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow</dt><dd>หมายเหตุยาว: ช่องเลื่อนภายในตัวเอง</dd></dl></section>
+<footer><small>MCK-talad-014 · wireframe L1 of UI-talad-014 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

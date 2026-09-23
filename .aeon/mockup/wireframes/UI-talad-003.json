@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-003",
+  "screen": "UI-talad-003",
+  "title": "เลือกโปรโมชั่นที่ลดเท่ากัน",
+  "purpose": "พนักงานเลือกโปรเมื่อโปรที่ลดมากที่สุดลดเท่ากันพอดี ก่อนชำระเงิน",
+  "level": "L1",
+  "layout": "rows",
+  "kind": "modal",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "เลือกโปรโมชั่นที่ลดเท่ากัน"
+        }
+      ]
+    },
+    {
+      "name": "options",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อโปร",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "name",
+          "validation": "แสดงทุกโปรที่ลดเท่ากัน",
+          "rules": [
+            "BR-talad-029@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดของโปร (บาท)",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "คำนวณตามสัญญาการคำนวณของโปรนั้น",
+          "rules": [
+            "CALC-talad-008@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "choose-promo",
+          "name": "เลือกโปรนี้",
+          "kind": "command",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "navigate",
+          "accessibleName": "เลือกโปรนี้",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "ใบเสร็จเต็มจอเมื่อชำระสำเร็จ",
+          "rules": [
+            "BR-talad-029@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "options",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้าขาย ตะกร้าคงเดิม",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-003-ent-006-name",
+      "type": "field",
+      "key": "ent-006-name",
+      "name": "ชื่อโปร"
+    },
+    {
+      "id": "ui-talad-003-promo-discount",
+      "type": "field",
+      "key": "promo-discount",
+      "name": "ส่วนลดของโปร (บาท)"
+    },
+    {
+      "id": "ui-talad-003-choose-promo",
+      "type": "action",
+      "key": "choose-promo"
+    },
+    {
+      "id": "ui-talad-003-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้าต่างนี้เปิดเฉพาะเมื่อมีโปรลดเท่ากันอย่างน้อยสองโปร"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มเลือกถูกปิดระหว่างชำระ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ชำระไม่สำเร็จ: ปิดหน้าต่างและแสดงข้อความตามกฎที่หน้าขาย"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "โปรลดเท่ากันหลายโปร: รายการเลื่อนภายในหน้าต่าง"
+    }
+  },
+  "extensions": {}
+}

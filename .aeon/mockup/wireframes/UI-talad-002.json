@@ -1,0 +1,588 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-002",
+  "screen": "UI-talad-002",
+  "title": "หน้าขาย",
+  "purpose": "พนักงานเลือกสินค้าใส่ตะกร้า ผูกสมาชิก ตรวจยอดและส่วนลด แล้วชำระเงิน",
+  "level": "L1",
+  "layout": "other",
+  "kind": "workflow",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "หน้าขาย"
+        }
+      ]
+    },
+    {
+      "name": "product-browser",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ค้นหาสินค้า",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "ชื่อสินค้าบางส่วนหรือเลขบาร์โค้ดเต็ม ไม่บังคับ",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ชื่อสินค้า (การ์ด)",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "name",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "รูปสินค้า (การ์ด)",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "image",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ราคา (การ์ด)",
+          "required": false,
+          "entity": "ENT-002",
+          "attribute": "price",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ป้ายใกล้หมด",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "validation": "แสดงป้าย \"ใกล้หมด\" เมื่อ stockQty ≤ ค่านี้",
+          "rules": [
+            "BR-talad-008@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "search-product",
+          "name": "ค้นหาสินค้า",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "product-browser",
+          "container": "inline",
+          "accessibleName": "ค้นหาสินค้า",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "add-to-cart",
+          "name": "หยิบใส่ตะกร้า",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "product-browser",
+          "container": "inline",
+          "accessibleName": "หยิบใส่ตะกร้า",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "edit-price",
+          "name": "แก้ราคา",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "product-browser",
+          "container": "navigate",
+          "accessibleName": "แก้ราคา",
+          "conventions": [],
+          "destination": "หน้าต่างแก้ราคาสินค้า",
+          "rules": [
+            "BR-talad-019@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cart",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "สินค้าในตะกร้า",
+          "required": false,
+          "entity": "ENT-010",
+          "attribute": "product",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "จำนวน",
+          "required": true,
+          "entity": "ENT-010",
+          "attribute": "qty",
+          "validation": "จำนวนเต็ม ≥ 1 ปรับด้วยปุ่ม + และ − ไม่เกินคงเหลือ",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ชื่อโปรของบรรทัด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "name",
+          "validation": "แสดงใต้บรรทัดเมื่อบรรทัดนั้นได้โปร",
+          "rules": [
+            "BR-talad-029@v1",
+            "BR-talad-016@v2"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "increase-qty",
+          "name": "+",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "cart",
+          "container": "inline",
+          "accessibleName": "+",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "decrease-qty",
+          "name": "−",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "cart",
+          "container": "inline",
+          "accessibleName": "−",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-001@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "remove-line",
+          "name": "ลบรายการ",
+          "kind": "delete",
+          "presentation": "text",
+          "placement": "cart",
+          "container": "inline",
+          "accessibleName": "ลบรายการ",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-001@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "member",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ค้นหาสมาชิก",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "เบอร์โทรเต็ม 10 หลัก หรือชื่อบางส่วน · เบอร์บางส่วนค้นไม่เจอ",
+          "rules": [
+            "BR-talad-004@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "สมาชิกที่ผูกกับตะกร้า",
+          "required": false,
+          "entity": "ENT-009",
+          "attribute": "member",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "search-member",
+          "name": "ค้นหาสมาชิก",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "member",
+          "container": "inline",
+          "accessibleName": "ค้นหาสมาชิก",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-004@v1",
+            "BR-talad-031@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "bind-member",
+          "name": "เลือกสมาชิก",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "member",
+          "container": "inline",
+          "accessibleName": "เลือกสมาชิก",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "register-member",
+          "name": "สมัครสมาชิกใหม่",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "member",
+          "container": "navigate",
+          "accessibleName": "สมัครสมาชิกใหม่",
+          "conventions": [],
+          "destination": "หน้าสมัครสมาชิก",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "totals",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ยอดรวมหลังโปรระดับสินค้า",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-001@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดทั้งบิล",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-003@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดสมาชิก",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "คำนวณตามสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-009@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ยอดที่ต้องชำระ",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "คำนวณตามสัญญาการคำนวณ ด้วยค่า ณ ตอนกดชำระ",
+          "rules": [
+            "CALC-talad-001@v1",
+            "BR-talad-038@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "checkout",
+          "name": "ชำระเงิน",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "totals",
+          "container": "navigate",
+          "accessibleName": "ชำระเงิน",
+          "conventions": [],
+          "destination": "ใบเสร็จเต็มจอ",
+          "rules": [
+            "BR-talad-038@v1",
+            "BR-talad-039@v1",
+            "BR-talad-007@v1",
+            "BR-talad-037@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-002-product-search",
+      "type": "field",
+      "key": "product-search",
+      "name": "ค้นหาสินค้า"
+    },
+    {
+      "id": "ui-talad-002-ent-001-name",
+      "type": "field",
+      "key": "ent-001-name",
+      "name": "ชื่อสินค้า (การ์ด)"
+    },
+    {
+      "id": "ui-talad-002-ent-001-image",
+      "type": "field",
+      "key": "ent-001-image",
+      "name": "รูปสินค้า (การ์ด)"
+    },
+    {
+      "id": "ui-talad-002-ent-002-price",
+      "type": "field",
+      "key": "ent-002-price",
+      "name": "ราคา (การ์ด)"
+    },
+    {
+      "id": "ui-talad-002-ent-001-low-stock-threshold",
+      "type": "field",
+      "key": "ent-001-low-stock-threshold",
+      "name": "ป้ายใกล้หมด"
+    },
+    {
+      "id": "ui-talad-002-search-product",
+      "type": "action",
+      "key": "search-product"
+    },
+    {
+      "id": "ui-talad-002-add-to-cart",
+      "type": "action",
+      "key": "add-to-cart"
+    },
+    {
+      "id": "ui-talad-002-edit-price",
+      "type": "action",
+      "key": "edit-price"
+    },
+    {
+      "id": "ui-talad-002-ent-010-product",
+      "type": "field",
+      "key": "ent-010-product",
+      "name": "สินค้าในตะกร้า"
+    },
+    {
+      "id": "ui-talad-002-ent-010-qty",
+      "type": "field",
+      "key": "ent-010-qty",
+      "name": "จำนวน"
+    },
+    {
+      "id": "ui-talad-002-ent-006-name",
+      "type": "field",
+      "key": "ent-006-name",
+      "name": "ชื่อโปรของบรรทัด"
+    },
+    {
+      "id": "ui-talad-002-increase-qty",
+      "type": "action",
+      "key": "increase-qty"
+    },
+    {
+      "id": "ui-talad-002-decrease-qty",
+      "type": "action",
+      "key": "decrease-qty"
+    },
+    {
+      "id": "ui-talad-002-remove-line",
+      "type": "action",
+      "key": "remove-line"
+    },
+    {
+      "id": "ui-talad-002-member-search",
+      "type": "field",
+      "key": "member-search",
+      "name": "ค้นหาสมาชิก"
+    },
+    {
+      "id": "ui-talad-002-ent-009-member",
+      "type": "field",
+      "key": "ent-009-member",
+      "name": "สมาชิกที่ผูกกับตะกร้า"
+    },
+    {
+      "id": "ui-talad-002-search-member",
+      "type": "action",
+      "key": "search-member"
+    },
+    {
+      "id": "ui-talad-002-bind-member",
+      "type": "action",
+      "key": "bind-member"
+    },
+    {
+      "id": "ui-talad-002-register-member",
+      "type": "action",
+      "key": "register-member"
+    },
+    {
+      "id": "ui-talad-002-subtotal-after-item-promo",
+      "type": "field",
+      "key": "subtotal-after-item-promo",
+      "name": "ยอดรวมหลังโปรระดับสินค้า"
+    },
+    {
+      "id": "ui-talad-002-bill-discount",
+      "type": "field",
+      "key": "bill-discount",
+      "name": "ส่วนลดทั้งบิล"
+    },
+    {
+      "id": "ui-talad-002-member-discount",
+      "type": "field",
+      "key": "member-discount",
+      "name": "ส่วนลดสมาชิก"
+    },
+    {
+      "id": "ui-talad-002-amount-due",
+      "type": "field",
+      "key": "amount-due",
+      "name": "ยอดที่ต้องชำระ"
+    },
+    {
+      "id": "ui-talad-002-checkout",
+      "type": "action",
+      "key": "checkout"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ตะกร้าว่าง: แสดง \"ยังไม่มีสินค้าในตะกร้า\" และปุ่มชำระเงินกดไม่ได้ · ค้นหาสินค้าไม่พบ: แสดง \"ไม่พบสินค้า\" · ค้นหาสมาชิกไม่พบ: แสดง \"ไม่พบสมาชิก — สมัครสมาชิกใหม่?\""
+    },
+    "loading": {
+      "occurs": true,
+      "text": "การ์ดสินค้าแสดงโครงระหว่างโหลด ตะกร้ายังแก้ได้ · ระหว่างชำระปุ่มชำระเงินถูกปิดเพื่อกันกดซ้ำ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ชำระไม่สำเร็จ: แสดงข้อความตามกฎ (คงเหลือไม่พอ BR-talad-007@v1 · เลิกขายแล้ว BR-talad-037@v1 · ชำระไปแล้ว BR-talad-039@v1) ตะกร้าคงเดิม · เชื่อมต่อไม่ได้: แจ้งให้ลองใหม่ ตะกร้าคงเดิม"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "สินค้าหลายพันรายการ: การ์ดแบ่งหน้าจากเซิร์ฟเวอร์ · ชื่อสินค้ายาวตัดด้วย … · ตะกร้ายาวเลื่อนภายในกรอบตะกร้า ยอดรวมอยู่กับที่"
+    }
+  },
+  "extensions": {}
+}

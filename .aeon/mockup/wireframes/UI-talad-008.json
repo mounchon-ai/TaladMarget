@@ -1,0 +1,502 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-009",
+  "screen": "UI-talad-008",
+  "title": "รายละเอียดบิล",
+  "purpose": "ดูรายการ ส่วนลด ผู้ขาย สมาชิก และสถานะของบิล พิมพ์ใบเสร็จซ้ำ และให้เจ้าของร้านยกเลิกบิลของวันนี้",
+  "level": "L1",
+  "layout": "form",
+  "kind": "detail",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "รายละเอียดบิล"
+        }
+      ]
+    },
+    {
+      "name": "header",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "เลขใบเสร็จ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "receiptNo",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "วันเวลา",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "paidAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ผู้ขาย",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "seller",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-006@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สมาชิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "member",
+          "validation": "แสดงชื่อและเบอร์แม้สมาชิกถูกซ่อนแล้ว",
+          "rules": [
+            "BR-talad-040@v2"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สถานะ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "status",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "header",
+          "container": "navigate",
+          "accessibleName": "กลับ",
+          "conventions": [],
+          "destination": "หน้าประวัติการขาย",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "lines",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "สินค้า",
+          "required": false,
+          "entity": "ENT-012",
+          "attribute": "product",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "จำนวน",
+          "required": false,
+          "entity": "ENT-012",
+          "attribute": "qty",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ราคา ณ ตอนขาย",
+          "required": false,
+          "entity": "ENT-012",
+          "attribute": "unitPrice",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-035@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "โปรของบรรทัด",
+          "required": false,
+          "entity": "ENT-012",
+          "attribute": "promotionVersion",
+          "validation": "แสดงชื่อโปรและส่วนลดใต้บรรทัด",
+          "rules": [
+            "BR-talad-016@v2"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดของบรรทัด",
+          "required": false,
+          "entity": "ENT-012",
+          "attribute": "promoDiscount",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        }
+      ]
+    },
+    {
+      "name": "totals",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ส่วนลดโปรโมชั่น",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "promoDiscountTotal",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดทั้งบิล",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "billDiscount",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ส่วนลดสมาชิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "memberDiscount",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ยอดชำระ",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "reprint",
+          "name": "พิมพ์ใบเสร็จซ้ำ",
+          "kind": "other",
+          "presentation": "text",
+          "placement": "totals",
+          "container": "inline",
+          "accessibleName": "พิมพ์ใบเสร็จซ้ำ",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-026@v1",
+            "BR-talad-018@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "void",
+          "name": "ยกเลิกบิล",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "totals",
+          "container": "navigate",
+          "accessibleName": "ยกเลิกบิล",
+          "conventions": [],
+          "destination": "หน้าต่างยกเลิกบิล",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-023@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "void-info",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ผู้ยกเลิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "voidedBy",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-034@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เวลาที่ยกเลิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "voidedAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-034@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เหตุผลการยกเลิก",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "voidReason",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-034@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-008-ent-011-receipt-no",
+      "type": "field",
+      "key": "ent-011-receipt-no",
+      "name": "เลขใบเสร็จ"
+    },
+    {
+      "id": "ui-talad-008-ent-011-paid-at",
+      "type": "field",
+      "key": "ent-011-paid-at",
+      "name": "วันเวลา"
+    },
+    {
+      "id": "ui-talad-008-ent-011-seller",
+      "type": "field",
+      "key": "ent-011-seller",
+      "name": "ผู้ขาย"
+    },
+    {
+      "id": "ui-talad-008-ent-011-member",
+      "type": "field",
+      "key": "ent-011-member",
+      "name": "สมาชิก"
+    },
+    {
+      "id": "ui-talad-008-ent-011-status",
+      "type": "field",
+      "key": "ent-011-status",
+      "name": "สถานะ"
+    },
+    {
+      "id": "ui-talad-008-back",
+      "type": "action",
+      "key": "back"
+    },
+    {
+      "id": "ui-talad-008-ent-012-product",
+      "type": "field",
+      "key": "ent-012-product",
+      "name": "สินค้า"
+    },
+    {
+      "id": "ui-talad-008-ent-012-qty",
+      "type": "field",
+      "key": "ent-012-qty",
+      "name": "จำนวน"
+    },
+    {
+      "id": "ui-talad-008-ent-012-unit-price",
+      "type": "field",
+      "key": "ent-012-unit-price",
+      "name": "ราคา ณ ตอนขาย"
+    },
+    {
+      "id": "ui-talad-008-ent-012-promotion-version",
+      "type": "field",
+      "key": "ent-012-promotion-version",
+      "name": "โปรของบรรทัด"
+    },
+    {
+      "id": "ui-talad-008-ent-012-promo-discount",
+      "type": "field",
+      "key": "ent-012-promo-discount",
+      "name": "ส่วนลดของบรรทัด"
+    },
+    {
+      "id": "ui-talad-008-ent-011-promo-discount-total",
+      "type": "field",
+      "key": "ent-011-promo-discount-total",
+      "name": "ส่วนลดโปรโมชั่น"
+    },
+    {
+      "id": "ui-talad-008-ent-011-bill-discount",
+      "type": "field",
+      "key": "ent-011-bill-discount",
+      "name": "ส่วนลดทั้งบิล"
+    },
+    {
+      "id": "ui-talad-008-ent-011-member-discount",
+      "type": "field",
+      "key": "ent-011-member-discount",
+      "name": "ส่วนลดสมาชิก"
+    },
+    {
+      "id": "ui-talad-008-ent-011-net-total",
+      "type": "field",
+      "key": "ent-011-net-total",
+      "name": "ยอดชำระ"
+    },
+    {
+      "id": "ui-talad-008-reprint",
+      "type": "action",
+      "key": "reprint"
+    },
+    {
+      "id": "ui-talad-008-void",
+      "type": "action",
+      "key": "void"
+    },
+    {
+      "id": "ui-talad-008-ent-011-voided-by",
+      "type": "field",
+      "key": "ent-011-voided-by",
+      "name": "ผู้ยกเลิก"
+    },
+    {
+      "id": "ui-talad-008-ent-011-voided-at",
+      "type": "field",
+      "key": "ent-011-voided-at",
+      "name": "เวลาที่ยกเลิก"
+    },
+    {
+      "id": "ui-talad-008-ent-011-void-reason",
+      "type": "field",
+      "key": "ent-011-void-reason",
+      "name": "เหตุผลการยกเลิก"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้าเปิดจากบิลที่มีอยู่เสมอ"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "แสดงโครงบิลระหว่างโหลด"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดบิลของคนอื่นตรง ๆ: API ปฏิเสธและพากลับประวัติการขายพร้อม \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" ไม่แสดงข้อมูลบิล (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "บิลหลายบรรทัด: ส่วนรายการเลื่อนได้ ยอดรวมอยู่กับที่ · เหตุผลการยกเลิกยาวตัดบรรทัด"
+    }
+  },
+  "extensions": {}
+}

@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-020",
+  "screen": "RPT-talad-004",
+  "title": "รายงานยอดขายแยกตามผู้ขาย",
+  "purpose": "เจ้าของร้านดูยอดขายของแต่ละผู้ขาย รวมเจ้าของร้าน ในช่วงที่เลือก",
+  "level": "L1",
+  "layout": "report",
+  "kind": "report",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "รายงานยอดขายแยกตามผู้ขาย"
+        }
+      ]
+    },
+    {
+      "name": "filters",
+      "kind": "filters",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ช่วงเวลา",
+          "required": true,
+          "entity": null,
+          "attribute": null,
+          "validation": "วันที่เริ่มและวันที่สิ้นสุดตามเวลาไทย ไม่เกิน 1 เดือนต่อการค้นหา",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "ค้นหา",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-024@v1",
+            "BR-talad-022@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "export",
+          "name": "Export Excel",
+          "kind": "export",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "Export Excel",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-017@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ผู้ขาย",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "validation": "หนึ่งแถวต่อผู้ขายทุกคน รวมเจ้าของร้าน ผู้ที่ไม่มียอดแสดง 0.00",
+          "rules": [
+            "BR-talad-022@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ยอดขาย",
+          "required": false,
+          "entity": "ENT-011",
+          "attribute": "netTotal",
+          "validation": "ผลรวมยอดชำระจริงของบิลที่คนนั้นเป็นผู้ขาย ไม่นับบิลที่ยกเลิก",
+          "rules": [
+            "BR-talad-022@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "rpt-talad-004-date-range",
+      "type": "field",
+      "key": "date-range",
+      "name": "ช่วงเวลา"
+    },
+    {
+      "id": "rpt-talad-004-search",
+      "type": "action",
+      "key": "search"
+    },
+    {
+      "id": "rpt-talad-004-export",
+      "type": "action",
+      "key": "export"
+    },
+    {
+      "id": "rpt-talad-004-ent-008-display-name",
+      "type": "field",
+      "key": "ent-008-display-name",
+      "name": "ผู้ขาย"
+    },
+    {
+      "id": "rpt-talad-004-ent-011-net-total",
+      "type": "field",
+      "key": "ent-011-net-total",
+      "name": "ยอดขาย"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ช่วงที่เลือกไม่มีข้อมูล: แสดง \"ไม่มีข้อมูลในช่วงที่เลือก\" · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+    }
+  },
+  "extensions": {}
+}

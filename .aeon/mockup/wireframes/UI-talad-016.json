@@ -1,0 +1,366 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-016",
+  "screen": "UI-talad-016",
+  "title": "เพิ่ม/แก้ไขโปรโมชั่น",
+  "purpose": "เจ้าของร้านกำหนดรูปแบบ เงื่อนไข และช่วงวันที่ของโปรโมชั่น",
+  "level": "L1",
+  "layout": "form",
+  "kind": "edit",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "เพิ่ม/แก้ไขโปรโมชั่น"
+        }
+      ]
+    },
+    {
+      "name": "general",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อโปร",
+          "required": true,
+          "entity": "ENT-006",
+          "attribute": "name",
+          "validation": "ไม่ว่าง",
+          "rules": [
+            "BR-talad-016@v2"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "รูปแบบ",
+          "required": true,
+          "entity": "ENT-006",
+          "attribute": "type",
+          "validation": "เลือกหนึ่งในหกรูปแบบ",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-011@v1",
+            "BR-talad-012@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "วันเริ่ม",
+          "required": true,
+          "entity": "ENT-006",
+          "attribute": "startDate",
+          "validation": "วันที่ตามเวลาไทย",
+          "rules": [
+            "BR-talad-015@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "วันสิ้นสุด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "endDate",
+          "validation": "ว่าง = ไม่มีวันสิ้นสุด · ถ้ามีต้องไม่ก่อนวันเริ่ม",
+          "rules": [
+            "BR-talad-015@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        }
+      ]
+    },
+    {
+      "name": "conditions",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "สินค้า A",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "productA",
+          "validation": "บังคับทุกรูปแบบยกเว้นลด % ทั้งบิล · เลือกจากสินค้าที่ยังขายอยู่",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวน A ต่อชุด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "qtyA",
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อรูปแบบต้องใช้",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "สินค้า B",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "productB",
+          "validation": "บังคับสำหรับรูปแบบซื้อ a + b",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวน B ต่อชุด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "qtyB",
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อมีสินค้า B",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ของแถม",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "freeProduct",
+          "validation": "บังคับสำหรับรูปแบบแถม",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวนของแถมต่อชุด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "freeQty",
+          "validation": "จำนวนเต็ม ≥ 1 เมื่อมีของแถม",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "% ส่วนลด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "ratePercent",
+          "validation": "จำนวนเต็ม 0–100 บังคับสำหรับรูปแบบที่ลด %",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ยอดขั้นต่ำ",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "minSubtotal",
+          "validation": "≥ 0 บังคับสำหรับลด % ทั้งบิล",
+          "rules": [
+            "BR-talad-009@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        }
+      ]
+    },
+    {
+      "name": "footer",
+      "kind": "toolbar",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "footer",
+          "container": "navigate",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "หน้าโปรโมชั่น",
+          "rules": [
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "footer",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้าโปรโมชั่น",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-016-ent-006-name",
+      "type": "field",
+      "key": "ent-006-name",
+      "name": "ชื่อโปร"
+    },
+    {
+      "id": "ui-talad-016-ent-006-type",
+      "type": "field",
+      "key": "ent-006-type",
+      "name": "รูปแบบ"
+    },
+    {
+      "id": "ui-talad-016-ent-006-start-date",
+      "type": "field",
+      "key": "ent-006-start-date",
+      "name": "วันเริ่ม"
+    },
+    {
+      "id": "ui-talad-016-ent-006-end-date",
+      "type": "field",
+      "key": "ent-006-end-date",
+      "name": "วันสิ้นสุด"
+    },
+    {
+      "id": "ui-talad-016-ent-006-product-a",
+      "type": "field",
+      "key": "ent-006-product-a",
+      "name": "สินค้า A"
+    },
+    {
+      "id": "ui-talad-016-ent-006-qty-a",
+      "type": "field",
+      "key": "ent-006-qty-a",
+      "name": "จำนวน A ต่อชุด"
+    },
+    {
+      "id": "ui-talad-016-ent-006-product-b",
+      "type": "field",
+      "key": "ent-006-product-b",
+      "name": "สินค้า B"
+    },
+    {
+      "id": "ui-talad-016-ent-006-qty-b",
+      "type": "field",
+      "key": "ent-006-qty-b",
+      "name": "จำนวน B ต่อชุด"
+    },
+    {
+      "id": "ui-talad-016-ent-006-free-product",
+      "type": "field",
+      "key": "ent-006-free-product",
+      "name": "ของแถม"
+    },
+    {
+      "id": "ui-talad-016-ent-006-free-qty",
+      "type": "field",
+      "key": "ent-006-free-qty",
+      "name": "จำนวนของแถมต่อชุด"
+    },
+    {
+      "id": "ui-talad-016-ent-006-rate-percent",
+      "type": "field",
+      "key": "ent-006-rate-percent",
+      "name": "% ส่วนลด"
+    },
+    {
+      "id": "ui-talad-016-ent-006-min-subtotal",
+      "type": "field",
+      "key": "ent-006-min-subtotal",
+      "name": "ยอดขั้นต่ำ"
+    },
+    {
+      "id": "ui-talad-016-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-016-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการสร้างโปร"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มบันทึกถูกปิดระหว่างบันทึก · รายการสินค้าให้เลือกแสดงตัวหมุนระหว่างโหลด"
+    },
+    "error": {
+      "occurs": true,
+      "text": "แสดงข้อความใต้ช่องที่ผิด (% นอกช่วง 0–100 · จำนวนต่อชุดไม่มากกว่า 0 · วันสิ้นสุดก่อนวันเริ่ม · ช่องที่รูปแบบบังคับว่าง) ไม่มีอะไรถูกบันทึก"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "รายการสินค้าให้เลือกหลายพันรายการ: ช่องเลือกค้นหาจากเซิร์ฟเวอร์ ไม่โหลดทั้งหมด"
+    }
+  },
+  "extensions": {}
+}

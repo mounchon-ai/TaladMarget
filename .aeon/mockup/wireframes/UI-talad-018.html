@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>บัญชีพนักงาน — UI-talad-018 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-018" data-mockup="MCK-talad-022" data-layout="rows">
+<header><h1>บัญชีพนักงาน</h1><p>เจ้าของร้านดูบัญชีผู้ใช้ทั้งหมดเพื่อเพิ่ม แก้ไข รีเซ็ตรหัสผ่าน หรือปิดใช้งาน</p><p><small>visible to: ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<p data-zone="toolbar" data-source="design" role="toolbar"><button type="button" data-testid="ui-talad-018-add-user" data-key="add-user" data-kind="create" data-presentation="text" data-placement="toolbar" data-container="navigate">เพิ่มบัญชี</button> <small>→ หน้าเพิ่ม/แก้ไขบัญชีพนักงาน</small></p>
+<table data-zone="results" data-source="design"><caption>rows — sample row shows the bound column, not data</caption><thead><tr><th>actions</th><th>ชื่อที่แสดง</th><th>ชื่อผู้ใช้</th><th>บทบาท</th><th>สถานะ</th></tr></thead><tbody><tr><td><button type="button" data-testid="ui-talad-018-edit-user" data-key="edit-user" data-kind="edit" data-presentation="icon" data-placement="first-column" data-container="navigate" aria-label="แก้ไข">[icon]</button></td><td data-testid="ui-talad-018-ent-008-display-name">ENT-008.displayName</td><td data-testid="ui-talad-018-ent-008-username">ENT-008.username</td><td data-testid="ui-talad-018-ent-008-role">ENT-008.role</td><td data-testid="ui-talad-018-ent-008-status">ENT-008.status</td></tr></tbody></table>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — มีบัญชีเจ้าของร้านที่ล็อกอินอยู่อย่างน้อยหนึ่งบัญชีเสมอ</dd><dt>loading</dt><dd>ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR</dd><dt>error</dt><dd>โหลดข้อมูลไม่สำเร็จ แสดงข้อความ &quot;โหลดข้อมูลไม่สำเร็จ&quot; พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย</dd><dt>unauthorized</dt><dd>พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง &quot;คุณไม่มีสิทธิ์เข้าถึงหน้านี้&quot; โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow</dt><dd>ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้</dd></dl></section>
+<footer><small>MCK-talad-022 · wireframe L1 of UI-talad-018 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

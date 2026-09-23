@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-010",
+  "screen": "UI-talad-009",
+  "title": "ยกเลิกบิล",
+  "purpose": "เจ้าของร้านยืนยันการยกเลิกบิลพร้อมเหตุผล",
+  "level": "L1",
+  "layout": "form",
+  "kind": "modal",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "ยกเลิกบิล"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "เหตุผลการยกเลิก",
+          "required": true,
+          "entity": "ENT-011",
+          "attribute": "voidReason",
+          "validation": "ไม่ว่าง",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-034@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "confirm-void",
+          "name": "ยืนยันยกเลิก",
+          "kind": "command",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ยืนยันยกเลิก",
+          "conventions": [],
+          "destination": "หน้ารายละเอียดบิลที่แสดงสถานะ \"ยกเลิก\"",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-023@v1",
+            "BR-talad-024@v1",
+            "BR-talad-034@v1",
+            "BR-talad-042@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ไม่ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ไม่ยกเลิก",
+          "conventions": [],
+          "destination": "หน้ารายละเอียดบิล",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-009-ent-011-void-reason",
+      "type": "field",
+      "key": "ent-011-void-reason",
+      "name": "เหตุผลการยกเลิก"
+    },
+    {
+      "id": "ui-talad-009-confirm-void",
+      "type": "action",
+      "key": "confirm-void"
+    },
+    {
+      "id": "ui-talad-009-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้าต่างเปิดจากบิลที่เลือกเสมอ"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มยืนยันถูกปิดระหว่างยกเลิกเพื่อกันกดซ้ำ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ไม่ระบุเหตุผล: แสดง \"กรุณาระบุเหตุผลการยกเลิก\" · บิลถูกยกเลิกไปแล้ว: แสดง error ตาม BR-talad-042@v1 ไม่คืนของซ้ำ · ขึ้นวันใหม่ระหว่างเปิดหน้าต่าง: ปฏิเสธตาม BR-talad-023@v1"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+    }
+  },
+  "extensions": {}
+}

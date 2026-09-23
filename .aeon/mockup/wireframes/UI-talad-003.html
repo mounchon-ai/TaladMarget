@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>เลือกโปรโมชั่นที่ลดเท่ากัน — UI-talad-003 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-003" data-mockup="MCK-talad-003" data-layout="rows">
+<header><h1>เลือกโปรโมชั่นที่ลดเท่ากัน</h1><p>พนักงานเลือกโปรเมื่อโปรที่ลดมากที่สุดลดเท่ากันพอดี ก่อนชำระเงิน</p><p><small>visible to: ROLE-001 (พนักงานขาย), ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<table data-zone="options" data-source="design"><caption>rows — sample row shows the bound column, not data</caption><thead><tr><th>ชื่อโปร</th><th>ส่วนลดของโปร (บาท)</th><th>actions</th></tr></thead><tbody><tr><td data-testid="ui-talad-003-ent-006-name">ENT-006.name</td><td data-testid="ui-talad-003-promo-discount">ส่วนลดของโปร (บาท)</td><td><button type="button" data-testid="ui-talad-003-choose-promo" data-key="choose-promo" data-kind="command" data-presentation="icon" data-placement="first-column" data-container="navigate" aria-label="เลือกโปรนี้">[icon]</button> <button type="button" data-testid="ui-talad-003-cancel" data-key="cancel" data-kind="navigate" data-presentation="text" data-placement="options" data-container="navigate">ยกเลิก</button></td></tr></tbody></table>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — หน้าต่างนี้เปิดเฉพาะเมื่อมีโปรลดเท่ากันอย่างน้อยสองโปร</dd><dt>loading</dt><dd>ปุ่มเลือกถูกปิดระหว่างชำระ</dd><dt>error</dt><dd>ชำระไม่สำเร็จ: ปิดหน้าต่างและแสดงข้อความตามกฎที่หน้าขาย</dd><dt>unauthorized (does not occur)</dt><dd>ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)</dd><dt>overflow</dt><dd>โปรลดเท่ากันหลายโปร: รายการเลื่อนภายในหน้าต่าง</dd></dl></section>
+<footer><small>MCK-talad-003 · wireframe L1 of UI-talad-003 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

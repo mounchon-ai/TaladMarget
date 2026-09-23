@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-014",
+  "screen": "UI-talad-014",
+  "title": "ปรับสต็อก",
+  "purpose": "เจ้าของร้านบันทึกรับของเข้า ของเน่า/เสีย หรือผลการนับสต็อกใหม่",
+  "level": "L1",
+  "layout": "form",
+  "kind": "modal",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "ปรับสต็อก"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "คงเหลือปัจจุบัน",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เหตุผล",
+          "required": true,
+          "entity": "ENT-003",
+          "attribute": "reason",
+          "validation": "เลือกจากรายการ: รับของเข้า · ของเน่า/เสีย · นับสต็อกใหม่",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวน +/−",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "quantityDelta",
+          "validation": "จำนวนเต็มไม่เป็น 0 บังคับเมื่อเหตุผลไม่ใช่นับสต็อกใหม่ · ผลต้องไม่ทำให้คงเหลือติดลบ",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวนที่นับได้",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "countedQty",
+          "validation": "จำนวนเต็ม ≥ 0 บังคับเมื่อเหตุผลคือนับสต็อกใหม่",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "หมายเหตุ",
+          "required": false,
+          "entity": "ENT-003",
+          "attribute": "note",
+          "validation": "ไม่บังคับ",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "หน้ารายละเอียดสินค้า",
+          "rules": [
+            "BR-talad-032@v1",
+            "BR-talad-041@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้ารายละเอียดสินค้า",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-014-ent-001-stock-qty",
+      "type": "field",
+      "key": "ent-001-stock-qty",
+      "name": "คงเหลือปัจจุบัน"
+    },
+    {
+      "id": "ui-talad-014-ent-003-reason",
+      "type": "field",
+      "key": "ent-003-reason",
+      "name": "เหตุผล"
+    },
+    {
+      "id": "ui-talad-014-ent-003-quantity-delta",
+      "type": "field",
+      "key": "ent-003-quantity-delta",
+      "name": "จำนวน +/−"
+    },
+    {
+      "id": "ui-talad-014-ent-003-counted-qty",
+      "type": "field",
+      "key": "ent-003-counted-qty",
+      "name": "จำนวนที่นับได้"
+    },
+    {
+      "id": "ui-talad-014-ent-003-note",
+      "type": "field",
+      "key": "ent-003-note",
+      "name": "หมายเหตุ"
+    },
+    {
+      "id": "ui-talad-014-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-014-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้น"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "ติดลบ: แสดง \"จำนวนคงเหลือต้องไม่ติดลบ (เหลือ <จำนวน>)\" · บันทึกซ้ำด้วยฟอร์มเดิม: แสดง \"รายการปรับสต็อกนี้บันทึกไปแล้ว\" ไม่ปรับซ้ำ (BR-talad-041@v1)"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "หมายเหตุยาว: ช่องเลื่อนภายในตัวเอง"
+    }
+  },
+  "extensions": {}
+}

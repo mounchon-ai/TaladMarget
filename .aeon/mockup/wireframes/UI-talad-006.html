@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>ข้อมูลสมาชิก — UI-talad-006 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-006" data-mockup="MCK-talad-007" data-layout="form">
+<header><h1>ข้อมูลสมาชิก</h1><p>ดูและแก้ชื่อหรือเบอร์โทรของสมาชิก และให้เจ้าของร้านซ่อนสมาชิก</p><p><small>visible to: ROLE-001 (พนักงานขาย), ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="form" data-source="design"><p><label>ชื่อ <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-006-ent-004-name" name="ชื่อ" placeholder="ไม่ว่าง"></label></p><p><label>เบอร์โทร <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-006-ent-004-phone" name="เบอร์โทร" placeholder="ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกคนอื่นที่ใช้งานอยู่"></label></p><dt>ยอดซื้อสะสม</dt><dd data-testid="ui-talad-006-ent-004-accumulated-amount">แสดงค่าจากระบบ อ่านอย่างเดียว <small>(ENT-004.accumulatedAmount)</small></dd><button type="button" data-testid="ui-talad-006-save" data-key="save" data-kind="edit" data-presentation="text" data-placement="form" data-container="inline">บันทึก</button><button type="button" data-testid="ui-talad-006-back" data-key="back" data-kind="navigate" data-presentation="text" data-placement="form" data-container="navigate">กลับ</button></form>
+<p data-zone="danger" data-source="design" role="toolbar"><button type="button" data-testid="ui-talad-006-hide-member" data-key="hide-member" data-kind="delete" data-presentation="text" data-placement="danger" data-container="navigate">ลบสมาชิก</button> <small>→ หน้าสมาชิก</small></p>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — หน้าเปิดจากสมาชิกที่มีอยู่เสมอ</dd><dt>loading</dt><dd>แสดงโครงฟอร์มระหว่างโหลด · ปุ่มบันทึกถูกปิดระหว่างบันทึก</dd><dt>error</dt><dd>บันทึกไม่ผ่าน: แสดงข้อความใต้ช่องที่ผิด ค่าเดิมในระบบไม่เปลี่ยน · สมาชิกถูกซ่อนไปแล้วระหว่างเปิดหน้า: แจ้ง &quot;ไม่พบสมาชิก&quot; และกลับรายการ</dd><dt>unauthorized (does not occur)</dt><dd>ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งสองบทบาทเปิดได้ แต่พนักงานขายไม่เห็นปุ่มลบสมาชิก และ API ปฏิเสธถ้าเรียกตรง (BR-talad-019@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow</dt><dd>ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้</dd></dl></section>
+<footer><small>MCK-talad-007 · wireframe L1 of UI-talad-006 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

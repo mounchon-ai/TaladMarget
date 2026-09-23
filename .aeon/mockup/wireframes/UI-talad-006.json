@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-007",
+  "screen": "UI-talad-006",
+  "title": "ข้อมูลสมาชิก",
+  "purpose": "ดูและแก้ชื่อหรือเบอร์โทรของสมาชิก และให้เจ้าของร้านซ่อนสมาชิก",
+  "level": "L1",
+  "layout": "form",
+  "kind": "edit",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "ข้อมูลสมาชิก"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อ",
+          "required": true,
+          "entity": "ENT-004",
+          "attribute": "name",
+          "validation": "ไม่ว่าง",
+          "rules": [
+            "BR-talad-002@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "เบอร์โทร",
+          "required": true,
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "validation": "ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกคนอื่นที่ใช้งานอยู่",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ยอดซื้อสะสม",
+          "required": false,
+          "entity": "ENT-004",
+          "attribute": "accumulatedAmount",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "form",
+          "container": "inline",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "back",
+          "name": "กลับ",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "กลับ",
+          "conventions": [],
+          "destination": "หน้าสมาชิก",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "danger",
+      "kind": "toolbar",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "action",
+          "key": "hide-member",
+          "name": "ลบสมาชิก",
+          "kind": "delete",
+          "presentation": "text",
+          "placement": "danger",
+          "container": "navigate",
+          "accessibleName": "ลบสมาชิก",
+          "conventions": [],
+          "destination": "หน้าสมาชิก",
+          "rules": [
+            "BR-talad-040@v2",
+            "BR-talad-019@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-006-ent-004-name",
+      "type": "field",
+      "key": "ent-004-name",
+      "name": "ชื่อ"
+    },
+    {
+      "id": "ui-talad-006-ent-004-phone",
+      "type": "field",
+      "key": "ent-004-phone",
+      "name": "เบอร์โทร"
+    },
+    {
+      "id": "ui-talad-006-ent-004-accumulated-amount",
+      "type": "field",
+      "key": "ent-004-accumulated-amount",
+      "name": "ยอดซื้อสะสม"
+    },
+    {
+      "id": "ui-talad-006-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-006-back",
+      "type": "action",
+      "key": "back"
+    },
+    {
+      "id": "ui-talad-006-hide-member",
+      "type": "action",
+      "key": "hide-member"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — หน้าเปิดจากสมาชิกที่มีอยู่เสมอ"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "แสดงโครงฟอร์มระหว่างโหลด · ปุ่มบันทึกถูกปิดระหว่างบันทึก"
+    },
+    "error": {
+      "occurs": true,
+      "text": "บันทึกไม่ผ่าน: แสดงข้อความใต้ช่องที่ผิด ค่าเดิมในระบบไม่เปลี่ยน · สมาชิกถูกซ่อนไปแล้วระหว่างเปิดหน้า: แจ้ง \"ไม่พบสมาชิก\" และกลับรายการ"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งสองบทบาทเปิดได้ แต่พนักงานขายไม่เห็นปุ่มลบสมาชิก และ API ปฏิเสธถ้าเรียกตรง (BR-talad-019@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+    }
+  },
+  "extensions": {}
+}

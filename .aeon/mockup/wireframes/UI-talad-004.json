@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-005",
+  "screen": "UI-talad-004",
+  "title": "สมาชิก",
+  "purpose": "ค้นหาสมาชิกทุกคนของร้าน เพื่อเปิดดูหรือแก้ข้อมูล และสมัครสมาชิกใหม่",
+  "level": "L1",
+  "layout": "rows",
+  "kind": "list",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "สมาชิก"
+        }
+      ]
+    },
+    {
+      "name": "filters",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ค้นหา",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "เบอร์โทรเต็ม 10 หลัก หรือชื่อบางส่วน",
+          "rules": [
+            "BR-talad-004@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "ค้นหา",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-004@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "register",
+          "name": "สมัครสมาชิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "navigate",
+          "accessibleName": "สมัครสมาชิก",
+          "conventions": [],
+          "destination": "หน้าสมัครสมาชิก",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อ",
+          "required": false,
+          "entity": "ENT-004",
+          "attribute": "name",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "เบอร์โทร",
+          "required": false,
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "validation": "แสดงเบอร์เต็ม",
+          "rules": [
+            "BR-talad-031@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ยอดซื้อสะสม",
+          "required": false,
+          "entity": "ENT-004",
+          "attribute": "accumulatedAmount",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-031@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "open-member",
+          "name": "ดูข้อมูล",
+          "kind": "view",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "navigate",
+          "accessibleName": "ดูข้อมูล",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "หน้าข้อมูลสมาชิก",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-004-search-text",
+      "type": "field",
+      "key": "search-text",
+      "name": "ค้นหา"
+    },
+    {
+      "id": "ui-talad-004-search",
+      "type": "action",
+      "key": "search"
+    },
+    {
+      "id": "ui-talad-004-register",
+      "type": "action",
+      "key": "register"
+    },
+    {
+      "id": "ui-talad-004-ent-004-name",
+      "type": "field",
+      "key": "ent-004-name",
+      "name": "ชื่อ"
+    },
+    {
+      "id": "ui-talad-004-ent-004-phone",
+      "type": "field",
+      "key": "ent-004-phone",
+      "name": "เบอร์โทร"
+    },
+    {
+      "id": "ui-talad-004-ent-004-accumulated-amount",
+      "type": "field",
+      "key": "ent-004-accumulated-amount",
+      "name": "ยอดซื้อสะสม"
+    },
+    {
+      "id": "ui-talad-004-open-member",
+      "type": "action",
+      "key": "open-member"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ยังไม่มีสมาชิกหรือค้นหาไม่พบ: แสดง \"ไม่พบสมาชิก — สมัครสมาชิกใหม่?\" พร้อมปุ่มสมัคร"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+    }
+  },
+  "extensions": {}
+}

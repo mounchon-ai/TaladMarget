@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-015",
+  "screen": "UI-talad-015",
+  "title": "โปรโมชั่น",
+  "purpose": "ดูโปรโมชั่นที่ยังใช้อยู่ เพื่อสร้าง แก้ไข หรือเลิกใช้",
+  "level": "L1",
+  "layout": "rows",
+  "kind": "list",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "โปรโมชั่น"
+        }
+      ]
+    },
+    {
+      "name": "filters",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ค้นหา",
+          "required": false,
+          "entity": null,
+          "attribute": null,
+          "validation": "ชื่อโปรบางส่วน ไม่บังคับ",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "search",
+          "name": "ค้นหา",
+          "kind": "filter",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "inline",
+          "accessibleName": "ค้นหา",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "add-promo",
+          "name": "สร้างโปรโมชั่น",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "filters",
+          "container": "navigate",
+          "accessibleName": "สร้างโปรโมชั่น",
+          "conventions": [],
+          "destination": "หน้าเพิ่ม/แก้ไขโปรโมชั่น",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อโปร",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "name",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "รูปแบบ",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "type",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "วันเริ่ม",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "startDate",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [
+            "BR-talad-015@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "วันสิ้นสุด",
+          "required": false,
+          "entity": "ENT-006",
+          "attribute": "endDate",
+          "validation": "ว่าง = ไม่มีวันสิ้นสุด",
+          "rules": [
+            "BR-talad-015@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สถานะ",
+          "required": false,
+          "entity": "ENT-005",
+          "attribute": "status",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "edit-promo",
+          "name": "แก้ไข",
+          "kind": "edit",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "navigate",
+          "accessibleName": "แก้ไข",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "หน้าเพิ่ม/แก้ไขโปรโมชั่น",
+          "rules": [
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "discontinue",
+          "name": "ลบ",
+          "kind": "delete",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "inline",
+          "accessibleName": "ลบ",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-015-search-text",
+      "type": "field",
+      "key": "search-text",
+      "name": "ค้นหา"
+    },
+    {
+      "id": "ui-talad-015-search",
+      "type": "action",
+      "key": "search"
+    },
+    {
+      "id": "ui-talad-015-add-promo",
+      "type": "action",
+      "key": "add-promo"
+    },
+    {
+      "id": "ui-talad-015-ent-006-name",
+      "type": "field",
+      "key": "ent-006-name",
+      "name": "ชื่อโปร"
+    },
+    {
+      "id": "ui-talad-015-ent-006-type",
+      "type": "field",
+      "key": "ent-006-type",
+      "name": "รูปแบบ"
+    },
+    {
+      "id": "ui-talad-015-ent-006-start-date",
+      "type": "field",
+      "key": "ent-006-start-date",
+      "name": "วันเริ่ม"
+    },
+    {
+      "id": "ui-talad-015-ent-006-end-date",
+      "type": "field",
+      "key": "ent-006-end-date",
+      "name": "วันสิ้นสุด"
+    },
+    {
+      "id": "ui-talad-015-ent-005-status",
+      "type": "field",
+      "key": "ent-005-status",
+      "name": "สถานะ"
+    },
+    {
+      "id": "ui-talad-015-edit-promo",
+      "type": "action",
+      "key": "edit-promo"
+    },
+    {
+      "id": "ui-talad-015-discontinue",
+      "type": "action",
+      "key": "discontinue"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ยังไม่มีโปรหรือค้นหาไม่พบ: แสดง \"ไม่พบโปรโมชั่น\" พร้อมปุ่มสร้าง"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+    }
+  },
+  "extensions": {}
+}

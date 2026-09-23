@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-022",
+  "screen": "UI-talad-018",
+  "title": "บัญชีพนักงาน",
+  "purpose": "เจ้าของร้านดูบัญชีผู้ใช้ทั้งหมดเพื่อเพิ่ม แก้ไข รีเซ็ตรหัสผ่าน หรือปิดใช้งาน",
+  "level": "L1",
+  "layout": "rows",
+  "kind": "manage",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "บัญชีพนักงาน"
+        }
+      ]
+    },
+    {
+      "name": "toolbar",
+      "kind": "toolbar",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "action",
+          "key": "add-user",
+          "name": "เพิ่มบัญชี",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "toolbar",
+          "container": "navigate",
+          "accessibleName": "เพิ่มบัญชี",
+          "conventions": [],
+          "destination": "หน้าเพิ่ม/แก้ไขบัญชีพนักงาน",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "name": "results",
+      "kind": "columns",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อที่แสดง",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "displayName",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ชื่อผู้ใช้",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "username",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "บทบาท",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "role",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "สถานะ",
+          "required": false,
+          "entity": "ENT-008",
+          "attribute": "status",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "edit-user",
+          "name": "แก้ไข",
+          "kind": "edit",
+          "presentation": "icon",
+          "placement": "first-column",
+          "container": "navigate",
+          "accessibleName": "แก้ไข",
+          "conventions": [
+            "UIC-001",
+            "UIC-002"
+          ],
+          "destination": "หน้าเพิ่ม/แก้ไขบัญชีพนักงาน",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-018-add-user",
+      "type": "action",
+      "key": "add-user"
+    },
+    {
+      "id": "ui-talad-018-ent-008-display-name",
+      "type": "field",
+      "key": "ent-008-display-name",
+      "name": "ชื่อที่แสดง"
+    },
+    {
+      "id": "ui-talad-018-ent-008-username",
+      "type": "field",
+      "key": "ent-008-username",
+      "name": "ชื่อผู้ใช้"
+    },
+    {
+      "id": "ui-talad-018-ent-008-role",
+      "type": "field",
+      "key": "ent-008-role",
+      "name": "บทบาท"
+    },
+    {
+      "id": "ui-talad-018-ent-008-status",
+      "type": "field",
+      "key": "ent-008-status",
+      "name": "สถานะ"
+    },
+    {
+      "id": "ui-talad-018-edit-user",
+      "type": "action",
+      "key": "edit-user"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — มีบัญชีเจ้าของร้านที่ล็อกอินอยู่อย่างน้อยหนึ่งบัญชีเสมอ"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR"
+    },
+    "error": {
+      "occurs": true,
+      "text": "โหลดข้อมูลไม่สำเร็จ แสดงข้อความ \"โหลดข้อมูลไม่สำเร็จ\" พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้"
+    }
+  },
+  "extensions": {}
+}

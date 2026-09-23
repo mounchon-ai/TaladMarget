@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>รายงานยอดขายรายวัน/รายเดือน — RPT-talad-002 · wireframe L1</title></head>
+<body>
+<main data-screen="RPT-talad-002" data-mockup="MCK-talad-018" data-layout="report">
+<header><h1>รายงานยอดขายรายวัน/รายเดือน</h1><p>เจ้าของร้านดูยอดขายสุทธิรายวันหรือรายเดือนในช่วงที่เลือก</p><p><small>visible to: ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="filters" data-source="design" role="search"><p><label>ช่วงเวลา <abbr title="required">*</abbr> <input type="text" data-testid="rpt-talad-002-date-range" name="ช่วงเวลา" placeholder="วันที่เริ่มและวันที่สิ้นสุดตามเวลาไทย ไม่เกิน 1 เดือนต่อการค้นหา"></label></p><button type="button" data-testid="rpt-talad-002-search" data-key="search" data-kind="filter" data-presentation="text" data-placement="filters" data-container="inline">ค้นหา</button><button type="button" data-testid="rpt-talad-002-export" data-key="export" data-kind="export" data-presentation="text" data-placement="filters" data-container="inline">Export Excel</button></form>
+<table data-zone="results" data-source="design"><caption>rows — sample row shows the bound column, not data</caption><thead><tr><th>วัน/เดือน</th><th>จำนวนบิล</th><th>ยอดขาย</th></tr></thead><tbody><tr><td data-testid="rpt-talad-002-ent-011-paid-at">ENT-011.paidAt</td><td data-testid="rpt-talad-002-bill-count">จำนวนบิล</td><td data-testid="rpt-talad-002-ent-011-net-total">ENT-011.netTotal</td></tr></tbody></table>
+<section aria-label="states"><h2>states</h2><dl><dt>empty</dt><dd>ช่วงที่เลือกไม่มีข้อมูล: แสดง &quot;ไม่มีข้อมูลในช่วงที่เลือก&quot; · Export ยังได้ไฟล์ที่มีแต่หัวตาราง (BR-talad-017@v1)</dd><dt>loading</dt><dd>ตารางแสดงโครงแถวระหว่างโหลด ปุ่มค้นหาถูกปิดจนผลกลับมา · ไม่เกิน 2 วินาทีตามเป้าของ NFR</dd><dt>error</dt><dd>โหลดข้อมูลไม่สำเร็จ แสดงข้อความ &quot;โหลดข้อมูลไม่สำเร็จ&quot; พร้อมปุ่มลองใหม่ ข้อมูลที่กรอกค้างไว้ไม่หาย</dd><dt>unauthorized</dt><dd>พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง &quot;คุณไม่มีสิทธิ์เข้าถึงหน้านี้&quot; โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ</dd><dt>overflow</dt><dd>ข้อมูลเกินหนึ่งหน้า: แบ่งหน้าจากเซิร์ฟเวอร์ หน้าละ 20 แถว · ข้อความยาวตัดด้วย … และแสดงเต็มเมื่อชี้</dd></dl></section>
+<footer><small>MCK-talad-018 · wireframe L1 of RPT-talad-002 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

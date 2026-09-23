@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-006",
+  "screen": "UI-talad-005",
+  "title": "สมัครสมาชิก",
+  "purpose": "สร้างสมาชิกใหม่ด้วยชื่อและเบอร์โทร",
+  "level": "L1",
+  "layout": "form",
+  "kind": "create",
+  "visibleTo": [
+    "ROLE-001",
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "สมัครสมาชิก"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อ",
+          "required": true,
+          "entity": "ENT-004",
+          "attribute": "name",
+          "validation": "ไม่ว่าง",
+          "rules": [
+            "BR-talad-002@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "เบอร์โทร",
+          "required": true,
+          "entity": "ENT-004",
+          "attribute": "phone",
+          "validation": "ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกที่ใช้งานอยู่",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ],
+          "visibleTo": [
+            "ROLE-001",
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "หน้าสมาชิก",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1"
+          ]
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้าสมาชิก",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-005-ent-004-name",
+      "type": "field",
+      "key": "ent-004-name",
+      "name": "ชื่อ"
+    },
+    {
+      "id": "ui-talad-005-ent-004-phone",
+      "type": "field",
+      "key": "ent-004-phone",
+      "name": "เบอร์โทร"
+    },
+    {
+      "id": "ui-talad-005-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-005-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของหน้านี้"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ"
+    },
+    "error": {
+      "occurs": true,
+      "text": "แสดงข้อความใต้ช่องที่ผิด: \"กรุณากรอกชื่อ\" · \"เบอร์โทรต้องเป็นตัวเลข 10 หลัก ขึ้นต้นด้วย 0\" · \"เบอร์โทรนี้เป็นสมาชิกอยู่แล้ว\" ไม่มีสมาชิกถูกสร้าง"
+    },
+    "unauthorized": {
+      "occurs": false,
+      "text": "ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้"
+    }
+  },
+  "extensions": {}
+}

@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "mockups": [
+    {
+      "id": "MCK-talad-001",
+      "screen": "UI-talad-001",
+      "level": "L1",
+      "file": "wireframes/UI-talad-001.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-002",
+      "screen": "UI-talad-002",
+      "level": "L1",
+      "file": "wireframes/UI-talad-002.json",
+      "layout": "other",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-003",
+      "screen": "UI-talad-003",
+      "level": "L1",
+      "file": "wireframes/UI-talad-003.json",
+      "layout": "rows",
+      "rendersState": [
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-004",
+      "screen": "RPT-talad-001",
+      "level": "L1",
+      "file": "wireframes/RPT-talad-001.json",
+      "layout": "report",
+      "rendersState": [
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-005",
+      "screen": "UI-talad-004",
+      "level": "L1",
+      "file": "wireframes/UI-talad-004.json",
+      "layout": "rows",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-006",
+      "screen": "UI-talad-005",
+      "level": "L1",
+      "file": "wireframes/UI-talad-005.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-007",
+      "screen": "UI-talad-006",
+      "level": "L1",
+      "file": "wireframes/UI-talad-006.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-008",
+      "screen": "UI-talad-007",
+      "level": "L1",
+      "file": "wireframes/UI-talad-007.json",
+      "layout": "rows",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-009",
+      "screen": "UI-talad-008",
+      "level": "L1",
+      "file": "wireframes/UI-talad-008.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-010",
+      "screen": "UI-talad-009",
+      "level": "L1",
+      "file": "wireframes/UI-talad-009.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-011",
+      "screen": "UI-talad-010",
+      "level": "L1",
+      "file": "wireframes/UI-talad-010.json",
+      "layout": "rows",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-012",
+      "screen": "UI-talad-011",
+      "level": "L1",
+      "file": "wireframes/UI-talad-011.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-013",
+      "screen": "UI-talad-012",
+      "level": "L1",
+      "file": "wireframes/UI-talad-012.json",
+      "layout": "form",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-014",
+      "screen": "UI-talad-014",
+      "level": "L1",
+      "file": "wireframes/UI-talad-014.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-015",
+      "screen": "UI-talad-015",
+      "level": "L1",
+      "file": "wireframes/UI-talad-015.json",
+      "layout": "rows",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-016",
+      "screen": "UI-talad-016",
+      "level": "L1",
+      "file": "wireframes/UI-talad-016.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-017",
+      "screen": "UI-talad-017",
+      "level": "L1",
+      "file": "wireframes/UI-talad-017.json",
+      "layout": "form",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-018",
+      "screen": "RPT-talad-002",
+      "level": "L1",
+      "file": "wireframes/RPT-talad-002.json",
+      "layout": "report",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-019",
+      "screen": "RPT-talad-003",
+      "level": "L1",
+      "file": "wireframes/RPT-talad-003.json",
+      "layout": "report",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-020",
+      "screen": "RPT-talad-004",
+      "level": "L1",
+      "file": "wireframes/RPT-talad-004.json",
+      "layout": "report",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-021",
+      "screen": "RPT-talad-005",
+      "level": "L1",
+      "file": "wireframes/RPT-talad-005.json",
+      "layout": "report",
+      "rendersState": [
+        "empty",
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-022",
+      "screen": "UI-talad-018",
+      "level": "L1",
+      "file": "wireframes/UI-talad-018.json",
+      "layout": "rows",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [
+        "UIC-001",
+        "UIC-002"
+      ],
+      "usesComponent": []
+    },
+    {
+      "id": "MCK-talad-023",
+      "screen": "UI-talad-019",
+      "level": "L1",
+      "file": "wireframes/UI-talad-019.json",
+      "layout": "form",
+      "rendersState": [
+        "loading",
+        "error",
+        "unauthorized",
+        "overflow"
+      ],
+      "followsConvention": [],
+      "usesComponent": []
+    }
+  ],
+  "extensions": {}
+}

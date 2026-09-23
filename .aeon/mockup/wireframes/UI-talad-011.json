@@ -1,0 +1,218 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-012",
+  "screen": "UI-talad-011",
+  "title": "เพิ่ม/แก้ไขสินค้า",
+  "purpose": "เจ้าของร้านเพิ่มสินค้าใหม่ หรือแก้ชื่อ บาร์โค้ด รูป และจุดเตือนของสินค้า",
+  "level": "L1",
+  "layout": "form",
+  "kind": "edit",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "เพิ่ม/แก้ไขสินค้า"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "ชื่อสินค้า",
+          "required": true,
+          "entity": "ENT-001",
+          "attribute": "name",
+          "validation": "ไม่ว่าง",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "บาร์โค้ด",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "barcode",
+          "validation": "ถ้ามี ห้ามซ้ำกับสินค้าที่ยังขายอยู่",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "รูปสินค้า",
+          "required": false,
+          "entity": "ENT-001",
+          "attribute": "image",
+          "validation": "ไฟล์ JPG, PNG หรือ WebP ขนาดไม่เกิน 2 MB ไม่บังคับ",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ราคา (เฉพาะตอนเพิ่ม)",
+          "required": true,
+          "entity": "ENT-002",
+          "attribute": "price",
+          "validation": "มากกว่า 0 ทศนิยม 2 ตำแหน่ง · แก้ราคาภายหลังผ่านหน้าต่างแก้ราคา",
+          "rules": [
+            "BR-talad-033@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จำนวนคงเหลือเริ่มต้น (เฉพาะตอนเพิ่ม)",
+          "required": true,
+          "entity": "ENT-001",
+          "attribute": "stockQty",
+          "validation": "จำนวนเต็ม ≥ 0 · ปรับภายหลังผ่านรายการปรับสต็อก",
+          "rules": [
+            "BR-talad-032@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "จุดเตือนใกล้หมด",
+          "required": true,
+          "entity": "ENT-001",
+          "attribute": "lowStockThreshold",
+          "validation": "จำนวนเต็ม ≥ 0",
+          "rules": [
+            "BR-talad-008@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "create",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "หน้ารายละเอียดสินค้า",
+          "rules": []
+        },
+        {
+          "type": "action",
+          "key": "cancel",
+          "name": "ยกเลิก",
+          "kind": "navigate",
+          "presentation": "text",
+          "placement": "form",
+          "container": "navigate",
+          "accessibleName": "ยกเลิก",
+          "conventions": [],
+          "destination": "หน้าสต็อก",
+          "rules": []
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-011-ent-001-name",
+      "type": "field",
+      "key": "ent-001-name",
+      "name": "ชื่อสินค้า"
+    },
+    {
+      "id": "ui-talad-011-ent-001-barcode",
+      "type": "field",
+      "key": "ent-001-barcode",
+      "name": "บาร์โค้ด"
+    },
+    {
+      "id": "ui-talad-011-ent-001-image",
+      "type": "field",
+      "key": "ent-001-image",
+      "name": "รูปสินค้า"
+    },
+    {
+      "id": "ui-talad-011-ent-002-price",
+      "type": "field",
+      "key": "ent-002-price",
+      "name": "ราคา (เฉพาะตอนเพิ่ม)"
+    },
+    {
+      "id": "ui-talad-011-ent-001-stock-qty",
+      "type": "field",
+      "key": "ent-001-stock-qty",
+      "name": "จำนวนคงเหลือเริ่มต้น (เฉพาะตอนเพิ่ม)"
+    },
+    {
+      "id": "ui-talad-011-ent-001-low-stock-threshold",
+      "type": "field",
+      "key": "ent-001-low-stock-threshold",
+      "name": "จุดเตือนใกล้หมด"
+    },
+    {
+      "id": "ui-talad-011-save",
+      "type": "action",
+      "key": "save"
+    },
+    {
+      "id": "ui-talad-011-cancel",
+      "type": "action",
+      "key": "cancel"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": false,
+      "text": "ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของการเพิ่มสินค้า"
+    },
+    "loading": {
+      "occurs": true,
+      "text": "ปุ่มบันทึกถูกปิดระหว่างบันทึก · อัปโหลดรูปแสดงความคืบหน้า"
+    },
+    "error": {
+      "occurs": true,
+      "text": "แสดงข้อความใต้ช่องที่ผิด (ชื่อว่าง · ราคาไม่มากกว่า 0 · บาร์โค้ดซ้ำ) ไม่มีอะไรถูกบันทึก"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": true,
+      "text": "ไฟล์รูปเกิน 2 MB หรือไม่ใช่ JPG/PNG/WebP: ปฏิเสธและแจ้งชนิดและขนาดที่รับได้ · ชื่อยาวเลื่อนในช่อง"
+    }
+  },
+  "extensions": {}
+}

@@ -201,30 +201,30 @@
     {
       "screen": "UI-talad-004",
       "name": "ค้นหา",
-      "slug": "search",
+      "slug": "search-text",
       "confirmedBy": "mon sai",
-      "confirmedAt": "2026-09-23T11:48:45Z"
+      "confirmedAt": "2026-09-23T12:16:33Z"
     },
     {
       "screen": "UI-talad-007",
       "name": "ค้นหา",
-      "slug": "search",
+      "slug": "search-text",
       "confirmedBy": "mon sai",
-      "confirmedAt": "2026-09-23T11:48:45Z"
+      "confirmedAt": "2026-09-23T12:16:33Z"
     },
     {
       "screen": "UI-talad-010",
       "name": "ค้นหา",
-      "slug": "search",
+      "slug": "search-text",
       "confirmedBy": "mon sai",
-      "confirmedAt": "2026-09-23T11:48:45Z"
+      "confirmedAt": "2026-09-23T12:16:33Z"
     },
     {
       "screen": "UI-talad-015",
       "name": "ค้นหา",
-      "slug": "search",
+      "slug": "search-text",
       "confirmedBy": "mon sai",
-      "confirmedAt": "2026-09-23T11:48:45Z"
+      "confirmedAt": "2026-09-23T12:16:33Z"
     },
     {
       "screen": "UI-talad-019",

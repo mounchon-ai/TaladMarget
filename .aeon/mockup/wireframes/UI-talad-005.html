@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><title>สมัครสมาชิก — UI-talad-005 · wireframe L1</title></head>
+<body>
+<main data-screen="UI-talad-005" data-mockup="MCK-talad-006" data-layout="form">
+<header><h1>สมัครสมาชิก</h1><p>สร้างสมาชิกใหม่ด้วยชื่อและเบอร์โทร</p><p><small>visible to: ROLE-001 (พนักงานขาย), ROLE-002 (เจ้าของร้าน/ผู้ดูแล)</small></p></header>
+<form data-zone="form" data-source="design"><p><label>ชื่อ <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-005-ent-004-name" name="ชื่อ" placeholder="ไม่ว่าง"></label></p><p><label>เบอร์โทร <abbr title="required">*</abbr> <input type="text" data-testid="ui-talad-005-ent-004-phone" name="เบอร์โทร" placeholder="ตัดขีดและช่องว่างก่อนตรวจ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 และไม่ซ้ำกับสมาชิกที่ใช้งานอยู่"></label></p><button type="button" data-testid="ui-talad-005-save" data-key="save" data-kind="create" data-presentation="text" data-placement="form" data-container="navigate">บันทึก</button><button type="button" data-testid="ui-talad-005-cancel" data-key="cancel" data-kind="navigate" data-presentation="text" data-placement="form" data-container="navigate">ยกเลิก</button></form>
+<section aria-label="states"><h2>states</h2><dl><dt>empty (does not occur)</dt><dd>ไม่เกิด — ฟอร์มว่างคือสภาพเริ่มต้นของหน้านี้</dd><dt>loading</dt><dd>ปุ่มบันทึกถูกปิดระหว่างบันทึกเพื่อกันกดซ้ำ</dd><dt>error</dt><dd>แสดงข้อความใต้ช่องที่ผิด: &quot;กรุณากรอกชื่อ&quot; · &quot;เบอร์โทรต้องเป็นตัวเลข 10 หลัก ขึ้นต้นด้วย 0&quot; · &quot;เบอร์โทรนี้เป็นสมาชิกอยู่แล้ว&quot; ไม่มีสมาชิกถูกสร้าง</dd><dt>unauthorized (does not occur)</dt><dd>ไม่เกิดสำหรับผู้ที่ล็อกอินแล้ว — ทั้งพนักงานขายและเจ้าของร้านเปิดได้ · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบแล้วกลับมาหน้านี้หลังล็อกอิน (BR-talad-005@v1)</dd><dt>overflow</dt><dd>ข้อความยาวเกินช่อง: ช่องเลื่อนภายในตัวเอง ไม่ดันรูปหน้า · ไม่มีรายการยาวบนหน้านี้</dd></dl></section>
+<footer><small>MCK-talad-006 · wireframe L1 of UI-talad-005 · structure only, no style — a theme is applied at L2 (/mock:html)</small></footer>
+</main>
+</body>
+</html>

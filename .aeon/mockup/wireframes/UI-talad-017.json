@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.4",
+  "producedBy": "mock · scripts/wireframes.mjs",
+  "project": "talad",
+  "id": "MCK-talad-017",
+  "screen": "UI-talad-017",
+  "title": "ตั้งส่วนลดสมาชิก",
+  "purpose": "เจ้าของร้านตั้ง % ส่วนลดสมาชิกค่าเดียวของทั้งร้าน",
+  "level": "L1",
+  "layout": "form",
+  "kind": "manage",
+  "visibleTo": [
+    "ROLE-002"
+  ],
+  "zones": [
+    {
+      "name": "header",
+      "kind": "header",
+      "kindSource": "derived",
+      "source": "mock",
+      "items": [
+        {
+          "type": "title",
+          "text": "ตั้งส่วนลดสมาชิก"
+        }
+      ]
+    },
+    {
+      "name": "setting",
+      "kind": "form",
+      "kindSource": "derived",
+      "source": "design",
+      "items": [
+        {
+          "type": "field",
+          "name": "% ส่วนลดสมาชิก",
+          "required": true,
+          "entity": "ENT-007",
+          "attribute": "ratePercent",
+          "validation": "จำนวนเต็ม 0–100 · 0 = ไม่มีส่วนลดสมาชิก",
+          "rules": [
+            "BR-talad-010@v1"
+          ],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": true
+        },
+        {
+          "type": "field",
+          "name": "ตั้งล่าสุดโดย",
+          "required": false,
+          "entity": "ENT-007",
+          "attribute": "changedBy",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "field",
+          "name": "ตั้งล่าสุดเมื่อ",
+          "required": false,
+          "entity": "ENT-007",
+          "attribute": "changedAt",
+          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
+          "rules": [],
+          "visibleTo": [
+            "ROLE-002"
+          ],
+          "input": false
+        },
+        {
+          "type": "action",
+          "key": "save",
+          "name": "บันทึก",
+          "kind": "edit",
+          "presentation": "text",
+          "placement": "setting",
+          "container": "inline",
+          "accessibleName": "บันทึก",
+          "conventions": [],
+          "destination": "อยู่ที่หน้าเดิม",
+          "rules": [
+            "BR-talad-010@v1",
+            "BR-talad-035@v1",
+            "BR-talad-036@v1"
+          ]
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "ui-talad-017-ent-007-rate-percent",
+      "type": "field",
+      "key": "ent-007-rate-percent",
+      "name": "% ส่วนลดสมาชิก"
+    },
+    {
+      "id": "ui-talad-017-ent-007-changed-by",
+      "type": "field",
+      "key": "ent-007-changed-by",
+      "name": "ตั้งล่าสุดโดย"
+    },
+    {
+      "id": "ui-talad-017-ent-007-changed-at",
+      "type": "field",
+      "key": "ent-007-changed-at",
+      "name": "ตั้งล่าสุดเมื่อ"
+    },
+    {
+      "id": "ui-talad-017-save",
+      "type": "action",
+      "key": "save"
+    }
+  ],
+  "states": {
+    "empty": {
+      "occurs": true,
+      "text": "ยังไม่เคยตั้ง: แสดง 0% และข้อความ \"ยังไม่มีส่วนลดสมาชิก\""
+    },
+    "loading": {
+      "occurs": true,
+      "text": "แสดงโครงระหว่างโหลด · ปุ่มบันทึกถูกปิดระหว่างบันทึก"
+    },
+    "error": {
+      "occurs": true,
+      "text": "% นอกช่วง 0–100: แสดงข้อความใต้ช่อง ไม่บันทึก · บันทึกไม่สำเร็จ: ค่าเดิมยังมีผล"
+    },
+    "unauthorized": {
+      "occurs": true,
+      "text": "พนักงานขายเปิดหน้านี้ตรง ๆ ถูกพากลับหน้าขายและแสดง \"คุณไม่มีสิทธิ์เข้าถึงหน้านี้\" โดยไม่แสดงข้อมูลใดของหน้านี้ (BR-talad-018@v1) · ยังไม่ล็อกอิน: พาไปหน้าเข้าสู่ระบบ"
+    },
+    "overflow": {
+      "occurs": false,
+      "text": "ไม่เกิด — มีค่าเดียว"
+    }
+  },
+  "extensions": {}
+}
