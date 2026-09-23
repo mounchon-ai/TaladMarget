@@ -2685,7 +2685,74 @@
           "hash": "sha256:12375a06a25bc6fcbb0702565cf8de867654f40d31a9e8cf01d094d0e34b2ab9"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 2,
+        "proof": [
+          {
+            "cmd": "mutation check: IsLowStock as StockQty < LowStockThreshold, then dotnet test --filter feature=FE-talad-017 (src/api)",
+            "result": "Failed! - Failed: 1, Passed: 10, Total: 11 — the flag at exactly the threshold (AC-talad-071) catches it · file restored",
+            "at": "2026-09-23T23:02:52+07:00"
+          },
+          {
+            "cmd": "mutation check: product search without the ACTIVE filter, then dotnet test --filter feature=FE-talad-017 (src/api)",
+            "result": "Failed! - Failed: 1, Passed: 10, Total: 11 — Only_products_still_sold_are_listed catches a discontinued product listed · file restored",
+            "at": "2026-09-23T23:02:57+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T23:03:06+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-017",
+            "result": "Passed! - Failed: 0, Passed: 11, Skipped: 0, Total: 11 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T23:03:10+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 150, Skipped: 0, Total: 150 · exit 0",
+            "at": "2026-09-23T23:03:17+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db (PostgreSQL 18, scratch) · AC-talad-073 data · curl GET /api/products as owner",
+            "result": "total 4 · pageSize 20 · ส้มสายน้ำผึ้ง 3 left threshold 5 → lowStock true · มังคุด แพ็ก 3 left threshold 2 → false · discontinued ขนมปังเลิกขาย not listed · whole barcode 8850000000028 → ส้มเขียวหวาน · no token 401 · EXPLAIN ANALYZE of the search 0.065 ms on 5 rows",
+            "at": "2026-09-23T23:03:31+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Catalog/Product.cs",
+          "src/api/src/Talad.Application/Catalog/ProductCatalog.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Api/Sales/CartEndpoints.cs",
+          "src/api/tests/Talad.Tests/Catalog/StockListTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Catalog/StockListTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-003",
+            "route": "GET /api/products",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          },
+          {
+            "api_ref": "API-043",
+            "route": "GET /api/products/{id}/image",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-018",
@@ -5681,8 +5748,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 22,
-      "draft": 24
+      "validated": 23,
+      "draft": 23
     },
     "by_origin": {
       "new": 46
