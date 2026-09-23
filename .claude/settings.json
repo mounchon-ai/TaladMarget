@@ -1,12 +1,13 @@
 {
+  "env": {
+    "AEON_DESIGN_ROOT": "D:\\Claude-Training\\workshop\\aeon-marketplace\\plugins\\design"
+  },
   "enabledPlugins": {
     "qa@aeon": true,
     "req@aeon": true,
     "design@aeon": true,
     "mock@aeon": true,
-    "dev@aeon": true
-  },
-  "env": {
-    "AEON_DESIGN_ROOT": "D:\\Claude-Training\\workshop\\aeon-marketplace\\plugins\\design"
+    "dev@aeon": true,
+    "csharp-lsp@claude-plugins-official": true
   }
 }
