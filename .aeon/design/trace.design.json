@@ -2448,6 +2448,156 @@
       "from": "ENT-011",
       "rel": "hasState",
       "to": "STM-talad-006"
+    },
+    {
+      "from": "ROLE-001",
+      "rel": "actsAs",
+      "to": "STK-talad-001"
+    },
+    {
+      "from": "ROLE-002",
+      "rel": "actsAs",
+      "to": "STK-talad-002"
+    },
+    {
+      "from": "UC-talad-001",
+      "rel": "governedByAcl",
+      "to": "ACL-001"
+    },
+    {
+      "from": "UC-talad-002",
+      "rel": "governedByAcl",
+      "to": "ACL-002"
+    },
+    {
+      "from": "UC-talad-003",
+      "rel": "governedByAcl",
+      "to": "ACL-003"
+    },
+    {
+      "from": "UC-talad-004",
+      "rel": "governedByAcl",
+      "to": "ACL-004"
+    },
+    {
+      "from": "UC-talad-005",
+      "rel": "governedByAcl",
+      "to": "ACL-005"
+    },
+    {
+      "from": "UC-talad-006",
+      "rel": "governedByAcl",
+      "to": "ACL-006"
+    },
+    {
+      "from": "UC-talad-007",
+      "rel": "governedByAcl",
+      "to": "ACL-007"
+    },
+    {
+      "from": "UC-talad-008",
+      "rel": "governedByAcl",
+      "to": "ACL-008"
+    },
+    {
+      "from": "UC-talad-009",
+      "rel": "governedByAcl",
+      "to": "ACL-009"
+    },
+    {
+      "from": "UC-talad-012",
+      "rel": "governedByAcl",
+      "to": "ACL-010"
+    },
+    {
+      "from": "UC-talad-024",
+      "rel": "governedByAcl",
+      "to": "ACL-011"
+    },
+    {
+      "from": "UC-talad-006",
+      "rel": "governedByAcl",
+      "to": "ACL-012"
+    },
+    {
+      "from": "UC-talad-024",
+      "rel": "governedByAcl",
+      "to": "ACL-013"
+    },
+    {
+      "from": "UC-talad-010",
+      "rel": "governedByAcl",
+      "to": "ACL-014"
+    },
+    {
+      "from": "UC-talad-013",
+      "rel": "governedByAcl",
+      "to": "ACL-015"
+    },
+    {
+      "from": "UC-talad-014",
+      "rel": "governedByAcl",
+      "to": "ACL-016"
+    },
+    {
+      "from": "UC-talad-015",
+      "rel": "governedByAcl",
+      "to": "ACL-017"
+    },
+    {
+      "from": "UC-talad-016",
+      "rel": "governedByAcl",
+      "to": "ACL-018"
+    },
+    {
+      "from": "UC-talad-017",
+      "rel": "governedByAcl",
+      "to": "ACL-019"
+    },
+    {
+      "from": "UC-talad-018",
+      "rel": "governedByAcl",
+      "to": "ACL-020"
+    },
+    {
+      "from": "UC-talad-019",
+      "rel": "governedByAcl",
+      "to": "ACL-021"
+    },
+    {
+      "from": "UC-talad-020",
+      "rel": "governedByAcl",
+      "to": "ACL-022"
+    },
+    {
+      "from": "UC-talad-021",
+      "rel": "governedByAcl",
+      "to": "ACL-023"
+    },
+    {
+      "from": "UC-talad-022",
+      "rel": "governedByAcl",
+      "to": "ACL-024"
+    },
+    {
+      "from": "UC-talad-023",
+      "rel": "governedByAcl",
+      "to": "ACL-025"
+    },
+    {
+      "from": "UC-talad-025",
+      "rel": "governedByAcl",
+      "to": "ACL-026"
+    },
+    {
+      "from": "UC-talad-026",
+      "rel": "governedByAcl",
+      "to": "ACL-027"
+    },
+    {
+      "from": "UC-talad-027",
+      "rel": "governedByAcl",
+      "to": "ACL-028"
     }
   ]
 }

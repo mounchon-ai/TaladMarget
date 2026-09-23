@@ -58,7 +58,7 @@
     {
       "id": "rbac",
       "command": "/design:rbac",
-      "status": "pending",
+      "status": "done",
       "requires": [
         "function",
         "datamodel"
@@ -66,19 +66,21 @@
       "artifacts": [
         "rbac.json"
       ],
-      "attempts": 0
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:40:27Z"
     },
     {
       "id": "nfr",
       "command": "/design:nfr",
-      "status": "pending",
+      "status": "done",
       "requires": [
         "overview"
       ],
       "artifacts": [
         "nfr.json"
       ],
-      "attempts": 0
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:47:21Z"
     },
     {
       "id": "sitemap",

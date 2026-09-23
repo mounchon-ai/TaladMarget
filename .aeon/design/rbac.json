@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "design · scripts/rbac.mjs",
+  "project": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "defaultEffect": "deny",
+  "roles": [
+    {
+      "id": "ROLE-001",
+      "label": "พนักงานขาย",
+      "stakeholder": "STK-talad-001",
+      "inherits": []
+    },
+    {
+      "id": "ROLE-002",
+      "label": "เจ้าของร้าน/ผู้ดูแล",
+      "stakeholder": "STK-talad-002",
+      "inherits": [
+        "ROLE-001"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "ACL-001",
+      "role": "ROLE-001",
+      "resource": "UC-talad-001",
+      "action": "เพิ่ม ลด และเอาสินค้าออกจากตะกร้าของตัวเอง",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-005",
+        "state": [
+          "OPEN"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-002",
+      "role": "ROLE-001",
+      "resource": "UC-talad-002",
+      "action": "เปิดตะกร้าที่ตัวเองค้างไว้และทำรายการต่อ",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-005",
+        "state": [
+          "OPEN"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-003",
+      "role": "ROLE-001",
+      "resource": "UC-talad-003",
+      "action": "ชำระเงินตะกร้าของตัวเอง",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-005",
+        "state": [
+          "OPEN"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-004",
+      "role": "ROLE-001",
+      "resource": "UC-talad-004",
+      "action": "ดูยอดและส่วนลดของตะกร้าตัวเอง และเลือกโปรเมื่อส่วนลดเท่ากัน",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-005",
+        "state": [
+          "OPEN"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-005",
+      "role": "ROLE-001",
+      "resource": "UC-talad-005",
+      "action": "ดูและพิมพ์ใบเสร็จของบิลที่ตัวเองเพิ่งชำระ",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-006",
+        "state": [
+          "PAID"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-006",
+      "role": "ROLE-001",
+      "resource": "UC-talad-006",
+      "action": "พิมพ์ใบเสร็จซ้ำเฉพาะบิลที่ตัวเองเป็นผู้ขาย",
+      "scope": "own",
+      "condition": {
+        "stateMachine": "STM-talad-006",
+        "state": [
+          "PAID"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-007",
+      "role": "ROLE-001",
+      "resource": "UC-talad-007",
+      "action": "สมัครสมาชิกใหม่",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-008",
+      "role": "ROLE-001",
+      "resource": "UC-talad-008",
+      "action": "แก้ชื่อหรือเบอร์โทรของสมาชิกทุกคน",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-003",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-009",
+      "role": "ROLE-001",
+      "resource": "UC-talad-009",
+      "action": "ค้นหาสมาชิกทุกคนและผูกกับตะกร้าของตัวเอง",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-003",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-010",
+      "role": "ROLE-001",
+      "resource": "UC-talad-012",
+      "action": "ใช้เมนูและเปิดหน้าของงานหน้าร้าน (ขาย · สมาชิก · ประวัติการขาย)",
+      "scope": "own",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-011",
+      "role": "ROLE-001",
+      "resource": "UC-talad-024",
+      "action": "ดูประวัติการขายและรายละเอียดบิลเฉพาะที่ตัวเองเป็นผู้ขาย",
+      "scope": "own",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-012",
+      "role": "ROLE-002",
+      "resource": "UC-talad-006",
+      "action": "พิมพ์ใบเสร็จซ้ำได้ทุกบิล",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-006",
+        "state": [
+          "PAID"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-013",
+      "role": "ROLE-002",
+      "resource": "UC-talad-024",
+      "action": "ดูประวัติการขายและรายละเอียดบิลได้ทุกบิล",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-014",
+      "role": "ROLE-002",
+      "resource": "UC-talad-010",
+      "action": "ลบ (ซ่อน) สมาชิก",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-003",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-015",
+      "role": "ROLE-002",
+      "resource": "UC-talad-013",
+      "action": "สร้างบัญชีพนักงาน",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-016",
+      "role": "ROLE-002",
+      "resource": "UC-talad-014",
+      "action": "รีเซ็ตรหัสผ่านบัญชีพนักงาน",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-004",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-017",
+      "role": "ROLE-002",
+      "resource": "UC-talad-015",
+      "action": "ปิดใช้งานหรือเปิดใช้งานบัญชีพนักงานอีกครั้ง",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-004",
+        "state": [
+          "ACTIVE",
+          "DISABLED"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-018",
+      "role": "ROLE-002",
+      "resource": "UC-talad-016",
+      "action": "เพิ่มหรือแก้ไขข้อมูลสินค้า",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-019",
+      "role": "ROLE-002",
+      "resource": "UC-talad-017",
+      "action": "แก้ราคาสินค้า (หน้าสต็อกและทางลัดที่หน้าขาย) และดูประวัติราคา",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-001",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-020",
+      "role": "ROLE-002",
+      "resource": "UC-talad-018",
+      "action": "ลบ (เลิกขาย) สินค้า",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-001",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-021",
+      "role": "ROLE-002",
+      "resource": "UC-talad-019",
+      "action": "ดูรายการสต็อกและป้ายใกล้หมด",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-022",
+      "role": "ROLE-002",
+      "resource": "UC-talad-020",
+      "action": "บันทึกรายการปรับสต็อก",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-001",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-023",
+      "role": "ROLE-002",
+      "resource": "UC-talad-021",
+      "action": "สร้างหรือแก้ไขโปรโมชั่น",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-024",
+      "role": "ROLE-002",
+      "resource": "UC-talad-022",
+      "action": "ลบ (เลิกใช้) โปรโมชั่น",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-002",
+        "state": [
+          "ACTIVE"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-025",
+      "role": "ROLE-002",
+      "resource": "UC-talad-023",
+      "action": "ตั้งส่วนลดสมาชิก",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-026",
+      "role": "ROLE-002",
+      "resource": "UC-talad-025",
+      "action": "ยกเลิกบิลขายของวันนี้พร้อมเหตุผล",
+      "scope": "all",
+      "condition": {
+        "stateMachine": "STM-talad-006",
+        "state": [
+          "PAID"
+        ]
+      },
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-027",
+      "role": "ROLE-002",
+      "resource": "UC-talad-026",
+      "action": "ดูรายงานทุกรายงาน",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    },
+    {
+      "id": "ACL-028",
+      "role": "ROLE-002",
+      "resource": "UC-talad-027",
+      "action": "Export Excel ของรายงาน สต็อก และประวัติการขาย",
+      "scope": "all",
+      "enforceAt": [
+        "ui",
+        "api",
+        "domain"
+      ]
+    }
+  ],
+  "fieldRules": [
+    {
+      "entity": "ENT-008",
+      "field": "passwordHash",
+      "visibleTo": [],
+      "classification": "sensitive"
+    }
+  ],
+  "delegation": {
+    "enabled": false,
+    "scopeInheritance": null
+  }
+}
