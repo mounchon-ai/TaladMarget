@@ -22,16 +22,16 @@
 | ไฟล์ | คำสั่งที่เขียน | สถานะขั้น | สถานะเอกสาร | ผู้อนุมัติ | เมื่อ | หมายเหตุ |
 |---|---|---|---|---|---|---|
 | design.state.json | /design:init | done | — | — | — | — |
-| context.json | /design:overview | done | draft | — | — | — |
-| modules/talad/functions.json | /design:function | done | draft | — | — | — |
+| context.json | /design:overview | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| modules/talad/functions.json | /design:function | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
 | trace.design.json | /design:function | done | — | — | — | — |
-| datamodel.json | /design:datamodel | done | draft | — | — | — |
-| modules/talad/statemachines.json | /design:datamodel | done | draft | — | — | — |
-| rbac.json | /design:rbac | done | draft | — | — | — |
-| nfr.json | /design:nfr | done | draft | — | — | — |
-| sitemap.json | /design:sitemap | done | draft | — | — | — |
-| modules/talad/screens.json | /design:sitemap | done | draft | — | — | — |
-| interfaces.json | /design:interface | done | draft | — | — | — |
+| datamodel.json | /design:datamodel | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| modules/talad/statemachines.json | /design:datamodel | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| rbac.json | /design:rbac | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| nfr.json | /design:nfr | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| sitemap.json | /design:sitemap | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| modules/talad/screens.json | /design:sitemap | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
+| interfaces.json | /design:interface | done | approved | mon sai | 2026-09-23T11:39:38Z | — |
 
 > ℹ️ **ข้อจำกัดของข้อมูลชุดนี้** — "สถานะขั้น" มาจากไฟล์สถานะ ส่วน "สถานะเอกสาร" มาจากตัวไฟล์เอง — ขั้นที่ค้างจะเห็นได้ที่คอลัมน์แรกเท่านั้น เพราะเครื่องหมายค้างถูกเก็บที่ขั้น ไม่ใช่ในเนื้อหาที่อนุมัติไปแล้ว
 
