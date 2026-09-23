@@ -4,6 +4,7 @@ using Talad.Domain.Accounts;
 using Talad.Domain.Catalog;
 using Talad.Domain.Members;
 using Talad.Domain.Sales;
+using Talad.Domain.Settings;
 
 namespace Talad.Infrastructure.Persistence;
 
@@ -14,6 +15,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
     public DbSet<ProductPriceVersion> ProductPriceVersions => Set<ProductPriceVersion>();
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<Member> Members => Set<Member>();
+    public DbSet<MemberDiscountVersion> MemberDiscountVersions => Set<MemberDiscountVersion>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,6 +25,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
         modelBuilder.ApplyConfiguration(new CartConfiguration());
         modelBuilder.ApplyConfiguration(new CartLineConfiguration());
         modelBuilder.ApplyConfiguration(new MemberConfiguration());
+        modelBuilder.ApplyConfiguration(new MemberDiscountVersionConfiguration());
     }
 }
 

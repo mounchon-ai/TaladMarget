@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Talad.Api.Auth;
 using Talad.Api.Members;
 using Talad.Api.Sales;
+using Talad.Api.Settings;
 using Talad.Infrastructure;
 using Talad.Infrastructure.Auth;
 
@@ -52,6 +53,7 @@ app.MapAuthEndpoints();
 app.MapMeEndpoints();
 app.MapCatalogAndCartEndpoints();
 app.MapMemberEndpoints();
+app.MapMemberDiscountEndpoints();
 
 app.Run();
 

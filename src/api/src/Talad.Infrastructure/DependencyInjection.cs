@@ -6,6 +6,7 @@ using Talad.Application.Catalog;
 using Talad.Application.Members;
 using Talad.Application.Navigation;
 using Talad.Application.Sales;
+using Talad.Application.Settings;
 using Talad.Infrastructure.Auth;
 using Talad.Infrastructure.Persistence;
 using Talad.Infrastructure.Storage;
@@ -33,6 +34,8 @@ public static class DependencyInjection
         services.AddScoped<MemberRegistration>();
         services.AddScoped<MemberDirectory>();
         services.AddScoped<MemberProfile>();
+        services.AddScoped<IMemberDiscountRepository, MemberDiscountRepository>();
+        services.AddScoped<MemberDiscountSettings>();
         services.Configure<StorageOptions>(config.GetSection(StorageOptions.Section));
         services.AddSingleton<ProductImageFiles>();
         return services;
