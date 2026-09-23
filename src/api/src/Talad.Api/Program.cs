@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Talad.Api.Auth;
+using Talad.Api.Catalog;
 using Talad.Api.Members;
 using Talad.Api.Promotions;
 using Talad.Api.Sales;
@@ -56,6 +57,7 @@ app.MapCatalogAndCartEndpoints();
 app.MapMemberEndpoints();
 app.MapMemberDiscountEndpoints();
 app.MapPromotionEndpoints();
+app.MapProductEndpoints();
 
 app.Run();
 

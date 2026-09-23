@@ -29,6 +29,23 @@ internal sealed class ProductRepository(TaladDbContext db) : IProductRepository
 
     public Task<Product?> FindAsync(int id, CancellationToken ct) =>
         db.Products.Include(p => p.CurrentPriceVersion).SingleOrDefaultAsync(p => p.Id == id, ct);
+
+    public async Task<(IReadOnlyList<(ProductPriceVersion Version, string ChangedByName)> Items, int Total)> PriceHistoryAsync(int productId, int page, int pageSize, CancellationToken ct)
+    {
+        // the first version has no previous price — it is the price the product was created with, not a change
+        var changes = db.ProductPriceVersions.Where(v => v.ProductId == productId && v.PreviousPrice != null);
+        var total = await changes.CountAsync(ct);
+        var rows = await changes
+            .OrderByDescending(v => v.ChangedAt).ThenByDescending(v => v.Id)
+            .Skip((page - 1) * pageSize).Take(pageSize)
+            .Join(db.UserAccounts, v => v.ChangedById, a => a.Id, (v, a) => new { Version = v, a.DisplayName })
+            .ToListAsync(ct);
+        return (rows.Select(r => (r.Version, r.DisplayName)).ToList(), total);
+    }
+
+    public void Add(ProductPriceVersion version) => db.ProductPriceVersions.Add(version);
+
+    public Task SaveChangesAsync(CancellationToken ct) => db.SaveChangesAsync(ct);
 }
 
 internal sealed class CartRepository(TaladDbContext db) : ICartRepository

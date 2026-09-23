@@ -3019,7 +3019,84 @@
           "hash": "sha256:66776434a9f36fb306d388f77cbf95117317efcaf288222d47c13bcb3cabae0e"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: Product.Reprice without the owner check, then dotnet test --filter feature=FE-talad-019 (src/api)",
+            "result": "Failed! - Failed: 1, Passed: 15, Total: 16 — the domain seller test catches it · file restored",
+            "at": "2026-09-23T23:14:51+07:00"
+          },
+          {
+            "cmd": "mutation check: the new version written without its previous price, then dotnet test --filter feature=FE-talad-019 (src/api)",
+            "result": "Failed! - Failed: 5, Passed: 11, Total: 16 — AC-talad-082 · 083 · 084 · paging · stamp tests catch a change that never reaches the history · file restored",
+            "at": "2026-09-23T23:14:56+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T23:15:05+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-019",
+            "result": "Passed! - Failed: 0, Passed: 16, Skipped: 0, Total: 16 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T23:15:09+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 166, Skipped: 0, Total: 166 · exit 0",
+            "at": "2026-09-23T23:15:16+07:00"
+          },
+          {
+            "cmd": "dotnet ef database update against talad-verify-db (PostgreSQL 18, scratch)",
+            "result": "Applying migration 20260923161321_GuardPriceVersionsInsertOnly · Done.",
+            "at": "2026-09-23T23:15:39+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · curl API-019 · API-022 · psql UPDATE/DELETE on product_price_versions",
+            "result": "history empty before · 45→50 STOCK_SCREEN 201 · 50→48 SALES_SCREEN 201 · detail price 48 with 2 history rows newest first by เจ้าของร้าน · 0 → 400 price · 10000000000 → 400 ราคาสูงเกินกว่าที่ระบบรับได้ · 9999999999.99 → 201 stored exactly · discontinued → 404 PRODUCT_NOT_FOUND · seller 403 on detail and change, 200 on search · no token 401 · rows 1 · 6 · 7 kept with previous_price 45 · 50 · psql UPDATE and DELETE both refused: product_price_versions is insert-only (BR-talad-033)",
+            "at": "2026-09-23T23:15:43+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Catalog/Product.cs",
+          "src/api/src/Talad.Application/Catalog/ProductCatalog.cs",
+          "src/api/src/Talad.Application/Catalog/ProductPricing.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923161321_GuardPriceVersionsInsertOnly.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923161321_GuardPriceVersionsInsertOnly.Designer.cs",
+          "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs",
+          "src/api/src/Talad.Api/Program.cs",
+          "src/api/tests/Talad.Tests/Catalog/ProductPricingTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Catalog/ProductPricingTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-019",
+            "route": "GET /api/products/{id}",
+            "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
+          },
+          {
+            "api_ref": "API-022",
+            "route": "POST /api/products/{id}/prices",
+            "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-020",
@@ -5905,8 +5982,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 24,
-      "draft": 22
+      "validated": 25,
+      "draft": 21
     },
     "by_origin": {
       "new": 46

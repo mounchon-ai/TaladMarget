@@ -9,6 +9,12 @@ public interface IProductRepository
 
     /// <summary>The product with its current price, whatever its status.</summary>
     Task<Product?> FindAsync(int id, CancellationToken ct);
+
+    /// <summary>BR-talad-033@v1 — the changes of one product's price (every version but the first), newest first, with who made each.</summary>
+    Task<(IReadOnlyList<(ProductPriceVersion Version, string ChangedByName)> Items, int Total)> PriceHistoryAsync(int productId, int page, int pageSize, CancellationToken ct);
+
+    void Add(ProductPriceVersion version);
+    Task SaveChangesAsync(CancellationToken ct);
 }
 
 public sealed record ProductCard(int Id, string Name, string? Barcode, decimal Price, int StockQty, bool LowStock, bool HasImage);

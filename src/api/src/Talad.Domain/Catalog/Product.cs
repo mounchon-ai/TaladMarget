@@ -1,3 +1,5 @@
+using Talad.Domain.Accounts;
+
 namespace Talad.Domain.Catalog;
 
 /// <summary>ENT-001 · สินค้า. Status follows STM-talad-001 (ACTIVE → DISCONTINUED, final).</summary>
@@ -48,6 +50,22 @@ public class Product
         CurrentPriceVersionId = version.Id;
     }
 
+    /// <summary>
+    /// API-022 · UC-talad-017 — a new price in force from now, from the stock screen or the sales screen's shortcut
+    /// (BR-talad-019@v1): the owner's alone, on a product still sold (ACL-019). It is a new ENT-002 row carrying
+    /// the price it replaces; the row in force stays as it was for the bills that used it (BR-talad-033@v1).
+    /// The caller saves the row, then points the product at it.
+    /// </summary>
+    public ProductPriceVersion Reprice(decimal? newPrice, PriceChangeSource source, UserAccount by, DateTimeOffset at)
+    {
+        if (by.Role != UserRole.Owner) throw new PriceOwnerOnlyException();
+        if (!IsActive) throw new ProductNotActiveException(Id);
+        var current = CurrentPriceVersion ?? throw new InvalidOperationException($"product {Id} has no current price version loaded");
+        if (newPrice is not { } price || price <= 0 || decimal.Round(price, 2) != price) throw new PriceInvalidException(PriceMessages.Invalid);
+        if (price > ProductPriceVersion.MaxPrice) throw new PriceInvalidException(PriceMessages.TooHigh);
+        return new ProductPriceVersion(Id, price, current.Price, source, by.Id, at);
+    }
+
     /// <summary>STM-talad-001 ACTIVE → DISCONTINUED (BR-talad-037@v1 — never a real delete).</summary>
     public void Discontinue() => Status = ProductStatus.Discontinued;
 }
@@ -61,6 +79,9 @@ public enum ProductStatus
 /// <summary>ENT-002 · a price is never edited in place — every change is a new row (BR-talad-033@v1).</summary>
 public class ProductPriceVersion
 {
+    /// <summary>ENT-002.price is numeric(12,2).</summary>
+    public const decimal MaxPrice = 9_999_999_999.99m;
+
     public int Id { get; private set; }
     public int ProductId { get; private set; }
     public decimal Price { get; private set; }
@@ -89,3 +110,39 @@ public enum PriceChangeSource
     StockScreen,
     SalesScreen,
 }
+
+/// <summary>ENT-002.source — the codes design gave the two ways a price is changed.</summary>
+public static class PriceChangeSources
+{
+    public static string Code(this PriceChangeSource source) => source == PriceChangeSource.SalesScreen ? "SALES_SCREEN" : "STOCK_SCREEN";
+
+    public static PriceChangeSource? Parse(string? code) => code?.Trim() switch
+    {
+        "STOCK_SCREEN" => PriceChangeSource.StockScreen,
+        "SALES_SCREEN" => PriceChangeSource.SalesScreen,
+        _ => null,
+    };
+}
+
+/// <summary>
+/// UI-talad-013 state "error" says a price not above 0 is refused under its field but gives no wording, so these
+/// sentences are dev's (FE-talad-019).
+/// </summary>
+public static class PriceMessages
+{
+    public const string Invalid = "ราคาต้องมากกว่า 0 และมีทศนิยมไม่เกิน 2 ตำแหน่ง";
+    public const string TooHigh = "ราคาสูงเกินกว่าที่ระบบรับได้";
+    public const string SourceRequired = "กรุณาระบุช่องทางที่แก้ราคา";
+}
+
+/// <summary>A price refused — the message sits under the field it names.</summary>
+public sealed class PriceInvalidException(string message, string field = "price") : Exception(message)
+{
+    public string Field { get; } = field;
+}
+
+/// <summary>ACL-019 · ENT-002.changedBy — only the owner changes a price.</summary>
+public sealed class PriceOwnerOnlyException() : Exception("only the owner may change a price");
+
+/// <summary>STM-talad-001 — a discontinued product's price is not changed.</summary>
+public sealed class ProductNotActiveException(int productId) : Exception($"product {productId} is discontinued");
