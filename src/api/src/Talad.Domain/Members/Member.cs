@@ -1,3 +1,5 @@
+using Talad.Domain.Accounts;
+
 namespace Talad.Domain.Members;
 
 /// <summary>
@@ -52,6 +54,20 @@ public class Member
     {
         if (Status != MemberStatus.Active) throw new MemberNotActiveException(Id);
         (Name, Phone) = Checked(name, phone);
+    }
+
+    /// <summary>
+    /// UC-talad-010 · STM-talad-003 ACTIVE → HIDDEN. Only the owner hides a member (BR-talad-019@v1 ·
+    /// ACL-014), and hiding is never deleting: the row stays, so old bills keep the name and phone, while the
+    /// phone is free for a new registration (BR-talad-040@v2 — the partial unique index covers ACTIVE only).
+    /// </summary>
+    public void Hide(UserAccount by, DateTimeOffset at)
+    {
+        if (by.Role != UserRole.Owner) throw new OwnerOnlyException();
+        if (Status != MemberStatus.Active) throw new MemberNotActiveException(Id);
+        Status = MemberStatus.Hidden;
+        HiddenById = by.Id;
+        HiddenAt = at;
     }
 
     /// <summary>BR-talad-002@v1 — trimmed name and normalized phone, or every field that is wrong.</summary>
@@ -117,3 +133,6 @@ public sealed class MemberPhoneTakenException()
 
 /// <summary>ACL-008 — only an ACTIVE member is edited; a hidden one is as if they were not there.</summary>
 public sealed class MemberNotActiveException(int memberId) : Exception($"member {memberId} is hidden");
+
+/// <summary>BR-talad-019@v1 — hiding a member is the owner's alone.</summary>
+public sealed class OwnerOnlyException() : Exception("only the owner may hide a member");

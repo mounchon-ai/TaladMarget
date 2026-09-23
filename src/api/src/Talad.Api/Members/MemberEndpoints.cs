@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Talad.Application.Members;
+using Talad.Domain.Accounts;
 using Talad.Domain.Members;
 
 namespace Talad.Api.Members;
@@ -74,6 +75,25 @@ public static class MemberEndpoints
                 return Results.Conflict(new MemberError("PHONE_TAKEN", e.Errors));
             }
         });
+
+        // API-016 · POST /api/members/{id}/hide — owner only (BR-talad-019@v1 · ACL-014): a seller is
+        // refused here with 403, and again in the domain if the policy were ever bypassed
+        app.MapPost("/api/members/{id:int}/hide", async (int id, ClaimsPrincipal user, MemberProfile profile, CancellationToken ct) =>
+        {
+            try
+            {
+                await profile.HideAsync(id, CallerId(user), ct);
+                return Results.NoContent();
+            }
+            catch (Exception e) when (e is MemberNotFoundException or MemberNotActiveException)
+            {
+                return NotFound();
+            }
+            catch (OwnerOnlyException)
+            {
+                return Results.Forbid();
+            }
+        }).RequireAuthorization(p => p.RequireRole(nameof(UserRole.Owner)));
 
         return app;
     }

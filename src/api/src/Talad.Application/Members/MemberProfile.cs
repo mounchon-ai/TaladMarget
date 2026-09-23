@@ -1,3 +1,4 @@
+using Talad.Application.Auth;
 using Talad.Domain.Members;
 
 namespace Talad.Application.Members;
@@ -9,7 +10,7 @@ public sealed class MemberNotFoundException(int memberId) : Exception($"member {
 /// owner may edit any ACTIVE member (ACL-008 · BR-talad-031@v1); a hidden member is not found
 /// (BR-talad-040@v2 · UI-talad-006 state "error": ไม่พบสมาชิก).
 /// </summary>
-public sealed class MemberProfile(IMemberRepository members)
+public sealed class MemberProfile(IMemberRepository members, IUserAccountRepository accounts, TimeProvider clock)
 {
     /// <summary>API-014</summary>
     public async Task<MemberView> GetAsync(int id, CancellationToken ct = default) =>
@@ -23,6 +24,18 @@ public sealed class MemberProfile(IMemberRepository members)
         if (await members.ActivePhoneExistsAsync(member.Phone, ct, exceptMemberId: member.Id)) throw new MemberPhoneTakenException();
         await members.SaveChangesAsync(ct);
         return MemberView.Of(member);
+    }
+
+    /// <summary>
+    /// API-016 — hide an ACTIVE member (UC-talad-010). The caller's role is read from their account, not
+    /// taken on the token's word, and the domain refuses anyone but the owner (BR-talad-019@v1).
+    /// </summary>
+    public async Task HideAsync(int id, int callerId, CancellationToken ct = default)
+    {
+        var member = await ActiveAsync(id, ct);
+        var caller = await accounts.FindByIdAsync(callerId, ct) ?? throw new OwnerOnlyException();
+        member.Hide(caller, clock.GetUtcNow());
+        await members.SaveChangesAsync(ct);
     }
 
     private async Task<Member> ActiveAsync(int id, CancellationToken ct)
