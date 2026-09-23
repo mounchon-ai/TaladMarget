@@ -2239,7 +2239,10 @@
             "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "ff1a32d"
+      ]
     },
     {
       "id": "FE-talad-014",
