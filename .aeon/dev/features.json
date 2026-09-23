@@ -3525,7 +3525,84 @@
           "hash": "sha256:7eb1fa6dc0e2cc831e140e9a9981304411e06b43208f9547268ea67bf3f3a60f"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: ลบสินค้า discontinuing without asking first, then npx vitest run tests/product-discontinue.test.tsx (src/web)",
+            "result": "Tests 2 failed | 7 passed (9) — the ยกเลิก and ลบ-after-the-question tests catch it · file restored",
+            "at": "2026-09-24T06:47:40+07:00"
+          },
+          {
+            "cmd": "mutation check: the action staying on the page after a discontinue that went through, then npx vitest run tests/product-discontinue.test.tsx (src/web)",
+            "result": "Tests 2 failed | 7 passed (9) — the AC-talad-085 · 086 tests catch it · file restored",
+            "at": "2026-09-24T06:47:45+07:00"
+          },
+          {
+            "cmd": "mutation check: the danger zone left off UI-talad-012, then npx vitest run tests/product-discontinue.test.tsx (src/web)",
+            "result": "Tests 1 failed | 8 passed (9) — the page test catches it · file restored",
+            "at": "2026-09-24T06:47:47+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-022",
+            "result": "Test Files 1 passed | 14 skipped (15) · Tests 9 passed | 188 skipped (197) · tests green (1 suite(s))",
+            "at": "2026-09-24T06:47:14+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T06:47:54+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "Test Files 15 passed (15) · Tests 197 passed (197) · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T06:48:05+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint · exit 0",
+            "at": "2026-09-24T06:48:09+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db (PostgreSQL 18, scratch) · Playwright on a throwaway ทุเรียนก้านยาว (id 9, 320, barcode 8850000000066)",
+            "result": "seller: sales screen shows ทุเรียนก้านยาว ฿320.00 · /stock/9 → /?denied=1 คุณไม่มีสิทธิ์เข้าถึงหน้านี้, no danger zone · owner: /stock/9 draws the danger zone last · ลบสินค้า asks ต้องการลบสินค้า ทุเรียนก้านยาว หรือไม่? · ยกเลิก → psql still Active · ลบ → /stock without it (นมจืด 1 ลิตร · มังคุด แพ็ก · ส้มเขียวหวาน · ส้มสายน้ำผึ้ง), no alert · stock search 8850000000066 ไม่พบสินค้า and ทุเรียน not found · /stock/9 → /stock?gone=1 · owner's sales screen without it · psql: product 9 Discontinued, current_price_version_id 13 and its version 13:320.00 kept",
+            "at": "2026-09-24T06:50:20+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/products-api.ts",
+          "src/web/src/app/(app)/stock/[id]/actions.ts",
+          "src/web/src/app/(app)/stock/[id]/page.tsx",
+          "src/web/src/components/discontinue-product-zone.tsx",
+          "src/web/tests/product-discontinue.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/product-discontinue.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "discontinueProduct",
+            "kind": "delete",
+            "dd_ref": null,
+            "testid": "ui-talad-012-discontinue",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-023",
@@ -6274,8 +6351,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 27,
-      "draft": 19
+      "validated": 28,
+      "draft": 18
     },
     "by_origin": {
       "new": 46

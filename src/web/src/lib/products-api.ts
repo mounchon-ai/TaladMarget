@@ -56,3 +56,20 @@ export async function repriceProduct(id: number, price: number | null, source: "
   if (error) return { ok: false, error };
   throw new Error(`POST /api/products/${id}/prices answered ${response.status}`);
 }
+
+export type ProductDiscontinuing = "discontinued" | "gone" | "forbidden" | "signedOut";
+
+/**
+ * API-023 · POST /api/products/{id}/discontinue — ACTIVE → DISCONTINUED, the owner's alone (ACL-020): the api
+ * answers anyone else 403 whatever the page showed. Already discontinued or never there is PRODUCT_NOT_FOUND.
+ * Nothing is deleted — the bills that sold it keep its name and price (BR-talad-037@v1).
+ */
+export async function discontinueProduct(id: number): Promise<ProductDiscontinuing> {
+  const response = await apiFetch(`/api/products/${id}/discontinue`, { method: "POST" });
+  if (response.status === 204) return "discontinued";
+  if (response.status === 401) return "signedOut";
+  if (response.status === 403) return "forbidden";
+  const body = (await response.json().catch(() => null)) as { code?: string } | null;
+  if (body?.code === "PRODUCT_NOT_FOUND") return "gone";
+  throw new Error(`POST /api/products/${id}/discontinue answered ${response.status}`);
+}

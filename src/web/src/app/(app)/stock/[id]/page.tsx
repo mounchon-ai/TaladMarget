@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { DiscontinueProductZone } from "@/components/discontinue-product-zone";
 import { EditPriceDialog } from "@/components/edit-price-dialog";
 import { PriceHistory } from "@/components/price-history";
 import { requireScreen } from "@/lib/me";
 import { formatBaht } from "@/lib/money";
 import { getProduct } from "@/lib/products-api";
-import { repriceAction } from "./actions";
+import { discontinueAction, repriceAction } from "./actions";
 
 export const metadata: Metadata = { title: "รายละเอียดสินค้า · ตลาดมาร์เก็ต" };
 
@@ -15,8 +16,8 @@ type Search = Promise<{ historyPage?: string }>;
 
 // UI-talad-012 รายละเอียดสินค้า (UC-talad-017 · FE-talad-020) — the owner's (ACL-019). Summary and price history;
 // แก้ราคา opens UI-talad-013 over it. Not drawn yet: แก้ไขข้อมูล (UI-talad-011 has no unit — GAP-talad-002),
-// ปรับสต็อก and the adjustments section (FE-talad-024), ลบสินค้า (FE-talad-022). Opened as its own page from the
-// stock list, as the members' detail is; UIC-003's modal over the list is still open.
+// ปรับสต็อก and the adjustments section (FE-talad-024). ลบสินค้า (FE-talad-022) is the danger zone, last. Opened as
+// its own page from the stock list, as the members' detail is; UIC-003's modal over the list is still open.
 export default async function ProductPage({ params, searchParams }: { params: Params; searchParams: Search }) {
   await requireScreen("UI-talad-012");
   const id = Number.parseInt((await params).id, 10);
@@ -72,6 +73,8 @@ export default async function ProductPage({ params, searchParams }: { params: Pa
         <h2>ประวัติราคา</h2>
         <PriceHistory history={product.priceHistory} productId={product.id} />
       </section>
+
+      <DiscontinueProductZone name={product.name} discontinue={discontinueAction.bind(null, product.id)} />
     </div>
   );
 }
