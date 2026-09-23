@@ -1,17 +1,18 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { CartPanel } from "@/components/cart-panel";
+import { MemberPanel } from "@/components/member-panel";
 import { ProductGrid, ProductGridSkeleton } from "@/components/product-grid";
 import { requireScreen } from "@/lib/me";
 import { getCart, searchProducts } from "@/lib/sales-api";
-import { addToCart, changeQty, removeFromCart } from "./cart-actions";
+import { addToCart, bindToCart, changeQty, findMembers, removeFromCart } from "./cart-actions";
 
 export const metadata: Metadata = { title: "หน้าขาย · ตลาดมาร์เก็ต" };
 
 type Search = Promise<{ search?: string; page?: string }>;
 
-// UI-talad-002 หน้าขาย — this unit draws the product browser and the cart (UC-talad-001). Member, totals
-// after discounts, price shortcut and checkout are the zones other units add to this same page.
+// UI-talad-002 หน้าขาย — the product browser and the cart (UC-talad-001) and the member zone
+// (UC-talad-009). Totals after discounts, price shortcut and checkout are the zones other units add.
 export default async function SalesPage({ searchParams }: { searchParams: Search }) {
   await requireScreen("UI-talad-002");
   const { search = "", page = "1" } = await searchParams;
@@ -51,6 +52,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Search
         </section>
         <aside className="narrow">
           <CartPanel cart={cart} changeQty={changeQty} remove={removeFromCart} />
+          <MemberPanel member={cart.member ?? null} find={findMembers} bind={bindToCart} />
         </aside>
       </div>
     </div>

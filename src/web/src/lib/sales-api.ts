@@ -22,7 +22,9 @@ export type CartLine = {
   stockQty: number;
   lowStock: boolean;
 };
-export type Cart = { id: number; status: string; lines: CartLine[]; subtotal: number };
+/** ENT-009.member — who the cart is bound to (API-008 · FE-talad-011). */
+export type CartMember = { id: number; name: string; phone: string; accumulatedAmount: number; status: string };
+export type Cart = { id: number; status: string; lines: CartLine[]; subtotal: number; member?: CartMember | null };
 
 /** A refused cart change — `message` is the rule's own sentence (BR-talad-007@v1 · BR-talad-037@v1). */
 export type CartChange = { ok: true; cart: Cart } | { ok: false; message: string };
@@ -61,4 +63,24 @@ export async function setQty(productId: number, qty: number): Promise<CartChange
 
 export async function removeLine(productId: number): Promise<CartChange> {
   return change(await apiFetch(`/api/cart/lines/${productId}`, { method: "DELETE" }));
+}
+
+/**
+ * API-008 · PUT /api/cart/member. The api's refusal is told apart by `code`, never by its `message`:
+ * MEMBER_NOT_FOUND carries a technical sentence, so the page says the declared one instead
+ * (UI-talad-002 state "empty"); CART_NOT_OPEN's message is already the rule's own Thai sentence.
+ */
+export type MemberBinding =
+  | { ok: true; cart: Cart }
+  | { ok: false; code: "MEMBER_NOT_FOUND" | "SIGNED_OUT" }
+  | { ok: false; code: "REFUSED"; message: string };
+
+export async function bindMember(memberId: number): Promise<MemberBinding> {
+  const response = await apiFetch("/api/cart/member", { method: "PUT", body: JSON.stringify({ memberId }) });
+  if (response.ok) return { ok: true, cart: (await response.json()) as Cart };
+  if (response.status === 401) return { ok: false, code: "SIGNED_OUT" };
+  const body = (await response.json().catch(() => null)) as { code?: string; message?: string } | null;
+  if (body?.code === "MEMBER_NOT_FOUND") return { ok: false, code: "MEMBER_NOT_FOUND" };
+  if (body?.code === "CART_NOT_OPEN" && body.message) return { ok: false, code: "REFUSED", message: body.message };
+  throw new Error(`PUT /api/cart/member answered ${response.status}`);
 }

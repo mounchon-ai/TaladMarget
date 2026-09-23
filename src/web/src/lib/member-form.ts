@@ -8,6 +8,8 @@ export type MemberFieldErrors = Partial<Record<MemberField, string>>;
 export const NAME_REQUIRED = "กรุณากรอกชื่อ";
 export const PHONE_FORMAT = "เบอร์โทรต้องเป็นตัวเลข 10 หลัก ขึ้นต้นด้วย 0";
 export const REGISTERED = "สมัครสมาชิกสำเร็จ";
+/** A member search that finds nobody (UI-talad-002 · UI-talad-004 state "empty"). */
+export const NO_MEMBER_FOUND = "ไม่พบสมาชิก — สมัครสมาชิกใหม่?";
 
 /** Save and cancel both go to UI-talad-004 หน้าสมาชิก; a save carries this so the frame says it worked. */
 export const MEMBERS_PATH = "/members";
