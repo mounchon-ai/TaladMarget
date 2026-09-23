@@ -1,21 +1,21 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Form from "next/form";
-import { STOCK_PATH, StockList, StockListSkeleton } from "@/components/stock-list";
+import { NO_PRODUCT, STOCK_PATH, StockList, StockListSkeleton } from "@/components/stock-list";
 import { StockSearchButton } from "@/components/stock-search-button";
 import { requireScreen } from "@/lib/me";
 import { searchProducts } from "@/lib/sales-api";
 
 export const metadata: Metadata = { title: "สต็อก · ตลาดมาร์เก็ต" };
 
-type Search = Promise<{ q?: string; page?: string }>;
+type Search = Promise<{ q?: string; page?: string; gone?: string }>;
 
 // UI-talad-010 สต็อก (UC-talad-019 · FE-talad-018) — the owner's screen (ACL-021): products still sold with what
 // is left and the low-stock badge at each product's own threshold, found by part of the name or the whole
 // barcode, 20 a page (NFR-talad-006).
 export default async function StockPage({ searchParams }: { searchParams: Search }) {
   await requireScreen("UI-talad-010");
-  const { q = "", page = "1" } = await searchParams;
+  const { q = "", page = "1", gone } = await searchParams;
   const pageNo = Math.max(1, Number.parseInt(page, 10) || 1);
 
   // a failure is the table's to show (state "error")
@@ -29,6 +29,12 @@ export default async function StockPage({ searchParams }: { searchParams: Search
       <div className="pagehead">
         <h1 className="grow">สต็อก</h1>
       </div>
+      {/* UI-talad-012 · 013 state "error" — the product was discontinued while its page was open */}
+      {gone === "1" ? (
+        <div role="alert" className="toast">
+          <div className="grow">{NO_PRODUCT}</div>
+        </div>
+      ) : null}
       <div className="card">
         {/* the term stays in the box whatever comes back (state "error": ข้อมูลที่กรอกค้างไว้ไม่หาย) */}
         <Form action={STOCK_PATH} className="inline" role="search">

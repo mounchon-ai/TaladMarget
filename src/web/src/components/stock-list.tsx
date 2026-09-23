@@ -17,9 +17,9 @@ const listHref = (q: string, page: number) =>
  * UI-talad-010 zone results (API-003, the same search the sales screen reads) — the wireframe MCK-talad-010 is
  * the only picture of this screen; every data-testid is its control id. Each row carries data-row-key = the
  * product's id (ENT-001 key) because its fields repeat once per row (gate 126). The badge is the api's flag —
- * the page never compares stock with the threshold itself (BR-talad-008@v1 is the domain's).
- * Not drawn yet: เพิ่มสินค้า (UI-talad-011 has no unit — GAP-talad-002), ดูสินค้า (UI-talad-012 is
- * FE-talad-020's), Export Excel (FE-talad-046's).
+ * the page never compares stock with the threshold itself (BR-talad-008@v1 is the domain's). ดูสินค้า sits in
+ * the first column as an icon (UIC-001 · UIC-002) and opens UI-talad-012 (FE-talad-020).
+ * Not drawn yet: เพิ่มสินค้า (UI-talad-011 has no unit — GAP-talad-002), Export Excel (FE-talad-046's).
  */
 export async function StockList({ loaded, q }: { loaded: Promise<Loaded>; q: string }) {
   const result = await loaded;
@@ -53,6 +53,9 @@ export async function StockList({ loaded, q }: { loaded: Promise<Loaded>; q: str
       <table>
         <thead>
           <tr>
+            <th className="act">
+              <span className="muted">ดู</span>
+            </th>
             <th>ชื่อสินค้า</th>
             <th>บาร์โค้ด</th>
             <th className="num">ราคา</th>
@@ -63,6 +66,14 @@ export async function StockList({ loaded, q }: { loaded: Promise<Loaded>; q: str
         <tbody>
           {items.map((p) => (
             <tr key={p.id} data-row-key={p.id}>
+              <td className="act">
+                <Link href={`${STOCK_PATH}/${p.id}`} className="iconbtn" aria-label="ดูสินค้า" data-testid="ui-talad-010-open-product">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </Link>
+              </td>
               <td className="clip" title={p.name} data-testid="ui-talad-010-ent-001-name">
                 {p.name}
               </td>

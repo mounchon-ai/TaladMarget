@@ -3153,7 +3153,214 @@
           "hash": "sha256:6ce1fced6a3fb22824482cf971d4e4076965adfae0ad4bcf41bb00b734729584"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: the stock screen sending source SALES_SCREEN, then npx vitest run tests/product-price.test.tsx (src/web)",
+            "result": "Tests 5 failed | 13 passed (18) — AC-talad-082 and the error-state body checks catch the wrong channel · file restored",
+            "at": "2026-09-23T23:20:31+07:00"
+          },
+          {
+            "cmd": "mutation check: the price window left open after a save, then npx vitest run tests/product-price.test.tsx (src/web)",
+            "result": "Tests 1 failed | 17 passed (18) — AC-talad-082 บันทึก … closes the window catches it · file restored",
+            "at": "2026-09-23T23:20:34+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · routes ƒ /stock · ƒ /stock/[id] · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T23:20:46+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-020",
+            "result": "vitest: Tests 18 passed | 170 skipped (188) · exit 0",
+            "at": "2026-09-23T23:20:49+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 14 passed (14) · Tests 188 passed (188) · exit 0",
+            "at": "2026-09-23T23:20:52+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T23:20:55+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db (PostgreSQL 18, scratch) · Playwright",
+            "result": "owner: /stock → ดูสินค้า on ส้มเขียวหวาน → /stock/2 with 40 left · threshold 5 · ฿45.00 · ยังไม่มีรายการ · แก้ราคา 0 → sentence under ราคาใหม่, window stays open with 0 · 50 then 55 saved, window closed, price ฿55.00, history rows 11 (฿50.00) and 10 (฿45.00) by เจ้าของร้าน at 23 ก.ย. 2569 23:21 = DB changed_at in Asia/Bangkok · DB rows 2 · 10 · 11 with previous 45 · 50, source StockScreen · seller: sales card ส้มเขียวหวาน ฿55.00 (AC-talad-048) and /stock/2 → /?denied=1",
+            "at": "2026-09-23T23:22:02+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/products-api.ts",
+          "src/web/src/app/(app)/stock/[id]/page.tsx",
+          "src/web/src/app/(app)/stock/[id]/actions.ts",
+          "src/web/src/app/(app)/stock/[id]/loading.tsx",
+          "src/web/src/components/edit-price-dialog.tsx",
+          "src/web/src/components/price-history.tsx",
+          "src/web/src/components/stock-list.tsx",
+          "src/web/src/app/(app)/stock/page.tsx",
+          "src/web/src/lib/screen-routes.ts",
+          "src/web/tests/product-price.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/product-price.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "productName",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-001-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "productStockQty",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-001-stock-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "productThreshold",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-001-low-stock-threshold",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "productPrice",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-002-price",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "historyPreviousPrice",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-002-previous-price",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "historyChangedBy",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-002-changed-by",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "historyChangedAt",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-002-changed-at",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "editPrice",
+            "kind": "edit",
+            "dd_ref": null,
+            "testid": "ui-talad-012-edit-price",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "back",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-012-back",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "newPrice",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-013-ent-002-price",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "savePrice",
+            "kind": "edit",
+            "dd_ref": null,
+            "testid": "ui-talad-013-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "cancelPrice",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-013-cancel",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "currentPrice",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-013-current-price",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "openProduct",
+            "kind": "view",
+            "dd_ref": null,
+            "testid": "ui-talad-010-open-product",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-021",
@@ -5985,8 +6192,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 25,
-      "draft": 21
+      "validated": 26,
+      "draft": 20
     },
     "by_origin": {
       "new": 46
