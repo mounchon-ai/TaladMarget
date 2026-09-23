@@ -4,3 +4,6 @@
 # .NET build output
 bin/
 obj/
+
+# Playwright MCP scratch output (snapshots, console logs, screenshots)
+.playwright-mcp/
