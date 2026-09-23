@@ -1342,7 +1342,101 @@
           "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T21:14:59+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-008",
+            "result": "vitest: Tests 4 passed | 47 skipped (51) · exit 0",
+            "at": "2026-09-23T21:14:59+07:00"
+          },
+          {
+            "cmd": "mutation checks: /logout without store.delete · apiFetch with cache force-cache, each then dev-test.ps1 -App web -Filter FE-talad-008",
+            "result": "1 failed | 3 passed and 2 failed | 2 passed — the tests catch a token left behind and a cached cart · both files restored, git clean",
+            "at": "2026-09-23T21:14:59+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 5 passed (5) · Tests 51 passed (51) · exit 0",
+            "at": "2026-09-23T21:14:59+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems reported · exit 0",
+            "at": "2026-09-23T21:14:59+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/page.tsx",
+          "src/web/src/app/login/actions.ts",
+          "src/web/src/app/logout/route.ts",
+          "src/web/src/lib/api-client.ts",
+          "src/web/src/lib/sales-api.ts",
+          "src/web/src/components/cart-panel.tsx",
+          "src/web/tests/held-cart.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/held-cart.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "ent-010-product",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-ent-010-product",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "ent-010-qty",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-ent-010-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "increase-qty",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-increase-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "subtotal-after-item-promo",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-subtotal-after-item-promo",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-009",
@@ -4034,8 +4128,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 7,
-      "draft": 39
+      "validated": 8,
+      "draft": 38
     },
     "by_origin": {
       "new": 46
