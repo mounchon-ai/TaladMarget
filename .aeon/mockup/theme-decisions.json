@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "mock · scripts/theme.mjs",
+  "project": "talad",
+  "decisions": [
+    {
+      "question": "source",
+      "answer": "handoff",
+      "ref": ".aeon/mockup/handoff/talad-ds",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:00:17Z",
+      "because": "ใช้ MiniLoan Design System เป็น theme ของ talad ตามที่ผู้ใช้ระบุ"
+    }
+  ],
+  "extensions": {}
+}

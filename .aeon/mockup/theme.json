@@ -1,0 +1,911 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "mock · scripts/theme.mjs",
+  "project": "talad",
+  "origin": {
+    "kind": "handoff",
+    "ref": ".aeon/mockup/handoff/talad-ds",
+    "importedAt": "2026-09-23T12:00:17Z",
+    "importedBy": "mon sai",
+    "layout": "claude-design",
+    "remote": {
+      "source": "claude-design",
+      "projectId": "4cbaa06e-07fe-4bd3-9b97-0b8347149b91",
+      "projectName": "MiniLoan Design System",
+      "updatedAt": "2026-09-23T11:56:14.139480Z",
+      "fetchedAt": "2026-09-23T12:00:17Z",
+      "fetchedBy": "mon sai"
+    },
+    "files": [
+      {
+        "path": "styles.css",
+        "sha256": "sha256:2fc2c2df45a64b1f8a4965a2db120261ad3818f62bf17789150cf730fd29b5f9"
+      },
+      {
+        "path": "tokens/colors.css",
+        "sha256": "sha256:b20ec31c5c24f488bc8819a62273163b7a9c0584318903db0cefaedc56f17230"
+      },
+      {
+        "path": "tokens/spacing.css",
+        "sha256": "sha256:1fc9519eb28b0e6f7e4fae20053ae4f0531d20065cbc7c423e37b588a2d09339"
+      },
+      {
+        "path": "tokens/typography.css",
+        "sha256": "sha256:ee9621d2c4cea1311bb8d3693921a1f30b7119161748a575c4b9562bdecebb6b"
+      },
+      {
+        "path": "_ds_manifest.json",
+        "sha256": "sha256:a3770edc12693918846c3cb4af411e1352a8174f2ef53ff3f72d7cb88a15b256"
+      },
+      {
+        "path": "components/core/Button.d.ts",
+        "sha256": "sha256:c99d13352a54af2cdbd174d47b27ba12107249f4f99ab82b396d22271c362d87"
+      },
+      {
+        "path": "components/core/Card.d.ts",
+        "sha256": "sha256:932e70c5abebc8b741fe69fafcce49e503328c910731b30cb5e7f27844f454a6"
+      },
+      {
+        "path": "components/core/IconButton.d.ts",
+        "sha256": "sha256:2488257b99b95a79d58dd1dacb9b429fd95a29c7b6e967f8665cbb35f99f75e2"
+      },
+      {
+        "path": "components/core/Tag.d.ts",
+        "sha256": "sha256:3e1175714301bbac8398581559193089b066e0f55817ab1931e26f3c954ab9bd"
+      },
+      {
+        "path": "components/data/Table.d.ts",
+        "sha256": "sha256:550a4adb8ede81dd37b40f27d1ec49d9bc9d0f80caba0d4aebeeebb38a1c1668"
+      },
+      {
+        "path": "components/feedback/StatusBadge.d.ts",
+        "sha256": "sha256:374239b3381037699d52dc7d7d8a955a967f9e7cc1fa836fc48ca17e382ae3eb"
+      },
+      {
+        "path": "components/feedback/Toast.d.ts",
+        "sha256": "sha256:449551c4fba92bc341bb415d250253550ed49b0d7127b67f2acbc4b612f9d1c7"
+      },
+      {
+        "path": "components/feedback/Tooltip.d.ts",
+        "sha256": "sha256:9567b98924631f72f37bba306f929bdaa290edc4425cf96b0bf060ee537177ce"
+      },
+      {
+        "path": "components/forms/Checkbox.d.ts",
+        "sha256": "sha256:4b0b954eda09906d5f99d67c2ddc99103dc0a3a23b5e863c6e21a87e792237e7"
+      },
+      {
+        "path": "components/forms/Input.d.ts",
+        "sha256": "sha256:0057f77facd3ba48623ad377f44e24bb2f1c066130df5d7e52bc36364f35ee37"
+      },
+      {
+        "path": "components/forms/Radio.d.ts",
+        "sha256": "sha256:9d25f57cccd9aeb9b90cb94b0438433c0d13057813680fa329ecf493f57d028b"
+      },
+      {
+        "path": "components/forms/Select.d.ts",
+        "sha256": "sha256:e5c2ca244ce102b41848177969adcbfc5db42b6095cba5e7a1b3298764e0dd16"
+      },
+      {
+        "path": "components/forms/Switch.d.ts",
+        "sha256": "sha256:ca093ddc0e3b3ebed349e78c623065689b12997d7b3a169b995ad289ae929cfd"
+      },
+      {
+        "path": "components/navigation/Tabs.d.ts",
+        "sha256": "sha256:a2ba1191a722f2620015eaf702dafa455e63652efa8df6294123f2b0adddaca1"
+      },
+      {
+        "path": "components/overlay/Dialog.d.ts",
+        "sha256": "sha256:d9ea49fa5213ad35c2ecda12018eb2a91f684b6765b5c3bf1a0727872e612dbe"
+      }
+    ],
+    "designedScreens": [
+      {
+        "path": "ui_kits/applicant-portal/index.html",
+        "name": null
+      },
+      {
+        "path": "ui_kits/loan-officer-console/index.html",
+        "name": null
+      },
+      {
+        "path": "ui_kits/operations-console/index.html",
+        "name": null
+      }
+    ]
+  },
+  "tokens": {
+    "light": {
+      "--blue-50": {
+        "value": "#EFF6FF",
+        "source": "design-sync"
+      },
+      "--blue-100": {
+        "value": "#DBEAFE",
+        "source": "design-sync"
+      },
+      "--blue-200": {
+        "value": "#BFDBFE",
+        "source": "design-sync"
+      },
+      "--blue-300": {
+        "value": "#93C5FD",
+        "source": "design-sync"
+      },
+      "--blue-400": {
+        "value": "#60A5FA",
+        "source": "design-sync"
+      },
+      "--blue-500": {
+        "value": "#2E90FA",
+        "source": "design-sync"
+      },
+      "--blue-600": {
+        "value": "#1570EF",
+        "source": "design-sync"
+      },
+      "--blue-700": {
+        "value": "#175CD3",
+        "source": "design-sync"
+      },
+      "--blue-800": {
+        "value": "#1849A9",
+        "source": "design-sync"
+      },
+      "--blue-900": {
+        "value": "#194185",
+        "source": "design-sync"
+      },
+      "--blue-950": {
+        "value": "#102A56",
+        "source": "design-sync"
+      },
+      "--gray-25": {
+        "value": "#FCFCFD",
+        "source": "design-sync"
+      },
+      "--gray-50": {
+        "value": "#F9FAFB",
+        "source": "design-sync"
+      },
+      "--gray-100": {
+        "value": "#F2F4F7",
+        "source": "design-sync"
+      },
+      "--gray-200": {
+        "value": "#EAECF0",
+        "source": "design-sync"
+      },
+      "--gray-300": {
+        "value": "#D0D5DD",
+        "source": "design-sync"
+      },
+      "--gray-400": {
+        "value": "#98A2B3",
+        "source": "design-sync"
+      },
+      "--gray-500": {
+        "value": "#667085",
+        "source": "design-sync"
+      },
+      "--gray-600": {
+        "value": "#475467",
+        "source": "design-sync"
+      },
+      "--gray-700": {
+        "value": "#344054",
+        "source": "design-sync"
+      },
+      "--gray-800": {
+        "value": "#1D2939",
+        "source": "design-sync"
+      },
+      "--gray-900": {
+        "value": "#101828",
+        "source": "design-sync"
+      },
+      "--success": {
+        "value": "#12B76A",
+        "source": "design-sync"
+      },
+      "--success-bg": {
+        "value": "#ECFDF3",
+        "source": "design-sync"
+      },
+      "--warning": {
+        "value": "#F79009",
+        "source": "design-sync"
+      },
+      "--warning-bg": {
+        "value": "#FFFAEB",
+        "source": "design-sync"
+      },
+      "--danger": {
+        "value": "#F04438",
+        "source": "design-sync"
+      },
+      "--danger-bg": {
+        "value": "#FEF3F2",
+        "source": "design-sync"
+      },
+      "--info": {
+        "value": "#1570EF",
+        "source": "design-sync"
+      },
+      "--info-bg": {
+        "value": "#EFF6FF",
+        "source": "design-sync"
+      },
+      "--brand-primary": {
+        "value": "#1570EF",
+        "source": "design-sync"
+      },
+      "--brand-primary-hover": {
+        "value": "#175CD3",
+        "source": "design-sync"
+      },
+      "--brand-primary-active": {
+        "value": "#1849A9",
+        "source": "design-sync"
+      },
+      "--brand-bright": {
+        "value": "#2E90FA",
+        "source": "design-sync"
+      },
+      "--brand-subtle": {
+        "value": "#EFF6FF",
+        "source": "design-sync"
+      },
+      "--brand-on-primary": {
+        "value": "#FFFFFF",
+        "source": "design-sync"
+      },
+      "--bg-page": {
+        "value": "#F9FAFB",
+        "source": "design-sync"
+      },
+      "--bg-surface": {
+        "value": "#FFFFFF",
+        "source": "design-sync"
+      },
+      "--bg-raised": {
+        "value": "#FCFCFD",
+        "source": "design-sync"
+      },
+      "--border": {
+        "value": "#EAECF0",
+        "source": "design-sync"
+      },
+      "--border-strong": {
+        "value": "#D0D5DD",
+        "source": "design-sync"
+      },
+      "--text-primary": {
+        "value": "#101828",
+        "source": "design-sync"
+      },
+      "--text-secondary": {
+        "value": "#475467",
+        "source": "design-sync"
+      },
+      "--text-muted": {
+        "value": "#667085",
+        "source": "design-sync"
+      },
+      "--text-link": {
+        "value": "#175CD3",
+        "source": "design-sync"
+      },
+      "--focus-ring": {
+        "value": "#2E90FA",
+        "source": "design-sync"
+      },
+      "--state-draft-bg": {
+        "value": "#F2F4F7",
+        "source": "design-sync"
+      },
+      "--state-draft-fg": {
+        "value": "#475467",
+        "source": "design-sync"
+      },
+      "--state-submitted-bg": {
+        "value": "#EFF6FF",
+        "source": "design-sync"
+      },
+      "--state-submitted-fg": {
+        "value": "#175CD3",
+        "source": "design-sync"
+      },
+      "--state-underreview-bg": {
+        "value": "#FFFAEB",
+        "source": "design-sync"
+      },
+      "--state-underreview-fg": {
+        "value": "#B54708",
+        "source": "design-sync"
+      },
+      "--state-approved-bg": {
+        "value": "#ECFDF3",
+        "source": "design-sync"
+      },
+      "--state-approved-fg": {
+        "value": "#027A48",
+        "source": "design-sync"
+      },
+      "--state-rejected-bg": {
+        "value": "#FEF3F2",
+        "source": "design-sync"
+      },
+      "--state-rejected-fg": {
+        "value": "#B42318",
+        "source": "design-sync"
+      },
+      "--state-disbursed-bg": {
+        "value": "#DBEAFE",
+        "source": "design-sync"
+      },
+      "--state-disbursed-fg": {
+        "value": "#1849A9",
+        "source": "design-sync"
+      },
+      "--state-active-bg": {
+        "value": "#ECFDF3",
+        "source": "design-sync"
+      },
+      "--state-active-fg": {
+        "value": "#027A48",
+        "source": "design-sync"
+      },
+      "--state-closed-bg": {
+        "value": "#EAECF0",
+        "source": "design-sync"
+      },
+      "--state-closed-fg": {
+        "value": "#344054",
+        "source": "design-sync"
+      },
+      "--credit-band-a": {
+        "value": "#12B76A",
+        "source": "design-sync"
+      },
+      "--credit-band-b": {
+        "value": "#F79009",
+        "source": "design-sync"
+      },
+      "--credit-band-c": {
+        "value": "#F04438",
+        "source": "design-sync"
+      },
+      "--installment-paid": {
+        "value": "#12B76A",
+        "source": "design-sync"
+      },
+      "--installment-upcoming": {
+        "value": "#98A2B3",
+        "source": "design-sync"
+      },
+      "--installment-overdue": {
+        "value": "#F04438",
+        "source": "design-sync"
+      },
+      "--space-1": {
+        "value": "4px",
+        "source": "design-sync"
+      },
+      "--space-2": {
+        "value": "8px",
+        "source": "design-sync"
+      },
+      "--space-3": {
+        "value": "12px",
+        "source": "design-sync"
+      },
+      "--space-4": {
+        "value": "16px",
+        "source": "design-sync"
+      },
+      "--space-5": {
+        "value": "20px",
+        "source": "design-sync"
+      },
+      "--space-6": {
+        "value": "24px",
+        "source": "design-sync"
+      },
+      "--space-8": {
+        "value": "32px",
+        "source": "design-sync"
+      },
+      "--space-10": {
+        "value": "40px",
+        "source": "design-sync"
+      },
+      "--space-12": {
+        "value": "48px",
+        "source": "design-sync"
+      },
+      "--space-16": {
+        "value": "64px",
+        "source": "design-sync"
+      },
+      "--space-20": {
+        "value": "80px",
+        "source": "design-sync"
+      },
+      "--radius-sm": {
+        "value": "6px",
+        "source": "design-sync"
+      },
+      "--radius": {
+        "value": "10px",
+        "source": "design-sync"
+      },
+      "--radius-lg": {
+        "value": "14px",
+        "source": "design-sync"
+      },
+      "--radius-xl": {
+        "value": "20px",
+        "source": "design-sync"
+      },
+      "--radius-full": {
+        "value": "999px",
+        "source": "design-sync"
+      },
+      "--shadow-sm": {
+        "value": "0 1px 2px rgba(16,24,40,.06)",
+        "source": "design-sync"
+      },
+      "--shadow-card": {
+        "value": "0 1px 3px rgba(16,24,40,.10),0 1px 2px rgba(16,24,40,.06)",
+        "source": "design-sync"
+      },
+      "--shadow-lg": {
+        "value": "0 4px 12px rgba(16,24,40,.12),0 2px 4px rgba(16,24,40,.08)",
+        "source": "design-sync"
+      },
+      "--shadow-focus": {
+        "value": "0 0 0 4px rgba(46,144,250,.25)",
+        "source": "design-sync"
+      },
+      "--font-ui": {
+        "value": "'IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif",
+        "source": "design-sync"
+      },
+      "--font-display": {
+        "value": "'Plus Jakarta Sans','IBM Plex Sans Thai',sans-serif",
+        "source": "design-sync"
+      },
+      "--font-mono": {
+        "value": "ui-monospace,'SF Mono',Menlo,Consolas,monospace",
+        "source": "design-sync"
+      },
+      "--text-xs": {
+        "value": "12px",
+        "source": "design-sync"
+      },
+      "--text-sm": {
+        "value": "14px",
+        "source": "design-sync"
+      },
+      "--text-base": {
+        "value": "16px",
+        "source": "design-sync"
+      },
+      "--text-lg": {
+        "value": "18px",
+        "source": "design-sync"
+      },
+      "--text-xl": {
+        "value": "20px",
+        "source": "design-sync"
+      },
+      "--text-2xl": {
+        "value": "24px",
+        "source": "design-sync"
+      },
+      "--text-3xl": {
+        "value": "30px",
+        "source": "design-sync"
+      },
+      "--text-4xl": {
+        "value": "36px",
+        "source": "design-sync"
+      },
+      "--text-5xl": {
+        "value": "48px",
+        "source": "design-sync"
+      },
+      "--leading-tight": {
+        "value": "1.2",
+        "source": "design-sync"
+      },
+      "--leading-normal": {
+        "value": "1.5",
+        "source": "design-sync"
+      },
+      "--leading-relaxed": {
+        "value": "1.65",
+        "source": "design-sync"
+      },
+      "--tracking-wordmark": {
+        "value": "-0.02em",
+        "source": "design-sync"
+      },
+      "--tabular-nums": {
+        "value": "tabular-nums",
+        "source": "design-sync"
+      }
+    },
+    "dark": {
+      "--brand-primary": {
+        "value": "#2E90FA",
+        "source": "design-sync"
+      },
+      "--brand-primary-hover": {
+        "value": "#53B1FD",
+        "source": "design-sync"
+      },
+      "--brand-primary-active": {
+        "value": "#84CAFF",
+        "source": "design-sync"
+      },
+      "--brand-bright": {
+        "value": "#53B1FD",
+        "source": "design-sync"
+      },
+      "--brand-subtle": {
+        "value": "#102A56",
+        "source": "design-sync"
+      },
+      "--brand-on-primary": {
+        "value": "#0B1220",
+        "source": "design-sync"
+      },
+      "--bg-page": {
+        "value": "#0B1220",
+        "source": "design-sync"
+      },
+      "--bg-surface": {
+        "value": "#101828",
+        "source": "design-sync"
+      },
+      "--bg-raised": {
+        "value": "#1D2939",
+        "source": "design-sync"
+      },
+      "--border": {
+        "value": "#1D2939",
+        "source": "design-sync"
+      },
+      "--border-strong": {
+        "value": "#344054",
+        "source": "design-sync"
+      },
+      "--text-primary": {
+        "value": "#F9FAFB",
+        "source": "design-sync"
+      },
+      "--text-secondary": {
+        "value": "#D0D5DD",
+        "source": "design-sync"
+      },
+      "--text-muted": {
+        "value": "#98A2B3",
+        "source": "design-sync"
+      },
+      "--text-link": {
+        "value": "#93C5FD",
+        "source": "design-sync"
+      },
+      "--focus-ring": {
+        "value": "#53B1FD",
+        "source": "design-sync"
+      }
+    },
+    "kinds": {
+      "--blue-50": "color",
+      "--blue-100": "color",
+      "--blue-200": "color",
+      "--blue-300": "color",
+      "--blue-400": "color",
+      "--blue-500": "color",
+      "--blue-600": "color",
+      "--blue-700": "color",
+      "--blue-800": "color",
+      "--blue-900": "color",
+      "--blue-950": "color",
+      "--gray-25": "color",
+      "--gray-50": "color",
+      "--gray-100": "color",
+      "--gray-200": "color",
+      "--gray-300": "color",
+      "--gray-400": "color",
+      "--gray-500": "color",
+      "--gray-600": "color",
+      "--gray-700": "color",
+      "--gray-800": "color",
+      "--gray-900": "color",
+      "--success": "color",
+      "--success-bg": "color",
+      "--warning": "color",
+      "--warning-bg": "color",
+      "--danger": "color",
+      "--danger-bg": "color",
+      "--info": "color",
+      "--info-bg": "color",
+      "--brand-primary": "color",
+      "--brand-primary-hover": "color",
+      "--brand-primary-active": "color",
+      "--brand-bright": "color",
+      "--brand-subtle": "color",
+      "--brand-on-primary": "color",
+      "--bg-page": "color",
+      "--bg-surface": "color",
+      "--bg-raised": "color",
+      "--border": "color",
+      "--border-strong": "color",
+      "--text-primary": "color",
+      "--text-secondary": "color",
+      "--text-muted": "color",
+      "--text-link": "color",
+      "--focus-ring": "color",
+      "--state-draft-bg": "color",
+      "--state-draft-fg": "color",
+      "--state-submitted-bg": "color",
+      "--state-submitted-fg": "color",
+      "--state-underreview-bg": "color",
+      "--state-underreview-fg": "color",
+      "--state-approved-bg": "color",
+      "--state-approved-fg": "color",
+      "--state-rejected-bg": "color",
+      "--state-rejected-fg": "color",
+      "--state-disbursed-bg": "color",
+      "--state-disbursed-fg": "color",
+      "--state-active-bg": "color",
+      "--state-active-fg": "color",
+      "--state-closed-bg": "color",
+      "--state-closed-fg": "color",
+      "--credit-band-a": "color",
+      "--credit-band-b": "color",
+      "--credit-band-c": "color",
+      "--installment-paid": "color",
+      "--installment-upcoming": "color",
+      "--installment-overdue": "color",
+      "--space-1": "length",
+      "--space-2": "length",
+      "--space-3": "length",
+      "--space-4": "length",
+      "--space-5": "length",
+      "--space-6": "length",
+      "--space-8": "length",
+      "--space-10": "length",
+      "--space-12": "length",
+      "--space-16": "length",
+      "--space-20": "length",
+      "--radius-sm": "radius",
+      "--radius": "radius",
+      "--radius-lg": "radius",
+      "--radius-xl": "radius",
+      "--radius-full": "radius",
+      "--shadow-sm": "shadow",
+      "--shadow-card": "shadow",
+      "--shadow-lg": "shadow",
+      "--shadow-focus": "shadow",
+      "--font-ui": "font-family",
+      "--font-display": "font-family",
+      "--font-mono": "font-family",
+      "--text-xs": "font-size",
+      "--text-sm": "font-size",
+      "--text-base": "font-size",
+      "--text-lg": "font-size",
+      "--text-xl": "font-size",
+      "--text-2xl": "font-size",
+      "--text-3xl": "font-size",
+      "--text-4xl": "font-size",
+      "--text-5xl": "font-size",
+      "--leading-tight": "number",
+      "--leading-normal": "number",
+      "--leading-relaxed": "number",
+      "--tracking-wordmark": "length",
+      "--tabular-nums": "other"
+    }
+  },
+  "components": [
+    {
+      "name": "Button",
+      "source": "components/core/Button.jsx",
+      "props": {
+        "variant": [
+          "primary",
+          "secondary",
+          "ghost",
+          "danger"
+        ],
+        "size": [
+          "sm",
+          "md",
+          "lg"
+        ],
+        "type": [
+          "button",
+          "submit"
+        ]
+      },
+      "booleanProps": [
+        "disabled"
+      ]
+    },
+    {
+      "name": "Card",
+      "source": "components/core/Card.jsx"
+    },
+    {
+      "name": "IconButton",
+      "source": "components/core/IconButton.jsx",
+      "booleanProps": [
+        "active"
+      ]
+    },
+    {
+      "name": "Tag",
+      "source": "components/core/Tag.jsx",
+      "props": {
+        "color": [
+          "gray",
+          "blue",
+          "green"
+        ]
+      }
+    },
+    {
+      "name": "Table",
+      "source": "components/data/Table.jsx",
+      "props": {
+        "align": [
+          "left",
+          "right"
+        ]
+      },
+      "booleanProps": [
+        "numeric"
+      ]
+    },
+    {
+      "name": "StatusBadge",
+      "source": "components/feedback/StatusBadge.jsx",
+      "props": {
+        "state": [
+          "Draft",
+          "Submitted",
+          "UnderReview",
+          "Approved",
+          "Rejected",
+          "Disbursed",
+          "Active",
+          "Closed"
+        ]
+      }
+    },
+    {
+      "name": "Toast",
+      "source": "components/feedback/Toast.jsx",
+      "props": {
+        "variant": [
+          "info",
+          "success",
+          "danger"
+        ]
+      }
+    },
+    {
+      "name": "Tooltip",
+      "source": "components/feedback/Tooltip.jsx"
+    },
+    {
+      "name": "Checkbox",
+      "source": "components/forms/Checkbox.jsx",
+      "booleanProps": [
+        "checked"
+      ]
+    },
+    {
+      "name": "Input",
+      "source": "components/forms/Input.jsx"
+    },
+    {
+      "name": "Radio",
+      "source": "components/forms/Radio.jsx",
+      "booleanProps": [
+        "checked"
+      ]
+    },
+    {
+      "name": "Select",
+      "source": "components/forms/Select.jsx"
+    },
+    {
+      "name": "Switch",
+      "source": "components/forms/Switch.jsx",
+      "booleanProps": [
+        "checked"
+      ]
+    },
+    {
+      "name": "Tabs",
+      "source": "components/navigation/Tabs.jsx"
+    },
+    {
+      "name": "Dialog",
+      "source": "components/overlay/Dialog.jsx",
+      "booleanProps": [
+        "open"
+      ]
+    }
+  ],
+  "layout": {
+    "breakpoints": [],
+    "maxWidth": [],
+    "grid": []
+  },
+  "states": {
+    "normal": {
+      "hasToken": true,
+      "tokens": []
+    },
+    "hover": {
+      "hasToken": true,
+      "tokens": [
+        "--brand-primary-hover"
+      ]
+    },
+    "active": {
+      "hasToken": true,
+      "tokens": [
+        "--brand-primary-active",
+        "--state-active-bg",
+        "--state-active-fg"
+      ]
+    },
+    "focus": {
+      "hasToken": true,
+      "tokens": [
+        "--focus-ring",
+        "--shadow-focus"
+      ]
+    },
+    "disabled": {
+      "hasToken": false,
+      "tokens": []
+    },
+    "error": {
+      "hasToken": true,
+      "tokens": [
+        "--danger",
+        "--danger-bg"
+      ]
+    }
+  },
+  "externalRefs": [
+    {
+      "file": "styles.css",
+      "kind": "import",
+      "ref": "tokens/colors.css"
+    },
+    {
+      "file": "styles.css",
+      "kind": "import",
+      "ref": "tokens/typography.css"
+    },
+    {
+      "file": "styles.css",
+      "kind": "import",
+      "ref": "tokens/spacing.css"
+    },
+    {
+      "file": "tokens/typography.css",
+      "kind": "import",
+      "ref": "url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400"
+    }
+  ],
+  "extensions": {}
+}
