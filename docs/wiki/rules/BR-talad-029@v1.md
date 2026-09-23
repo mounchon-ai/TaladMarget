@@ -15,7 +15,7 @@ proven_by: [EX-talad-125, EX-talad-126, EX-talad-127, EX-talad-128]
 golden: [GD-talad-008]
 provenance: [SRC-008, SRC-040, SRC-040, SRC-040, SRC-041]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:b96b4dac281a09ad16fae230eb9fb95d8fd435b6b55ce378433b885cfb6d5978
+spec_hash: sha256:5e71652bb5359c9db6697f128ecd31c7fc32362cbe28e9dacb0e79ae5134aa28
 ---
 
 # BR-talad-029@v1

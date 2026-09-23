@@ -18,11 +18,11 @@
 | หมวด | จำนวน | เปิดมาถามอะไร |
 |---|---|---|
 | [requirements/](requirements/index.md) | 7 | ลูกค้าอยากได้อะไร |
-| [rules/](rules/index.md) | 43 | กฎที่ระบบต้องบังคับ (หนึ่งไฟล์ต่อหนึ่งเวอร์ชัน) |
+| [rules/](rules/index.md) | 44 | กฎที่ระบบต้องบังคับ (หนึ่งไฟล์ต่อหนึ่งเวอร์ชัน) |
 | [calculations/](calculations/index.md) | 9 | ตัวเลขถูกผลิตยังไง |
 | [examples/](examples/index.md) | 128 | ใครพิสูจน์กฎข้อไหน |
 | [golden/](golden/index.md) | 9 | เลขเฉลยที่คนยืนยันแล้ว |
-| [changes/](changes/index.md) | 1 | เปลี่ยนอะไร ใครสั่ง เมื่อไหร่ |
+| [changes/](changes/index.md) | 2 | เปลี่ยนอะไร ใครสั่ง เมื่อไหร่ |
 | [glossary/](glossary/index.md) | 20 | คำที่ตกลงกันแล้ว |
 | [questions/](questions/index.md) | 12 | สิ่งที่ยังไม่ตัดสิน |
 | [nfr/](nfr/index.md) | 8 | ข้อกำหนดที่ไม่ใช่ฟังก์ชัน |

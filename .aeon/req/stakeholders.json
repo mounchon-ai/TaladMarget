@@ -5,9 +5,9 @@
     "plugin": "req",
     "specSchemaVersion": "0.6.0",
     "module": "talad",
-    "specStatus": "draft",
-    "specApprovedBy": null,
-    "specApprovedAt": null,
+    "specStatus": "validated",
+    "specApprovedBy": "mon sai",
+    "specApprovedAt": "2026-09-23T10:07:09.272Z",
     "specUpdatedAt": "2026-09-23T11:00+07:00"
   },
   "stakeholders": [

@@ -5,16 +5,17 @@ description: ทุกบิลขายต้องบันทึกราย�
 resource: ../requirements/REQ-talad-006.md
 tags: [talad, invariant]
 id: BR-talad-016@v1
-status: draft
+status: superseded
 belongs_to: REQ-talad-006
 kind: invariant
-is_current: true
+is_current: false
 test_design: [EP]
 proven_by: [EX-talad-065, EX-talad-066]
 golden: []
+superseded_by: BR-talad-016@v2
 provenance: [SRC-001]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:aa63ce4cc26b4c2aa98662505d476abaaf0e8eae066683dd48ea8781ba6cc815
+spec_hash: sha256:8016c18133f3d60bb00c293ec2f9671639c8fa3b39768d6817a6a07c7483e95c
 ---
 
 # BR-talad-016@v1
@@ -36,4 +37,5 @@ spec_hash: sha256:aa63ce4cc26b4c2aa98662505d476abaaf0e8eae066683dd48ea8781ba6cc8
 
 | เวอร์ชัน | มีผลตั้งแต่ | เหตุผล | change set |
 |---|---|---|---|
-| **BR-talad-016@v1** (หน้านี้) ✅ | — | ตั้งต้น | — |
+| **BR-talad-016@v1** (หน้านี้) ❄️ | — | ตั้งต้น | — |
+| [BR-talad-016@v2](BR-talad-016@v2.md) ✅ | 2026-09-23 | v1 ไม่ได้บอกว่าบิลแสดงโปรที่ใช้อย่างไร — เจ้าของงานตอบระหว่าง /req:example BR-talad-029@v1 ว่าแสดงชื่อโปรใต้บรรทัดสินค้า (SRC-041 บรรทัด 2) | [CHG-talad-002](../changes/CHG-talad-002.md) |

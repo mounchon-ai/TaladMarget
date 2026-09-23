@@ -3,11 +3,11 @@
     "module": "talad",
     "schema_version": "0.6.0",
     "scale": "FULL",
-    "status": "draft",
+    "status": "validated",
     "created_at": "2026-09-23T09:52+07:00",
     "updated_at": "2026-09-23T11:00+07:00",
-    "approved_by": null,
-    "approved_at": null
+    "approved_by": "mon sai",
+    "approved_at": "2026-09-23T10:07:09.272Z"
   },
   "sources": [
     {
@@ -2253,8 +2253,8 @@
       "id": "BR-talad-016@v1",
       "base_id": "BR-talad-016",
       "version": 1,
-      "is_current": true,
-      "status": "draft",
+      "is_current": false,
+      "status": "superseded",
       "belongs_to": "REQ-talad-006",
       "statement": "ทุกบิลขายต้องบันทึกรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี)",
       "kind": "invariant",
@@ -2277,9 +2277,49 @@
       ],
       "effective_from": null,
       "supersedes": null,
+      "superseded_by": "BR-talad-016@v2",
+      "superseded_at": "2026-09-23T17:10+07:00",
+      "change_reason": null
+    },
+    {
+      "id": "BR-talad-016@v2",
+      "base_id": "BR-talad-016",
+      "version": 2,
+      "is_current": true,
+      "status": "draft",
+      "belongs_to": "REQ-talad-006",
+      "statement": "ทุกบิลขายต้องบันทึกรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี) · บรรทัดสินค้าที่ได้โปรโมชั่นระดับสินค้าแสดงชื่อโปรและส่วนลดของบรรทัดนั้นใต้บรรทัดสินค้า (เช่น \"โปร: ส้มสายน้ำผึ้ง ลด 10% − 13.50 บาท\") และบิลยังแสดงยอด \"ส่วนลดโปรโมชั่น\" รวม",
+      "kind": "invariant",
+      "examples": [
+        "EX-talad-066",
+        "EX-talad-125",
+        "EX-talad-128"
+      ],
+      "questions": [],
+      "test_design": [
+        "EP"
+      ],
+      "provenance": [
+        {
+          "source": "SRC-001",
+          "locator": {
+            "line": 33
+          },
+          "quote": "- บันทึกทุกบิลขาย พร้อมรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี)"
+        },
+        {
+          "source": "SRC-041",
+          "locator": {
+            "line": 2
+          },
+          "quote": "ระหว่าง /req:example BR-talad-029@v1: บิลแสดงชื่อโปรที่ใช้ไหม → a) แสดงใต้บรรทัดสินค้า เช่น \"โปร: ส้ม ลด 10% − 13.50 บาท\" และยังมียอด \"ส่วนลดโปรโมชั่น\" รวม"
+        }
+      ],
+      "effective_from": "2026-09-23",
+      "supersedes": "BR-talad-016@v1",
       "superseded_by": null,
       "superseded_at": null,
-      "change_reason": null
+      "change_reason": "v1 ไม่ได้บอกว่าบิลแสดงโปรที่ใช้อย่างไร — เจ้าของงานตอบระหว่าง /req:example BR-talad-029@v1 ว่าแสดงชื่อโปรใต้บรรทัดสินค้า (SRC-041 บรรทัด 2)"
     },
     {
       "id": "BR-talad-017@v1",
@@ -4362,7 +4402,8 @@
       "id": "EX-talad-066",
       "proves": [
         "BR-talad-016@v1",
-        "BR-talad-010@v1"
+        "BR-talad-010@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "alternate",
       "status": "draft",
@@ -5073,7 +5114,8 @@
     {
       "id": "EX-talad-125",
       "proves": [
-        "BR-talad-029@v1"
+        "BR-talad-029@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "happy",
       "status": "draft",
@@ -5109,7 +5151,8 @@
     {
       "id": "EX-talad-128",
       "proves": [
-        "BR-talad-029@v1"
+        "BR-talad-029@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "boundary",
       "status": "draft",
@@ -9917,6 +9960,21 @@
       "reason": "v1 ไม่ได้บอกว่าสมาชิกที่ยังไม่เคยซื้อลบแล้วเป็นอย่างไร — เจ้าของงานตอบว่าซ่อนเหมือนกัน ให้ทุกการลบสมาชิกเป็นซ่อน สอดคล้องกับสินค้า/โปรโมชั่นตาม BR-talad-037@v1 (SRC-027)",
       "affects": [
         "BR-talad-040@v2"
+      ],
+      "invalidates": [],
+      "effective_from": "2026-09-23"
+    },
+    {
+      "id": "CHG-talad-002",
+      "at": "2026-09-23T17:10+07:00",
+      "requested_by": "mon sai",
+      "approved_by": "mon sai",
+      "triggered_by": [
+        "SRC-041"
+      ],
+      "reason": "v1 ไม่ได้บอกว่าบิลแสดงโปรที่ใช้อย่างไร — เจ้าของงานตอบระหว่าง /req:example BR-talad-029@v1 ว่าแสดงชื่อโปรใต้บรรทัดสินค้า (SRC-041 บรรทัด 2)",
+      "affects": [
+        "BR-talad-016@v2"
       ],
       "invalidates": [],
       "effective_from": "2026-09-23"

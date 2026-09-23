@@ -4,7 +4,7 @@
 
 | แหล่ง | ชนิด | ที่อยู่ | ใครอ้างถึง |
 |---|---|---|---|
-| [SRC-001](SRC-001.md) | file | docs/requirement.md | 25 |
+| [SRC-001](SRC-001.md) | file | docs/requirement.md | 26 |
 | [SRC-002](SRC-002.md) | chat | — | ⚠️ 0 |
 | [SRC-003](SRC-003.md) | chat | — | 3 |
 | [SRC-004](SRC-004.md) | chat | — | ⚠️ 0 |
@@ -44,5 +44,5 @@
 | [SRC-038](SRC-038.md) | chat | — | 1 |
 | [SRC-039](SRC-039.md) | chat | — | 2 |
 | [SRC-040](SRC-040.md) | chat | — | 2 |
-| [SRC-041](SRC-041.md) | chat | — | 1 |
+| [SRC-041](SRC-041.md) | chat | — | 3 |
 | [SRC-042](SRC-042.md) | chat | — | 1 |

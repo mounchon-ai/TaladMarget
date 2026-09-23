@@ -5,9 +5,9 @@
     "plugin": "req",
     "specSchemaVersion": "0.6.0",
     "module": "talad",
-    "specStatus": "draft",
-    "specApprovedBy": null,
-    "specApprovedAt": null,
+    "specStatus": "validated",
+    "specApprovedBy": "mon sai",
+    "specApprovedAt": "2026-09-23T10:07:09.272Z",
     "specUpdatedAt": "2026-09-23T11:00+07:00"
   },
   "changes": [
@@ -23,6 +23,23 @@
       "effectiveFrom": "2026-09-23",
       "affects": [
         "BR-talad-040@v2"
+      ],
+      "invalidates": [],
+      "notes": null,
+      "extensions": {}
+    },
+    {
+      "id": "CHG-talad-002",
+      "at": "2026-09-23T17:10+07:00",
+      "reason": "v1 ไม่ได้บอกว่าบิลแสดงโปรที่ใช้อย่างไร — เจ้าของงานตอบระหว่าง /req:example BR-talad-029@v1 ว่าแสดงชื่อโปรใต้บรรทัดสินค้า (SRC-041 บรรทัด 2)",
+      "requestedBy": "mon sai",
+      "approvedBy": "mon sai",
+      "triggeredBy": [
+        "SRC-041"
+      ],
+      "effectiveFrom": "2026-09-23",
+      "affects": [
+        "BR-talad-016@v2"
       ],
       "invalidates": [],
       "notes": null,

@@ -5,9 +5,9 @@
     "plugin": "req",
     "specSchemaVersion": "0.6.0",
     "module": "talad",
-    "specStatus": "draft",
-    "specApprovedBy": null,
-    "specApprovedAt": null,
+    "specStatus": "validated",
+    "specApprovedBy": "mon sai",
+    "specApprovedAt": "2026-09-23T10:07:09.272Z",
     "specUpdatedAt": "2026-09-23T11:00+07:00"
   },
   "requirements": [
@@ -1776,19 +1776,20 @@
       ],
       "rules": [
         {
-          "id": "BR-talad-016@v1",
+          "id": "BR-talad-016@v2",
           "baseId": "BR-talad-016",
-          "version": 1,
+          "version": 2,
           "status": "draft",
           "kind": "invariant",
-          "statement": "ทุกบิลขายต้องบันทึกรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี)",
+          "statement": "ทุกบิลขายต้องบันทึกรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี) · บรรทัดสินค้าที่ได้โปรโมชั่นระดับสินค้าแสดงชื่อโปรและส่วนลดของบรรทัดนั้นใต้บรรทัดสินค้า (เช่น \"โปร: ส้มสายน้ำผึ้ง ลด 10% − 13.50 บาท\") และบิลยังแสดงยอด \"ส่วนลดโปรโมชั่น\" รวม",
           "examples": [
-            "EX-talad-065",
-            "EX-talad-066"
+            "EX-talad-066",
+            "EX-talad-125",
+            "EX-talad-128"
           ],
           "questions": [],
           "constrainedBy": null,
-          "effectiveFrom": null,
+          "effectiveFrom": "2026-09-23",
           "provenance": [
             {
               "source": "SRC-001",
@@ -1796,6 +1797,13 @@
                 "line": 33
               },
               "quote": "- บันทึกทุกบิลขาย พร้อมรายการสินค้า ราคา ส่วนลด พนักงาน และสมาชิก (ถ้ามี)"
+            },
+            {
+              "source": "SRC-041",
+              "locator": {
+                "line": 2
+              },
+              "quote": "ระหว่าง /req:example BR-talad-029@v1: บิลแสดงชื่อโปรที่ใช้ไหม → a) แสดงใต้บรรทัดสินค้า เช่น \"โปร: ส้ม ลด 10% − 13.50 บาท\" และยังมียอด \"ส่วนลดโปรโมชั่น\" รวม"
             }
           ],
           "extensions": {}
@@ -3075,7 +3083,8 @@
       "id": "EX-talad-066",
       "proves": [
         "BR-talad-016@v1",
-        "BR-talad-010@v1"
+        "BR-talad-010@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "alternate",
       "status": "draft",
@@ -3845,7 +3854,8 @@
     {
       "id": "EX-talad-125",
       "proves": [
-        "BR-talad-029@v1"
+        "BR-talad-029@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "happy",
       "status": "draft",
@@ -3884,7 +3894,8 @@
     {
       "id": "EX-talad-128",
       "proves": [
-        "BR-talad-029@v1"
+        "BR-talad-029@v1",
+        "BR-talad-016@v2"
       ],
       "kind": "boundary",
       "status": "draft",
