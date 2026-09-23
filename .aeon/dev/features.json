@@ -3343,7 +3343,10 @@
             "file": "src/api/src/Talad.Api/Settings/MemberDiscountEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "02f252d"
+      ]
     },
     {
       "id": "FE-talad-030",
