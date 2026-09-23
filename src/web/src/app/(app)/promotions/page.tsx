@@ -6,6 +6,7 @@ import { PromotionSearchButton } from "@/components/promotion-search-button";
 import { requireScreen } from "@/lib/me";
 import { MISSING_PARAM, NO_PROMOTION, PROMOTIONS_PATH, SAVED, SAVED_PARAM } from "@/lib/promotion-form";
 import { searchPromotions } from "@/lib/promotions-api";
+import { discontinuePromotionAction } from "./actions";
 
 export const metadata: Metadata = { title: "โปรโมชั่น · ตลาดมาร์เก็ต" };
 
@@ -59,7 +60,7 @@ export default async function PromotionsPage({ searchParams }: { searchParams: S
         </Form>
       </div>
       <Suspense key={`${q}|${pageNo}`} fallback={<PromotionListSkeleton />}>
-        <PromotionList loaded={loaded} q={q} />
+        <PromotionList loaded={loaded} q={q} discontinue={discontinuePromotionAction} />
       </Suspense>
     </div>
   );

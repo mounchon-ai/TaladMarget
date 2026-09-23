@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { DiscontinuePromotionButton } from "@/components/discontinue-promotion-button";
 import { NO_PROMOTION, PROMOTIONS_PATH, statusLabel, typeLabel } from "@/lib/promotion-form";
 import type { PromotionPage } from "@/lib/promotions-api";
 
 type Loaded = { ok: true; page: PromotionPage } | { ok: false };
+/** UI-talad-015 action discontinue (API-029) — the page hands the server action down; the list binds it per row. */
+type Discontinue = (id: number) => Promise<{ ok: true } | { ok: false; message: string }>;
 
 const listHref = (q: string, page: number) =>
   `${PROMOTIONS_PATH}?${new URLSearchParams({ ...(q ? { q } : {}), ...(page > 1 ? { page: String(page) } : {}) })}`;
@@ -29,10 +32,10 @@ export async function HeaderAddPromotion({ loaded }: { loaded: Promise<Loaded> }
 /**
  * UI-talad-015 zone results (API-025) — the wireframe MCK-talad-015 is the only picture of this screen; every
  * data-testid is its control id. Each row carries data-row-key = the promotion's id (ENT-005 key) — not the
- * version's, which changes with every edit — because its controls repeat once per row (gate 126). The edit
- * action sits in the first column as an icon (UIC-001 · UIC-002); ลบ (discontinue) is FE-talad-028's.
+ * version's, which changes with every edit — because its controls repeat once per row (gate 126). แก้ไข then
+ * ลบ sit in the first column as icons, in UIC-001's order (edit · delete) · UIC-002.
  */
-export async function PromotionList({ loaded, q }: { loaded: Promise<Loaded>; q: string }) {
+export async function PromotionList({ loaded, q, discontinue }: { loaded: Promise<Loaded>; q: string; discontinue: Discontinue }) {
   const result = await loaded;
 
   if (!result.ok) {
@@ -68,7 +71,7 @@ export async function PromotionList({ loaded, q }: { loaded: Promise<Loaded>; q:
         <thead>
           <tr>
             <th className="act">
-              <span className="muted">แก้ไข</span>
+              <span className="muted">แก้ไข · ลบ</span>
             </th>
             <th>ชื่อโปร</th>
             <th>รูปแบบ</th>
@@ -87,6 +90,7 @@ export async function PromotionList({ loaded, q }: { loaded: Promise<Loaded>; q:
                     <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
                   </svg>
                 </Link>
+                <DiscontinuePromotionButton name={p.name} discontinue={discontinue.bind(null, p.id)} />
               </td>
               <td className="clip" title={p.name} data-testid="ui-talad-015-ent-006-name">
                 {p.name}

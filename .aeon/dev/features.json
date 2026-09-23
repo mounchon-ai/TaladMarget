@@ -3755,7 +3755,81 @@
           "hash": "sha256:40b9c49553a62374bf1a3021dcf27afdd22a0040c0df05a49a52d44cc5d9af5a"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 2,
+        "proof": [
+          {
+            "cmd": "mutation check: each row bound to versionId instead of the promotion id, then npx vitest run tests/promotion-discontinue.test.tsx (src/web)",
+            "result": "Tests 1 failed | 8 passed (9) — the row test catches ลบ discontinuing the wrong promotion · file restored",
+            "at": "2026-09-23T22:58:02+07:00"
+          },
+          {
+            "cmd": "mutation check: the action without revalidatePath, then npx vitest run tests/promotion-discontinue.test.tsx (src/web)",
+            "result": "Tests 3 failed | 6 passed (9) — AC-talad-064 · AC-talad-088 · gone tests catch a list that would still show the row · file restored",
+            "at": "2026-09-23T22:58:05+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:58:15+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-028",
+            "result": "vitest: Tests 9 passed | 150 skipped (159) · exit 0",
+            "at": "2026-09-23T22:58:17+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 12 passed (12) · Tests 159 passed (159) · exit 0",
+            "at": "2026-09-23T22:58:20+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T22:58:23+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db (PostgreSQL 18, scratch) · Playwright as owner on /promotions",
+            "result": "แก้ไข · ลบ icons in the first cell · ลบ on ส้มซื้อ 2 แถมนม asks ต้องการลบโปรโมชั่น ส้มซื้อ 2 แถมนม หรือไม่? · ยกเลิก left it Active · ลบ closed the dialog, the list went to 1 row, promotion 4 Discontinued with current_version_id 6 and its version kept · promotion 3 discontinued by curl behind the open page, then ลบ on its row: list redrawn to 0 rows, state empty ไม่พบโปรโมชั่น",
+            "at": "2026-09-23T22:59:31+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/promotions-api.ts",
+          "src/web/src/app/(app)/promotions/actions.ts",
+          "src/web/src/app/(app)/promotions/page.tsx",
+          "src/web/src/components/promotion-list.tsx",
+          "src/web/src/components/discontinue-promotion-button.tsx",
+          "src/web/tests/promotion-discontinue.test.tsx",
+          "src/web/tests/promotions.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/promotion-discontinue.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "discontinuePromotion",
+            "kind": "delete",
+            "dd_ref": null,
+            "testid": "ui-talad-015-discontinue",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-029",
@@ -5604,8 +5678,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 21,
-      "draft": 25
+      "validated": 22,
+      "draft": 24
     },
     "by_origin": {
       "new": 46

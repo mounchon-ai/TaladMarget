@@ -49,6 +49,7 @@ const tenPercent: Promotion = {
 };
 const twentyPercent = { ...tenPercent, versionId: 41, name: "ส้มลด 20%", ratePercent: 20, changedAt: "2026-09-23T09:00:00Z" };
 const billPercent = { ...tenPercent, id: 6, versionId: 42, name: "ลดทั้งบิล 5%", type: "BILL_PERCENT", productA: null, ratePercent: 5, minSubtotal: 500, endDate: "2026-12-31" };
+const noDiscontinue = async () => ({ ok: true as const });
 const pageOf = (items: Promotion[], total = items.length, page = 1) => ({ items, page, pageSize: 20, total });
 
 function apiAnswers(status: number, body: unknown) {
@@ -317,7 +318,7 @@ describe("FE-talad-026 · UI-talad-015 promotions page", () => {
   });
 
   it("each row keyed by the promotion's id with its form, dates and status, and an edit icon first that opens UI-talad-016", async () => {
-    render(await PromotionList({ loaded: Promise.resolve({ ok: true, page: pageOf([tenPercent, billPercent]) }), q: "" }));
+    render(await PromotionList({ loaded: Promise.resolve({ ok: true, page: pageOf([tenPercent, billPercent]) }), q: "", discontinue: noDiscontinue }));
 
     const names = screen.getAllByTestId("ui-talad-015-ent-006-name");
     expect(names.map((n) => n.closest("tr")?.getAttribute("data-row-key"))).toEqual(["5", "6"]);
@@ -329,8 +330,6 @@ describe("FE-talad-026 · UI-talad-015 promotions page", () => {
     const edit = screen.getAllByTestId("ui-talad-015-edit-promo")[0];
     expect([edit.getAttribute("href"), edit.getAttribute("aria-label")]).toEqual(["/promotions/5", "แก้ไข"]);
     expect(edit.closest("td")).toBe(edit.closest("tr")?.firstElementChild);
-    // ลบ is FE-talad-028's
-    expect(screen.queryByTestId("ui-talad-015-discontinue")).toBeNull();
   });
 
   it("state empty · ไม่พบโปรโมชั่น with one create button, and the header draws none", async () => {
@@ -338,7 +337,7 @@ describe("FE-talad-026 · UI-talad-015 promotions page", () => {
     render(
       <>
         {await HeaderAddPromotion({ loaded })}
-        {await PromotionList({ loaded, q: "ไม่มี" })}
+        {await PromotionList({ loaded, q: "ไม่มี", discontinue: noDiscontinue })}
       </>,
     );
 
@@ -354,7 +353,7 @@ describe("FE-talad-026 · UI-talad-015 promotions page", () => {
   });
 
   it("state error · โหลดข้อมูลไม่สำเร็จ with a retry that keeps the term", async () => {
-    render(await PromotionList({ loaded: Promise.resolve({ ok: false }), q: "ส้ม" }));
+    render(await PromotionList({ loaded: Promise.resolve({ ok: false }), q: "ส้ม", discontinue: noDiscontinue }));
 
     expect(screen.getByRole("alert").textContent).toContain("โหลดข้อมูลไม่สำเร็จ");
     expect(screen.getByText("ลองใหม่").getAttribute("href")).toBe(`/promotions?q=${encodeURIComponent("ส้ม")}`);
@@ -362,7 +361,7 @@ describe("FE-talad-026 · UI-talad-015 promotions page", () => {
 
   it("state overflow · 21 promotions page at 20, with a link to the next page", async () => {
     const twenty = Array.from({ length: 20 }, (_, i) => ({ ...tenPercent, id: 100 + i }));
-    render(await PromotionList({ loaded: Promise.resolve({ ok: true, page: pageOf(twenty, 21) }), q: "" }));
+    render(await PromotionList({ loaded: Promise.resolve({ ok: true, page: pageOf(twenty, 21) }), q: "", discontinue: noDiscontinue }));
 
     expect(screen.getAllByTestId("ui-talad-015-ent-006-name")).toHaveLength(20);
     expect(screen.getByText("ถัดไป ›").getAttribute("href")).toBe("/promotions?page=2");

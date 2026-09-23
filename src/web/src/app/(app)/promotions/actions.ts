@@ -6,13 +6,14 @@ import type { ProductOption } from "@/components/product-picker";
 import { DENIED_MESSAGE } from "@/lib/denied";
 import {
   MISSING_PARAM,
+  NO_PROMOTION,
   PROMOTIONS_PATH,
   SAVED_PARAM,
   readValues,
   termsOf,
   type PromotionFormState,
 } from "@/lib/promotion-form";
-import { savePromotion, type PromotionSave } from "@/lib/promotions-api";
+import { discontinuePromotion, savePromotion, type PromotionDiscontinuing, type PromotionSave } from "@/lib/promotions-api";
 import { searchProducts } from "@/lib/sales-api";
 
 // UI-talad-016 action "save" → API-027 (id null: a new promotion) or API-028 (an edit: a new version in force
@@ -55,4 +56,23 @@ export async function findProducts(term: string): Promise<ProductOption[] | null
   } catch {
     return null;
   }
+}
+
+/** What the list shows after ลบ — nothing when it went through (the row is gone), a sentence when it did not. */
+export type DiscontinueResult = { ok: true } | { ok: false; message: string };
+
+// UI-talad-015 action "discontinue" → API-029, after the owner confirmed (UC-talad-022). Its destination is
+// the same page: the list is redrawn without the promotion. One discontinued elsewhere since the list was
+// drawn is gone too, so the list is redrawn and says ไม่พบโปรโมชั่น.
+export async function discontinuePromotionAction(id: number): Promise<DiscontinueResult> {
+  let outcome: PromotionDiscontinuing;
+  try {
+    outcome = await discontinuePromotion(id);
+  } catch {
+    return { ok: false, message: "เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่" };
+  }
+  if (outcome === "signedOut") redirect("/logout");
+  if (outcome === "forbidden") return { ok: false, message: DENIED_MESSAGE };
+  revalidatePath(PROMOTIONS_PATH);
+  return outcome === "gone" ? { ok: false, message: NO_PROMOTION } : { ok: true };
 }

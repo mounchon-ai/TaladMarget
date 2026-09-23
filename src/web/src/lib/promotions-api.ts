@@ -74,3 +74,20 @@ export async function savePromotion(id: number | null, terms: PromotionTermsBody
   }
   throw new Error(`POST ${path} answered ${response.status}`);
 }
+
+export type PromotionDiscontinuing = "discontinued" | "gone" | "forbidden" | "signedOut";
+
+/**
+ * API-029 · POST /api/promotions/{id}/discontinue — ACTIVE → DISCONTINUED, the owner's alone (ACL-024): the
+ * api answers anyone else 403 whatever the page showed. Already discontinued or never there is
+ * PROMOTION_NOT_FOUND. Nothing is deleted — the bills that used it keep their discount (BR-talad-037@v1).
+ */
+export async function discontinuePromotion(id: number): Promise<PromotionDiscontinuing> {
+  const response = await apiFetch(`/api/promotions/${id}/discontinue`, { method: "POST" });
+  if (response.status === 204) return "discontinued";
+  if (response.status === 401) return "signedOut";
+  if (response.status === 403) return "forbidden";
+  const body = (await response.json().catch(() => null)) as { code?: string } | null;
+  if (body?.code === "PROMOTION_NOT_FOUND") return "gone";
+  throw new Error(`POST /api/promotions/${id}/discontinue answered ${response.status}`);
+}
