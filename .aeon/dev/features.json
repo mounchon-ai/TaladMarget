@@ -284,7 +284,10 @@
             "file": "src/api/src/Talad.Api/Auth/AuthEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "958944a"
+      ]
     },
     {
       "id": "FE-talad-002",
