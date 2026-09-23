@@ -24,7 +24,7 @@ powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1   # Release build
 
 ไม่มี cache · ไม่มี queue · ไม่มีโค้ดร่วมระหว่างแอป (สัญญาคือ OpenAPI ของ api)
 
-Skills: api → `dotnet-dev` (+ `efcore-patterns` · `csharp-lsp`) · web → `vercel-react-best-practices` (+ `vercel-composition-patterns` · `typescript-lsp` · `frontend-design`)
+Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได้ติดตั้ง) · web → `vercel-react-best-practices` (+ `vercel-composition-patterns` · `typescript-lsp` · `frontend-design`)
 
 ## Architecture
 
@@ -49,4 +49,5 @@ Skills: api → `dotnet-dev` (+ `efcore-patterns` · `csharp-lsp`) · web → `v
 - **`/dev:stack --intake` ไม่ได้จับ NFR-talad-003 เป็นคำตอบ** เลยถาม framework กับ database ซ้ำ ทั้งที่ NFR ล็อกไว้แล้ว — ก่อนถามเรื่อง stack ให้อ่าน `.aeon/design/nfr.json` เองด้วย
 - **เสนอเวอร์ชันจากความจำ** (Next.js 15 ทั้งที่ล่าสุดคือ 16 · daisyUI v4 คู่กับ Tailwind รุ่นไหน) — ตรวจจาก registry ก่อนเสนอทุกครั้ง (`npm view <pkg> dist-tags` · release index ของ .NET · postgresql.org/versions.json)
 - **NFR-talad-003 เขียน "Tailwind v5 + daisy v4"** — Tailwind v5 ไม่มีจริง (latest 4.3.3 ณ 2026-09-23) และ daisyUI 4 สร้างคู่กับ Tailwind 3 · ทีมเลือก Tailwind 4 + daisyUI 5 แล้วต้องยกแก้ผ่าน `/req:change` → `/design:change` ให้ลูกค้าเซ็นใหม่ · จนกว่าจะแก้ NFR-003 ข้อนี้นับเป็นไม่ผ่าน
+- **บันทึก skill ที่ไม่ได้ติดตั้ง** (`dotnet-dev`) ทำให้ `/dev:build` หยุดที่รั้วข้อ 5 — ก่อนบันทึก skill ให้เช็กว่าติดตั้งอยู่จริง · api เปลี่ยนเป็น `csharp-lsp` เมื่อ 2026-09-23
 - `sitemap.json` ไม่มี `apps[]` roster — การแยก api/web ยังเป็นคำตอบที่ถาม ไม่ใช่การ์ดที่ลูกค้าเซ็น

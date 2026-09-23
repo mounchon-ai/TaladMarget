@@ -1,2 +1,6 @@
 .remember/
 .brain/
+
+# .NET build output
+bin/
+obj/

@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Talad.Api/Talad.Api.csproj" />
+    <Project Path="src/Talad.Application/Talad.Application.csproj" />
+    <Project Path="src/Talad.Domain/Talad.Domain.csproj" />
+    <Project Path="src/Talad.Infrastructure/Talad.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Talad.Tests/Talad.Tests.csproj" />
+  </Folder>
+</Solution>

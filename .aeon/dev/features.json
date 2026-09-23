@@ -10,10 +10,9 @@
         "framework": "dotnet",
         "version": "10",
         "path": "src/api",
-        "skill": "dotnet-dev",
+        "skill": "csharp-lsp",
         "skill_with": [
-          "efcore-patterns",
-          "csharp-lsp"
+          "efcore-patterns"
         ],
         "dockerfile": "src/api/Dockerfile",
         "may_reach": [
@@ -21,7 +20,7 @@
         ],
         "source": "asked",
         "nfr_ref": "NFR-talad-003",
-        "notes_th": "framework กับ version (.NET 10) ตรงกับ NFR-talad-003 ที่ลูกค้าเซ็น · path · skill · dockerfile · may_reach เป็นคำตอบที่ถาม ยังไม่มีใครเซ็น",
+        "notes_th": "framework กับ version (.NET 10) ตรงกับ NFR-talad-003 ที่ลูกค้าเซ็น · path · skill · dockerfile · may_reach เป็นคำตอบที่ถาม ยังไม่มีใครเซ็น · 2026-09-23 เปลี่ยน skill หลักจาก dotnet-dev (ไม่ได้ติดตั้ง) เป็น csharp-lsp@claude-plugins-official (ติดตั้งแล้ว) · efcore-patterns ยังไม่ได้ติดตั้ง",
         "decided_by": "mon sai",
         "decided_at": "2026-09-23"
       },
@@ -123,7 +122,11 @@
             ]
           }
         ],
-        "tests": "tests"
+        "tests": "tests",
+        "manifests": [
+          "Talad.slnx",
+          "dotnet-tools.json"
+        ]
       },
       {
         "app_ref": "web",
@@ -212,7 +215,76 @@
           "hash": "sha256:d51814ea68e823b4c322847dcfa7f1c9348e73805aa2a677b5b8fc9920d44003"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T20:37:20+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-001",
+            "result": "Passed! - Failed: 0, Passed: 11, Skipped: 0, Total: 11, Duration: 627 ms - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T20:37:20+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/Talad.slnx",
+          "src/api/dotnet-tools.json",
+          "src/api/src/Talad.Api/Auth/AuthEndpoints.cs",
+          "src/api/src/Talad.Api/Program.cs",
+          "src/api/src/Talad.Api/Properties/launchSettings.json",
+          "src/api/src/Talad.Api/Talad.Api.csproj",
+          "src/api/src/Talad.Api/appsettings.Development.json",
+          "src/api/src/Talad.Api/appsettings.json",
+          "src/api/src/Talad.Application/Auth/LoginService.cs",
+          "src/api/src/Talad.Application/Talad.Application.csproj",
+          "src/api/src/Talad.Domain/Accounts/UserAccount.cs",
+          "src/api/src/Talad.Domain/Talad.Domain.csproj",
+          "src/api/src/Talad.Infrastructure/Auth/AuthInfrastructure.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923133709_InitialUserAccounts.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923133709_InitialUserAccounts.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/TaladDbContext.cs",
+          "src/api/src/Talad.Infrastructure/Talad.Infrastructure.csproj",
+          "src/api/tests/Talad.Tests/Auth/AuthApiTests.cs",
+          "src/api/tests/Talad.Tests/Auth/LoginServiceTests.cs",
+          "src/api/tests/Talad.Tests/Talad.Tests.csproj"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Auth/AuthApiTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Auth/LoginServiceTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-001",
+            "route": "POST /api/auth/login",
+            "file": "src/api/src/Talad.Api/Auth/AuthEndpoints.cs"
+          },
+          {
+            "api_ref": "API-002",
+            "route": "POST /api/auth/logout",
+            "file": "src/api/src/Talad.Api/Auth/AuthEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-002",
@@ -3279,7 +3351,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "draft": 46
+      "validated": 1,
+      "draft": 45
     },
     "by_origin": {
       "new": 46

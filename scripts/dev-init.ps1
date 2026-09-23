@@ -23,12 +23,12 @@ $sdk = (& dotnet --list-sdks) -join "`n"
 if ($sdk -notmatch '(?m)^10\.') { Write-Host "MISSING: .NET 10 SDK - dotnet --list-sdks shows none" -ForegroundColor Red; exit 1 }
 
 # api - restore only once the solution exists
-$sln = Get-ChildItem -Path (Join-Path $root 'src/api') -Filter *.sln -ErrorAction SilentlyContinue | Select-Object -First 1
+$sln = Get-ChildItem -Path (Join-Path $root 'src/api') -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in '.sln', '.slnx' } | Select-Object -First 1
 if ($sln) {
     & dotnet restore $sln.FullName
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 } else {
-    Write-Host "SKIP: src/api has no .sln yet - nothing to restore" -ForegroundColor Yellow
+    Write-Host "SKIP: src/api has no solution yet - nothing to restore" -ForegroundColor Yellow
 }
 
 # web - install only once package.json exists
