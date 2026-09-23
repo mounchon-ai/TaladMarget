@@ -3376,7 +3376,105 @@
           "hash": "sha256:5d4dfd4290bf0309774aa46887ff36a2fbbf4895decfa93552401a76dccd64a4"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: saveMemberDiscount falling back to the % the page opened with, then dev-test.ps1 -App web -Filter FE-talad-030",
+            "result": "Tests 1 failed | 12 passed — the refusal-after-save test catches 5% shown as in force after 10% was saved · file restored",
+            "at": "2026-09-23T22:20:27+07:00"
+          },
+          {
+            "cmd": "mutation check: never set without ยังไม่มีส่วนลดสมาชิก, then dev-test.ps1 -App web -Filter FE-talad-030",
+            "result": "Tests 1 failed | 12 passed — the state-empty test catches the declared sentence missing · file restored",
+            "at": "2026-09-23T22:20:29+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · route ƒ /member-discount · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:20:40+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-030",
+            "result": "vitest: Tests 13 passed | 112 skipped (125) · exit 0",
+            "at": "2026-09-23T22:20:42+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 10 passed (10) · Tests 125 passed (125) · exit 0",
+            "at": "2026-09-23T22:20:45+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T22:20:47+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/member-discount/page.tsx",
+          "src/web/src/app/(app)/member-discount/actions.ts",
+          "src/web/src/app/(app)/member-discount/loading.tsx",
+          "src/web/src/components/member-discount-form.tsx",
+          "src/web/src/lib/settings-api.ts",
+          "src/web/tests/member-discount.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/member-discount.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "ratePercent",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-017-ent-007-rate-percent",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "changedBy",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-017-ent-007-changed-by",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "changedAt",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-017-ent-007-changed-at",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "save",
+            "kind": "edit",
+            "dd_ref": null,
+            "testid": "ui-talad-017-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-031",
@@ -4981,8 +5079,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 17,
-      "draft": 29
+      "validated": 18,
+      "draft": 28
     },
     "by_origin": {
       "new": 46
