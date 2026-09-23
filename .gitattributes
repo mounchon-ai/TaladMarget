@@ -1,0 +1,2 @@
+# spec hashes are byte-exact (verify-rules checks #8, #12) — never convert line endings
+* -text

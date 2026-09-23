@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "qa@aeon": true,
+    "req@aeon": true,
+    "design@aeon": true
+  }
+}

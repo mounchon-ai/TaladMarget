@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "req/scripts/export-contract.mjs",
+  "source": {
+    "plugin": "req",
+    "specSchemaVersion": "0.6.0",
+    "module": "talad",
+    "specStatus": "draft",
+    "specApprovedBy": null,
+    "specApprovedAt": null,
+    "specUpdatedAt": "2026-09-23T11:00+07:00"
+  },
+  "deferred": [
+    {
+      "id": "DQ-talad-001",
+      "question": "ยอดเงินและส่วนลดปัดที่ทศนิยมกี่ตำแหน่ง (ตัวอย่างที่ถามใช้ 2 ตำแหน่ง 2.9625 → 2.96 แต่ยังไม่ได้ตกลงเป็นกฎ)",
+      "raisedBy": "BR-talad-027@v1",
+      "category": "calculation",
+      "blockedUntil": "entity:Sale.Total",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-002",
+      "question": "ปัดทีละขั้น (ต่อรายการ → ทั้งบิล → สมาชิก) หรือปัดครั้งเดียวตอนท้าย — ได้ยอดต่างกัน",
+      "raisedBy": "BR-talad-027@v1",
+      "category": "calculation",
+      "blockedUntil": "entity:Sale.Total",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-003",
+      "question": "ยอดเงิน/ส่วนลดเก็บใน DB เป็น decimal(p,s) เท่าไหร่",
+      "raisedBy": "BR-talad-027@v1",
+      "category": "calculation",
+      "blockedUntil": "entity:Sale.Total",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-004",
+      "question": "natural key ของสมาชิกคือเบอร์โทร (BR-talad-030) — เทียบซ้ำอย่างไร: ตัดขีด/ช่องว่างก่อนเทียบไหม (081-234-5678 กับ 0812345678 นับเป็นเบอร์เดียวกัน?) และ unique constraint อยู่ที่ฟิลด์ไหน",
+      "raisedBy": "BR-talad-030@v1",
+      "category": "idempotency",
+      "blockedUntil": "entity:Member.Phone",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-005",
+      "question": "ข้อความ error ภาษาไทยตรงตัวที่พนักงานเห็น เมื่อสมัครสมาชิกด้วยเบอร์ที่มีอยู่แล้ว (BR-talad-030)",
+      "raisedBy": "BR-talad-030@v1",
+      "category": "idempotency",
+      "blockedUntil": "screen:สมัครสมาชิก",
+      "answerPhase": "screen",
+      "answerBy": {
+        "phase": "screen",
+        "plugin": "mock",
+        "command": "/mock:coverage",
+        "why": "the answer is about what a screen shows or how it behaves once the data model is settled"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-006",
+      "question": "แก้ราคา / โปรโมชั่น / % ส่วนลดสมาชิกที่ยังไม่มีบิลอ้างถึง แก้ทับเวอร์ชันเดิมได้ไหม หรือต้องสร้างเวอร์ชันใหม่ทุกครั้ง (BR-talad-036)",
+      "raisedBy": "BR-talad-036@v1",
+      "category": "temporal",
+      "blockedUntil": "entity:Product.Price",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-007",
+      "question": "หน้าจัดการสินค้า / โปรโมชั่น / ส่วนลดสมาชิก ต้องมีหน้าดูประวัติเวอร์ชันไหม (ข้อมูลประวัติราคามีอยู่แล้วตาม BR-talad-033)",
+      "raisedBy": "BR-talad-036@v1",
+      "category": "temporal",
+      "blockedUntil": "screen:จัดการสินค้า",
+      "answerPhase": "screen",
+      "answerBy": {
+        "phase": "screen",
+        "plugin": "mock",
+        "command": "/mock:coverage",
+        "why": "the answer is about what a screen shows or how it behaves once the data model is settled"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-008",
+      "question": "กันชำระเงินซ้ำด้วย key อะไร — id ตะกร้า หรือ idempotency key ที่หน้าจอส่งมา (BR-talad-039)",
+      "raisedBy": "BR-talad-039@v1",
+      "category": "idempotency",
+      "blockedUntil": "entity:Sale",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-009",
+      "question": "ข้อความ error ภาษาไทยตรงตัวที่พนักงานเห็น เมื่อกดชำระเงินซ้ำ (BR-talad-039)",
+      "raisedBy": "BR-talad-039@v1",
+      "category": "idempotency",
+      "blockedUntil": "screen:หน้าขาย",
+      "answerPhase": "screen",
+      "answerBy": {
+        "phase": "screen",
+        "plugin": "mock",
+        "command": "/mock:coverage",
+        "why": "the answer is about what a screen shows or how it behaves once the data model is settled"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-010",
+      "question": "กันบันทึกรายการปรับสต็อกซ้ำด้วย key อะไร — idempotency key ที่หน้าจอส่งมา หรืออย่างอื่น (BR-talad-041)",
+      "raisedBy": "BR-talad-041@v1",
+      "category": "idempotency",
+      "blockedUntil": "entity:StockAdjustment",
+      "answerPhase": "domain",
+      "answerBy": {
+        "phase": "domain",
+        "plugin": "design",
+        "command": "/design:datamodel",
+        "why": "the answer is an entity, a field, a type or a life cycle — design is the pen that writes those"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-011",
+      "question": "ข้อความ error ภาษาไทยตรงตัวที่เจ้าของร้านเห็น เมื่อบันทึกรายการปรับสต็อกซ้ำ (BR-talad-041)",
+      "raisedBy": "BR-talad-041@v1",
+      "category": "idempotency",
+      "blockedUntil": "screen:ปรับสต็อก",
+      "answerPhase": "screen",
+      "answerBy": {
+        "phase": "screen",
+        "plugin": "mock",
+        "command": "/mock:coverage",
+        "why": "the answer is about what a screen shows or how it behaves once the data model is settled"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    },
+    {
+      "id": "DQ-talad-012",
+      "question": "ข้อความ error ภาษาไทยตรงตัวที่เจ้าของร้านเห็น เมื่อกดยกเลิกบิลที่ยกเลิกไปแล้ว (BR-talad-042)",
+      "raisedBy": "BR-talad-042@v1",
+      "category": "idempotency",
+      "blockedUntil": "screen:ประวัติการขาย",
+      "answerPhase": "screen",
+      "answerBy": {
+        "phase": "screen",
+        "plugin": "mock",
+        "command": "/mock:coverage",
+        "why": "the answer is about what a screen shows or how it behaves once the data model is settled"
+      },
+      "state": "open",
+      "answer": null,
+      "answeredAt": null,
+      "resultedIn": [],
+      "extensions": {}
+    }
+  ],
+  "open": [],
+  "extensions": {}
+}
