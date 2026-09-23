@@ -270,5 +270,10 @@
     }
   ],
   "screenOptions": [],
-  "extensions": {}
+  "extensions": {},
+  "shell": {
+    "productName": "ตลาดมาร์เก็ต",
+    "confirmedBy": "mon sai",
+    "confirmedAt": "2026-09-23T12:20:21Z"
+  }
 }

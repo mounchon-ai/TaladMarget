@@ -10,99 +10,198 @@
   "screens": [
     {
       "screen": "UI-talad-001",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ auth"
     },
     {
       "screen": "UI-talad-002",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ workflow (หน้าขาย)"
     },
     {
       "screen": "UI-talad-003",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-009 เป็นตัวแทน"
     },
     {
       "screen": "RPT-talad-001",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ ใบเสร็จ"
     },
     {
       "screen": "UI-talad-004",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ list"
     },
     {
       "screen": "UI-talad-005",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-006 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-006",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ form แก้ไข"
     },
     {
       "screen": "UI-talad-007",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-004 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-008",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ detail"
     },
     {
       "screen": "UI-talad-009",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ modal"
     },
     {
       "screen": "UI-talad-010",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-004 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-011",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-006 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-012",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-008 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-013",
-      "level": "L0"
+      "level": "L0",
+      "decision": "wait",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "รอ design แก้การผูกฟิลด์",
+      "blockedBy": [
+        "design: ราคาปัจจุบัน และ ราคาใหม่ ผูก ENT-002.price ทั้งคู่ — data-testid ซ้ำ ui-talad-013-ent-002-price"
+      ]
     },
     {
       "screen": "UI-talad-014",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-009 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-015",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-004 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-016",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-006 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-017",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-006 เป็นตัวแทน"
     },
     {
       "screen": "RPT-talad-002",
-      "level": "L1"
+      "level": "L2",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "L2 ตัวแทนแบบ report"
     },
     {
       "screen": "RPT-talad-003",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ RPT-talad-002 เป็นตัวแทน"
     },
     {
       "screen": "RPT-talad-004",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ RPT-talad-002 เป็นตัวแทน"
     },
     {
       "screen": "RPT-talad-005",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ RPT-talad-002 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-018",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-004 เป็นตัวแทน"
     },
     {
       "screen": "UI-talad-019",
-      "level": "L1"
+      "level": "L1",
+      "decision": "build",
+      "decidedBy": "mon sai",
+      "decidedAt": "2026-09-23T12:20:38Z",
+      "reason": "หยุดที่ L1 — L2 ใช้ UI-talad-006 เป็นตัวแทน"
     }
   ],
   "exceptions": [],

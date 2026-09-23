@@ -6,7 +6,7 @@
     {
       "id": "MCK-talad-001",
       "screen": "UI-talad-001",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-001.json",
       "layout": "form",
       "rendersState": [
@@ -14,12 +14,22 @@
         "error"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "Input",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:5842f53e92c7e592f8704c3c3a1cf73a8f970607b796baf159f6441e329f667b",
+        "error": "sha256:6159b1d66fff92ab7146557ed8dddd55ced8a1e0493977183bc2739f75052b9c",
+        "loading": "sha256:c39833f53d1df590db9ed2683ac4c9ec6f1972564417dcb4369ed7054f13e866"
+      }
     },
     {
       "id": "MCK-talad-002",
       "screen": "UI-talad-002",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-002.json",
       "layout": "other",
       "rendersState": [
@@ -29,7 +39,20 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "Input",
+        "Tag",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:3f2835ba76f9e1862d17c3eaf364a9d676909b6063b1cf6424522b0b7c759ad2",
+        "empty": "sha256:834e4ee52510a8e34a3a925d946ba1d3fc9c223d1476725903e752157252076b",
+        "error": "sha256:daad7be1362c275f0e122ec4693c5e8d9b915509c57118fc4ca0c2cb71c0b60d",
+        "loading": "sha256:d0bfa833d7ee815fa0fe59d3c7b8112e728a279d81bf8fcef9e44acce4294db1",
+        "overflow": "sha256:7fadd634f1014a37ad40ec12729e4f09d7cf83775c6e1fada50e41918c5ad5ca"
+      }
     },
     {
       "id": "MCK-talad-003",
@@ -51,7 +74,7 @@
     {
       "id": "MCK-talad-004",
       "screen": "RPT-talad-001",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/RPT-talad-001.json",
       "layout": "report",
       "rendersState": [
@@ -59,12 +82,22 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "Table",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:dafd5866b1bca6b8eb93ff302e740884ec02cb2f052a484ce9b1b5354d908a33",
+        "error": "sha256:c55a2cc9967eb346db6befb34b222e436fc0d7959338dcfd2802ff96e8e74905",
+        "overflow": "sha256:53a6462850094c401767129b00796ee098e9386bec01e718fc06d7d0d6bdd09b"
+      }
     },
     {
       "id": "MCK-talad-005",
       "screen": "UI-talad-004",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-004.json",
       "layout": "rows",
       "rendersState": [
@@ -77,7 +110,21 @@
         "UIC-001",
         "UIC-002"
       ],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "IconButton",
+        "Input",
+        "Table",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:b8c79e4889564ce91202544800bd613dcd0a32ea7e0cc66168682f3b663cadc6",
+        "empty": "sha256:8160816267308f947d64033ce7314f37d3570f7aad45c09e6d917cd0f022ab26",
+        "error": "sha256:fba7709c70e4b52477f126d571adcf3ce7a2a407fa6958d0734c0145cebea962",
+        "loading": "sha256:e4dfa7bf9c508d1f47933e3fafa5099c6f4de3d8f90116a97fc8889f12f891bb",
+        "overflow": "sha256:e2ad176792e563c455247a511dbcf4dfa9feec3bf3e8d047c4090ac42a9a8e77"
+      }
     },
     {
       "id": "MCK-talad-006",
@@ -96,7 +143,7 @@
     {
       "id": "MCK-talad-007",
       "screen": "UI-talad-006",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-006.json",
       "layout": "form",
       "rendersState": [
@@ -105,7 +152,18 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "Input",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:a21668274795723871603e2439493323db144106e0058c40185730f39ffaecbe",
+        "error": "sha256:9f8ed896309db6428ea3c0978bc83ad5fcf6a1909d5ef1fe7f4a6bfe0a848a2d",
+        "loading": "sha256:78011aaf0228ab66051d4f27214ee17cdd212d9bff0a4014f6021d87edd42a83",
+        "overflow": "sha256:18d22bbc7eb963501a5fc566ea48b88d356ba66ed188d82c1c6bd295f7b88def"
+      }
     },
     {
       "id": "MCK-talad-008",
@@ -128,7 +186,7 @@
     {
       "id": "MCK-talad-009",
       "screen": "UI-talad-008",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-008.json",
       "layout": "form",
       "rendersState": [
@@ -138,12 +196,26 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "StatusBadge",
+        "Table",
+        "Tag",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:9f8d0db0e4e198c894ca7ad8d73b9aa4fa18f03856fae2ea52fc8a1a5e5bd702",
+        "error": "sha256:5a4c8ffeee5f3bf0a422d2c4d61ca56d74088a8169236ac569c5248e0ce0ab1a",
+        "loading": "sha256:348b464eea556f1a8d994a17a7192f9686c4adf1c985d88c53905d0076644578",
+        "overflow": "sha256:67ca5fc05f8049728587701c4a2ba13f74181ae099c2f3498aabba4a7a348c70",
+        "unauthorized": "sha256:d264a210108c37b16fda6b606cf05af24eaa1d16274e956bc00d2e03212e49b2"
+      }
     },
     {
       "id": "MCK-talad-010",
       "screen": "UI-talad-009",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/UI-talad-009.json",
       "layout": "form",
       "rendersState": [
@@ -153,7 +225,19 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Dialog",
+        "Input",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:176fbb393a4bf2cc4074acd36a59e11bd9460aeec9a7eb6e711816ca9fda17ef",
+        "error": "sha256:d40c305a49662fb0d75faa0cafdd49de0da82d6d373500784cd0be159b49fda8",
+        "loading": "sha256:f0c41ecd4fdd9e9758f3972ed782f932575cf049dfed9e72d3d4c1e3b3a82155",
+        "overflow": "sha256:f01c132508907d86b4a7cb80950d07e5cfd3e0093dbfffb5da1eee1d25084539",
+        "unauthorized": "sha256:11e687a3aedc632f02c68448274afd9c50dcd41dc9fe1644d1bd1fbef0156b0e"
+      }
     },
     {
       "id": "MCK-talad-011",
@@ -272,7 +356,7 @@
     {
       "id": "MCK-talad-018",
       "screen": "RPT-talad-002",
-      "level": "L1",
+      "level": "L2",
       "file": "wireframes/RPT-talad-002.json",
       "layout": "report",
       "rendersState": [
@@ -283,7 +367,21 @@
         "overflow"
       ],
       "followsConvention": [],
-      "usesComponent": []
+      "usesComponent": [
+        "Button",
+        "Card",
+        "Input",
+        "Table",
+        "Toast"
+      ],
+      "deliveredPages": {
+        "default": "sha256:dfab963fc0598bf70154acd62d509d2aea78080be9c878cc166e02b4a658e457",
+        "empty": "sha256:a21b7c44024e628053c15e3eb4579f5d9945d065667982ff3aef6b5ec40d0158",
+        "error": "sha256:2d26bce1b4d4f9334b0a1c62e20aaff1e0d891f5834422a5ad942fe973ab744d",
+        "loading": "sha256:b4af9ff89c05e7f2197ebca03cd8082413bf162627b23a2a2cfa08595a9e7b7c",
+        "overflow": "sha256:d93a4d7b5a0d2a18f2b3f293ca1a50a83297a55795dc373927f6bf6f3e259fa7",
+        "unauthorized": "sha256:e89edd75defc850e2c1fcee001b9e62b99a2e893d6e0e917866723432f921f16"
+      }
     },
     {
       "id": "MCK-talad-019",

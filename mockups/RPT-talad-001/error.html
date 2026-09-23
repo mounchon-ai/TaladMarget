@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ใบเสร็จ · ตลาดมาร์เก็ต</title>
+<style>
+:root{
+  --blue-50: #EFF6FF;
+  --blue-100: #DBEAFE;
+  --blue-200: #BFDBFE;
+  --blue-300: #93C5FD;
+  --blue-400: #60A5FA;
+  --blue-500: #2E90FA;
+  --blue-600: #1570EF;
+  --blue-700: #175CD3;
+  --blue-800: #1849A9;
+  --blue-900: #194185;
+  --blue-950: #102A56;
+  --gray-25: #FCFCFD;
+  --gray-50: #F9FAFB;
+  --gray-100: #F2F4F7;
+  --gray-200: #EAECF0;
+  --gray-300: #D0D5DD;
+  --gray-400: #98A2B3;
+  --gray-500: #667085;
+  --gray-600: #475467;
+  --gray-700: #344054;
+  --gray-800: #1D2939;
+  --gray-900: #101828;
+  --success: #12B76A;
+  --success-bg: #ECFDF3;
+  --warning: #F79009;
+  --warning-bg: #FFFAEB;
+  --danger: #F04438;
+  --danger-bg: #FEF3F2;
+  --info: #1570EF;
+  --info-bg: #EFF6FF;
+  --brand-primary: #1570EF;
+  --brand-primary-hover: #175CD3;
+  --brand-primary-active: #1849A9;
+  --brand-bright: #2E90FA;
+  --brand-subtle: #EFF6FF;
+  --brand-on-primary: #FFFFFF;
+  --bg-page: #F9FAFB;
+  --bg-surface: #FFFFFF;
+  --bg-raised: #FCFCFD;
+  --border: #EAECF0;
+  --border-strong: #D0D5DD;
+  --text-primary: #101828;
+  --text-secondary: #475467;
+  --text-muted: #667085;
+  --text-link: #175CD3;
+  --focus-ring: #2E90FA;
+  --state-draft-bg: #F2F4F7;
+  --state-draft-fg: #475467;
+  --state-submitted-bg: #EFF6FF;
+  --state-submitted-fg: #175CD3;
+  --state-underreview-bg: #FFFAEB;
+  --state-underreview-fg: #B54708;
+  --state-approved-bg: #ECFDF3;
+  --state-approved-fg: #027A48;
+  --state-rejected-bg: #FEF3F2;
+  --state-rejected-fg: #B42318;
+  --state-disbursed-bg: #DBEAFE;
+  --state-disbursed-fg: #1849A9;
+  --state-active-bg: #ECFDF3;
+  --state-active-fg: #027A48;
+  --state-closed-bg: #EAECF0;
+  --state-closed-fg: #344054;
+  --credit-band-a: #12B76A;
+  --credit-band-b: #F79009;
+  --credit-band-c: #F04438;
+  --installment-paid: #12B76A;
+  --installment-upcoming: #98A2B3;
+  --installment-overdue: #F04438;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+  --shadow-sm: 0 1px 2px rgba(16,24,40,.06);
+  --shadow-card: 0 1px 3px rgba(16,24,40,.10),0 1px 2px rgba(16,24,40,.06);
+  --shadow-lg: 0 4px 12px rgba(16,24,40,.12),0 2px 4px rgba(16,24,40,.08);
+  --shadow-focus: 0 0 0 4px rgba(46,144,250,.25);
+  --font-ui: 'IBM Plex Sans Thai',-apple-system,'Segoe UI',sans-serif;
+  --font-display: 'Plus Jakarta Sans','IBM Plex Sans Thai',sans-serif;
+  --font-mono: ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --tracking-wordmark: -0.02em;
+  --tabular-nums: tabular-nums;
+}
+[data-theme="dark"]{
+  --brand-primary: #2E90FA;
+  --brand-primary-hover: #53B1FD;
+  --brand-primary-active: #84CAFF;
+  --brand-bright: #53B1FD;
+  --brand-subtle: #102A56;
+  --brand-on-primary: #0B1220;
+  --bg-page: #0B1220;
+  --bg-surface: #101828;
+  --bg-raised: #1D2939;
+  --border: #1D2939;
+  --border-strong: #344054;
+  --text-primary: #F9FAFB;
+  --text-secondary: #D0D5DD;
+  --text-muted: #98A2B3;
+  --text-link: #93C5FD;
+  --focus-ring: #53B1FD;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-ui);background:var(--bg-page);color:var(--text-primary);font-size:var(--text-base);line-height:var(--leading-normal)}
+main{margin:0 auto;padding:var(--space-6)}
+h1{margin-top:0;font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.muted{color:var(--text-secondary);font-size:var(--text-sm)}
+.surface{background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius);padding:var(--space-4);box-shadow:var(--shadow-card)}
+button{font-family:inherit;cursor:pointer;border:none;font-size:var(--text-base);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-4);background:var(--brand-primary);color:var(--brand-on-primary)}
+button:hover{background:var(--brand-primary-hover)}
+button:active{background:var(--brand-primary-active)}
+button:focus-visible{outline:medium solid var(--focus-ring)}
+button[disabled]{cursor:not-allowed}
+input{font-family:inherit;width:100%;font-size:var(--text-base);border:thin solid var(--border);border-radius:var(--radius-sm);padding:var(--space-2);background:var(--bg-surface);color:var(--text-primary)}
+label{display:block;margin-bottom:var(--space-3)}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;border-bottom:thin solid var(--border);padding:var(--space-2) var(--space-3)}
+th{color:var(--text-secondary);font-size:var(--text-sm)}
+.toolbar{display:flex;gap:var(--space-2);margin-top:var(--space-4)}
+.alert{display:block;background:var(--danger-bg);color:var(--danger);border:thin solid var(--danger);border-radius:var(--radius);padding:var(--space-3);margin-bottom:var(--space-4)}
+.empty{text-align:center;padding:var(--space-6);color:var(--text-secondary)}
+.skeleton{background:var(--border);border-radius:var(--radius-sm);margin-bottom:var(--space-2)}
+.pagination{display:flex;align-items:center;gap:var(--space-2);margin-top:var(--space-4)}
+.appbar{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-6);background:var(--bg-surface);border-bottom:thin solid var(--border)}
+.wordmark{font-weight:700;font-family:var(--font-display);font-size:var(--text-lg);color:var(--text-primary);letter-spacing:var(--tracking-wordmark)}
+.wordmark .mark{display:inline-block;padding:var(--space-1) var(--space-2);margin-right:var(--space-2);border-radius:var(--radius-sm);background:var(--brand-primary);color:var(--brand-on-primary)}
+.appbar .appname{color:var(--text-muted);font-size:var(--text-sm)}
+.appbar .spacer{flex:1}
+.appnav{display:flex;flex-wrap:wrap;gap:var(--space-1);padding:0;background:var(--bg-surface);border-bottom:thin solid var(--border)}
+.appnav a{text-decoration:none;border-bottom:medium solid transparent;padding:var(--space-3) var(--space-3);color:var(--text-secondary);font-size:var(--text-sm)}
+.appnav a:hover{color:var(--text-primary)}
+.appnav a[aria-current="page"]{color:var(--brand-primary);border-bottom-color:var(--brand-primary)}
+.shell-mobile .appnav{position:sticky;bottom:0;justify-content:space-around;padding:0;border-top:medium solid transparent;border-bottom:none}
+.shell-mobile .appnav a{flex:1;text-align:center}
+.shell-mobile main{padding:var(--space-4)}
+.shell-mobile .appbar{padding:var(--space-2) var(--space-4)}
+.appfoot{text-align:center;padding:var(--space-4);color:var(--text-muted);font-size:var(--text-xs);border-top:thin solid var(--border)}
+.shell-app{display:flex;flex-direction:column}
+.frame{display:flex;flex-wrap:wrap;align-items:stretch;flex:1}
+.appbar .who{color:var(--text-secondary);font-size:var(--text-sm)}
+.appbar a.signout{color:var(--text-link);font-size:var(--text-sm);text-decoration:none}
+.appbar a.signout:hover{text-decoration:underline}
+.appnav{flex-direction:column;flex-wrap:nowrap;flex:0 0 calc(var(--space-20) * 3);gap:0;padding:var(--space-4) var(--space-2);border-bottom:none;border-right:thin solid var(--border)}
+.appnav a{display:block;border-bottom:none;border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);color:var(--text-primary)}
+.appnav a:hover{background:var(--bg-page)}
+.appnav a[aria-current="page"]{background:var(--brand-subtle);color:var(--brand-primary);font-weight:600}
+.appnav a.child{padding-left:var(--space-8);color:var(--text-secondary);font-size:var(--text-xs)}
+.appnav .navhead{padding:var(--space-4) var(--space-3) var(--space-1);color:var(--text-muted);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:var(--tracking-wordmark)}
+.content{flex:1 1 calc(var(--space-20) * 6);min-width:0}
+main{max-width:calc(var(--space-20) * 16)}
+.pagehead{display:flex;align-items:flex-end;gap:var(--space-4);margin-bottom:var(--space-6)}
+.pagehead h1{font-size:var(--text-2xl);font-family:var(--font-display);margin:0;letter-spacing:var(--tracking-wordmark)}
+.pagehead .grow{flex:1}
+.crumbs{color:var(--text-muted);font-size:var(--text-sm);margin-bottom:var(--space-1)}
+.crumbs a{color:var(--text-link);text-decoration:none}
+.sample{display:inline-block;color:var(--warning);background:var(--warning-bg);border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);font-size:var(--text-xs);white-space:nowrap}
+.card{background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:var(--space-6);margin-bottom:var(--space-6)}
+.card h2{font-size:var(--text-lg);margin:0 0 var(--space-4)}
+.card h2 .muted{font-weight:400}
+.cols{display:flex;flex-wrap:wrap;gap:var(--space-6);align-items:flex-start}
+.cols > .wide{flex:2 1 calc(var(--space-20) * 5);min-width:0}
+.cols > .narrow{flex:1 1 calc(var(--space-20) * 4);min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(var(--space-20) * 3),1fr));gap:var(--space-4) var(--space-6)}
+.field{margin-bottom:var(--space-4)}
+.field .lbl{display:block;font-size:var(--text-sm);font-weight:600;color:var(--text-secondary);margin-bottom:var(--space-1)}
+.field .req{color:var(--danger)}
+.field .hint{display:block;font-size:var(--text-xs);color:var(--text-muted);margin-top:var(--space-1)}
+.field .err{display:block;font-size:var(--text-sm);color:var(--danger);margin-top:var(--space-1)}
+.field.invalid input,.field.invalid textarea{border-color:var(--danger);box-shadow:var(--shadow-focus)}
+.value{font-size:var(--text-base);color:var(--text-primary);font-variant-numeric:var(--tabular-nums)}
+.value.big{font-size:var(--text-3xl);font-weight:700;font-family:var(--font-display);color:var(--brand-primary)}
+input:focus,textarea:focus{outline:none;border-color:var(--brand-primary);box-shadow:var(--shadow-focus)}
+input[readonly]{background:var(--bg-page);color:var(--text-secondary)}
+textarea{font-family:inherit;width:100%;font-size:var(--text-base);border:thin solid var(--border-strong);border-radius:var(--radius-sm);padding:var(--space-2) var(--space-3);background:var(--bg-surface);color:var(--text-primary);resize:vertical;min-height:calc(var(--space-20) * 1.2)}
+input{border-color:var(--border-strong);padding:var(--space-2) var(--space-3)}
+.inline{display:flex;gap:var(--space-2);align-items:stretch}
+.inline input{flex:1}
+button{font-weight:600;white-space:nowrap}
+button.secondary{background:var(--bg-surface);color:var(--text-primary);border:thin solid var(--border-strong)}
+button.secondary:hover{background:var(--bg-page)}
+button.ghost{background:transparent;color:var(--text-link);padding-left:var(--space-2);padding-right:var(--space-2)}
+button.ghost:hover{background:var(--brand-subtle)}
+button.danger{background:var(--danger);color:var(--brand-on-primary)}
+button.danger:hover{background:var(--danger);opacity:.9}
+button.dangerline{background:var(--bg-surface);color:var(--danger);border:thin solid var(--danger)}
+button.dangerline:hover{background:var(--danger-bg)}
+button.small{font-size:var(--text-sm);padding:var(--space-1) var(--space-3)}
+button.block{width:100%;padding:var(--space-3) var(--space-4);font-size:var(--text-lg)}
+button[disabled],button[disabled]:hover{background:var(--gray-200);color:var(--text-muted);border-color:var(--gray-200);opacity:1}
+button.icon{background:transparent;color:var(--text-secondary);padding:var(--space-1);border-radius:var(--radius-sm);line-height:0}
+button.icon:hover{background:var(--brand-subtle);color:var(--brand-primary)}
+button.icon svg{width:var(--space-5);height:var(--space-5)}
+.actions{display:flex;gap:var(--space-2);flex-wrap:wrap;align-items:center}
+.actions .grow{flex:1}
+.tablewrap{background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);overflow:hidden}
+table th{background:var(--bg-page);font-weight:600;text-transform:none;padding:var(--space-3) var(--space-4)}
+table td{padding:var(--space-3) var(--space-4)}
+table tr:last-child td{border-bottom:none}
+table tbody tr:hover td{background:var(--bg-raised)}
+td.num,th.num{text-align:right;font-variant-numeric:var(--tabular-nums)}
+td.act,th.act{width:1%;white-space:nowrap}
+td.clip{max-width:calc(var(--space-20) * 3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tablefoot{display:flex;align-items:center;gap:var(--space-2);padding:var(--space-3) var(--space-4);border-top:thin solid var(--border);color:var(--text-muted);font-size:var(--text-sm)}
+.tablefoot .grow{flex:1}
+.toast{display:flex;gap:var(--space-3);align-items:flex-start;background:var(--danger-bg);color:var(--state-rejected-fg);border:thin solid var(--danger);border-radius:var(--radius);padding:var(--space-3) var(--space-4);margin-bottom:var(--space-6)}
+.toast strong{display:block;color:var(--state-rejected-fg)}
+.toast .grow{flex:1}
+.toast.warn{background:var(--warning-bg);color:var(--state-underreview-fg);border-color:var(--warning)}
+.toast.warn strong{color:var(--state-underreview-fg)}
+.tag{display:inline-block;border-radius:var(--radius-full);padding:0 var(--space-2);font-size:var(--text-xs);font-weight:600;line-height:var(--leading-normal)}
+.tag.low{background:var(--warning-bg);color:var(--state-underreview-fg)}
+.tag.promo{background:var(--success-bg);color:var(--state-approved-fg)}
+.badge{display:inline-block;border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);font-size:var(--text-sm);font-weight:600}
+.badge.paid{background:var(--state-approved-bg);color:var(--state-approved-fg)}
+.badge.void{background:var(--state-rejected-bg);color:var(--state-rejected-fg)}
+.skeleton{display:block;background:var(--gray-100);min-height:var(--space-5)}
+.skeleton.tall{min-height:calc(var(--space-20) * 1.5)}
+.skeleton.short{width:40%}
+.empty{border:thin dashed var(--border-strong);border-radius:var(--radius);background:var(--bg-raised)}
+.empty strong{display:block;color:var(--text-primary);font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.empty .actions{justify-content:center;margin-top:var(--space-4)}
+.spin{display:inline-block;width:var(--space-4);height:var(--space-4);border:medium solid var(--gray-300);border-top-color:var(--brand-primary);border-radius:var(--radius-full);vertical-align:middle;margin-right:var(--space-2)}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(var(--space-20) * 2),1fr));gap:var(--space-4)}
+.pcard{background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column}
+.pcard .pimg{display:flex;align-items:center;justify-content:center;background:var(--gray-100);color:var(--text-muted);font-size:var(--text-xs);aspect-ratio:4 / 3}
+.pcard .pbody{padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-1);flex:1}
+.pcard .pname{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pcard .pprice{font-variant-numeric:var(--tabular-nums);color:var(--brand-primary);font-weight:700;font-size:var(--text-lg)}
+.pcard .pact{display:flex;flex-wrap:wrap;gap:var(--space-2);padding:0 var(--space-3) var(--space-3)}
+.pcard .pact button{flex:1 1 auto}
+.cartline{display:flex;gap:var(--space-3);align-items:center;padding:var(--space-3) 0;border-bottom:thin solid var(--border)}
+.cartline .cname{flex:1;min-width:0}
+.cartline .cname .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qty{display:flex;align-items:center;gap:var(--space-1)}
+.qty input{width:calc(var(--space-12) * 1.2);text-align:center;padding:var(--space-1)}
+.qty button{padding:var(--space-1) var(--space-3)}
+.cartscroll{max-height:calc(var(--space-20) * 4);overflow:auto}
+.sum{display:flex;justify-content:space-between;padding:var(--space-1) 0;color:var(--text-secondary);font-variant-numeric:var(--tabular-nums)}
+.sum.total{color:var(--text-primary);font-weight:700;font-size:var(--text-xl);border-top:thin solid var(--border);margin-top:var(--space-2);padding-top:var(--space-3)}
+.sum.total .v{color:var(--brand-primary)}
+.memberbox{display:flex;align-items:center;gap:var(--space-3);background:var(--brand-subtle);border-radius:var(--radius);padding:var(--space-3);margin-top:var(--space-3)}
+.memberbox .grow{flex:1}
+.avatar{display:inline-flex;align-items:center;justify-content:center;width:var(--space-10);height:var(--space-10);border-radius:var(--radius-full);background:var(--brand-primary);color:var(--brand-on-primary);font-weight:700}
+.sticky{position:sticky;top:var(--space-4)}
+.receipt{max-width:calc(var(--space-20) * 6);margin:0 auto;background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:var(--space-8)}
+.receipt .rhead{text-align:center;border-bottom:thin dashed var(--border-strong);padding-bottom:var(--space-4);margin-bottom:var(--space-4)}
+.receipt .rhead .wordmark{font-size:var(--text-xl)}
+.receipt .meta{display:grid;grid-template-columns:auto 1fr;gap:var(--space-1) var(--space-4);font-size:var(--text-sm);margin-bottom:var(--space-4)}
+.receipt .meta dt{color:var(--text-muted)}
+.receipt .meta dd{margin:0;text-align:right;font-variant-numeric:var(--tabular-nums)}
+.receipt table td,.receipt table th{padding:var(--space-2) 0;font-size:var(--text-sm);border-bottom:none}
+.receipt table thead th{border-bottom:thin dashed var(--border-strong);background:transparent}
+.receipt .lpromo{color:var(--state-approved-fg);font-size:var(--text-xs)}
+.receipt .rsum{border-top:thin dashed var(--border-strong);margin-top:var(--space-3);padding-top:var(--space-3)}
+.receipt .rlines{max-height:calc(var(--space-20) * 5);overflow:auto}
+.receipt .actions{justify-content:center;margin-top:var(--space-6)}
+@media print{.appbar,.appnav,.appfoot,.receipt .actions,.sample{display:none}.receipt{box-shadow:none;border:none}}
+.backdrop{position:relative;border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-page);min-height:calc(var(--space-20) * 7)}
+.backdrop .ghostpage{padding:var(--space-6);opacity:.5}
+.backdrop .scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--gray-900) 45%,transparent);display:flex;align-items:center;justify-content:center;padding:var(--space-6)}
+.dialog{background:var(--bg-surface);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);width:100%;max-width:calc(var(--space-20) * 6);padding:var(--space-6)}
+.dialog h2{margin:0 0 var(--space-1);font-size:var(--text-xl)}
+.dialog .actions{justify-content:flex-end;margin-top:var(--space-6)}
+.dangerzone{border-color:var(--danger-bg)}
+.dangerzone h2{color:var(--state-rejected-fg)}
+.authwrap{display:flex;align-items:center;justify-content:center;padding:var(--space-16) var(--space-4)}
+.authcard{width:100%;max-width:calc(var(--space-20) * 5);background:var(--bg-surface);border:thin solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);padding:var(--space-10)}
+.authcard .wordmark{display:block;text-align:center;font-size:var(--text-2xl);margin-bottom:var(--space-6)}
+.authcard h1{text-align:center;font-size:var(--text-xl);margin-bottom:var(--space-1)}
+.authcard .sub{text-align:center;color:var(--text-muted);font-size:var(--text-sm);margin-bottom:var(--space-8)}
+.authcard .foot{text-align:center;margin-top:var(--space-6)}
+.shellslot{border:medium dashed var(--border-strong);border-radius:var(--radius-lg);padding:var(--space-16) var(--space-6);text-align:center;color:var(--text-muted);background:var(--bg-raised)}
+.shellslot strong{display:block;color:var(--text-secondary);font-size:var(--text-lg);margin-bottom:var(--space-2)}
+.appbar{position:relative;z-index:3;background:var(--blue-900);border-bottom:none;padding:var(--space-4) var(--space-6)}
+.appbar::after{content:"";position:absolute;left:0;right:0;top:100%;height:var(--space-4);background:repeating-linear-gradient(90deg,var(--blue-900) 0 var(--space-8),var(--brand-bright) var(--space-8) var(--space-16));-webkit-mask:radial-gradient(circle at 50% 0,black 70%,transparent 72%) 0 0 / var(--space-8) var(--space-4) repeat-x;mask:radial-gradient(circle at 50% 0,black 70%,transparent 72%) 0 0 / var(--space-8) var(--space-4) repeat-x}
+.appbar .wordmark{color:var(--brand-on-primary);font-size:var(--text-xl)}
+.wordmark .mark{background:var(--brand-bright);color:var(--brand-on-primary)}
+.appbar .who{color:var(--blue-200)}
+.appbar a.signout{color:var(--blue-100)}
+.appnav{padding-top:var(--space-6)}
+.appnav .navhead{color:var(--blue-700);font-weight:700;text-transform:none;letter-spacing:normal;padding-top:var(--space-5)}
+.appnav a{color:var(--gray-700)}
+.appnav a:hover{background:var(--blue-50);color:var(--blue-900)}
+.appnav a[aria-current="page"]{background:var(--blue-50);color:var(--blue-800);box-shadow:inset var(--space-1) 0 0 var(--brand-primary);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.appnav a.child{color:var(--gray-500)}
+main{padding-top:var(--space-10)}
+.pagehead h1{font-size:var(--text-3xl);color:var(--blue-950)}
+.card{box-shadow:var(--shadow-sm);border-color:var(--gray-200)}
+.card h2{color:var(--blue-950)}
+table th{background:var(--blue-50);color:var(--blue-900)}
+table tbody tr:hover td{background:var(--gray-25)}
+.pcard{transition:box-shadow .15s,border-color .15s}
+.pcard:hover{border-color:var(--blue-300);box-shadow:var(--shadow-lg)}
+.pcard .pimg{background:var(--blue-50);color:var(--blue-400)}
+.pcard .pprice{color:var(--blue-700)}
+.till{background:var(--blue-900);border:none;box-shadow:var(--shadow-lg);color:var(--blue-100)}
+.till h2{color:var(--brand-on-primary)}
+.till .sum{color:var(--blue-200)}
+.till .due{display:flex;flex-direction:column;gap:var(--space-1);border-top:thin solid var(--blue-700);margin-top:var(--space-3);padding-top:var(--space-4);color:var(--blue-200);font-size:var(--text-sm)}
+.till .due .v{color:var(--brand-on-primary);font-family:var(--font-display);font-size:var(--text-5xl);font-weight:700;line-height:var(--leading-tight);font-variant-numeric:var(--tabular-nums);letter-spacing:var(--tracking-wordmark)}
+button.pay{background:var(--success);color:var(--brand-on-primary);font-size:var(--text-xl);padding:var(--space-4)}
+button.pay:hover{background:var(--state-approved-fg)}
+.till button.pay[disabled]{background:var(--blue-800);color:var(--blue-300);border-color:var(--blue-800)}
+.memberbox{background:var(--blue-50)}
+.avatar{background:var(--blue-700)}
+.receipt{border-top:var(--space-2) solid var(--blue-900)}
+body.auth{background:linear-gradient(180deg,var(--blue-900) 0 45%,var(--bg-page) 45%)}
+body.auth .authwrap{padding-top:var(--space-20)}
+.authcard{border:none}
+.authcard .wordmark .mark{background:var(--blue-900)}
+@media (prefers-reduced-motion:reduce){.pcard{transition:none}}
+</style>
+</head>
+<body class="shell-app">
+<header class="appbar">
+<span class="wordmark"><span class="mark">ต</span>ตลาดมาร์เก็ต</span>
+<span class="spacer"></span>
+<span class="sample">⚠ ข้อมูลสมมติ</span>
+<span class="who">นาย ตัวอย่าง ทดสอบ</span>
+<a class="signout" href="../UI-talad-001/default.html" data-testid="nav-ui-talad-001">ออกจากระบบ</a>
+</header>
+<div class="frame">
+<nav class="appnav" aria-label="เมนูหลัก">
+<div class="navhead">งานขาย</div>
+<a href="../UI-talad-002/default.html" data-testid="nav-ui-talad-002">หน้าขาย</a>
+<a class="child" href="../UI-talad-003/default.html" data-testid="nav-ui-talad-003">เลือกโปรโมชั่น</a>
+<a class="child" href="../RPT-talad-001/default.html" data-testid="nav-rpt-talad-001" aria-current="page">ใบเสร็จ</a>
+<a href="../UI-talad-004/default.html" data-testid="nav-ui-talad-004">สมาชิก</a>
+<a class="child" href="../UI-talad-005/default.html" data-testid="nav-ui-talad-005">สมัครสมาชิก</a>
+<a class="child" href="../UI-talad-006/default.html" data-testid="nav-ui-talad-006">ข้อมูลสมาชิก</a>
+<a href="../UI-talad-007/default.html" data-testid="nav-ui-talad-007">ประวัติการขาย</a>
+<a class="child" href="../UI-talad-008/default.html" data-testid="nav-ui-talad-008">รายละเอียดบิล</a>
+<a class="child" href="../UI-talad-009/default.html" data-testid="nav-ui-talad-009">ยกเลิกบิล</a>
+<div class="navhead">สินค้า</div>
+<a href="../UI-talad-010/default.html" data-testid="nav-ui-talad-010">สต็อก</a>
+<a class="child" href="../UI-talad-011/default.html" data-testid="nav-ui-talad-011">เพิ่ม/แก้ไขสินค้า</a>
+<a class="child" href="../UI-talad-012/default.html" data-testid="nav-ui-talad-012">รายละเอียดสินค้า</a>
+<a class="child" href="../UI-talad-013/default.html" data-testid="nav-ui-talad-013">แก้ราคา</a>
+<a class="child" href="../UI-talad-014/default.html" data-testid="nav-ui-talad-014">ปรับสต็อก</a>
+<a href="../UI-talad-015/default.html" data-testid="nav-ui-talad-015">โปรโมชั่น</a>
+<a class="child" href="../UI-talad-016/default.html" data-testid="nav-ui-talad-016">เพิ่ม/แก้ไขโปรโมชั่น</a>
+<a href="../UI-talad-017/default.html" data-testid="nav-ui-talad-017">ส่วนลดสมาชิก</a>
+<div class="navhead">รายงาน</div>
+<a href="../RPT-talad-002/default.html" data-testid="nav-rpt-talad-002">รายงานยอดขาย</a>
+<a href="../RPT-talad-003/default.html" data-testid="nav-rpt-talad-003">รายงานสินค้าขายดี</a>
+<a href="../RPT-talad-004/default.html" data-testid="nav-rpt-talad-004">รายงานยอดขายแยกตามผู้ขาย</a>
+<a href="../RPT-talad-005/default.html" data-testid="nav-rpt-talad-005">รายงานสต็อกคงเหลือ</a>
+<div class="navhead">ตั้งค่า</div>
+<a href="../UI-talad-018/default.html" data-testid="nav-ui-talad-018">บัญชีพนักงาน</a>
+<a class="child" href="../UI-talad-019/default.html" data-testid="nav-ui-talad-019">เพิ่ม/แก้ไขบัญชี</a>
+</nav>
+<div class="content">
+<main data-screen="RPT-talad-001" data-mockup="MCK-talad-004" data-state="error">
+<div class="pagehead"><div class="grow"><div class="crumbs"><a href="../UI-talad-002/default.html">หน้าขาย</a> ›</div><h1>ใบเสร็จ</h1></div></div>
+<div class="toast warn" role="alert" data-component="Toast"><div class="grow"><strong>หน้าต่างพิมพ์เปิดไม่ได้หรือถูกยกเลิก</strong> บิลบันทึกแล้วและไม่เปลี่ยน · พิมพ์ซ้ำได้จากประวัติการขาย</div></div>
+<div class="receipt" data-component="Card">
+<div class="rhead"><span class="wordmark"><span class="mark">ต</span>ตลาดมาร์เก็ต</span><div class="muted">ใบเสร็จรับเงิน · ⚠ ข้อมูลสมมติ</div></div>
+<dl class="meta">
+<dt>เลขใบเสร็จ</dt><dd data-testid="rpt-talad-001-ent-011-receipt-no">ตัวอย่าง 1</dd>
+<dt>วันเวลา</dt><dd data-testid="rpt-talad-001-ent-011-paid-at">01/01/2569 09:00</dd>
+<dt>ผู้ขาย</dt><dd data-testid="rpt-talad-001-ent-011-seller">นาย ตัวอย่าง ทดสอบ</dd>
+<dt>สมาชิก</dt><dd data-testid="rpt-talad-001-ent-011-member">นาย ตัวอย่าง ทดสอบ</dd>
+</dl>
+<div class="">
+<table data-component="Table"><thead><tr><th>สินค้า</th><th class="num">จำนวน</th><th class="num">ราคา</th></tr></thead>
+<tbody>
+<tr><td><div data-testid="rpt-talad-001-ent-012-product">ตัวอย่าง 1</div><div class="lpromo"><span data-testid="rpt-talad-001-ent-012-promotion-version">โปร ตัวอย่าง 1</span> · ลด <span data-testid="rpt-talad-001-ent-012-promo-discount">฿5.00</span></div></td><td class="num" data-testid="rpt-talad-001-ent-012-qty">2</td><td class="num" data-testid="rpt-talad-001-ent-012-unit-price">10.00</td></tr>
+<tr><td><div data-testid="rpt-talad-001-ent-012-product">ตัวอย่าง 2</div></td><td class="num" data-testid="rpt-talad-001-ent-012-qty">1</td><td class="num" data-testid="rpt-talad-001-ent-012-unit-price">20.00</td></tr>
+<tr><td><div data-testid="rpt-talad-001-ent-012-product">ตัวอย่าง 3</div></td><td class="num" data-testid="rpt-talad-001-ent-012-qty">1</td><td class="num" data-testid="rpt-talad-001-ent-012-unit-price">30.00</td></tr>
+</tbody></table>
+</div>
+<div class="rsum">
+<div class="sum"><span>ส่วนลดโปรโมชั่น</span><span data-testid="rpt-talad-001-ent-011-promo-discount-total">−฿5.00</span></div>
+<div class="sum"><span>ส่วนลดทั้งบิล</span><span data-testid="rpt-talad-001-ent-011-bill-discount">−฿5.00</span></div>
+<div class="sum"><span>ส่วนลดสมาชิก</span><span data-testid="rpt-talad-001-ent-011-member-discount">−฿2.75</span></div>
+<div class="sum total"><span>ยอดชำระ</span><span class="v" data-testid="rpt-talad-001-ent-011-net-total">฿52.25</span></div>
+</div>
+<div class="actions"><button type="button" data-component="Button" data-testid="rpt-talad-001-print">พิมพ์</button><button type="button" class="secondary" data-component="Button" data-testid="rpt-talad-001-close">ปิด</button></div>
+
+</div>
+</main>
+</div>
+</div>
+<footer class="appfoot">ตลาดมาร์เก็ต · ⚠ ข้อมูลสมมติ</footer>
+</body>
+</html>

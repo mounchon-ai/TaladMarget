@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "mock · scripts/coverage.mjs",
+  "project": "talad",
+  "gaps": [
+    {
+      "screen": "UI-talad-013",
+      "question": "UI-talad-013 แก้ราคาสินค้า: ฟิลด์ \"ราคาปัจจุบัน\" (display) และ \"ราคาใหม่\" (capture) ผูกกับ ENT-002.price ทั้งคู่ ทำให้ data-testid ที่อนุมานจาก entity+attribute ซ้ำกัน (ui-talad-013-ent-002-price) — design ต้องการให้ฟิลด์ใดผูกกับ attribute อื่น หรือเลิกผูก (unbound) ฟิลด์ใดฟิลด์หนึ่ง?",
+      "blockedBy": [
+        "design: ราคาปัจจุบัน และ ราคาใหม่ ผูก ENT-002.price ทั้งคู่ — data-testid ซ้ำ ui-talad-013-ent-002-price"
+      ],
+      "raisedBy": "mon sai",
+      "raisedAt": "2026-09-23T12:20:56Z"
+    }
+  ],
+  "extensions": {}
+}
