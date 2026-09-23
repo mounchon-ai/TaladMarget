@@ -3482,7 +3482,10 @@
             "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "940219b"
+      ]
     },
     {
       "id": "FE-talad-022",
