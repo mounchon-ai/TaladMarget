@@ -1,7 +1,7 @@
 import { apiFetch } from "./api-client";
 import type { MemberFieldErrors } from "./member-form";
 
-// Shapes the api answers (FE-talad-009 · 011 · 013) — API-012 · API-013 · API-014 · API-015.
+// Shapes the api answers (FE-talad-009 · 011 · 013 · 015) — API-012 · API-013 · API-014 · API-015 · API-016.
 
 export type Member = { id: number; name: string; phone: string; accumulatedAmount: number; status: string };
 export type MemberPage = { items: Member[]; page: number; pageSize: number; total: number };
@@ -78,4 +78,20 @@ export async function editMember(id: number, name: string, phone: string): Promi
     return { ok: false, errors };
   }
   throw new Error(`PUT /api/members/${id} answered ${response.status}`);
+}
+
+export type MemberHiding = "hidden" | "gone" | "forbidden" | "signedOut";
+
+/**
+ * API-016 · POST /api/members/{id}/hide — the owner's alone (BR-talad-019@v1): the api answers a seller
+ * with 403 whatever the page showed. A member already hidden or never there is MEMBER_NOT_FOUND.
+ */
+export async function hideMember(id: number): Promise<MemberHiding> {
+  const response = await apiFetch(`/api/members/${id}/hide`, { method: "POST" });
+  if (response.status === 204) return "hidden";
+  if (response.status === 401) return "signedOut";
+  if (response.status === 403) return "forbidden";
+  const body = (await response.json().catch(() => null)) as { code?: string } | null;
+  if (body?.code === "MEMBER_NOT_FOUND") return "gone";
+  throw new Error(`POST /api/members/${id}/hide answered ${response.status}`);
 }

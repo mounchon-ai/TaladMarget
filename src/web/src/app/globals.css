@@ -592,3 +592,9 @@ body {
 .formcard .toast {
   margin-bottom: var(--space-4);
 }
+.dangerzone {
+  border-color: var(--danger-bg);
+}
+.dangerzone h2 {
+  color: var(--state-rejected-fg);
+}

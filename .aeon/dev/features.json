@@ -2562,7 +2562,75 @@
           "hash": "sha256:c5813d8087e0c45a36bce2b2caf38f490cbcc4f9f190f99f730190be3db723cc"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: the danger zone drawn for every role, then dev-test.ps1 -App web -Filter FE-talad-016",
+            "result": "Tests 2 failed | 8 passed — AC-talad-043 (member-hide and member-edit) catches a seller seeing ลบสมาชิก · file restored",
+            "at": "2026-09-23T22:12:11+07:00"
+          },
+          {
+            "cmd": "mutation check: hideMemberAction treating a 403 as hidden, then dev-test.ps1 -App web -Filter FE-talad-016",
+            "result": "Tests 1 failed | 9 passed — BR-talad-019@v1 test catches a refused seller sent to the list as if the member were hidden · file restored",
+            "at": "2026-09-23T22:12:13+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T22:12:17+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-016",
+            "result": "vitest: Test Files 2 passed | 7 skipped (9) · Tests 10 passed | 102 skipped (112) · exit 0 (one of the ten is FE-talad-014's no-delete-button test, whose name mentions FE-talad-016)",
+            "at": "2026-09-23T22:12:19+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 9 passed (9) · Tests 112 passed (112) · exit 0",
+            "at": "2026-09-23T22:12:22+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T22:12:24+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/members/[id]/page.tsx",
+          "src/web/src/app/(app)/members/[id]/actions.ts",
+          "src/web/src/app/globals.css",
+          "src/web/src/components/hide-member-zone.tsx",
+          "src/web/src/lib/members-api.ts",
+          "src/web/tests/member-hide.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/member-hide.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "hideMember",
+            "kind": "delete",
+            "dd_ref": null,
+            "testid": "ui-talad-006-hide-member",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-017",
@@ -4834,8 +4902,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 15,
-      "draft": 31
+      "validated": 16,
+      "draft": 30
     },
     "by_origin": {
       "new": 46
