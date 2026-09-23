@@ -34,6 +34,9 @@ public class UserAccount
     }
 
     public bool CanSignIn => Status == AccountStatus.Active;
+
+    /// <summary>STM-talad-004 ACTIVE → DISABLED.</summary>
+    public void Disable() => Status = AccountStatus.Disabled;
 }
 
 /// <summary>ENT-008.role</summary>

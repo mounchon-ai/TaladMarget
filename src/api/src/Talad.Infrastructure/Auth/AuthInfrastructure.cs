@@ -27,6 +27,9 @@ internal sealed class UserAccountRepository(TaladDbContext db) : IUserAccountRep
 {
     public Task<UserAccount?> FindByUsernameAsync(string username, CancellationToken ct) =>
         db.UserAccounts.SingleOrDefaultAsync(x => x.Username == username, ct);
+
+    public Task<UserAccount?> FindByIdAsync(int id, CancellationToken ct) =>
+        db.UserAccounts.SingleOrDefaultAsync(x => x.Id == id, ct);
 }
 
 /// <summary>ENT-008.passwordHash — .NET Identity's hasher is the only way a password is stored or checked.</summary>

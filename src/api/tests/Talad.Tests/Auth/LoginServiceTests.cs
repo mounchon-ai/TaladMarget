@@ -61,6 +61,9 @@ public class LoginServiceTests
     {
         public Task<UserAccount?> FindByUsernameAsync(string username, CancellationToken ct) =>
             Task.FromResult(accounts.SingleOrDefault(a => a.Username == username));
+
+        public Task<UserAccount?> FindByIdAsync(int id, CancellationToken ct) =>
+            Task.FromResult(accounts.SingleOrDefault(a => a.Id == id));
     }
 
     private sealed class FakeTokens : IAccessTokenIssuer

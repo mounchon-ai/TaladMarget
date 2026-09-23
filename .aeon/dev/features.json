@@ -480,7 +480,60 @@
           "hash": "sha256:0ea2c1a588aa5fac6830588709227447dd602604b78300a73496fda35304fcd9"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T20:54:40+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-003",
+            "result": "Passed! - Failed: 0, Passed: 8, Skipped: 0, Total: 8 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T20:54:40+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 19, Skipped: 0, Total: 19 (FE-talad-001 unchanged green) · exit 0",
+            "at": "2026-09-23T20:54:40+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Api/Auth/MeEndpoints.cs",
+          "src/api/src/Talad.Api/Program.cs",
+          "src/api/src/Talad.Application/Auth/LoginService.cs",
+          "src/api/src/Talad.Application/Navigation/CurrentUserService.cs",
+          "src/api/src/Talad.Application/Navigation/ScreenAccess.cs",
+          "src/api/src/Talad.Domain/Accounts/UserAccount.cs",
+          "src/api/src/Talad.Infrastructure/Auth/AuthInfrastructure.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/tests/Talad.Tests/Auth/AuthApiTests.cs",
+          "src/api/tests/Talad.Tests/Auth/LoginServiceTests.cs",
+          "src/api/tests/Talad.Tests/Navigation/MeApiTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Navigation/MeApiTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-044",
+            "route": "GET /api/me",
+            "file": "src/api/src/Talad.Api/Auth/MeEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-004",
@@ -3465,8 +3518,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 2,
-      "draft": 44
+      "validated": 3,
+      "draft": 43
     },
     "by_origin": {
       "new": 46

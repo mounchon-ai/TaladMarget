@@ -33,12 +33,12 @@ public sealed class TaladApiFactory : WebApplicationFactory<Program>
         });
     }
 
-    public void Seed(string username, string displayName, string password)
+    public void Seed(string username, string displayName, string password, UserRole role = UserRole.Cashier)
     {
         using var scope = Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<TaladDbContext>();
         var hasher = scope.ServiceProvider.GetRequiredService<IdentityPasswordHasher>();
-        var account = new UserAccount(username, displayName, UserRole.Cashier, DateTimeOffset.UnixEpoch);
+        var account = new UserAccount(username, displayName, role, DateTimeOffset.UnixEpoch);
         account.SetPasswordHash(hasher.Hash(account, password));
         db.UserAccounts.Add(account);
         db.SaveChanges();

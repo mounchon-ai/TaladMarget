@@ -5,6 +5,7 @@ namespace Talad.Application.Auth;
 public interface IUserAccountRepository
 {
     Task<UserAccount?> FindByUsernameAsync(string username, CancellationToken ct);
+    Task<UserAccount?> FindByIdAsync(int id, CancellationToken ct);
 }
 
 public interface IPasswordVerifier
