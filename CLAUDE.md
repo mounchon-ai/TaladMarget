@@ -45,6 +45,8 @@ Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได�
 - ทุกหน้าใช้ได้ครบที่ความกว้าง ≥ 768px โดยไม่ต้องเลื่อนแนวนอน · เมนูหลักอยู่ด้านซ้าย (NFR-talad-001, 002)
 - สีและขนาดมาจาก token ของ theme (`.aeon/mockup/theme.json`) — map เข้า theme ของ daisyUI ห้ามคิดสีเอง
 - `data-testid` กับชื่อฟิลด์มาจาก wireframe และคำประกาศของ design ไม่ใช่จาก mockup L2
+- **ทุกหน้าที่ล็อกอินแล้ว** อยู่ใต้ `src/web/src/app/(app)/` (ได้เปลือก + เมนูซ้ายอัตโนมัติ) · เพิ่ม URL ของหน้าลงใน `src/lib/screen-routes.ts` · และ **บรรทัดแรกของหน้าต้องเรียก `await requireScreen("<UI-id>")`** ก่อนอ่านข้อมูลใด (AC-talad-045) — layout ไม่รู้ว่ากำลังเปิดหน้าไหน จึงตรวจแทนไม่ได้
+- สิทธิ์ของหน้าจออยู่ที่ `ScreenAccess.cs` ฝั่ง api ที่เดียว (คัดลอกจาก `screens.json.roles`) — design เปลี่ยน roles ต้องแก้ไฟล์นี้ด้วยมือ
 
 ## Mistakes already made — อย่าทำซ้ำ
 

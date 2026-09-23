@@ -571,7 +571,180 @@
           "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · routes ƒ /login ƒ /logout + ƒ Proxy · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T20:58:50+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-004",
+            "result": "vitest: Tests 11 passed | 19 skipped (30) · exit 0",
+            "at": "2026-09-23T20:58:50+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 3 passed (3) · Tests 30 passed (30) (FE-talad-002 unchanged green) · exit 0",
+            "at": "2026-09-23T20:58:50+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems reported · exit 0",
+            "at": "2026-09-23T20:58:50+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/layout.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/src/app/logout/route.ts",
+          "src/web/src/components/app-frame.tsx",
+          "src/web/src/components/denied-notice.tsx",
+          "src/web/src/components/nav-link.tsx",
+          "src/web/src/lib/auth-routing.ts",
+          "src/web/src/lib/denied.ts",
+          "src/web/src/lib/me.ts",
+          "src/web/src/lib/screen-routes.ts",
+          "src/web/tests/app-frame.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/app-frame.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "nav-UI-talad-001",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-001",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-002",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-002",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-004",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-004",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-007",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-007",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-010",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-010",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-015",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-015",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-017",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-017",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-RPT-talad-002",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-rpt-talad-002",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-RPT-talad-003",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-rpt-talad-003",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-RPT-talad-004",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-rpt-talad-004",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-RPT-talad-005",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-rpt-talad-005",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "nav-UI-talad-018",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "nav-ui-talad-018",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-005",
@@ -3521,8 +3694,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 3,
-      "draft": 43
+      "validated": 4,
+      "draft": 42
     },
     "by_origin": {
       "new": 46

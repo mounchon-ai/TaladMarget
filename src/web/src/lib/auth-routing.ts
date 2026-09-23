@@ -2,6 +2,8 @@
 // Pure functions so the proxy and the sign-in action decide the same way and a test can ask them directly.
 
 export const LOGIN_PATH = "/login";
+/** Ends the session (API-002) and clears the cookie — open with or without a session. */
+export const LOGOUT_PATH = "/logout";
 /** UI-talad-002 หน้าขาย — the page a sign-in lands on when nothing else was asked for. */
 export const HOME_PATH = "/";
 export const SESSION_COOKIE = "talad_session";
@@ -24,6 +26,7 @@ export type RouteDecision = { kind: "pass" } | { kind: "redirect"; to: string };
  * - already signed in and opening sign-in → the sales page (UI-talad-001 state "unauthorized")
  */
 export function decideRoute(pathname: string, search: string, hasSession: boolean): RouteDecision {
+  if (pathname === LOGOUT_PATH) return { kind: "pass" };
   if (pathname === LOGIN_PATH) {
     return hasSession ? { kind: "redirect", to: HOME_PATH } : { kind: "pass" };
   }
