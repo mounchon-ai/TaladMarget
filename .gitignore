@@ -7,3 +7,9 @@ obj/
 
 # Playwright MCP scratch output (snapshots, console logs, screenshots)
 .playwright-mcp/
+
+# aeon drafts - inputs to the plugin scripts, not state
+.aeon/*-draft.*.json
+
+# npx skills lock file
+skills-lock.json
