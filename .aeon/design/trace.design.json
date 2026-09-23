@@ -1,0 +1,2453 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "design · scripts/trace.mjs",
+  "owner": "design",
+  "project": "talad",
+  "edges": [
+    {
+      "from": "REQ-talad-001",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-001"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "realizedBy",
+      "to": "UC-talad-001"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "realizedBy",
+      "to": "UC-talad-002"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-001@v1"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "REQ-talad-001",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-002"
+    },
+    {
+      "from": "REQ-talad-002",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-002"
+    },
+    {
+      "from": "REQ-talad-004",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-002"
+    },
+    {
+      "from": "REQ-talad-006",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-002"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "realizedBy",
+      "to": "UC-talad-003"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-039@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-006@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-003@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-016@v2"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "REQ-talad-005",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-003"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "realizedBy",
+      "to": "UC-talad-004"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-027@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-028@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-029@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-001@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-002@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-003@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-004@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-005@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-006@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-007@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-008@v1"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "governedBy",
+      "to": "CALC-talad-009@v1"
+    },
+    {
+      "from": "REQ-talad-001",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-004"
+    },
+    {
+      "from": "REQ-talad-006",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-004"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "realizedBy",
+      "to": "UC-talad-005"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "realizedBy",
+      "to": "UC-talad-006"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "REQ-talad-002",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-005"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "realizedBy",
+      "to": "UC-talad-007"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "REQ-talad-002",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-006"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "realizedBy",
+      "to": "UC-talad-008"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "REQ-talad-002",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-007"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "realizedBy",
+      "to": "UC-talad-009"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "governedBy",
+      "to": "BR-talad-004@v1"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "governedBy",
+      "to": "BR-talad-031@v1"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "REQ-talad-002",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-008"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "realizedBy",
+      "to": "UC-talad-010"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "REQ-talad-003",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-009"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "realizedBy",
+      "to": "UC-talad-011"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "governedBy",
+      "to": "BR-talad-005@v1"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "REQ-talad-003",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-010"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "realizedBy",
+      "to": "UC-talad-012"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "REQ-talad-003",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-011"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "realizedBy",
+      "to": "UC-talad-013"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "realizedBy",
+      "to": "UC-talad-014"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "realizedBy",
+      "to": "UC-talad-015"
+    },
+    {
+      "from": "REQ-talad-004",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-012"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "realizedBy",
+      "to": "UC-talad-016"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "realizedBy",
+      "to": "UC-talad-017"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "realizedBy",
+      "to": "UC-talad-018"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "realizedBy",
+      "to": "UC-talad-019"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-033@v1"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "REQ-talad-004",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-013"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "realizedBy",
+      "to": "UC-talad-020"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "governedBy",
+      "to": "BR-talad-032@v1"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "governedBy",
+      "to": "BR-talad-041@v1"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "REQ-talad-005",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-014"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "realizedBy",
+      "to": "UC-talad-021"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "realizedBy",
+      "to": "UC-talad-022"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "REQ-talad-005",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-015"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "realizedBy",
+      "to": "UC-talad-023"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "REQ-talad-006",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-016"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "realizedBy",
+      "to": "UC-talad-024"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-016@v2"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-025@v1"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-034@v1"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "REQ-talad-006",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-017"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "realizedBy",
+      "to": "UC-talad-025"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-023@v1"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-034@v1"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-042@v1"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "REQ-talad-007",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-018"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "realizedBy",
+      "to": "UC-talad-026"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "governedBy",
+      "to": "BR-talad-022@v1"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "REQ-talad-004",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-019"
+    },
+    {
+      "from": "REQ-talad-006",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-019"
+    },
+    {
+      "from": "REQ-talad-007",
+      "rel": "satisfiedBy",
+      "to": "FUN-talad-019"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "realizedBy",
+      "to": "UC-talad-027"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "governedBy",
+      "to": "BR-talad-017@v1"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "AC-talad-001",
+      "rel": "copiedFrom",
+      "to": "EX-talad-001"
+    },
+    {
+      "from": "AC-talad-001",
+      "rel": "governedBy",
+      "to": "BR-talad-001@v1"
+    },
+    {
+      "from": "AC-talad-002",
+      "rel": "copiedFrom",
+      "to": "EX-talad-002"
+    },
+    {
+      "from": "AC-talad-002",
+      "rel": "governedBy",
+      "to": "BR-talad-001@v1"
+    },
+    {
+      "from": "AC-talad-003",
+      "rel": "copiedFrom",
+      "to": "EX-talad-003"
+    },
+    {
+      "from": "AC-talad-003",
+      "rel": "governedBy",
+      "to": "BR-talad-001@v1"
+    },
+    {
+      "from": "AC-talad-004",
+      "rel": "copiedFrom",
+      "to": "EX-talad-004"
+    },
+    {
+      "from": "AC-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-001@v1"
+    },
+    {
+      "from": "AC-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "AC-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-039@v1"
+    },
+    {
+      "from": "AC-talad-004",
+      "rel": "governedBy",
+      "to": "BR-talad-025@v1"
+    },
+    {
+      "from": "AC-talad-005",
+      "rel": "copiedFrom",
+      "to": "EX-talad-005"
+    },
+    {
+      "from": "AC-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "AC-talad-005",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "AC-talad-006",
+      "rel": "copiedFrom",
+      "to": "EX-talad-006"
+    },
+    {
+      "from": "AC-talad-006",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "AC-talad-007",
+      "rel": "copiedFrom",
+      "to": "EX-talad-007"
+    },
+    {
+      "from": "AC-talad-007",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "AC-talad-008",
+      "rel": "copiedFrom",
+      "to": "EX-talad-008"
+    },
+    {
+      "from": "AC-talad-008",
+      "rel": "governedBy",
+      "to": "BR-talad-002@v1"
+    },
+    {
+      "from": "AC-talad-009",
+      "rel": "copiedFrom",
+      "to": "EX-talad-009"
+    },
+    {
+      "from": "AC-talad-009",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "AC-talad-010",
+      "rel": "copiedFrom",
+      "to": "EX-talad-010"
+    },
+    {
+      "from": "AC-talad-010",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "AC-talad-011",
+      "rel": "copiedFrom",
+      "to": "EX-talad-011"
+    },
+    {
+      "from": "AC-talad-011",
+      "rel": "governedBy",
+      "to": "BR-talad-030@v1"
+    },
+    {
+      "from": "AC-talad-011",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "AC-talad-012",
+      "rel": "copiedFrom",
+      "to": "EX-talad-012"
+    },
+    {
+      "from": "AC-talad-012",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "AC-talad-013",
+      "rel": "copiedFrom",
+      "to": "EX-talad-013"
+    },
+    {
+      "from": "AC-talad-013",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "AC-talad-014",
+      "rel": "copiedFrom",
+      "to": "EX-talad-014"
+    },
+    {
+      "from": "AC-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-003@v1"
+    },
+    {
+      "from": "AC-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-028@v1"
+    },
+    {
+      "from": "AC-talad-014",
+      "rel": "governedBy",
+      "to": "BR-talad-027@v1"
+    },
+    {
+      "from": "AC-talad-015",
+      "rel": "copiedFrom",
+      "to": "EX-talad-015"
+    },
+    {
+      "from": "AC-talad-015",
+      "rel": "governedBy",
+      "to": "BR-talad-003@v1"
+    },
+    {
+      "from": "AC-talad-016",
+      "rel": "copiedFrom",
+      "to": "EX-talad-016"
+    },
+    {
+      "from": "AC-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-004@v1"
+    },
+    {
+      "from": "AC-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-031@v1"
+    },
+    {
+      "from": "AC-talad-016",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "AC-talad-017",
+      "rel": "copiedFrom",
+      "to": "EX-talad-017"
+    },
+    {
+      "from": "AC-talad-017",
+      "rel": "governedBy",
+      "to": "BR-talad-004@v1"
+    },
+    {
+      "from": "AC-talad-018",
+      "rel": "copiedFrom",
+      "to": "EX-talad-018"
+    },
+    {
+      "from": "AC-talad-018",
+      "rel": "governedBy",
+      "to": "BR-talad-004@v1"
+    },
+    {
+      "from": "AC-talad-019",
+      "rel": "copiedFrom",
+      "to": "EX-talad-019"
+    },
+    {
+      "from": "AC-talad-019",
+      "rel": "governedBy",
+      "to": "BR-talad-004@v1"
+    },
+    {
+      "from": "AC-talad-020",
+      "rel": "copiedFrom",
+      "to": "EX-talad-020"
+    },
+    {
+      "from": "AC-talad-020",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "AC-talad-021",
+      "rel": "copiedFrom",
+      "to": "EX-talad-021"
+    },
+    {
+      "from": "AC-talad-021",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "AC-talad-022",
+      "rel": "copiedFrom",
+      "to": "EX-talad-022"
+    },
+    {
+      "from": "AC-talad-022",
+      "rel": "governedBy",
+      "to": "BR-talad-020@v1"
+    },
+    {
+      "from": "AC-talad-022",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "AC-talad-023",
+      "rel": "copiedFrom",
+      "to": "EX-talad-023"
+    },
+    {
+      "from": "AC-talad-023",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "AC-talad-023",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "AC-talad-024",
+      "rel": "copiedFrom",
+      "to": "EX-talad-024"
+    },
+    {
+      "from": "AC-talad-024",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "AC-talad-024",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "AC-talad-025",
+      "rel": "copiedFrom",
+      "to": "EX-talad-025"
+    },
+    {
+      "from": "AC-talad-025",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "AC-talad-025",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "AC-talad-026",
+      "rel": "copiedFrom",
+      "to": "EX-talad-026"
+    },
+    {
+      "from": "AC-talad-026",
+      "rel": "governedBy",
+      "to": "BR-talad-038@v1"
+    },
+    {
+      "from": "AC-talad-026",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "AC-talad-027",
+      "rel": "copiedFrom",
+      "to": "EX-talad-027"
+    },
+    {
+      "from": "AC-talad-027",
+      "rel": "governedBy",
+      "to": "BR-talad-039@v1"
+    },
+    {
+      "from": "AC-talad-028",
+      "rel": "copiedFrom",
+      "to": "EX-talad-028"
+    },
+    {
+      "from": "AC-talad-028",
+      "rel": "governedBy",
+      "to": "BR-talad-039@v1"
+    },
+    {
+      "from": "AC-talad-029",
+      "rel": "copiedFrom",
+      "to": "EX-talad-029"
+    },
+    {
+      "from": "AC-talad-029",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "AC-talad-030",
+      "rel": "copiedFrom",
+      "to": "EX-talad-030"
+    },
+    {
+      "from": "AC-talad-030",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "AC-talad-031",
+      "rel": "copiedFrom",
+      "to": "EX-talad-031"
+    },
+    {
+      "from": "AC-talad-031",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "AC-talad-031",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "AC-talad-032",
+      "rel": "copiedFrom",
+      "to": "EX-talad-032"
+    },
+    {
+      "from": "AC-talad-032",
+      "rel": "governedBy",
+      "to": "BR-talad-026@v1"
+    },
+    {
+      "from": "AC-talad-032",
+      "rel": "governedBy",
+      "to": "BR-talad-025@v1"
+    },
+    {
+      "from": "AC-talad-033",
+      "rel": "copiedFrom",
+      "to": "EX-talad-033"
+    },
+    {
+      "from": "AC-talad-033",
+      "rel": "governedBy",
+      "to": "BR-talad-005@v1"
+    },
+    {
+      "from": "AC-talad-034",
+      "rel": "copiedFrom",
+      "to": "EX-talad-034"
+    },
+    {
+      "from": "AC-talad-034",
+      "rel": "governedBy",
+      "to": "BR-talad-005@v1"
+    },
+    {
+      "from": "AC-talad-035",
+      "rel": "copiedFrom",
+      "to": "EX-talad-035"
+    },
+    {
+      "from": "AC-talad-035",
+      "rel": "governedBy",
+      "to": "BR-talad-005@v1"
+    },
+    {
+      "from": "AC-talad-036",
+      "rel": "copiedFrom",
+      "to": "EX-talad-036"
+    },
+    {
+      "from": "AC-talad-036",
+      "rel": "governedBy",
+      "to": "BR-talad-005@v1"
+    },
+    {
+      "from": "AC-talad-037",
+      "rel": "copiedFrom",
+      "to": "EX-talad-037"
+    },
+    {
+      "from": "AC-talad-037",
+      "rel": "governedBy",
+      "to": "BR-talad-006@v1"
+    },
+    {
+      "from": "AC-talad-038",
+      "rel": "copiedFrom",
+      "to": "EX-talad-038"
+    },
+    {
+      "from": "AC-talad-038",
+      "rel": "governedBy",
+      "to": "BR-talad-006@v1"
+    },
+    {
+      "from": "AC-talad-038",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "AC-talad-039",
+      "rel": "copiedFrom",
+      "to": "EX-talad-039"
+    },
+    {
+      "from": "AC-talad-039",
+      "rel": "governedBy",
+      "to": "BR-talad-006@v1"
+    },
+    {
+      "from": "AC-talad-040",
+      "rel": "copiedFrom",
+      "to": "EX-talad-040"
+    },
+    {
+      "from": "AC-talad-040",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "AC-talad-041",
+      "rel": "copiedFrom",
+      "to": "EX-talad-041"
+    },
+    {
+      "from": "AC-talad-041",
+      "rel": "governedBy",
+      "to": "BR-talad-021@v1"
+    },
+    {
+      "from": "AC-talad-042",
+      "rel": "copiedFrom",
+      "to": "EX-talad-042"
+    },
+    {
+      "from": "AC-talad-042",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "AC-talad-043",
+      "rel": "copiedFrom",
+      "to": "EX-talad-043"
+    },
+    {
+      "from": "AC-talad-043",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "AC-talad-043",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-044",
+      "rel": "copiedFrom",
+      "to": "EX-talad-044"
+    },
+    {
+      "from": "AC-talad-044",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "AC-talad-044",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-045",
+      "rel": "copiedFrom",
+      "to": "EX-talad-045"
+    },
+    {
+      "from": "AC-talad-045",
+      "rel": "governedBy",
+      "to": "BR-talad-018@v1"
+    },
+    {
+      "from": "AC-talad-046",
+      "rel": "copiedFrom",
+      "to": "EX-talad-046"
+    },
+    {
+      "from": "AC-talad-046",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-046",
+      "rel": "governedBy",
+      "to": "BR-talad-023@v1"
+    },
+    {
+      "from": "AC-talad-046",
+      "rel": "governedBy",
+      "to": "BR-talad-042@v1"
+    },
+    {
+      "from": "AC-talad-046",
+      "rel": "governedBy",
+      "to": "BR-talad-034@v1"
+    },
+    {
+      "from": "AC-talad-047",
+      "rel": "copiedFrom",
+      "to": "EX-talad-047"
+    },
+    {
+      "from": "AC-talad-047",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-048",
+      "rel": "copiedFrom",
+      "to": "EX-talad-048"
+    },
+    {
+      "from": "AC-talad-048",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-049",
+      "rel": "copiedFrom",
+      "to": "EX-talad-049"
+    },
+    {
+      "from": "AC-talad-049",
+      "rel": "governedBy",
+      "to": "BR-talad-019@v1"
+    },
+    {
+      "from": "AC-talad-050",
+      "rel": "copiedFrom",
+      "to": "EX-talad-050"
+    },
+    {
+      "from": "AC-talad-050",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "AC-talad-051",
+      "rel": "copiedFrom",
+      "to": "EX-talad-051"
+    },
+    {
+      "from": "AC-talad-051",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "AC-talad-052",
+      "rel": "copiedFrom",
+      "to": "EX-talad-052"
+    },
+    {
+      "from": "AC-talad-052",
+      "rel": "governedBy",
+      "to": "BR-talad-024@v1"
+    },
+    {
+      "from": "AC-talad-053",
+      "rel": "copiedFrom",
+      "to": "EX-talad-053"
+    },
+    {
+      "from": "AC-talad-053",
+      "rel": "governedBy",
+      "to": "BR-talad-023@v1"
+    },
+    {
+      "from": "AC-talad-054",
+      "rel": "copiedFrom",
+      "to": "EX-talad-054"
+    },
+    {
+      "from": "AC-talad-054",
+      "rel": "governedBy",
+      "to": "BR-talad-023@v1"
+    },
+    {
+      "from": "AC-talad-055",
+      "rel": "copiedFrom",
+      "to": "EX-talad-055"
+    },
+    {
+      "from": "AC-talad-055",
+      "rel": "governedBy",
+      "to": "BR-talad-042@v1"
+    },
+    {
+      "from": "AC-talad-056",
+      "rel": "copiedFrom",
+      "to": "EX-talad-056"
+    },
+    {
+      "from": "AC-talad-056",
+      "rel": "governedBy",
+      "to": "BR-talad-042@v1"
+    },
+    {
+      "from": "AC-talad-057",
+      "rel": "copiedFrom",
+      "to": "EX-talad-057"
+    },
+    {
+      "from": "AC-talad-057",
+      "rel": "governedBy",
+      "to": "BR-talad-034@v1"
+    },
+    {
+      "from": "AC-talad-058",
+      "rel": "copiedFrom",
+      "to": "EX-talad-058"
+    },
+    {
+      "from": "AC-talad-058",
+      "rel": "governedBy",
+      "to": "BR-talad-034@v1"
+    },
+    {
+      "from": "AC-talad-059",
+      "rel": "copiedFrom",
+      "to": "EX-talad-059"
+    },
+    {
+      "from": "AC-talad-059",
+      "rel": "governedBy",
+      "to": "BR-talad-025@v1"
+    },
+    {
+      "from": "AC-talad-060",
+      "rel": "copiedFrom",
+      "to": "EX-talad-060"
+    },
+    {
+      "from": "AC-talad-060",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "AC-talad-060",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "AC-talad-061",
+      "rel": "copiedFrom",
+      "to": "EX-talad-061"
+    },
+    {
+      "from": "AC-talad-061",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "AC-talad-061",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "AC-talad-062",
+      "rel": "copiedFrom",
+      "to": "EX-talad-062"
+    },
+    {
+      "from": "AC-talad-062",
+      "rel": "governedBy",
+      "to": "BR-talad-035@v1"
+    },
+    {
+      "from": "AC-talad-062",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "AC-talad-063",
+      "rel": "copiedFrom",
+      "to": "EX-talad-063"
+    },
+    {
+      "from": "AC-talad-063",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "AC-talad-064",
+      "rel": "copiedFrom",
+      "to": "EX-talad-064"
+    },
+    {
+      "from": "AC-talad-064",
+      "rel": "governedBy",
+      "to": "BR-talad-036@v1"
+    },
+    {
+      "from": "AC-talad-064",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "AC-talad-065",
+      "rel": "copiedFrom",
+      "to": "EX-talad-065"
+    },
+    {
+      "from": "AC-talad-065",
+      "rel": "governedBy",
+      "to": "BR-talad-028@v1"
+    },
+    {
+      "from": "AC-talad-065",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-066",
+      "rel": "copiedFrom",
+      "to": "EX-talad-066"
+    },
+    {
+      "from": "AC-talad-066",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "AC-talad-066",
+      "rel": "governedBy",
+      "to": "BR-talad-016@v2"
+    },
+    {
+      "from": "AC-talad-067",
+      "rel": "copiedFrom",
+      "to": "EX-talad-067"
+    },
+    {
+      "from": "AC-talad-067",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "AC-talad-068",
+      "rel": "copiedFrom",
+      "to": "EX-talad-068"
+    },
+    {
+      "from": "AC-talad-068",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "AC-talad-069",
+      "rel": "copiedFrom",
+      "to": "EX-talad-069"
+    },
+    {
+      "from": "AC-talad-069",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "AC-talad-070",
+      "rel": "copiedFrom",
+      "to": "EX-talad-070"
+    },
+    {
+      "from": "AC-talad-070",
+      "rel": "governedBy",
+      "to": "BR-talad-007@v1"
+    },
+    {
+      "from": "AC-talad-071",
+      "rel": "copiedFrom",
+      "to": "EX-talad-071"
+    },
+    {
+      "from": "AC-talad-071",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "AC-talad-072",
+      "rel": "copiedFrom",
+      "to": "EX-talad-072"
+    },
+    {
+      "from": "AC-talad-072",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "AC-talad-073",
+      "rel": "copiedFrom",
+      "to": "EX-talad-073"
+    },
+    {
+      "from": "AC-talad-073",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "AC-talad-074",
+      "rel": "copiedFrom",
+      "to": "EX-talad-074"
+    },
+    {
+      "from": "AC-talad-074",
+      "rel": "governedBy",
+      "to": "BR-talad-008@v1"
+    },
+    {
+      "from": "AC-talad-075",
+      "rel": "copiedFrom",
+      "to": "EX-talad-075"
+    },
+    {
+      "from": "AC-talad-075",
+      "rel": "governedBy",
+      "to": "BR-talad-032@v1"
+    },
+    {
+      "from": "AC-talad-075",
+      "rel": "governedBy",
+      "to": "BR-talad-041@v1"
+    },
+    {
+      "from": "AC-talad-076",
+      "rel": "copiedFrom",
+      "to": "EX-talad-076"
+    },
+    {
+      "from": "AC-talad-076",
+      "rel": "governedBy",
+      "to": "BR-talad-032@v1"
+    },
+    {
+      "from": "AC-talad-077",
+      "rel": "copiedFrom",
+      "to": "EX-talad-077"
+    },
+    {
+      "from": "AC-talad-077",
+      "rel": "governedBy",
+      "to": "BR-talad-032@v1"
+    },
+    {
+      "from": "AC-talad-078",
+      "rel": "copiedFrom",
+      "to": "EX-talad-078"
+    },
+    {
+      "from": "AC-talad-078",
+      "rel": "governedBy",
+      "to": "BR-talad-032@v1"
+    },
+    {
+      "from": "AC-talad-079",
+      "rel": "copiedFrom",
+      "to": "EX-talad-079"
+    },
+    {
+      "from": "AC-talad-079",
+      "rel": "governedBy",
+      "to": "BR-talad-041@v1"
+    },
+    {
+      "from": "AC-talad-080",
+      "rel": "copiedFrom",
+      "to": "EX-talad-080"
+    },
+    {
+      "from": "AC-talad-080",
+      "rel": "governedBy",
+      "to": "BR-talad-041@v1"
+    },
+    {
+      "from": "AC-talad-081",
+      "rel": "copiedFrom",
+      "to": "EX-talad-081"
+    },
+    {
+      "from": "AC-talad-081",
+      "rel": "governedBy",
+      "to": "BR-talad-041@v1"
+    },
+    {
+      "from": "AC-talad-082",
+      "rel": "copiedFrom",
+      "to": "EX-talad-082"
+    },
+    {
+      "from": "AC-talad-082",
+      "rel": "governedBy",
+      "to": "BR-talad-033@v1"
+    },
+    {
+      "from": "AC-talad-083",
+      "rel": "copiedFrom",
+      "to": "EX-talad-083"
+    },
+    {
+      "from": "AC-talad-083",
+      "rel": "governedBy",
+      "to": "BR-talad-033@v1"
+    },
+    {
+      "from": "AC-talad-084",
+      "rel": "copiedFrom",
+      "to": "EX-talad-084"
+    },
+    {
+      "from": "AC-talad-084",
+      "rel": "governedBy",
+      "to": "BR-talad-033@v1"
+    },
+    {
+      "from": "AC-talad-085",
+      "rel": "copiedFrom",
+      "to": "EX-talad-085"
+    },
+    {
+      "from": "AC-talad-085",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "AC-talad-086",
+      "rel": "copiedFrom",
+      "to": "EX-talad-086"
+    },
+    {
+      "from": "AC-talad-086",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "AC-talad-087",
+      "rel": "copiedFrom",
+      "to": "EX-talad-087"
+    },
+    {
+      "from": "AC-talad-087",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "AC-talad-088",
+      "rel": "copiedFrom",
+      "to": "EX-talad-088"
+    },
+    {
+      "from": "AC-talad-088",
+      "rel": "governedBy",
+      "to": "BR-talad-037@v1"
+    },
+    {
+      "from": "AC-talad-089",
+      "rel": "copiedFrom",
+      "to": "EX-talad-089"
+    },
+    {
+      "from": "AC-talad-089",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "AC-talad-090",
+      "rel": "copiedFrom",
+      "to": "EX-talad-090"
+    },
+    {
+      "from": "AC-talad-090",
+      "rel": "governedBy",
+      "to": "BR-talad-040@v2"
+    },
+    {
+      "from": "AC-talad-091",
+      "rel": "copiedFrom",
+      "to": "EX-talad-091"
+    },
+    {
+      "from": "AC-talad-091",
+      "rel": "governedBy",
+      "to": "BR-talad-028@v1"
+    },
+    {
+      "from": "AC-talad-091",
+      "rel": "governedBy",
+      "to": "BR-talad-027@v1"
+    },
+    {
+      "from": "AC-talad-091",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-092",
+      "rel": "copiedFrom",
+      "to": "EX-talad-092"
+    },
+    {
+      "from": "AC-talad-092",
+      "rel": "governedBy",
+      "to": "BR-talad-028@v1"
+    },
+    {
+      "from": "AC-talad-093",
+      "rel": "copiedFrom",
+      "to": "EX-talad-093"
+    },
+    {
+      "from": "AC-talad-093",
+      "rel": "governedBy",
+      "to": "BR-talad-027@v1"
+    },
+    {
+      "from": "AC-talad-094",
+      "rel": "copiedFrom",
+      "to": "EX-talad-094"
+    },
+    {
+      "from": "AC-talad-094",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "AC-talad-095",
+      "rel": "copiedFrom",
+      "to": "EX-talad-095"
+    },
+    {
+      "from": "AC-talad-095",
+      "rel": "governedBy",
+      "to": "BR-talad-010@v1"
+    },
+    {
+      "from": "AC-talad-096",
+      "rel": "copiedFrom",
+      "to": "EX-talad-096"
+    },
+    {
+      "from": "AC-talad-096",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-097",
+      "rel": "copiedFrom",
+      "to": "EX-talad-097"
+    },
+    {
+      "from": "AC-talad-097",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-098",
+      "rel": "copiedFrom",
+      "to": "EX-talad-098"
+    },
+    {
+      "from": "AC-talad-098",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-099",
+      "rel": "copiedFrom",
+      "to": "EX-talad-099"
+    },
+    {
+      "from": "AC-talad-099",
+      "rel": "governedBy",
+      "to": "BR-talad-009@v1"
+    },
+    {
+      "from": "AC-talad-100",
+      "rel": "copiedFrom",
+      "to": "EX-talad-100"
+    },
+    {
+      "from": "AC-talad-100",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "AC-talad-101",
+      "rel": "copiedFrom",
+      "to": "EX-talad-101"
+    },
+    {
+      "from": "AC-talad-101",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "AC-talad-102",
+      "rel": "copiedFrom",
+      "to": "EX-talad-102"
+    },
+    {
+      "from": "AC-talad-102",
+      "rel": "governedBy",
+      "to": "BR-talad-015@v1"
+    },
+    {
+      "from": "AC-talad-103",
+      "rel": "copiedFrom",
+      "to": "EX-talad-103"
+    },
+    {
+      "from": "AC-talad-103",
+      "rel": "governedBy",
+      "to": "BR-talad-022@v1"
+    },
+    {
+      "from": "AC-talad-104",
+      "rel": "copiedFrom",
+      "to": "EX-talad-104"
+    },
+    {
+      "from": "AC-talad-104",
+      "rel": "governedBy",
+      "to": "BR-talad-022@v1"
+    },
+    {
+      "from": "AC-talad-105",
+      "rel": "copiedFrom",
+      "to": "EX-talad-105"
+    },
+    {
+      "from": "AC-talad-105",
+      "rel": "governedBy",
+      "to": "BR-talad-022@v1"
+    },
+    {
+      "from": "AC-talad-106",
+      "rel": "copiedFrom",
+      "to": "EX-talad-106"
+    },
+    {
+      "from": "AC-talad-106",
+      "rel": "governedBy",
+      "to": "BR-talad-017@v1"
+    },
+    {
+      "from": "AC-talad-107",
+      "rel": "copiedFrom",
+      "to": "EX-talad-107"
+    },
+    {
+      "from": "AC-talad-107",
+      "rel": "governedBy",
+      "to": "BR-talad-017@v1"
+    },
+    {
+      "from": "AC-talad-108",
+      "rel": "copiedFrom",
+      "to": "EX-talad-108"
+    },
+    {
+      "from": "AC-talad-108",
+      "rel": "governedBy",
+      "to": "BR-talad-017@v1"
+    },
+    {
+      "from": "AC-talad-109",
+      "rel": "copiedFrom",
+      "to": "EX-talad-109"
+    },
+    {
+      "from": "AC-talad-109",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "AC-talad-110",
+      "rel": "copiedFrom",
+      "to": "EX-talad-110"
+    },
+    {
+      "from": "AC-talad-110",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "AC-talad-111",
+      "rel": "copiedFrom",
+      "to": "EX-talad-111"
+    },
+    {
+      "from": "AC-talad-111",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "AC-talad-112",
+      "rel": "copiedFrom",
+      "to": "EX-talad-112"
+    },
+    {
+      "from": "AC-talad-112",
+      "rel": "governedBy",
+      "to": "BR-talad-011@v1"
+    },
+    {
+      "from": "AC-talad-113",
+      "rel": "copiedFrom",
+      "to": "EX-talad-113"
+    },
+    {
+      "from": "AC-talad-113",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "AC-talad-114",
+      "rel": "copiedFrom",
+      "to": "EX-talad-114"
+    },
+    {
+      "from": "AC-talad-114",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "AC-talad-115",
+      "rel": "copiedFrom",
+      "to": "EX-talad-115"
+    },
+    {
+      "from": "AC-talad-115",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "AC-talad-116",
+      "rel": "copiedFrom",
+      "to": "EX-talad-116"
+    },
+    {
+      "from": "AC-talad-116",
+      "rel": "governedBy",
+      "to": "BR-talad-012@v1"
+    },
+    {
+      "from": "AC-talad-117",
+      "rel": "copiedFrom",
+      "to": "EX-talad-117"
+    },
+    {
+      "from": "AC-talad-117",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "AC-talad-118",
+      "rel": "copiedFrom",
+      "to": "EX-talad-118"
+    },
+    {
+      "from": "AC-talad-118",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "AC-talad-119",
+      "rel": "copiedFrom",
+      "to": "EX-talad-119"
+    },
+    {
+      "from": "AC-talad-119",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "AC-talad-120",
+      "rel": "copiedFrom",
+      "to": "EX-talad-120"
+    },
+    {
+      "from": "AC-talad-120",
+      "rel": "governedBy",
+      "to": "BR-talad-013@v1"
+    },
+    {
+      "from": "AC-talad-121",
+      "rel": "copiedFrom",
+      "to": "EX-talad-121"
+    },
+    {
+      "from": "AC-talad-121",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "AC-talad-122",
+      "rel": "copiedFrom",
+      "to": "EX-talad-122"
+    },
+    {
+      "from": "AC-talad-122",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "AC-talad-123",
+      "rel": "copiedFrom",
+      "to": "EX-talad-123"
+    },
+    {
+      "from": "AC-talad-123",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "AC-talad-124",
+      "rel": "copiedFrom",
+      "to": "EX-talad-124"
+    },
+    {
+      "from": "AC-talad-124",
+      "rel": "governedBy",
+      "to": "BR-talad-014@v1"
+    },
+    {
+      "from": "AC-talad-125",
+      "rel": "copiedFrom",
+      "to": "EX-talad-125"
+    },
+    {
+      "from": "AC-talad-125",
+      "rel": "governedBy",
+      "to": "BR-talad-029@v1"
+    },
+    {
+      "from": "AC-talad-125",
+      "rel": "governedBy",
+      "to": "BR-talad-016@v2"
+    },
+    {
+      "from": "AC-talad-126",
+      "rel": "copiedFrom",
+      "to": "EX-talad-126"
+    },
+    {
+      "from": "AC-talad-126",
+      "rel": "governedBy",
+      "to": "BR-talad-029@v1"
+    },
+    {
+      "from": "AC-talad-127",
+      "rel": "copiedFrom",
+      "to": "EX-talad-127"
+    },
+    {
+      "from": "AC-talad-127",
+      "rel": "governedBy",
+      "to": "BR-talad-029@v1"
+    },
+    {
+      "from": "AC-talad-128",
+      "rel": "copiedFrom",
+      "to": "EX-talad-128"
+    },
+    {
+      "from": "AC-talad-128",
+      "rel": "governedBy",
+      "to": "BR-talad-029@v1"
+    },
+    {
+      "from": "AC-talad-128",
+      "rel": "governedBy",
+      "to": "BR-talad-016@v2"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "operatesOn",
+      "to": "ENT-009"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "operatesOn",
+      "to": "ENT-010"
+    },
+    {
+      "from": "FUN-talad-001",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-009"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-010"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-012"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-002"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-006"
+    },
+    {
+      "from": "FUN-talad-002",
+      "rel": "operatesOn",
+      "to": "ENT-007"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "operatesOn",
+      "to": "ENT-009"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "operatesOn",
+      "to": "ENT-010"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "operatesOn",
+      "to": "ENT-002"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "operatesOn",
+      "to": "ENT-006"
+    },
+    {
+      "from": "FUN-talad-003",
+      "rel": "operatesOn",
+      "to": "ENT-007"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-004",
+      "rel": "operatesOn",
+      "to": "ENT-012"
+    },
+    {
+      "from": "FUN-talad-005",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-006",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-007",
+      "rel": "operatesOn",
+      "to": "ENT-009"
+    },
+    {
+      "from": "FUN-talad-008",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "operatesOn",
+      "to": "ENT-008"
+    },
+    {
+      "from": "FUN-talad-009",
+      "rel": "operatesOn",
+      "to": "ENT-009"
+    },
+    {
+      "from": "FUN-talad-010",
+      "rel": "operatesOn",
+      "to": "ENT-008"
+    },
+    {
+      "from": "FUN-talad-011",
+      "rel": "operatesOn",
+      "to": "ENT-008"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-012",
+      "rel": "operatesOn",
+      "to": "ENT-002"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "operatesOn",
+      "to": "ENT-003"
+    },
+    {
+      "from": "FUN-talad-013",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "operatesOn",
+      "to": "ENT-005"
+    },
+    {
+      "from": "FUN-talad-014",
+      "rel": "operatesOn",
+      "to": "ENT-006"
+    },
+    {
+      "from": "FUN-talad-015",
+      "rel": "operatesOn",
+      "to": "ENT-007"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-016",
+      "rel": "operatesOn",
+      "to": "ENT-012"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-017",
+      "rel": "operatesOn",
+      "to": "ENT-004"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "operatesOn",
+      "to": "ENT-012"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "FUN-talad-018",
+      "rel": "operatesOn",
+      "to": "ENT-008"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "operatesOn",
+      "to": "ENT-011"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "operatesOn",
+      "to": "ENT-012"
+    },
+    {
+      "from": "FUN-talad-019",
+      "rel": "operatesOn",
+      "to": "ENT-001"
+    },
+    {
+      "from": "ENT-001",
+      "rel": "hasState",
+      "to": "STM-talad-001"
+    },
+    {
+      "from": "ENT-005",
+      "rel": "hasState",
+      "to": "STM-talad-002"
+    },
+    {
+      "from": "ENT-004",
+      "rel": "hasState",
+      "to": "STM-talad-003"
+    },
+    {
+      "from": "ENT-008",
+      "rel": "hasState",
+      "to": "STM-talad-004"
+    },
+    {
+      "from": "ENT-009",
+      "rel": "hasState",
+      "to": "STM-talad-005"
+    },
+    {
+      "from": "ENT-011",
+      "rel": "hasState",
+      "to": "STM-talad-006"
+    }
+  ]
+}

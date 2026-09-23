@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "design · scripts/statemachines.mjs",
+  "project": "talad",
+  "module": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "stateMachines": [
+    {
+      "id": "STM-talad-001",
+      "entity": "ENT-001",
+      "title": "วงจรชีวิตสินค้า",
+      "initial": "ACTIVE",
+      "states": [
+        {
+          "name": "ACTIVE",
+          "label": "ขายอยู่",
+          "final": false
+        },
+        {
+          "name": "DISCONTINUED",
+          "label": "เลิกขาย",
+          "final": true
+        }
+      ],
+      "transitions": [
+        {
+          "from": "ACTIVE",
+          "to": "DISCONTINUED",
+          "trigger": "เจ้าของร้านกดลบสินค้า",
+          "rules": [
+            "BR-talad-037@v1",
+            "BR-talad-019@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "STM-talad-002",
+      "entity": "ENT-005",
+      "title": "วงจรชีวิตโปรโมชั่น",
+      "initial": "ACTIVE",
+      "states": [
+        {
+          "name": "ACTIVE",
+          "label": "ใช้อยู่",
+          "final": false
+        },
+        {
+          "name": "DISCONTINUED",
+          "label": "เลิกใช้",
+          "final": true
+        }
+      ],
+      "transitions": [
+        {
+          "from": "ACTIVE",
+          "to": "DISCONTINUED",
+          "trigger": "เจ้าของร้านกดลบโปรโมชั่น",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "STM-talad-003",
+      "entity": "ENT-004",
+      "title": "วงจรชีวิตสมาชิก",
+      "initial": "ACTIVE",
+      "states": [
+        {
+          "name": "ACTIVE",
+          "label": "ใช้งานอยู่",
+          "final": false
+        },
+        {
+          "name": "HIDDEN",
+          "label": "ถูกซ่อน",
+          "final": true
+        }
+      ],
+      "transitions": [
+        {
+          "from": "ACTIVE",
+          "to": "HIDDEN",
+          "trigger": "เจ้าของร้านกดลบสมาชิก",
+          "rules": [
+            "BR-talad-040@v2",
+            "BR-talad-019@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "STM-talad-004",
+      "entity": "ENT-008",
+      "title": "วงจรชีวิตบัญชีผู้ใช้",
+      "initial": "ACTIVE",
+      "states": [
+        {
+          "name": "ACTIVE",
+          "label": "เปิดใช้งาน",
+          "final": false
+        },
+        {
+          "name": "DISABLED",
+          "label": "ปิดใช้งาน",
+          "final": false
+        }
+      ],
+      "transitions": [
+        {
+          "from": "ACTIVE",
+          "to": "DISABLED",
+          "trigger": "เจ้าของร้านปิดใช้งานบัญชี",
+          "rules": []
+        },
+        {
+          "from": "DISABLED",
+          "to": "ACTIVE",
+          "trigger": "เจ้าของร้านเปิดใช้งานบัญชีอีกครั้ง",
+          "rules": []
+        }
+      ]
+    },
+    {
+      "id": "STM-talad-005",
+      "entity": "ENT-009",
+      "title": "วงจรชีวิตตะกร้า",
+      "initial": "OPEN",
+      "states": [
+        {
+          "name": "OPEN",
+          "label": "เปิดอยู่",
+          "final": false
+        },
+        {
+          "name": "PAID",
+          "label": "ชำระแล้ว",
+          "final": true
+        }
+      ],
+      "transitions": [
+        {
+          "from": "OPEN",
+          "to": "PAID",
+          "trigger": "ผู้เปิดตะกร้ากดชำระเงินสำเร็จ",
+          "rules": [
+            "BR-talad-039@v1",
+            "BR-talad-038@v1",
+            "BR-talad-007@v1",
+            "BR-talad-037@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "STM-talad-006",
+      "entity": "ENT-011",
+      "title": "วงจรชีวิตบิลขาย",
+      "initial": "PAID",
+      "states": [
+        {
+          "name": "PAID",
+          "label": "ชำระแล้ว",
+          "final": false
+        },
+        {
+          "name": "VOIDED",
+          "label": "ยกเลิก",
+          "final": true
+        }
+      ],
+      "transitions": [
+        {
+          "from": "PAID",
+          "to": "VOIDED",
+          "trigger": "เจ้าของร้านยกเลิกบิลของวันนี้พร้อมเหตุผล",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-023@v1",
+            "BR-talad-024@v1",
+            "BR-talad-034@v1",
+            "BR-talad-042@v1"
+          ]
+        }
+      ]
+    }
+  ]
+}

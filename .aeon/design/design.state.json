@@ -30,7 +30,7 @@
     {
       "id": "function",
       "command": "/design:function",
-      "status": "pending",
+      "status": "done",
       "requires": [
         "overview"
       ],
@@ -38,12 +38,13 @@
         "modules/<module>/functions.json",
         "trace.design.json"
       ],
-      "attempts": 0
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:29:30Z"
     },
     {
       "id": "datamodel",
       "command": "/design:datamodel",
-      "status": "pending",
+      "status": "done",
       "requires": [
         "function"
       ],
@@ -51,7 +52,8 @@
         "datamodel.json",
         "modules/<module>/statemachines.json"
       ],
-      "attempts": 0
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:37:03Z"
     },
     {
       "id": "rbac",

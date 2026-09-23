@@ -1,0 +1,1102 @@
+{
+  "schemaVersion": "1.1",
+  "producedBy": "design · scripts/datamodel.mjs",
+  "project": "talad",
+  "status": "draft",
+  "approvedAt": null,
+  "approvedBy": null,
+  "entities": [
+    {
+      "id": "ENT-001",
+      "name": "Product",
+      "label": "สินค้า",
+      "glossaryTerms": [
+        "UL-talad-001",
+        "UL-talad-008",
+        "UL-talad-009",
+        "UL-talad-021"
+      ],
+      "stateful": true,
+      "invariants": [
+        "BR-talad-007@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "validation": "ไม่ว่าง ตัดช่องว่างหน้า-หลังก่อนบันทึก"
+        },
+        {
+          "name": "barcode",
+          "type": "string",
+          "required": false,
+          "validation": "ถ้ามี ห้ามซ้ำกับสินค้าที่สถานะ ACTIVE ใช้ค้นหาที่หน้าขาย"
+        },
+        {
+          "name": "image",
+          "type": "file",
+          "required": false,
+          "validation": "รูปภาพสินค้า เก็บเป็นไฟล์บนดิสก์เซิร์ฟเวอร์ตามการ์ด DEC-002 ฐานข้อมูลเก็บเฉพาะตำแหน่งไฟล์"
+        },
+        {
+          "name": "currentPriceVersion",
+          "type": "reference",
+          "required": true,
+          "validation": "ชี้เวอร์ชันราคาล่าสุดของสินค้านี้ ราคาที่ใช้ตอนกดชำระอ่านจากเวอร์ชันนี้",
+          "references": "ENT-002",
+          "rules": [
+            "BR-talad-036@v1",
+            "BR-talad-038@v1"
+          ]
+        },
+        {
+          "name": "stockQty",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 0 เปลี่ยนได้เฉพาะจากการชำระบิล การยกเลิกบิล และรายการปรับสต็อก",
+          "rules": [
+            "BR-talad-007@v1",
+            "BR-talad-024@v1",
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "name": "lowStockThreshold",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 0 ที่เจ้าของร้านตั้ง สินค้าแสดงป้ายใกล้หมดเมื่อ stockQty ≤ ค่านี้",
+          "rules": [
+            "BR-talad-008@v1"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น ACTIVE",
+          "valuesFrom": "STM-talad-001",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่สร้าง (เวลาไทย)"
+        }
+      ]
+    },
+    {
+      "id": "ENT-002",
+      "name": "ProductPriceVersion",
+      "label": "เวอร์ชันราคาสินค้า (ประวัติราคา)",
+      "glossaryTerms": [
+        "UL-talad-020"
+      ],
+      "stateful": false,
+      "invariants": [
+        "BR-talad-033@v1",
+        "BR-talad-036@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "product",
+          "type": "reference",
+          "required": true,
+          "validation": "สินค้าที่ราคานี้เป็นของ",
+          "references": "ENT-001"
+        },
+        {
+          "name": "price",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง และมากกว่า 0"
+        },
+        {
+          "name": "previousPrice",
+          "type": "money",
+          "required": false,
+          "validation": "ราคาของเวอร์ชันก่อนหน้า ว่างเฉพาะเวอร์ชันแรกของสินค้า",
+          "rules": [
+            "BR-talad-033@v1"
+          ]
+        },
+        {
+          "name": "source",
+          "type": "enum",
+          "required": true,
+          "validation": "ช่องทางที่แก้ราคา — หน้าสต็อก หรือทางลัดที่หน้าขาย",
+          "values": [
+            "STOCK_SCREEN",
+            "SALES_SCREEN"
+          ],
+          "rules": [
+            "BR-talad-019@v1"
+          ]
+        },
+        {
+          "name": "changedBy",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้แก้ราคา — ต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "changedAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่แก้ (เวลาไทย) · ทุกการแก้สร้างแถวใหม่ ไม่มีการแก้ทับ และแถวที่บิลอ้างถึงลบไม่ได้"
+        }
+      ]
+    },
+    {
+      "id": "ENT-003",
+      "name": "StockAdjustment",
+      "label": "รายการปรับสต็อก",
+      "glossaryTerms": [
+        "UL-talad-019"
+      ],
+      "stateful": false,
+      "invariants": [
+        "BR-talad-032@v1",
+        "BR-talad-041@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "product",
+          "type": "reference",
+          "required": true,
+          "validation": "สินค้าที่ถูกปรับ",
+          "references": "ENT-001"
+        },
+        {
+          "name": "reason",
+          "type": "enum",
+          "required": true,
+          "validation": "เลือกจากรายการเท่านั้น",
+          "values": [
+            "RECEIVE",
+            "SPOILED",
+            "RECOUNT"
+          ],
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "name": "quantityDelta",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนที่เพิ่ม (+) หรือลด (−) ไม่เป็น 0 · กรณี RECOUNT ระบบคำนวณจากจำนวนที่นับได้ลบคงเหลือเดิม · ผลต้องไม่ทำให้คงเหลือติดลบ",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "name": "countedQty",
+          "type": "integer",
+          "required": false,
+          "validation": "จำนวนที่นับได้ ≥ 0 บังคับเมื่อ reason = RECOUNT และว่างในกรณีอื่น",
+          "rules": [
+            "BR-talad-032@v1"
+          ]
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "required": false,
+          "validation": "หมายเหตุ ไม่บังคับ"
+        },
+        {
+          "name": "requestKey",
+          "type": "string",
+          "required": true,
+          "validation": "คีย์ที่ฟอร์มสร้างขึ้นตอนเปิดฟอร์ม ห้ามซ้ำ (unique) — ส่งคำขอซ้ำด้วยคีย์เดิมถูกปฏิเสธ เปิดฟอร์มใหม่ได้คีย์ใหม่",
+          "rules": [
+            "BR-talad-041@v1"
+          ]
+        },
+        {
+          "name": "adjustedBy",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้ปรับสต็อก — ต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "adjustedAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่บันทึก (เวลาไทย) · แถวที่บันทึกแล้วแก้หรือลบไม่ได้"
+        }
+      ]
+    },
+    {
+      "id": "ENT-004",
+      "name": "Member",
+      "label": "สมาชิก",
+      "glossaryTerms": [
+        "UL-talad-005",
+        "UL-talad-006"
+      ],
+      "stateful": true,
+      "invariants": [
+        "BR-talad-003@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "validation": "ไม่ว่าง ตัดช่องว่างหน้า-หลังก่อนบันทึก",
+          "rules": [
+            "BR-talad-002@v1"
+          ]
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "required": true,
+          "validation": "ตัดขีดและช่องว่างออกก่อนตรวจและก่อนเก็บ แล้วต้องเป็นตัวเลข 10 หลักขึ้นต้นด้วย 0 · ห้ามซ้ำกับสมาชิกสถานะ ACTIVE (unique เฉพาะแถวที่ status = ACTIVE) · สมาชิกที่ถูกซ่อนไม่นับ",
+          "rules": [
+            "BR-talad-002@v1",
+            "BR-talad-030@v1",
+            "BR-talad-040@v2"
+          ]
+        },
+        {
+          "name": "accumulatedAmount",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง เริ่มที่ 0 · เพิ่มด้วยยอดชำระจริงเมื่อชำระบิลที่ผูกสมาชิก และหักคืนเมื่อยกเลิกบิลนั้น",
+          "rules": [
+            "BR-talad-003@v1",
+            "BR-talad-024@v1"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น ACTIVE",
+          "valuesFrom": "STM-talad-003",
+          "rules": [
+            "BR-talad-040@v2"
+          ]
+        },
+        {
+          "name": "createdBy",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้สมัครให้ — พนักงานขายหรือเจ้าของร้าน",
+          "references": "ENT-008"
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่สมัคร (เวลาไทย)"
+        },
+        {
+          "name": "hiddenBy",
+          "type": "reference",
+          "required": false,
+          "validation": "ผู้ซ่อนสมาชิก — บังคับเมื่อ status = HIDDEN และต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "hiddenAt",
+          "type": "datetime",
+          "required": false,
+          "validation": "เวลาที่ซ่อน — บังคับเมื่อ status = HIDDEN"
+        }
+      ]
+    },
+    {
+      "id": "ENT-005",
+      "name": "Promotion",
+      "label": "โปรโมชั่น",
+      "glossaryTerms": [
+        "UL-talad-010"
+      ],
+      "stateful": true,
+      "invariants": [],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "currentVersion",
+          "type": "reference",
+          "required": true,
+          "validation": "ชี้เวอร์ชันเงื่อนไขล่าสุดของโปรนี้",
+          "references": "ENT-006",
+          "rules": [
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น ACTIVE",
+          "valuesFrom": "STM-talad-002",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่สร้าง (เวลาไทย)"
+        }
+      ]
+    },
+    {
+      "id": "ENT-006",
+      "name": "PromotionVersion",
+      "label": "เวอร์ชันเงื่อนไขโปรโมชั่น",
+      "glossaryTerms": [
+        "UL-talad-010",
+        "UL-talad-013",
+        "UL-talad-018"
+      ],
+      "stateful": false,
+      "invariants": [
+        "BR-talad-036@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "promotion",
+          "type": "reference",
+          "required": true,
+          "validation": "โปรโมชั่นที่เวอร์ชันนี้เป็นของ",
+          "references": "ENT-005"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "validation": "ไม่ว่าง — ชื่อที่แสดงใต้บรรทัดสินค้าในบิล",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "name": "type",
+          "type": "enum",
+          "required": true,
+          "validation": "รูปแบบโปรโมชั่น",
+          "values": [
+            "ITEM_PERCENT",
+            "BILL_PERCENT",
+            "BUY_X_GET_Y",
+            "BUY_AB_GET_Y",
+            "BUY_AB_PERCENT",
+            "BUY_X_PERCENT"
+          ],
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-011@v1",
+            "BR-talad-012@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ]
+        },
+        {
+          "name": "productA",
+          "type": "reference",
+          "required": false,
+          "validation": "สินค้าที่ต้องซื้อ — บังคับทุกรูปแบบยกเว้น BILL_PERCENT",
+          "references": "ENT-001"
+        },
+        {
+          "name": "qtyA",
+          "type": "integer",
+          "required": false,
+          "validation": "จำนวนต่อชุดของ productA ≥ 1 — บังคับสำหรับ BUY_X_GET_Y · BUY_AB_GET_Y · BUY_AB_PERCENT · BUY_X_PERCENT",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1"
+          ]
+        },
+        {
+          "name": "productB",
+          "type": "reference",
+          "required": false,
+          "validation": "สินค้าที่สองของชุด — บังคับสำหรับ BUY_AB_GET_Y · BUY_AB_PERCENT",
+          "references": "ENT-001"
+        },
+        {
+          "name": "qtyB",
+          "type": "integer",
+          "required": false,
+          "validation": "จำนวนต่อชุดของ productB ≥ 1 — บังคับเมื่อมี productB",
+          "rules": [
+            "BR-talad-012@v1",
+            "BR-talad-013@v1"
+          ]
+        },
+        {
+          "name": "freeProduct",
+          "type": "reference",
+          "required": false,
+          "validation": "ของแถม — บังคับสำหรับ BUY_X_GET_Y · BUY_AB_GET_Y เป็นสินค้าเดียวกับ productA/productB ได้",
+          "references": "ENT-001",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1"
+          ]
+        },
+        {
+          "name": "freeQty",
+          "type": "integer",
+          "required": false,
+          "validation": "จำนวนของแถมต่อชุด ≥ 1 — บังคับเมื่อมี freeProduct",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1"
+          ]
+        },
+        {
+          "name": "ratePercent",
+          "type": "integer",
+          "required": false,
+          "validation": "จำนวนเต็ม 0–100 — บังคับสำหรับ ITEM_PERCENT · BILL_PERCENT · BUY_AB_PERCENT · BUY_X_PERCENT",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-013@v1",
+            "BR-talad-014@v1",
+            "CALC-talad-003@v1"
+          ]
+        },
+        {
+          "name": "minSubtotal",
+          "type": "money",
+          "required": false,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง — บังคับสำหรับ BILL_PERCENT เทียบกับยอดหลังโปรระดับสินค้า",
+          "rules": [
+            "BR-talad-009@v1"
+          ]
+        },
+        {
+          "name": "startDate",
+          "type": "date",
+          "required": true,
+          "validation": "วันเริ่มมีผล (เวลาไทย) นับตั้งแต่ 00:00 ของวันนั้น",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        },
+        {
+          "name": "endDate",
+          "type": "date",
+          "required": false,
+          "validation": "วันสุดท้ายที่มีผล (รวมทั้งวัน) ว่าง = มีผลจนกว่าจะลบ · ถ้ามีต้องไม่ก่อน startDate",
+          "rules": [
+            "BR-talad-015@v1"
+          ]
+        },
+        {
+          "name": "createdBy",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้สร้างหรือแก้โปร — ต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่สร้างเวอร์ชัน (เวลาไทย) · ทุกการแก้สร้างแถวใหม่ ไม่มีการแก้ทับ และแถวที่บิลอ้างถึงลบไม่ได้"
+        }
+      ]
+    },
+    {
+      "id": "ENT-007",
+      "name": "MemberDiscountVersion",
+      "label": "เวอร์ชันส่วนลดสมาชิก",
+      "glossaryTerms": [
+        "UL-talad-011"
+      ],
+      "stateful": false,
+      "invariants": [
+        "BR-talad-035@v1",
+        "BR-talad-036@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "ratePercent",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนเต็ม 0–100 · 0 = ไม่มีส่วนลดสมาชิก · เวอร์ชันล่าสุดคือค่าที่มีผล",
+          "rules": [
+            "BR-talad-010@v1",
+            "CALC-talad-009@v1"
+          ]
+        },
+        {
+          "name": "changedBy",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้ตั้งค่า — ต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "changedAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่ตั้งค่า (เวลาไทย) · ทุกการแก้สร้างแถวใหม่ และแถวที่บิลอ้างถึงลบไม่ได้"
+        }
+      ]
+    },
+    {
+      "id": "ENT-008",
+      "name": "UserAccount",
+      "label": "บัญชีผู้ใช้ (พนักงานขาย · เจ้าของร้าน)",
+      "glossaryTerms": [
+        "UL-talad-007",
+        "UL-talad-012",
+        "UL-talad-014"
+      ],
+      "stateful": true,
+      "invariants": [],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "username",
+          "type": "string",
+          "required": true,
+          "validation": "ไม่ว่าง ห้ามซ้ำกับบัญชีใด ๆ รวมบัญชีที่ปิดใช้งานแล้ว",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "required": true,
+          "validation": "ไม่ว่าง — ชื่อที่แสดงเป็นผู้ขายบนบิลและในรายงาน",
+          "rules": [
+            "BR-talad-006@v1",
+            "BR-talad-022@v1"
+          ]
+        },
+        {
+          "name": "role",
+          "type": "enum",
+          "required": true,
+          "validation": "บทบาทของบัญชี",
+          "values": [
+            "CASHIER",
+            "OWNER"
+          ],
+          "rules": [
+            "BR-talad-018@v1",
+            "BR-talad-019@v1",
+            "BR-talad-021@v1"
+          ]
+        },
+        {
+          "name": "passwordHash",
+          "type": "string",
+          "required": true,
+          "validation": "เก็บผ่าน .NET Identity เท่านั้น ไม่เก็บรหัสผ่านที่อ่านได้",
+          "rules": [
+            "BR-talad-005@v1"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น ACTIVE · บัญชี DISABLED ล็อกอินไม่ได้",
+          "valuesFrom": "STM-talad-004"
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่สร้าง (เวลาไทย)"
+        }
+      ]
+    },
+    {
+      "id": "ENT-009",
+      "name": "Cart",
+      "label": "ตะกร้า",
+      "glossaryTerms": [
+        "UL-talad-002"
+      ],
+      "stateful": true,
+      "invariants": [
+        "BR-talad-039@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "owner",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้เปิดตะกร้า — เห็น แก้ และชำระได้คนเดียว · ผู้ใช้หนึ่งคนมีตะกร้าสถานะ OPEN ได้ไม่เกิน 1 ใบ",
+          "references": "ENT-008"
+        },
+        {
+          "name": "member",
+          "type": "reference",
+          "required": false,
+          "validation": "สมาชิกที่ผูกกับตะกร้า ต้องมีสถานะ ACTIVE ตอนผูกและตอนกดชำระ",
+          "references": "ENT-004",
+          "rules": [
+            "BR-talad-004@v1",
+            "BR-talad-040@v2"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น OPEN",
+          "valuesFrom": "STM-talad-005",
+          "rules": [
+            "BR-talad-039@v1"
+          ]
+        },
+        {
+          "name": "openedAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่เปิดตะกร้า (เวลาไทย)"
+        }
+      ]
+    },
+    {
+      "id": "ENT-010",
+      "name": "CartLine",
+      "label": "รายการในตะกร้า",
+      "glossaryTerms": [
+        "UL-talad-002",
+        "UL-talad-013"
+      ],
+      "stateful": false,
+      "invariants": [],
+      "key": [
+        "cart",
+        "product"
+      ],
+      "attributes": [
+        {
+          "name": "cart",
+          "type": "reference",
+          "required": true,
+          "validation": "ตะกร้าที่รายการนี้อยู่ แก้ได้เฉพาะเมื่อตะกร้าสถานะ OPEN",
+          "references": "ENT-009",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-020@v1"
+          ]
+        },
+        {
+          "name": "product",
+          "type": "reference",
+          "required": true,
+          "validation": "สินค้าในรายการ ต้องมีสถานะ ACTIVE · หนึ่งสินค้าหนึ่งบรรทัดต่อตะกร้า (รวมชิ้นที่หยิบมาเป็นของแถม)",
+          "references": "ENT-001",
+          "rules": [
+            "BR-talad-037@v1"
+          ]
+        },
+        {
+          "name": "qty",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 1 และไม่เกิน stockQty ของสินค้า ณ ตอนเพิ่ม — ลดจนเป็น 0 คือเอารายการออก",
+          "rules": [
+            "BR-talad-001@v1",
+            "BR-talad-007@v1"
+          ]
+        },
+        {
+          "name": "addedAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่เพิ่มรายการครั้งแรก (เวลาไทย) ใช้เรียงบรรทัด"
+        }
+      ]
+    },
+    {
+      "id": "ENT-011",
+      "name": "Sale",
+      "label": "บิลขาย",
+      "glossaryTerms": [
+        "UL-talad-003",
+        "UL-talad-014",
+        "UL-talad-016",
+        "UL-talad-017"
+      ],
+      "stateful": true,
+      "invariants": [
+        "BR-talad-039@v1",
+        "BR-talad-006@v1",
+        "BR-talad-016@v2",
+        "BR-talad-024@v1",
+        "BR-talad-025@v1",
+        "BR-talad-034@v1",
+        "BR-talad-035@v1",
+        "BR-talad-036@v1",
+        "BR-talad-042@v1"
+      ],
+      "key": [
+        "id"
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "required": true,
+          "validation": "รหัสที่ระบบสร้างอัตโนมัติ ห้ามซ้ำ ไม่นำกลับมาใช้"
+        },
+        {
+          "name": "receiptNo",
+          "type": "string",
+          "required": true,
+          "validation": "เลขใบเสร็จที่ระบบออกตอนชำระ ห้ามซ้ำ ไม่นำเลขเดิมกลับมาใช้ · บิลที่ขายใหม่แทนได้เลขใหม่",
+          "rules": [
+            "BR-talad-026@v1"
+          ]
+        },
+        {
+          "name": "cart",
+          "type": "reference",
+          "required": true,
+          "validation": "ตะกร้าที่ถูกชำระ ห้ามซ้ำ (unique) — หนึ่งตะกร้าเกิดบิลได้ใบเดียว และเป็นคีย์กันชำระซ้ำ",
+          "references": "ENT-009",
+          "rules": [
+            "BR-talad-039@v1"
+          ]
+        },
+        {
+          "name": "seller",
+          "type": "reference",
+          "required": true,
+          "validation": "ผู้ขาย = เจ้าของตะกร้าที่กดชำระ",
+          "references": "ENT-008"
+        },
+        {
+          "name": "member",
+          "type": "reference",
+          "required": false,
+          "validation": "สมาชิกที่ผูกกับบิล คงอยู่แม้สมาชิกถูกซ่อนภายหลัง",
+          "references": "ENT-004",
+          "rules": [
+            "BR-talad-003@v1",
+            "BR-talad-040@v2"
+          ]
+        },
+        {
+          "name": "paidAt",
+          "type": "datetime",
+          "required": true,
+          "validation": "เวลาที่ชำระ (เวลาไทย) — วันที่ของค่านี้คือวันของบิล ใช้ตัดสินว่ายกเลิกได้หรือไม่"
+        },
+        {
+          "name": "subtotal",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง = ผลรวม lineNet ของทุกบรรทัด",
+          "rules": [
+            "CALC-talad-001@v1"
+          ]
+        },
+        {
+          "name": "promoDiscountTotal",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง = ผลรวม promoDiscount ของทุกบรรทัด แสดงเป็นยอด \"ส่วนลดโปรโมชั่น\"",
+          "rules": [
+            "BR-talad-016@v2"
+          ]
+        },
+        {
+          "name": "billPromotionVersion",
+          "type": "reference",
+          "required": false,
+          "validation": "โปรส่วนลดทั้งบิลที่ใช้ (อันที่ลดมากสุดอันเดียว) ว่างเมื่อไม่มี",
+          "references": "ENT-006",
+          "rules": [
+            "BR-talad-009@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "name": "billDiscount",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง ปัดตามจุดปัดของสัญญาการคำนวณ",
+          "rules": [
+            "CALC-talad-001@v1",
+            "CALC-talad-003@v1"
+          ]
+        },
+        {
+          "name": "memberDiscountVersion",
+          "type": "reference",
+          "required": false,
+          "validation": "เวอร์ชันส่วนลดสมาชิกที่ใช้ บังคับเมื่อบิลผูกสมาชิก",
+          "references": "ENT-007",
+          "rules": [
+            "BR-talad-010@v1",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "name": "memberDiscount",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง ปัดตามจุดปัดของสัญญาการคำนวณ · 0 เมื่อไม่ผูกสมาชิก",
+          "rules": [
+            "CALC-talad-009@v1",
+            "BR-talad-028@v1"
+          ]
+        },
+        {
+          "name": "netTotal",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง ยอดที่ชำระจริง = subtotal − billDiscount − memberDiscount",
+          "rules": [
+            "CALC-talad-001@v1",
+            "BR-talad-003@v1"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "required": true,
+          "validation": "ค่าเริ่มต้น PAID",
+          "valuesFrom": "STM-talad-006"
+        },
+        {
+          "name": "voidedBy",
+          "type": "reference",
+          "required": false,
+          "validation": "ผู้ยกเลิก — บังคับเมื่อ status = VOIDED และต้องเป็นบัญชีบทบาท OWNER",
+          "references": "ENT-008"
+        },
+        {
+          "name": "voidedAt",
+          "type": "datetime",
+          "required": false,
+          "validation": "เวลาที่ยกเลิก — บังคับเมื่อ status = VOIDED"
+        },
+        {
+          "name": "voidReason",
+          "type": "text",
+          "required": false,
+          "validation": "เหตุผลการยกเลิก — บังคับและไม่ว่างเมื่อ status = VOIDED",
+          "rules": [
+            "BR-talad-019@v1",
+            "BR-talad-034@v1"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ENT-012",
+      "name": "SaleLine",
+      "label": "รายการในบิลขาย",
+      "glossaryTerms": [
+        "UL-talad-003",
+        "UL-talad-013"
+      ],
+      "stateful": false,
+      "invariants": [
+        "BR-talad-016@v2",
+        "BR-talad-025@v1",
+        "BR-talad-035@v1",
+        "BR-talad-036@v1"
+      ],
+      "key": [
+        "sale",
+        "lineNo"
+      ],
+      "attributes": [
+        {
+          "name": "sale",
+          "type": "reference",
+          "required": true,
+          "validation": "บิลที่บรรทัดนี้อยู่ · บรรทัดของบิลที่บันทึกแล้วแก้หรือลบไม่ได้",
+          "references": "ENT-011"
+        },
+        {
+          "name": "lineNo",
+          "type": "integer",
+          "required": true,
+          "validation": "ลำดับบรรทัดในบิล เริ่มที่ 1"
+        },
+        {
+          "name": "product",
+          "type": "reference",
+          "required": true,
+          "validation": "สินค้าในบรรทัด คงอยู่แม้สินค้าเลิกขายภายหลัง",
+          "references": "ENT-001"
+        },
+        {
+          "name": "priceVersion",
+          "type": "reference",
+          "required": true,
+          "validation": "เวอร์ชันราคาที่ใช้ ณ ตอนกดชำระ",
+          "references": "ENT-002",
+          "rules": [
+            "BR-talad-036@v1",
+            "BR-talad-038@v1"
+          ]
+        },
+        {
+          "name": "unitPrice",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง ราคาต่อหน่วยของ priceVersion ณ ตอนกดชำระ",
+          "rules": [
+            "BR-talad-038@v1",
+            "BR-talad-035@v1"
+          ]
+        },
+        {
+          "name": "qty",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนเต็ม ≥ 1 รวมชิ้นที่ได้ฟรี"
+        },
+        {
+          "name": "freeQty",
+          "type": "integer",
+          "required": true,
+          "validation": "จำนวนชิ้นที่ได้ฟรีจากโปรแถม 0 ถึง qty",
+          "rules": [
+            "BR-talad-011@v1",
+            "BR-talad-012@v1",
+            "CALC-talad-004@v1",
+            "CALC-talad-005@v1"
+          ]
+        },
+        {
+          "name": "promotionVersion",
+          "type": "reference",
+          "required": false,
+          "validation": "โปรระดับสินค้าโปรเดียวที่บรรทัดนี้ได้ ว่างเมื่อไม่มีโปร · ชื่อโปรแสดงใต้บรรทัดจากเวอร์ชันนี้",
+          "references": "ENT-006",
+          "rules": [
+            "BR-talad-029@v1",
+            "BR-talad-016@v2",
+            "BR-talad-036@v1"
+          ]
+        },
+        {
+          "name": "promoDiscount",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง ส่วนลดของบรรทัดจากโปรที่ได้ ปัดตามสัญญาการคำนวณของโปรนั้น",
+          "rules": [
+            "CALC-talad-003@v1",
+            "CALC-talad-004@v1",
+            "CALC-talad-005@v1",
+            "CALC-talad-006@v1",
+            "CALC-talad-007@v1",
+            "CALC-talad-008@v1"
+          ]
+        },
+        {
+          "name": "lineNet",
+          "type": "money",
+          "required": true,
+          "validation": "numeric(12,2) ≥ 0 — ทศนิยม 2 ตำแหน่ง = unitPrice × qty − promoDiscount",
+          "rules": [
+            "CALC-talad-001@v1"
+          ]
+        }
+      ]
+    }
+  ]
+}

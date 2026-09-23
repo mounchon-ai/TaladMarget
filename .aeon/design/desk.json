@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "producedBy": "design · scripts/desk.mjs",
+  "project": "talad",
+  "resolves": [
+    {
+      "dq": "DQ-talad-001",
+      "answer": "2 ตำแหน่ง (0.01 บาท) ตามจุดปัดของ CALC-talad-002@v1 — ยอดเงินทุกช่องของ ENT-011 และ ENT-012 เป็น money numeric(12,2)",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-011",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-002",
+      "answer": "ปัดทันทีที่แต่ละจุดส่วนลด (ส่วนลดโปรต่อบรรทัด → ส่วนลดทั้งบิล → ส่วนลดสมาชิก) ตาม roundingPoints ของ CALC-talad-001@v1 ยอดอื่นเป็นผลบวก/ลบของค่าที่ปัดแล้ว — เก็บแยกเป็น SaleLine.promoDiscount · Sale.billDiscount · Sale.memberDiscount",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-011",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-003",
+      "answer": "ยอดเงินและส่วนลดทุกช่องเป็น numeric(12,2) · % ส่วนลดเป็นจำนวนเต็ม 0–100",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-011",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-004",
+      "answer": "ตัดขีดและช่องว่างออกก่อนตรวจและก่อนเก็บ (081-234-5678 กับ 0812345678 เป็นเบอร์เดียวกัน) · unique ที่ Member.phone เฉพาะแถวที่ status = ACTIVE",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-004",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-006",
+      "answer": "สร้างเวอร์ชันใหม่ทุกครั้งที่แก้ ไม่มีการแก้ทับ แม้ยังไม่มีบิลอ้างถึง — ราคา (ENT-002) · โปรโมชั่น (ENT-006) · ส่วนลดสมาชิก (ENT-007) · เวอร์ชันราคาทำหน้าที่เป็นประวัติราคาด้วย",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-002",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-008",
+      "answer": "ใช้ id ของตะกร้า — Sale.cart ห้ามซ้ำ (unique) หนึ่งตะกร้าเกิดบิลได้ใบเดียว และตะกร้าสถานะ PAID ชำระซ้ำไม่ได้ตาม STM-talad-005",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-011",
+      "extensions": {}
+    },
+    {
+      "dq": "DQ-talad-010",
+      "answer": "idempotency key ที่ฟอร์มสร้างขึ้นตอนเปิด — StockAdjustment.requestKey ห้ามซ้ำ ส่งซ้ำด้วยคีย์เดิมถูกปฏิเสธ เปิดฟอร์มใหม่ได้คีย์ใหม่ (สอดคล้อง EX-talad-081)",
+      "by": "mon sai",
+      "at": "2026-09-23T17:36:55+07:00",
+      "answeredByNode": "ENT-003",
+      "extensions": {}
+    }
+  ],
+  "gaps": [],
+  "cards": [],
+  "extensions": {}
+}
