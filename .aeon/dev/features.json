@@ -1629,7 +1629,104 @@
           "hash": "sha256:a51114b4061256e8ae3adf983e0ae12c6b639e3cf9ab72e0f91931bdc5ed7488"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build: Compiled successfully · route ƒ /members/new · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T21:32:36+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-010",
+            "result": "vitest: Tests 21 passed | 51 skipped (72) · exit 0",
+            "at": "2026-09-23T21:32:38+07:00"
+          },
+          {
+            "cmd": "mutation check: saveMember without the form's own check (validateMember result ignored), then dev-test.ps1 -App web -Filter FE-talad-010",
+            "result": "Tests 2 failed | 19 passed — AC-talad-006 and AC-talad-007 catch a wrong field reaching the api · file restored byte for byte",
+            "at": "2026-09-23T21:32:40+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "vitest: Test Files 6 passed (6) · Tests 72 passed (72) · exit 0",
+            "at": "2026-09-23T21:32:42+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web)",
+            "result": "eslint: no problems · exit 0",
+            "at": "2026-09-23T21:32:44+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/app/(app)/members/new/page.tsx",
+          "src/web/src/app/(app)/members/new/actions.ts",
+          "src/web/src/app/(app)/layout.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/src/components/register-member-form.tsx",
+          "src/web/src/components/registered-notice.tsx",
+          "src/web/src/lib/member-form.ts",
+          "src/web/src/lib/members-api.ts",
+          "src/web/src/lib/screen-routes.ts",
+          "src/web/tests/register-member.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/register-member.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "name",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-005-ent-004-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "phone",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-005-ent-004-phone",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "save",
+            "kind": "create",
+            "dd_ref": null,
+            "testid": "ui-talad-005-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "cancel",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-005-cancel",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-011",
@@ -4198,8 +4295,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 9,
-      "draft": 37
+      "validated": 10,
+      "draft": 36
     },
     "by_origin": {
       "new": 46

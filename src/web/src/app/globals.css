@@ -228,6 +228,11 @@ body {
 .toast .grow {
   flex: 1;
 }
+.toast.success {
+  background: var(--success-bg);
+  color: var(--text-primary);
+  border-color: var(--success);
+}
 
 /* UI-talad-002 หน้าขาย — arrangement as mockups/UI-talad-002/*.html draws it */
 .pagehead {
@@ -410,4 +415,21 @@ body {
   color: var(--text-primary);
   font-weight: 700;
   font-variant-numeric: var(--tabular-nums);
+}
+
+/* UI-talad-005 สมัครสมาชิก — one form card, laid out as the wireframe MCK-talad-006 draws it */
+.formcard {
+  max-width: calc(var(--space-20) * 6);
+}
+.formcard .alert {
+  margin-bottom: var(--space-4);
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: thin solid var(--danger);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+.formactions {
+  display: flex;
+  gap: var(--space-2);
 }

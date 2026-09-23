@@ -4,6 +4,7 @@
 export const SCREEN_ROUTES: Readonly<Record<string, string>> = {
   "UI-talad-002": "/",
   "UI-talad-004": "/members",
+  "UI-talad-005": "/members/new", // opened from UI-talad-004, not from the menu
   "UI-talad-007": "/sales",
   "UI-talad-010": "/stock",
   "UI-talad-015": "/promotions",
