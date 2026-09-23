@@ -4,7 +4,7 @@
   "project": "talad",
   "module": "talad",
   "status": "approved",
-  "approvedAt": "2026-09-23T11:39:38Z",
+  "approvedAt": "2026-09-23T12:49:54Z",
   "approvedBy": "mon sai",
   "screens": [
     {
@@ -2055,9 +2055,7 @@
           "name": "ราคาปัจจุบัน",
           "io": "display",
           "required": false,
-          "validation": "แสดงค่าจากระบบ อ่านอย่างเดียว",
-          "entity": "ENT-002",
-          "attribute": "price",
+          "validation": "แสดงราคาของเวอร์ชันราคาที่ใช้อยู่ของสินค้า (ENT-002 แถวปัจจุบัน) อ่านอย่างเดียว — ไม่ผูกคอลัมน์ เพราะช่องราคาใหม่เป็นผู้ถือ ENT-002.price ของเวอร์ชันที่จะสร้าง (ADR-001)",
           "rules": []
         },
         {

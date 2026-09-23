@@ -60,7 +60,17 @@
       "extensions": {}
     }
   ],
-  "gaps": [],
+  "gaps": [
+    {
+      "screen": "UI-talad-013",
+      "as": "answer",
+      "answer": "เลิกผูก \"ราคาปัจจุบัน\" (current-price) — เป็นช่องแสดงผล (display) ที่ไม่ผูก entity แสดงราคาของเวอร์ชันราคาที่ใช้อยู่ · \"ราคาใหม่\" (new-price) ยังผูก ENT-002.price เพราะเป็นค่าที่ถูกบันทึกเป็นเวอร์ชันใหม่ · mock ตั้ง slug ให้ current-price ได้ที่ /mock:convention (ADR-001)",
+      "to": null,
+      "by": "mon sai",
+      "at": "2026-09-23T12:47:47Z",
+      "extensions": {}
+    }
+  ],
   "cards": [],
   "extensions": {}
 }
