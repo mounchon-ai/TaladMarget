@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0",
+  "phase": "design",
+  "project": "talad",
+  "steps": [
+    {
+      "id": "init",
+      "command": "/design:init",
+      "status": "done",
+      "requires": [],
+      "artifacts": [
+        "design.state.json"
+      ],
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:09:32Z"
+    },
+    {
+      "id": "overview",
+      "command": "/design:overview",
+      "status": "done",
+      "requires": [
+        "init"
+      ],
+      "artifacts": [
+        "context.json"
+      ],
+      "attempts": 1,
+      "updatedAt": "2026-09-23T10:17:22Z"
+    },
+    {
+      "id": "function",
+      "command": "/design:function",
+      "status": "pending",
+      "requires": [
+        "overview"
+      ],
+      "artifacts": [
+        "modules/<module>/functions.json",
+        "trace.design.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "datamodel",
+      "command": "/design:datamodel",
+      "status": "pending",
+      "requires": [
+        "function"
+      ],
+      "artifacts": [
+        "datamodel.json",
+        "modules/<module>/statemachines.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "rbac",
+      "command": "/design:rbac",
+      "status": "pending",
+      "requires": [
+        "function",
+        "datamodel"
+      ],
+      "artifacts": [
+        "rbac.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "nfr",
+      "command": "/design:nfr",
+      "status": "pending",
+      "requires": [
+        "overview"
+      ],
+      "artifacts": [
+        "nfr.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "sitemap",
+      "command": "/design:sitemap",
+      "status": "pending",
+      "requires": [
+        "function",
+        "rbac"
+      ],
+      "artifacts": [
+        "sitemap.json",
+        "modules/<module>/screens.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "interface",
+      "command": "/design:interface",
+      "status": "pending",
+      "requires": [
+        "function",
+        "datamodel"
+      ],
+      "artifacts": [
+        "interfaces.json"
+      ],
+      "attempts": 0
+    },
+    {
+      "id": "export",
+      "command": "/design:export",
+      "status": "pending",
+      "requires": [
+        "overview",
+        "function",
+        "datamodel",
+        "rbac",
+        "nfr",
+        "sitemap",
+        "interface"
+      ],
+      "artifacts": [
+        "../export/design-document.md"
+      ],
+      "attempts": 0
+    }
+  ],
+  "openQuestions": []
+}
