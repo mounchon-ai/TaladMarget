@@ -942,7 +942,10 @@
             "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
           }
         ]
-      }
+      },
+      "commits": [
+        "87d6d1f"
+      ]
     },
     {
       "id": "FE-talad-006",
