@@ -2,9 +2,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Talad.Application.Auth;
+using Talad.Application.Catalog;
 using Talad.Application.Navigation;
+using Talad.Application.Sales;
 using Talad.Infrastructure.Auth;
 using Talad.Infrastructure.Persistence;
+using Talad.Infrastructure.Storage;
 
 namespace Talad.Infrastructure;
 
@@ -21,6 +24,12 @@ public static class DependencyInjection
         services.AddSingleton<IAccessTokenIssuer, JwtAccessTokenIssuer>();
         services.AddScoped<LoginService>();
         services.AddScoped<CurrentUserService>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ProductCatalog>();
+        services.AddScoped<CartService>();
+        services.Configure<StorageOptions>(config.GetSection(StorageOptions.Section));
+        services.AddSingleton<ProductImageFiles>();
         return services;
     }
 }

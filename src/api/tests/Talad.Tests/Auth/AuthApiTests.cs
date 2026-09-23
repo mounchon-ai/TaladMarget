@@ -21,10 +21,12 @@ public sealed class TaladApiFactory : WebApplicationFactory<Program>
 {
     public const string SigningKey = "test-signing-key-for-talad-api-0123456789";
     private readonly string _db = $"talad-{Guid.NewGuid()}";
+    public string ImageRoot { get; } = Directory.CreateTempSubdirectory("talad-images-").FullName;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseSetting("Jwt:SigningKey", SigningKey);
+        builder.UseSetting("Storage:ProductImageRoot", ImageRoot);
         builder.ConfigureServices(services =>
         {
             services.RemoveAll<DbContextOptions<TaladDbContext>>();

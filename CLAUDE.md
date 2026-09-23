@@ -35,7 +35,7 @@ Skills: api → `csharp-lsp` (+ `efcore-patterns` — ยังไม่ได�
 - **ใครต่ออะไรได้**: api → database เท่านั้น · web → api เท่านั้น — **web ห้ามแตะฐานข้อมูลตรง**
   ไม่มีเครื่องมือไหนอ่าน import หรือ connection string จริง คนอ่าน diff คือคนจับ
 
-ตั้งค่าตอนรัน: api ต้องมี `Jwt__SigningKey` (≥ 32 ไบต์ · ไม่ commit) และ `ConnectionStrings__Talad` · web เรียก api ที่ `TALAD_API_URL` (ค่าเริ่มต้น `http://localhost:5010`) · session ของ web คือ JWT ใน cookie `talad_session` (httpOnly)
+ตั้งค่าตอนรัน: api ต้องมี `Jwt__SigningKey` (≥ 32 ไบต์ · ไม่ commit) · `ConnectionStrings__Talad` · และ `Storage__ProductImageRoot` (โฟลเดอร์รูปสินค้า ค่าเริ่มต้น `data/product-images` — ต้องสำรองคู่กับฐานข้อมูลตาม DEC-002) · web เรียก api ที่ `TALAD_API_URL` (ค่าเริ่มต้น `http://localhost:5010`) · session ของ web คือ JWT ใน cookie `talad_session` (httpOnly)
 
 ## Conventions
 

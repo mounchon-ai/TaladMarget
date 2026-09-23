@@ -1,0 +1,86 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Talad.Domain.Accounts;
+using Talad.Domain.Catalog;
+using Talad.Domain.Sales;
+
+namespace Talad.Infrastructure.Persistence;
+
+internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
+{
+    public void Configure(EntityTypeBuilder<Product> b)
+    {
+        b.ToTable("products", t =>
+        {
+            // BR-talad-007@v1 · enforced at db as well as domain (interfaces.json ruleEnforcement)
+            t.HasCheckConstraint("ck_products_stock_qty", "stock_qty >= 0");
+            t.HasCheckConstraint("ck_products_low_stock_threshold", "low_stock_threshold >= 0");
+        });
+        b.HasKey(x => x.Id);
+        b.Property(x => x.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        b.Property(x => x.Name).HasColumnName("name").IsRequired();
+        b.Property(x => x.Barcode).HasColumnName("barcode");
+        // ENT-001.barcode — unique among ACTIVE products only
+        b.HasIndex(x => x.Barcode).IsUnique().HasFilter("barcode IS NOT NULL AND status = 'Active'");
+        b.Property(x => x.ImagePath).HasColumnName("image_path");
+        b.Property(x => x.CurrentPriceVersionId).HasColumnName("current_price_version_id");
+        b.HasOne(x => x.CurrentPriceVersion).WithMany().HasForeignKey(x => x.CurrentPriceVersionId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.StockQty).HasColumnName("stock_qty");
+        b.Property(x => x.LowStockThreshold).HasColumnName("low_stock_threshold");
+        b.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired();
+        b.Property(x => x.CreatedAt).HasColumnName("created_at");
+        b.Ignore(x => x.IsActive);
+        b.Ignore(x => x.IsLowStock);
+        b.Ignore(x => x.CurrentPrice);
+    }
+}
+
+internal sealed class ProductPriceVersionConfiguration : IEntityTypeConfiguration<ProductPriceVersion>
+{
+    public void Configure(EntityTypeBuilder<ProductPriceVersion> b)
+    {
+        b.ToTable("product_price_versions", t => t.HasCheckConstraint("ck_product_price_versions_price", "price > 0"));
+        b.HasKey(x => x.Id);
+        b.Property(x => x.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        b.Property(x => x.ProductId).HasColumnName("product_id");
+        b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.Price).HasColumnName("price").HasPrecision(12, 2);
+        b.Property(x => x.PreviousPrice).HasColumnName("previous_price").HasPrecision(12, 2);
+        b.Property(x => x.Source).HasColumnName("source").HasConversion<string>().IsRequired();
+        b.Property(x => x.ChangedById).HasColumnName("changed_by_id");
+        b.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.ChangedById).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.ChangedAt).HasColumnName("changed_at");
+    }
+}
+
+internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
+{
+    public void Configure(EntityTypeBuilder<Cart> b)
+    {
+        b.ToTable("carts");
+        b.HasKey(x => x.Id);
+        b.Property(x => x.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        b.Property(x => x.OwnerId).HasColumnName("owner_id");
+        b.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.OwnerId).OnDelete(DeleteBehavior.Restrict);
+        // ENT-009.owner — one OPEN cart per person
+        b.HasIndex(x => x.OwnerId).IsUnique().HasFilter("status = 'Open'");
+        b.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired();
+        b.Property(x => x.OpenedAt).HasColumnName("opened_at");
+        b.HasMany(x => x.Lines).WithOne().HasForeignKey(x => x.CartId).OnDelete(DeleteBehavior.Cascade);
+        b.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
+    }
+}
+
+internal sealed class CartLineConfiguration : IEntityTypeConfiguration<CartLine>
+{
+    public void Configure(EntityTypeBuilder<CartLine> b)
+    {
+        b.ToTable("cart_lines", t => t.HasCheckConstraint("ck_cart_lines_qty", "qty >= 1"));
+        b.HasKey(x => new { x.CartId, x.ProductId }); // ENT-010 key: cart + product
+        b.Property(x => x.CartId).HasColumnName("cart_id");
+        b.Property(x => x.ProductId).HasColumnName("product_id");
+        b.HasOne(x => x.Product).WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.Qty).HasColumnName("qty");
+        b.Property(x => x.AddedAt).HasColumnName("added_at");
+    }
+}

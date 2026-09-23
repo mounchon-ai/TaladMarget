@@ -1,16 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talad.Domain.Accounts;
+using Talad.Domain.Catalog;
+using Talad.Domain.Sales;
 
 namespace Talad.Infrastructure.Persistence;
 
 public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContext(options)
 {
     public DbSet<UserAccount> UserAccounts => Set<UserAccount>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductPriceVersion> ProductPriceVersions => Set<ProductPriceVersion>();
+    public DbSet<Cart> Carts => Set<Cart>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserAccountConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductPriceVersionConfiguration());
+        modelBuilder.ApplyConfiguration(new CartConfiguration());
+        modelBuilder.ApplyConfiguration(new CartLineConfiguration());
     }
 }
 
