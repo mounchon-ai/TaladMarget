@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Talad.Application.Auth;
 using Talad.Application.Catalog;
+using Talad.Application.Members;
 using Talad.Application.Navigation;
 using Talad.Application.Sales;
 using Talad.Infrastructure.Auth;
@@ -28,6 +29,8 @@ public static class DependencyInjection
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ProductCatalog>();
         services.AddScoped<CartService>();
+        services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<MemberRegistration>();
         services.Configure<StorageOptions>(config.GetSection(StorageOptions.Section));
         services.AddSingleton<ProductImageFiles>();
         return services;

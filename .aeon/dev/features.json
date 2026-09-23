@@ -1502,7 +1502,71 @@
           "hash": "sha256:36391fa57309f1bbdd688e8a746436098ef960350bf4065d12f9022c21ec1c41"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "dotnet ef migrations script AddCatalogAndCarts AddMembers --project src/Talad.Infrastructure --startup-project src/Talad.Api --no-build (in src/api)",
+            "result": "CREATE UNIQUE INDEX ix_members_phone_active ON members (phone) WHERE status = 'Active'; · CHECK (accumulated_amount >= 0) · numeric(12,2) — SQL only: Docker was not running, so the migration was NOT applied to PostgreSQL and the 23505 → PHONE_TAKEN path is unproven · time recorded after the run",
+            "at": "2026-09-23T21:23:01+07:00"
+          },
+          {
+            "cmd": "mutation check: MemberRepository.ActivePhoneExistsAsync without the ACTIVE filter, then dev-test.ps1 -App api -Filter FE-talad-009",
+            "result": "Failed! - Failed: 2, Passed: 13, Total: 15 — AC-talad-011 and AC-talad-090 catch a hidden member still holding the phone · file restored, then rebuilt below · time recorded after the run",
+            "at": "2026-09-23T21:23:01+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "Build succeeded. 0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-23T21:24:29+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-009",
+            "result": "Passed! - Failed: 0, Passed: 15, Skipped: 0, Total: 15 - Talad.Tests.dll (net10.0) · exit 0",
+            "at": "2026-09-23T21:24:34+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 60, Skipped: 0, Total: 60 · exit 0",
+            "at": "2026-09-23T21:24:38+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-23"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Members/Member.cs",
+          "src/api/src/Talad.Application/Members/MemberRegistration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/MemberConfiguration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/MemberRepository.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/TaladDbContext.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923142150_AddMembers.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923142150_AddMembers.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Members/MemberEndpoints.cs",
+          "src/api/src/Talad.Api/Program.cs",
+          "src/api/tests/Talad.Tests/Members/MemberRegistrationTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Members/MemberRegistrationTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-013",
+            "route": "POST /api/members",
+            "file": "src/api/src/Talad.Api/Members/MemberEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-010",
@@ -4131,8 +4195,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 8,
-      "draft": 38
+      "validated": 9,
+      "draft": 37
     },
     "by_origin": {
       "new": 46

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talad.Domain.Accounts;
 using Talad.Domain.Catalog;
+using Talad.Domain.Members;
 using Talad.Domain.Sales;
 
 namespace Talad.Infrastructure.Persistence;
@@ -12,6 +13,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductPriceVersion> ProductPriceVersions => Set<ProductPriceVersion>();
     public DbSet<Cart> Carts => Set<Cart>();
+    public DbSet<Member> Members => Set<Member>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,6 +22,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
         modelBuilder.ApplyConfiguration(new ProductPriceVersionConfiguration());
         modelBuilder.ApplyConfiguration(new CartConfiguration());
         modelBuilder.ApplyConfiguration(new CartLineConfiguration());
+        modelBuilder.ApplyConfiguration(new MemberConfiguration());
     }
 }
 
