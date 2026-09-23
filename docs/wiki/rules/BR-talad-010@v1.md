@@ -10,17 +10,20 @@ belongs_to: REQ-talad-005
 kind: calculation
 is_current: true
 test_design: [EP, BVA]
+constrained_by: CALC-talad-009@v1
 proven_by: [EX-talad-094, EX-talad-095, EX-talad-016, EX-talad-066, EX-talad-024]
-golden: []
+golden: [GD-talad-009]
 provenance: [SRC-001, SRC-030, SRC-030, SRC-028]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:15f1bf2a46db2834b2b03db165547163591b2dc4830b3c1b4b8324b5a9a38582
+spec_hash: sha256:f6b48103cd30217a76d35d0ef15802079695a2f12a5690e53557c8a354939091
 ---
 
 # BR-talad-010@v1
 
 ## ข้อความของกฎ
 สมาชิกได้ส่วนลดพิเศษเป็น % เดียวกันทั้งร้าน ที่เจ้าของร้านตั้งแยกจากโปรโมชั่นทั่วไป (% เต็ม 0–100) · ไม่มีช่วงเวลา มีผลตลอดจนกว่าจะแก้ · ตั้ง 0% = ไม่มีส่วนลดสมาชิก · ใช้กับบิลที่ผูกสมาชิกเท่านั้น
+
+คำนวณตามสัญญา [CALC-talad-009@v1](../calculations/CALC-talad-009@v1.md)
 
 ## ที่มา
 
@@ -43,6 +46,7 @@ spec_hash: sha256:15f1bf2a46db2834b2b03db165547163591b2dc4830b3c1b4b8324b5a9a385
 - [EX-talad-066](../examples/EX-talad-066.md) — alternate: บิลแสดง: มังคุด แพ็ก จำนวน 1 ราคา 120 บาท · ไม่มีส่วนลด · ยอดชำระ 120 บาท · ผู้ขาย มานี · ไม่มีข้อมูลสมาชิก
 - [EX-talad-094](../examples/EX-talad-094.md) — happy: ทั้งสองบิลแสดงส่วนลดสมาชิก 5 บาท และยอดชำระ 95 บาท — สมาชิกทุกคนได้ % เท่ากัน
 - [EX-talad-095](../examples/EX-talad-095.md) — boundary: บิลไม่มีส่วนลดสมาชิก · ยอดชำระ 100 บาท · ยอดซื้อสะสมของสมหญิงเป็น 1,100 บาท (ยังสะสมตามปกติ)
+- [GD-talad-009](../golden/GD-talad-009.md) — เลขเฉลย 9 แถว · ✅ เจ้าของงาน (ผู้ตอบในเซสชัน /req:golden BR-talad-010@v1) 2026-09-23
 
 ## ประวัติ
 

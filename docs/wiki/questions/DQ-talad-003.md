@@ -9,7 +9,7 @@ state: open
 raised_by: BR-talad-027@v1
 answer_phase: domain
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:db2d280cda38c77bd7a96ff3dc8b937da21bcea552d0ddf52393f12b6393070e
+spec_hash: sha256:501dc9338e6a6e1d4c090e703c5d1583064dc1a9524de93904c27d637e3374bc
 ---
 
 # DQ-talad-003

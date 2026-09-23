@@ -10,7 +10,7 @@ kind: happy
 proves: [BR-talad-010@v1]
 has_ui: true
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:fdff5d1a60808f93717937b280b29909122363376c5d0edb684480caad16146b
+spec_hash: sha256:a0948664bf09ed754d06a07158fb139fd9eb030a14ee37733b2152c0bd6e5274
 ---
 
 # EX-talad-094

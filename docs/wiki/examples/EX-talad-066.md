@@ -10,7 +10,7 @@ kind: alternate
 proves: [BR-talad-016@v1, BR-talad-010@v1]
 has_ui: true
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:c96bd1383b3717cc953a307bfd276402c15a078aec7dc91b9aed4e2008606128
+spec_hash: sha256:9572ff909fffe564dc34e3d0bbff8f7142ea157ce9be83bd7e80dd2f14a58f73
 ---
 
 # EX-talad-066

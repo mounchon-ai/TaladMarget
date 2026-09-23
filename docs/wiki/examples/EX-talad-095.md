@@ -10,7 +10,7 @@ kind: boundary
 proves: [BR-talad-010@v1]
 has_ui: true
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:9978a1768b31b76a3d9ba0861f0912054f920878e543e02ed2a4a45e641e57b6
+spec_hash: sha256:b85489014ea59abb959fffe0944793457f9859c818f8dbc240dadafccceeaab2
 ---
 
 # EX-talad-095

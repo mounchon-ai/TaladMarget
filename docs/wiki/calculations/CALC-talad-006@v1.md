@@ -12,7 +12,7 @@ numeric_type: decimal
 rounding_mode: HALF_UP
 golden: [GD-talad-006]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:3a57f6604a952d3973cdd1d20afb0d8969c73eabb26d280f4e5f3704be4a1288
+spec_hash: sha256:62174674174435519a26922af0e3d86702e6297e00c8ec8996e7902d9b03ff0e
 ---
 
 # CALC-talad-006@v1
@@ -56,7 +56,7 @@ sets = floor(min(qty_a / n_a, qty_b / n_b)) ; disc_a = round_half_up(sets × n_a
 
 ## เลขเฉลย
 
-- [GD-talad-006](../golden/GD-talad-006.md) — 14 แถว · 🔴 ยังไม่มีใครเซ็น
+- [GD-talad-006](../golden/GD-talad-006.md) — 14 แถว · ✅ เจ้าของงาน (ผู้ตอบในเซสชัน /req:golden BR-talad-013@v1)
 
 ## คำถามที่ผูกอยู่
 

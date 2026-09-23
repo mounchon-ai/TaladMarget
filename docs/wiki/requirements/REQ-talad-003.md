@@ -9,7 +9,7 @@ actor: พนักงานขาย (ล็อกอินเข้าหน�
 rules: [BR-talad-005, BR-talad-006, BR-talad-018, BR-talad-019, BR-talad-021]
 domain_concepts: [UL-talad-007, UL-talad-003, UL-talad-012, UL-talad-014]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:dfd643c6a3bd95795a0762e0b7433999d125058679fe30d753a87f9a1345b1c4
+spec_hash: sha256:bf68f51248fa14a9ef89c5f243f9252b659625ec8502e2a56379f89e44d95eea
 ---
 
 # REQ-talad-003
@@ -96,6 +96,7 @@ spec_hash: sha256:dfd643c6a3bd95795a0762e0b7433999d125058679fe30d753a87f9a1345b1
 - **ที่มา:** [SRC-013](../sources/SRC-013.md) บรรทัด 4 — *"ยืนยันการจัดประเภท: บรรทัด 1-3 เปลี่ยนรายการ "ทำได้เฉพาะ" ใน BR-talad-018 และ "เฉพาะเจ้าของร้าน" ใน BR-talad-019 → a) แก้ BR-talad-018 และ BR-talad-019 ในที่เดิม"*
 - **ที่มา:** [SRC-022](../sources/SRC-022.md) บรรทัด 1 — *"ระหว่าง /req:example BR-talad-019@v1: "แก้ราคาหน้าขาย" หมายถึงอะไร → b) แก้ราคาสินค้าในระบบจากหน้าขาย — ทางลัดแก้ราคาสินค้า มีผลกับทุกบิลถัดไป และเกิดประวัติราคาตาม BR-talad-033"*
 - **ที่มา:** [SRC-022](../sources/SRC-022.md) บรรทัด 2 — *"ระหว่าง /req:example BR-talad-019@v1: เจ้าของร้านกดยกเลิกบิลโดยไม่กรอกเหตุผล เห็นข้อความอะไร → "กรุณาระบุเหตุผลการยกเลิก""*
+- **ที่มา:** [SRC-038](../sources/SRC-038.md) บรรทัด 2 — *"ยืนยันการจัดประเภท QB-apr-01/02 เทียบ BR-talad-019@v1 → ไม่มีขั้นอนุมัติ — ร้านนี้ไม่มีขั้นตอนขออนุมัติ BR-talad-019 คงเดิม (เจ้าของร้านทำเอง)"*
 - **บังคับที่:** *(ยังไม่มีใครผูกกับโค้ด — เฟส 2 เป็นคนตอบ)*
 - **พิสูจน์โดย:** [EX-talad-046](../examples/EX-talad-046.md), [EX-talad-047](../examples/EX-talad-047.md), [EX-talad-048](../examples/EX-talad-048.md), [EX-talad-049](../examples/EX-talad-049.md), [EX-talad-043](../examples/EX-talad-043.md), [EX-talad-044](../examples/EX-talad-044.md)
 - **เทสต์:** *(ยังไม่มี)* 🔴

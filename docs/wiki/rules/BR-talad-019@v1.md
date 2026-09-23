@@ -12,9 +12,9 @@ is_current: true
 test_design: [EP]
 proven_by: [EX-talad-046, EX-talad-047, EX-talad-048, EX-talad-049, EX-talad-043, EX-talad-044]
 golden: []
-provenance: [SRC-003, SRC-005, SRC-006, SRC-007, SRC-012, SRC-013, SRC-013, SRC-022, SRC-022]
+provenance: [SRC-003, SRC-005, SRC-006, SRC-007, SRC-012, SRC-013, SRC-013, SRC-022, SRC-022, SRC-038]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:1ba42c7995a08caa90235228c4c0812f8ffb9025bd52be162812aeab2845ba45
+spec_hash: sha256:08025da4c838a9271c865fbb20671a46f06bc4de23cb42fb6fced27f00b14ca9
 ---
 
 # BR-talad-019@v1
@@ -50,6 +50,9 @@ spec_hash: sha256:1ba42c7995a08caa90235228c4c0812f8ffb9025bd52be162812aeab2845ba
 
 > "ระหว่าง /req:example BR-talad-019@v1: เจ้าของร้านกดยกเลิกบิลโดยไม่กรอกเหตุผล เห็นข้อความอะไร → "กรุณาระบุเหตุผลการยกเลิก""
 > — [SRC-022](../sources/SRC-022.md) หน้า — §—
+
+> "ยืนยันการจัดประเภท QB-apr-01/02 เทียบ BR-talad-019@v1 → ไม่มีขั้นอนุมัติ — ร้านนี้ไม่มีขั้นตอนขออนุมัติ BR-talad-019 คงเดิม (เจ้าของร้านทำเอง)"
+> — [SRC-038](../sources/SRC-038.md) หน้า — §—
 
 ## พิสูจน์โดย
 

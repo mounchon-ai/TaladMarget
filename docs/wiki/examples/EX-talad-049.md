@@ -10,7 +10,7 @@ kind: exception
 proves: [BR-talad-019@v1]
 has_ui: true
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:ce826790454333b39be8e53d3113c5dbdca68a1281d610e73769a409e2b9ff4b
+spec_hash: sha256:f404d7acc735018a0f9e5ae440ad07811242df6951c5769408d650e897bc88a3
 ---
 
 # EX-talad-049

@@ -1,21 +1,23 @@
 ---
 type: Golden Dataset
 title: เลขเฉลยของ BR-talad-013@v1 · CALC-talad-006@v1
-description: 14 แถว · ยังไม่มีใครเซ็น
+description: 14 แถว · ยืนยันแล้ว
 resource: ../rules/BR-talad-013@v1.md
 tags: [talad, golden]
 id: GD-talad-006
-status: draft
+status: validated
 proves: [BR-talad-013@v1, CALC-talad-006@v1]
+verified_by: เจ้าของงาน (ผู้ตอบในเซสชัน /req:golden BR-talad-013@v1)
+verified_at: 2026-09-23T16:10+07:00
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:53dd04ca11f829a690377df88040a7c75db71e2afa76fbd89c1e711f46f1dee4
+spec_hash: sha256:39e596d3ba374949e748785e0f31747f8245d12a182bcf9ca8984a1423d92c97
 ---
 
 # GD-talad-006
 
 ## สถานะการยืนยัน
 
-🔴 **ยังไม่มีใครเซ็น** — เลขที่ออกจากสคริปต์เป็นข้อเสนอ ไม่ใช่คำตอบ จนกว่าจะมี `verified_by`
+✅ **เจ้าของงาน (ผู้ตอบในเซสชัน /req:golden BR-talad-013@v1)** ยืนยันเมื่อ 2026-09-23T16:10+07:00 — ตัวเลขชุดนี้ใช้ยันกับลูกค้าได้
 
 คำนวณโดย `golden/CALC-talad-006@v1.mjs` เมื่อ 2026-09-23T13:36+07:00
 

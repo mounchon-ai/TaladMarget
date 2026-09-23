@@ -11,11 +11,11 @@ kind: calculation
 is_current: true
 test_design: []
 constrained_by: CALC-talad-006@v1
-proven_by: []
+proven_by: [EX-talad-117, EX-talad-118, EX-talad-119, EX-talad-120]
 golden: [GD-talad-006]
 provenance: [SRC-001, SRC-037, SRC-037, SRC-037]
 timestamp: 2026-09-23T11:00:00+07:00
-spec_hash: sha256:5e72bfdd74f4b85a174612fb5ffb96cd50927b36ad8129a20754412f44e22ea9
+spec_hash: sha256:c27195b13f3effafc7299ef54f8ac8476297cbe155f5d49977bb6ab78962e820
 ---
 
 # BR-talad-013@v1
@@ -41,7 +41,11 @@ spec_hash: sha256:5e72bfdd74f4b85a174612fb5ffb96cd50927b36ad8129a20754412f44e22e
 
 ## พิสูจน์โดย
 
-- [GD-talad-006](../golden/GD-talad-006.md) — เลขเฉลย 14 แถว · 🔴 ยังไม่มีใครเซ็น
+- [EX-talad-117](../examples/EX-talad-117.md) — happy: บิลแสดง: ส้มสายน้ำผึ้ง จำนวน 4 ราคา 45 บาท · มังคุด แพ็ก จำนวน 2 ราคา 120 บาท · ส่วนลดโปรโมชั่น 42 บาท · ยอดชำระ 378 บาท
+- [EX-talad-118](../examples/EX-talad-118.md) — exception: บิลแสดง: ส้มสายน้ำผึ้ง จำนวน 1 ราคา 45 บาท · มังคุด แพ็ก จำนวน 1 ราคา 120 บาท · ยอดชำระ 165 บาท
+- [EX-talad-119](../examples/EX-talad-119.md) — boundary: บิลแสดง: ส้มสายน้ำผึ้ง จำนวน 3 ราคา 45 บาท · มังคุด แพ็ก จำนวน 1 ราคา 120 บาท · ส่วนลดโปรโมชั่น 16.50 บาท · ยอดชำระ 238.50 บาท
+- [EX-talad-120](../examples/EX-talad-120.md) — boundary: บิลแสดง: ลำไย จำนวน 1 ราคา 19.75 บาท · ฝรั่ง จำนวน 1 ราคา 24.25 บาท · ส่วนลดโปรโมชั่น 0.89 บาท · ยอดชำระ 43.11 บาท
+- [GD-talad-006](../golden/GD-talad-006.md) — เลขเฉลย 14 แถว · ✅ เจ้าของงาน (ผู้ตอบในเซสชัน /req:golden BR-talad-013@v1) 2026-09-23
 
 ## ประวัติ
 
