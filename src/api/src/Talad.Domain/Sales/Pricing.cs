@@ -162,8 +162,12 @@ public sealed record SelectionStep(
     ItemPromotion Picked,
     IReadOnlyList<int> LinesTaken);
 
-/// <summary>A line after the item-level promotions — the promotion that took it (null when none did) and what it gave this line.</summary>
-public sealed record PricedLine(int ProductId, int Qty, decimal UnitPrice, ItemPromotion? Promotion, decimal LineGross, decimal ItemPromoDiscount, decimal LineNet);
+/// <summary>
+/// A line after the item-level promotions — the promotion that took it (null when none did), what it gave this line, and
+/// how many of its pieces were given free by a buy-and-get promotion (ENT-012.freeQty · CALC-talad-004 · 005).
+/// </summary>
+public sealed record PricedLine(
+    int ProductId, int Qty, decimal UnitPrice, ItemPromotion? Promotion, decimal LineGross, decimal ItemPromoDiscount, decimal LineNet, int FreeQty = 0);
 
 /// <summary>
 /// CALC-talad-008's answer. While the best promotions of a round are equal and the staff has not chosen among them,
@@ -189,7 +193,7 @@ public static class Pricing
     public static ItemPromotionPricing SelectPromotions(IReadOnlyList<PricingLine> cart, IReadOnlyList<ItemPromotion> promotions, IReadOnlyList<int>? staffChoice = null)
     {
         var free = cart.ToDictionary(l => l.ProductId);
-        var takenBy = new Dictionary<int, (ItemPromotion Promotion, decimal Discount)>();
+        var takenBy = new Dictionary<int, (ItemPromotion Promotion, decimal Discount, int Free)>();
         var steps = new List<SelectionStep>();
         var choices = new Queue<int>(staffChoice ?? []);
 
@@ -215,7 +219,8 @@ public static class Pricing
 
             foreach (var line in pick.Effect.Lines)
             {
-                takenBy[line] = (pick.Promotion, pick.Effect.LineDiscounts.GetValueOrDefault(line));
+                var gift = pick.Promotion.Type is PromotionType.BuyXGetY or PromotionType.BuyAbGetY;
+                takenBy[line] = (pick.Promotion, pick.Effect.LineDiscounts.GetValueOrDefault(line), gift ? pick.Effect.DiscountedQty.GetValueOrDefault(line) : 0);
                 free.Remove(line);
             }
             steps.Add(new SelectionStep(candidates.Select(c => (c.Promotion, c.Effect.Discount)).ToList(), tie, pick.Promotion, pick.Effect.Lines));
@@ -223,8 +228,8 @@ public static class Pricing
 
         var lines = cart.Select(l =>
         {
-            var (promotion, discount) = takenBy.TryGetValue(l.ProductId, out var t) ? t : (null, 0m);
-            return new PricedLine(l.ProductId, l.Qty, l.UnitPrice, promotion, l.Gross, discount, l.Gross - discount);
+            var (promotion, discount, free) = takenBy.TryGetValue(l.ProductId, out var t) ? t : (null, 0m, 0);
+            return new PricedLine(l.ProductId, l.Qty, l.UnitPrice, promotion, l.Gross, discount, l.Gross - discount, free);
         }).ToList();
         return new ItemPromotionPricing(steps, lines, lines.Sum(l => l.ItemPromoDiscount), null);
     }

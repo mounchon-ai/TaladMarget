@@ -1,3 +1,4 @@
+using Talad.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talad.Domain.Accounts;
@@ -16,10 +17,28 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
     public DbSet<ProductPriceVersion> ProductPriceVersions => Set<ProductPriceVersion>();
     public DbSet<StockAdjustment> StockAdjustments => Set<StockAdjustment>();
     public DbSet<Cart> Carts => Set<Cart>();
+    public DbSet<Sale> Sales => Set<Sale>();
     public DbSet<Member> Members => Set<Member>();
     public DbSet<MemberDiscountVersion> MemberDiscountVersions => Set<MemberDiscountVersion>();
     public DbSet<Promotion> Promotions => Set<Promotion>();
     public DbSet<PromotionVersion> PromotionVersions => Set<PromotionVersion>();
+
+    /// <summary>
+    /// A save that finds a concurrency-checked value moved since it was read (a product's stock, a member's accumulated
+    /// amount) saved nothing; it is told to the application as <see cref="ConcurrentUpdateException"/>, which runs the
+    /// operation again from a fresh read (<see cref="Conflicts"/>).
+    /// </summary>
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException e)
+        {
+            throw new ConcurrentUpdateException(string.Join(", ", e.Entries.Select(x => x.Metadata.ClrType.Name)));
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +47,8 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
         modelBuilder.ApplyConfiguration(new ProductPriceVersionConfiguration());
         modelBuilder.ApplyConfiguration(new StockAdjustmentConfiguration());
         modelBuilder.ApplyConfiguration(new CartConfiguration());
+        modelBuilder.ApplyConfiguration(new SaleConfiguration());
+        modelBuilder.ApplyConfiguration(new SaleLineConfiguration());
         modelBuilder.ApplyConfiguration(new CartLineConfiguration());
         modelBuilder.ApplyConfiguration(new MemberConfiguration());
         modelBuilder.ApplyConfiguration(new MemberDiscountVersionConfiguration());

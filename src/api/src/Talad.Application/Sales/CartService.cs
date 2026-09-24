@@ -9,6 +9,9 @@ public interface ICartRepository
 {
     /// <summary>The OPEN cart this person opened, lines and their products' current prices loaded.</summary>
     Task<Cart?> FindOpenAsync(int ownerId, CancellationToken ct);
+
+    /// <summary>The cart <paramref name="cartId"/> if <paramref name="ownerId"/> opened it, OPEN or PAID, loaded as <see cref="FindOpenAsync"/> loads it.</summary>
+    Task<Cart?> FindOwnAsync(int cartId, int ownerId, CancellationToken ct);
     void Add(Cart cart);
     Task SaveChangesAsync(CancellationToken ct);
 }

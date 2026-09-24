@@ -10,14 +10,17 @@ public sealed class MemberNotFoundException(int memberId) : Exception($"member {
 /// owner may edit any ACTIVE member (ACL-008 · BR-talad-031@v1); a hidden member is not found
 /// (BR-talad-040@v2 · UI-talad-006 state "error": ไม่พบสมาชิก).
 /// </summary>
-public sealed class MemberProfile(IMemberRepository members, IUserAccountRepository accounts, TimeProvider clock)
+public sealed class MemberProfile(IMemberRepository members, IUserAccountRepository accounts, TimeProvider clock, IUnitOfWork work)
 {
     /// <summary>API-014</summary>
     public async Task<MemberView> GetAsync(int id, CancellationToken ct = default) =>
         MemberView.Of(await ActiveAsync(id, ct));
 
     /// <summary>API-015 — both fields are sent; nothing changes when either is refused.</summary>
-    public async Task<MemberView> EditAsync(int id, string? name, string? phone, CancellationToken ct = default)
+    public Task<MemberView> EditAsync(int id, string? name, string? phone, CancellationToken ct = default) =>
+        Conflicts.RetryAsync(work, () => EditOnceAsync(id, name, phone, ct)); // a sale can add to the member meanwhile
+
+    private async Task<MemberView> EditOnceAsync(int id, string? name, string? phone, CancellationToken ct)
     {
         var member = await ActiveAsync(id, ct);
         member.Edit(name, phone);
@@ -30,7 +33,10 @@ public sealed class MemberProfile(IMemberRepository members, IUserAccountReposit
     /// API-016 — hide an ACTIVE member (UC-talad-010). The caller's role is read from their account, not
     /// taken on the token's word, and the domain refuses anyone but the owner (BR-talad-019@v1).
     /// </summary>
-    public async Task HideAsync(int id, int callerId, CancellationToken ct = default)
+    public Task HideAsync(int id, int callerId, CancellationToken ct = default) =>
+        Conflicts.RetryAsync(work, () => HideOnceAsync(id, callerId, ct));
+
+    private async Task HideOnceAsync(int id, int callerId, CancellationToken ct)
     {
         var member = await ActiveAsync(id, ct);
         var caller = await accounts.FindByIdAsync(callerId, ct) ?? throw new OwnerOnlyException();

@@ -95,6 +95,33 @@ public class Cart
         MemberId = null;
     }
 
+    /// <summary>
+    /// UC-talad-003 — can this cart be paid now, asked in the order a person reads the answers: already paid
+    /// (BR-talad-039@v1) · nothing in it · a line no longer sold (BR-talad-037@v1) · a line with less left than it holds
+    /// (BR-talad-007@v1) · a bound member no longer ACTIVE (ENT-009.member). The first that fails is the answer.
+    /// </summary>
+    public void EnsurePayable()
+    {
+        EnsureOpen();
+        if (_lines.Count == 0) throw new CartEmptyException();
+        foreach (var line in _lines.OrderBy(l => l.AddedAt))
+        {
+            EnsureSellable(line.Product);
+            EnsureInStock(line.Product, line.Qty);
+        }
+        if (Member is { } m && m.Status != MemberStatus.Active) throw new MemberNotActiveAtCheckoutException(m.Name);
+    }
+
+    /// <summary>
+    /// STM-talad-005 OPEN → PAID, in the same transaction as the bill; from then on nothing in it changes
+    /// (BR-talad-001@v1). The bill asks <see cref="EnsurePayable"/> before it takes the stock, so only OPEN is asked here.
+    /// </summary>
+    internal void MarkPaid()
+    {
+        EnsureOpen();
+        Status = CartStatus.Paid;
+    }
+
     private void EnsureOpen()
     {
         if (Status != CartStatus.Open) throw new CartNotOpenException();
@@ -152,6 +179,13 @@ public sealed class ProductDiscontinuedException(string productName)
 
 /// <summary>BR-talad-001@v1 — a paid cart is not edited.</summary>
 public sealed class CartNotOpenException() : CartRuleException("ตะกร้านี้ชำระเงินไปแล้ว");
+
+/// <summary>UI-talad-002 state "empty" — the sentence the empty cart shows, also the answer to paying it.</summary>
+public sealed class CartEmptyException() : CartRuleException("ยังไม่มีสินค้าในตะกร้า");
+
+/// <summary>ENT-009.member must be ACTIVE when paid — design words no sentence for it, so this one is dev's (FE-talad-033).</summary>
+public sealed class MemberNotActiveAtCheckoutException(string memberName)
+    : CartRuleException($"สมาชิก {memberName} ถูกลบแล้ว กรุณาเอาสมาชิกออกจากตะกร้าก่อนชำระเงิน");
 
 public sealed class CartLineNotFoundException(int productId) : CartRuleException($"product {productId} is not in the cart");
 

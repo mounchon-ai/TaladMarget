@@ -67,6 +67,17 @@ public class Product
     }
 
     /// <summary>
+    /// UC-talad-003 · BR-talad-007@v1 — the pieces a paid bill takes, free ones included. Whether the product is still
+    /// sold and enough is left is asked by the sale first, in the words the person reads; this only refuses to go
+    /// below zero, as the database does.
+    /// </summary>
+    public void RemoveSold(int qty)
+    {
+        if (qty < 1 || qty > StockQty) throw new ArgumentOutOfRangeException(nameof(qty), $"product {Id} has {StockQty} left, {qty} asked");
+        StockQty -= qty;
+    }
+
+    /// <summary>
     /// API-024 · UC-talad-020 — the owner's hand change of what is left (ACL-022), on a product still sold. RECEIVE and
     /// SPOILED carry the change itself, + or − (BR-talad-032@v1 does not tie the sign to the reason); RECOUNT carries
     /// what was counted and the change is worked out from what the system holds. The change is never 0 and never

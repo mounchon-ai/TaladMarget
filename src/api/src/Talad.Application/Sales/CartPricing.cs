@@ -39,6 +39,22 @@ public sealed record CartPricingView(
 /// promotions come with the request, one per tied round in order, and are not kept — the answer is worked out afresh
 /// each time, so a choice never outlives the prices it was made on. Paying is FE-talad-033's; this reads only.
 /// </summary>
+/// <summary>
+/// One reading of what a cart costs now (UC-talad-004) — the engine's answer plus what a bill must keep of it: the
+/// versions in force for each price and promotion, the bill promotion counted and the member-discount version
+/// (BR-talad-036@v1). API-009 shows it; API-010 (FE-talad-033) pays it — the same reading, so they cannot disagree.
+/// </summary>
+public sealed record CartQuote(
+    IReadOnlyList<PricingLine> Lines,
+    IReadOnlyDictionary<int, string> Names,
+    ItemPromotionPricing Items,
+    BillTotals? Bill,
+    Member? Member,
+    BillPromotion? BillPromotion,
+    IReadOnlyDictionary<int, int> PriceVersions,
+    IReadOnlyDictionary<int, int> PromotionVersions,
+    int? MemberDiscountVersionId);
+
 public sealed class CartPricing(ICartRepository carts, IPromotionRepository promotions, IMemberDiscountRepository memberDiscounts, TimeProvider clock)
 {
     /// <summary>Asia/Bangkok is +07:00 all year (no daylight saving) — the date a promotion's days are counted in.</summary>
@@ -46,12 +62,40 @@ public sealed class CartPricing(ICartRepository carts, IPromotionRepository prom
 
     public async Task<CartPricingView> PriceAsync(int ownerId, IReadOnlyList<int> staffChoice, CancellationToken ct = default)
     {
-        var cart = await carts.FindOpenAsync(ownerId, ct);
-        var inForce = await promotions.InForceAsync(ThaiToday(clock.GetUtcNow()), ct);
-        var shopRate = await memberDiscounts.LatestAsync(ct) is var (version, _) ? version.RatePercent : 0;
+        var quote = await QuoteAsync(await carts.FindOpenAsync(ownerId, ct), staffChoice, clock.GetUtcNow(), ct);
+        var member = quote.Member is null ? null : MemberView.Of(quote.Member);
+
+        if (quote.Items.NeedsStaffChoice is not null)
+        {
+            var plain = quote.Lines.Select(l => new CartPricingLine(l.ProductId, quote.Names[l.ProductId], l.Qty, l.UnitPrice, l.Gross, null, null, null)).ToList();
+            return new CartPricingView(plain, null, null, null, null, null, null, member, null, null, null, ChoicesOf(quote));
+        }
+
+        var bill = quote.Bill!;
+        var priced = quote.Items.Lines!.Select(l => new CartPricingLine(
+            l.ProductId, quote.Names[l.ProductId], l.Qty, l.UnitPrice, l.LineGross, l.Promotion is { } p ? Ref(p) : null, l.ItemPromoDiscount, l.LineNet)).ToList();
+        return new CartPricingView(
+            priced, quote.Items.PromoDiscount, bill.Subtotal,
+            quote.BillPromotion is { } b ? new PromotionRef(b.Id, b.Name) : null, bill.BillRate, bill.BillDiscount, bill.AfterBill,
+            member, bill.MemberRate, bill.MemberDiscount, bill.Net,
+            null);
+    }
+
+    /// <summary>The tied promotions UI-talad-003 lists, each with the baht it gives.</summary>
+    public static IReadOnlyList<PromotionChoice> ChoicesOf(CartQuote quote) =>
+        quote.Items.NeedsStaffChoice!.Select(p => new PromotionChoice(p.Id, p.Name, quote.Items.TieDiscount!.Value)).ToList();
+
+    /// <summary>
+    /// <paramref name="cart"/> priced at <paramref name="now"/>: its lines at the prices in force, the promotions in force
+    /// on the Thai date, the member rate in force, for a member bound and still ACTIVE. A missing cart prices to nothing.
+    /// </summary>
+    public async Task<CartQuote> QuoteAsync(Cart? cart, IReadOnlyList<int> staffChoice, DateTimeOffset now, CancellationToken ct = default)
+    {
+        var inForce = await promotions.InForceAsync(ThaiToday(now), ct);
+        var rate = await memberDiscounts.LatestAsync(ct);
+        var shopRate = rate is var (version, _) ? version.RatePercent : 0;
 
         var cartLines = cart?.Lines.OrderBy(l => l.AddedAt).ToList() ?? [];
-        var names = cartLines.ToDictionary(l => l.ProductId, l => l.Product.Name);
         var member = cart?.Member is { Status: MemberStatus.Active } m ? m : null;
         var itemPromotions = inForce.Where(p => p.CurrentVersion!.Type != PromotionType.BillPercent).Select(ToItem).ToList();
         var billPromotions = inForce.Where(p => p.CurrentVersion!.Type == PromotionType.BillPercent)
@@ -60,22 +104,18 @@ public sealed class CartPricing(ICartRepository carts, IPromotionRepository prom
 
         var lines = cartLines.Select(l => new PricingLine(l.ProductId, l.Qty, l.Product.CurrentPrice)).ToList();
         var (items, bill) = Pricing.Price(lines, itemPromotions, billPromotions, member is not null, shopRate, staffChoice);
+        var counted = bill is null || bill.BillRate == 0 ? null : bill.EligiblePromotions.Where(p => p.Rate == bill.BillRate).OrderBy(p => p.Id).First();
 
-        if (items.NeedsStaffChoice is { } tie)
-        {
-            var plain = lines.Select(l => new CartPricingLine(l.ProductId, names[l.ProductId], l.Qty, l.UnitPrice, l.Gross, null, null, null)).ToList();
-            return new CartPricingView(plain, null, null, null, null, null, null, member is null ? null : MemberView.Of(member), null, null, null,
-                tie.Select(p => new PromotionChoice(p.Id, p.Name, items.TieDiscount!.Value)).ToList());
-        }
-
-        var priced = items.Lines!.Select(l => new CartPricingLine(
-            l.ProductId, names[l.ProductId], l.Qty, l.UnitPrice, l.LineGross, l.Promotion is { } p ? Ref(p) : null, l.ItemPromoDiscount, l.LineNet)).ToList();
-        var counted = bill!.EligiblePromotions.Where(p => p.Rate == bill.BillRate).OrderBy(p => p.Id).FirstOrDefault();
-        return new CartPricingView(
-            priced, items.PromoDiscount, bill.Subtotal,
-            counted is null || bill.BillRate == 0 ? null : new PromotionRef(counted.Id, counted.Name), bill.BillRate, bill.BillDiscount, bill.AfterBill,
-            member is null ? null : MemberView.Of(member), bill.MemberRate, bill.MemberDiscount, bill.Net,
-            null);
+        return new CartQuote(
+            lines,
+            cartLines.ToDictionary(l => l.ProductId, l => l.Product.Name),
+            items,
+            bill,
+            member,
+            counted,
+            cartLines.ToDictionary(l => l.ProductId, l => l.Product.CurrentPriceVersionId!.Value),
+            inForce.ToDictionary(p => p.Id, p => p.CurrentVersionId!.Value),
+            rate?.Version.Id);
     }
 
     private static PromotionRef Ref(ItemPromotion p) => new(p.Id, p.Name);

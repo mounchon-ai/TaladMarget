@@ -1,3 +1,4 @@
+using Talad.Application;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,6 +18,15 @@ public sealed record SetMemberRequest(int? MemberId);
 
 /// <summary>What a refused cart change answers — `message` is the sentence the person reads.</summary>
 public sealed record CartError(string Code, string Message);
+
+/// <summary>API-010 body — the cart the screen showed, and the promotion picked for each tied round, in order.</summary>
+public sealed record CheckoutRequest(int? CartId, int[]? Choice);
+
+/// <summary>
+/// What a refused checkout answers. `choices` is PROMOTION_CHOICE_NEEDED's alone: the tied promotions UI-talad-003
+/// lists, each with the baht it gives (BR-talad-029@v1).
+/// </summary>
+public sealed record CheckoutError(string Code, string Message, IReadOnlyList<PromotionChoice>? Choices = null);
 
 public static class CartEndpoints
 {
@@ -56,6 +66,42 @@ public static class CartEndpoints
         // promotion id the staff picked for a tied round, in order (BR-talad-029@v1)
         cart.MapGet("/pricing", ([FromQuery] int[]? choice, ClaimsPrincipal user, CartPricing pricing, CancellationToken ct) =>
             pricing.PriceAsync(OwnerId(user), choice ?? [], ct));
+
+        // API-010 · POST /api/cart/checkout — pay the caller's own cart (ACL-003): a bill, the stock it takes, the member's
+        // accumulated amount and the cart PAID in one save; the answer is the receipt, or the reason it cannot be paid
+        cart.MapPost("/checkout", async (CheckoutRequest body, ClaimsPrincipal user, Checkout checkout, CancellationToken ct) =>
+        {
+            try
+            {
+                var sale = await checkout.PayAsync(OwnerId(user), body.CartId, body.Choice ?? [], ct);
+                return Results.Created($"/api/sales/{sale.Id}", sale);
+            }
+            catch (CartNotFoundException)
+            {
+                return Results.NotFound(new CheckoutError("CART_NOT_FOUND", "ไม่พบตะกร้านี้")); // BR-talad-020@v1 — someone else's is not there
+            }
+            catch (PromotionChoiceNeededException e)
+            {
+                return Results.Conflict(new CheckoutError("PROMOTION_CHOICE_NEEDED", "มีโปรโมชั่นที่ลดเท่ากัน กรุณาเลือกโปรโมชั่น", e.Choices)); // AC-talad-127
+            }
+            catch (CartRuleException e)
+            {
+                return Results.Conflict(new CheckoutError(e switch
+                {
+                    CartNotOpenException => "CART_NOT_OPEN", // BR-talad-039@v1
+                    CartEmptyException => "CART_EMPTY",
+                    ProductDiscontinuedException => "PRODUCT_DISCONTINUED", // BR-talad-037@v1
+                    InsufficientStockException => "INSUFFICIENT_STOCK", // BR-talad-007@v1
+                    MemberNotActiveAtCheckoutException => "MEMBER_NOT_ACTIVE", // ENT-009.member
+                    _ => "CART_RULE",
+                }, e.Message));
+            }
+            catch (ConcurrentUpdateException)
+            {
+                // lost every retry to other sales on the same stock — nothing was saved (UI-talad-002 state "error")
+                return Results.Conflict(new CheckoutError("TRY_AGAIN", "ทำรายการไม่สำเร็จ กรุณาลองใหม่"));
+            }
+        });
 
         // API-008 · PUT /api/cart/member — bind an ACTIVE member to the caller's own cart, or unbind
         cart.MapPut("/member", (SetMemberRequest body, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>

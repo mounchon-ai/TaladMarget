@@ -5993,7 +5993,131 @@
           "hash": "sha256:c7b42e10eb894009d31b42ef71f087151e775c4cf50cfea4d41be723770508c1"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api (after the concurrency checks on products.stock_qty and members.accumulated_amount and the retries around reprice · discontinue · adjust · member edit/hide, before any checkout test)",
+            "result": "Passed! - Failed: 0, Passed: 353, Skipped: 0, Total: 353",
+            "at": "2026-09-24T07:45:42+07:00"
+          },
+          {
+            "cmd": "dotnet test --filter FullyQualifiedName~CheckoutTests (src/api)",
+            "result": "Passed! - Failed: 0, Passed: 24, Skipped: 0, Total: 24",
+            "at": "2026-09-24T07:47:49+07:00"
+          },
+          {
+            "cmd": "mutation check: already-paid asked after the stock, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 1, Passed: 23, Total: 24 — the resend-after-the-shelf-emptied test catches it · file restored",
+            "at": "2026-09-24T07:48:18+07:00"
+          },
+          {
+            "cmd": "mutation check: the member accumulates the subtotal instead of what was paid, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 3, Passed: 21, Total: 24 — AC-talad-014 · 027 · 028 catch it · file restored",
+            "at": "2026-09-24T07:48:26+07:00"
+          },
+          {
+            "cmd": "mutation check: the free pieces left in stock, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 1, Passed: 23, Total: 24 — AC-talad-068 catches it · file restored",
+            "at": "2026-09-24T07:48:35+07:00"
+          },
+          {
+            "cmd": "mutation check: a line's promotion version not kept, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 2, Passed: 22, Total: 24 — AC-talad-068 · 127 catch it · file restored",
+            "at": "2026-09-24T07:48:44+07:00"
+          },
+          {
+            "cmd": "mutation check: no retry after a lost race, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 1, Passed: 23, Total: 24 — the retry test catches it · file restored",
+            "at": "2026-09-24T07:48:53+07:00"
+          },
+          {
+            "cmd": "mutation check: no concurrency check on products.stock_qty, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Failed! - Failed: 1, Passed: 23, Total: 24 — the two-scope stock test catches it · file restored",
+            "at": "2026-09-24T07:49:02+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T07:49:18+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-033",
+            "result": "Passed! - Failed: 0, Passed: 24, Skipped: 0, Total: 24 · tests green (1 suite(s))",
+            "at": "2026-09-24T07:49:20+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1",
+            "result": "api Passed! 377/377 · web Tests 226 passed (226) · tests green (2 suite(s)) · exit 0",
+            "at": "2026-09-24T07:49:29+07:00"
+          },
+          {
+            "cmd": "dotnet ef database update against talad-verify-db (PostgreSQL 18, scratch)",
+            "result": "Applying migration '20260924004603_AddSales' · Done",
+            "at": "2026-09-24T07:49:45+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · node fe033-real.mjs (throwaway products 11 · 13, a test member)",
+            "result": "no token 401 · AC-027: 10 parallel presses of one cart → 1 × 201 (receipt 20260924-000002, net 85.50, seller พนักงานขาย, member สมหญิง ทดสอบชำระ) + 9 × 409 CART_NOT_OPEN ตะกร้านี้ชำระเงินไปแล้ว · stock 50 → 48 once · member accumulated 85.50 once · the api log shows all 9 losers met the ix_sales_cart_id unique index (23505) and were answered by the retry · AC-070: two carts for the last ลำไย → 1 × 201 + 1 × 409 INSUFFICIENT_STOCK ลำไย (ทดสอบราคา) คงเหลือไม่พอ (เหลือ 0), stock 0 · a sale and a RECEIVE +5 at the same moment → both 201, stock 48 → 52 (nothing overwritten) · member rate back to 0, test member hidden",
+            "at": "2026-09-24T07:50:19+07:00"
+          },
+          {
+            "cmd": "psql on talad-verify-db: UPDATE and DELETE on sale_lines · UPDATE sales.net_total · DELETE sales · UPDATE sales.status to Voided alone",
+            "result": "sale_lines is insert-only (BR-talad-025): UPDATE refused · DELETE refused · a paid bill changes only in its void fields (BR-talad-025) · sales rows are never deleted · check constraint ck_sales_void refuses a VOIDED bill without who, when and why · 3 sales, 3 lines, price_version_id and member_discount_version_id kept",
+            "at": "2026-09-24T07:50:34+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031 (PricedLine now carries FreeQty; CartPricing reads through one quote)",
+            "result": "Passed! - Failed: 0, Passed: 153, Skipped: 0, Total: 153 — all 110 golden rows still green · tests green (1 suite(s))",
+            "at": "2026-09-24T07:50:45+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Sales/Sale.cs",
+          "src/api/src/Talad.Domain/Sales/Cart.cs",
+          "src/api/src/Talad.Domain/Sales/Pricing.cs",
+          "src/api/src/Talad.Domain/Catalog/Product.cs",
+          "src/api/src/Talad.Domain/Members/Member.cs",
+          "src/api/src/Talad.Application/Concurrency.cs",
+          "src/api/src/Talad.Application/Sales/Checkout.cs",
+          "src/api/src/Talad.Application/Sales/CartPricing.cs",
+          "src/api/src/Talad.Application/Sales/CartService.cs",
+          "src/api/src/Talad.Application/Catalog/ProductPricing.cs",
+          "src/api/src/Talad.Application/Catalog/StockAdjusting.cs",
+          "src/api/src/Talad.Application/Members/MemberProfile.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartConfiguration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/MemberConfiguration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/TaladDbContext.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260924004603_AddSales.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260924004603_AddSales.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Api/Sales/CartEndpoints.cs",
+          "src/api/tests/Talad.Tests/Sales/CheckoutTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/CheckoutTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-010",
+            "route": "POST /api/cart/checkout",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-034",
@@ -7018,8 +7142,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 32,
-      "draft": 14
+      "validated": 33,
+      "draft": 13
     },
     "by_origin": {
       "new": 46

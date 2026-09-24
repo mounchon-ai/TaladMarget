@@ -22,7 +22,7 @@ public sealed record ProductDetail(
 /// so a paid bill keeps the price it was paid at (AC-talad-060). API-019 also answers the stock adjustments (FE-talad-023,
 /// written by <see cref="StockAdjusting"/>). UC-talad-018 · API-023 — the owner discontinues a product.
 /// </summary>
-public sealed class ProductPricing(IProductRepository products, IUserAccountRepository accounts, TimeProvider clock)
+public sealed class ProductPricing(IProductRepository products, IUserAccountRepository accounts, TimeProvider clock, IUnitOfWork work)
 {
     public const int PageSize = 20; // NFR-talad-006 — each section 20 rows a page, paged at the server
 
@@ -46,7 +46,10 @@ public sealed class ProductPricing(IProductRepository products, IUserAccountRepo
     }
 
     /// <summary>API-022 — the new price, then the pointer (the row needs its id before the product can point at it).</summary>
-    public async Task<ProductDetail> RepriceAsync(int id, decimal? price, string? source, int callerId, CancellationToken ct = default)
+    public Task<ProductDetail> RepriceAsync(int id, decimal? price, string? source, int callerId, CancellationToken ct = default) =>
+        Conflicts.RetryAsync(work, () => RepriceOnceAsync(id, price, source, callerId, ct)); // a sale can move the stock meanwhile
+
+    private async Task<ProductDetail> RepriceOnceAsync(int id, decimal? price, string? source, int callerId, CancellationToken ct)
     {
         var owner = await accounts.FindByIdAsync(callerId, ct) ?? throw new PriceOwnerOnlyException();
         var product = await ActiveAsync(id, ct);
@@ -64,7 +67,10 @@ public sealed class ProductPricing(IProductRepository products, IUserAccountRepo
     /// leave it out and API-019 answers it as not found; its price versions are not touched, so the bills that
     /// sold it keep their price (AC-talad-085). Already discontinued or never there is not found.
     /// </summary>
-    public async Task DiscontinueAsync(int id, int callerId, CancellationToken ct = default)
+    public Task DiscontinueAsync(int id, int callerId, CancellationToken ct = default) =>
+        Conflicts.RetryAsync(work, () => DiscontinueOnceAsync(id, callerId, ct));
+
+    private async Task DiscontinueOnceAsync(int id, int callerId, CancellationToken ct)
     {
         var owner = await accounts.FindByIdAsync(callerId, ct) ?? throw new ProductOwnerOnlyException();
         var product = await products.FindAsync(id, ct) ?? throw new ProductNotFoundException(id);

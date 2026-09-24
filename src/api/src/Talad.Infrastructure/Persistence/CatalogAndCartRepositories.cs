@@ -1,3 +1,4 @@
+using Talad.Application;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Talad.Application.Catalog;
@@ -91,7 +92,43 @@ internal sealed class CartRepository(TaladDbContext db) : ICartRepository
             .Include(c => c.Member)
             .SingleOrDefaultAsync(c => c.OwnerId == ownerId && c.Status == CartStatus.Open, ct);
 
+    public Task<Cart?> FindOwnAsync(int cartId, int ownerId, CancellationToken ct) =>
+        db.Carts
+            .Include(c => c.Lines).ThenInclude(l => l.Product).ThenInclude(p => p.CurrentPriceVersion)
+            .Include(c => c.Member)
+            .SingleOrDefaultAsync(c => c.Id == cartId && c.OwnerId == ownerId, ct);
+
     public void Add(Cart cart) => db.Carts.Add(cart);
 
     public Task SaveChangesAsync(CancellationToken ct) => db.SaveChangesAsync(ct);
+}
+
+internal sealed class SaleRepository(TaladDbContext db) : ISaleRepository
+{
+    public void Add(Sale sale) => db.Sales.Add(sale);
+
+    /// <summary>
+    /// Two presses of ชำระเงิน can both find the cart OPEN before either commits; the unique index on the cart turns the
+    /// second away, and the retry then reads the cart PAID and answers "ตะกร้านี้ชำระเงินไปแล้ว" (BR-talad-039@v1).
+    /// </summary>
+    public async Task SaveChangesAsync(CancellationToken ct)
+    {
+        try
+        {
+            await db.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException e) when (e.InnerException is PostgresException
+        {
+            SqlState: PostgresErrorCodes.UniqueViolation, ConstraintName: SaleConfiguration.CartIndex,
+        })
+        {
+            throw new ConcurrentUpdateException("cart");
+        }
+    }
+}
+
+/// <summary>The request's DbContext — forgetting what it tracked makes the next read come from the database.</summary>
+internal sealed class UnitOfWork(TaladDbContext db) : IUnitOfWork
+{
+    public void Reset() => db.ChangeTracker.Clear();
 }

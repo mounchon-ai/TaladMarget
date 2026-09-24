@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Talad.Application;
 using Talad.Application.Auth;
 using Talad.Application.Catalog;
 using Talad.Application.Members;
@@ -34,6 +35,9 @@ public static class DependencyInjection
         services.AddScoped<StockAdjusting>();
         services.AddScoped<CartService>();
         services.AddScoped<CartPricing>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ISaleRepository, SaleRepository>();
+        services.AddScoped<Checkout>();
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<MemberRegistration>();
         services.AddScoped<MemberDirectory>();

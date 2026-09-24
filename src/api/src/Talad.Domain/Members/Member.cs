@@ -70,6 +70,18 @@ public class Member
         HiddenAt = at;
     }
 
+    /// <summary>
+    /// BR-talad-003@v1 — what a bill bound to this member really paid (after every discount; the free pieces count
+    /// nothing) is added when it is paid. Saved in the same transaction as the bill; a sale racing another is caught
+    /// by the concurrency check on this column and tried again.
+    /// </summary>
+    public void Accumulate(decimal netTotal)
+    {
+        if (Status != MemberStatus.Active) throw new MemberNotActiveException(Id);
+        if (netTotal < 0) throw new ArgumentOutOfRangeException(nameof(netTotal));
+        AccumulatedAmount += netTotal;
+    }
+
     /// <summary>BR-talad-002@v1 — trimmed name and normalized phone, or every field that is wrong.</summary>
     private static (string Name, string Phone) Checked(string? name, string? phone)
     {

@@ -9,14 +9,20 @@ namespace Talad.Application.Catalog;
 /// new stock and the ENT-003 row are saved together; the row is never edited afterwards. The form's key is asked
 /// about first: a resend of a form already saved answers "บันทึกไปแล้ว" whatever the stock is now (BR-talad-041@v1).
 /// </summary>
-public sealed class StockAdjusting(IProductRepository products, IUserAccountRepository accounts, ProductPricing pricing, TimeProvider clock)
+public sealed class StockAdjusting(IProductRepository products, IUserAccountRepository accounts, ProductPricing pricing, TimeProvider clock, IUnitOfWork work)
 {
     /// <summary>
     /// API-024 — <paramref name="quantity"/> and <paramref name="countedQty"/> come as typed; one that is not a whole
     /// number is refused under its own field, the same as one missing.
     /// </summary>
-    public async Task<ProductDetail> AdjustAsync(
-        int id, string? reason, decimal? quantity, decimal? countedQty, string? note, string? requestKey, int callerId, CancellationToken ct = default)
+    public Task<ProductDetail> AdjustAsync(
+        int id, string? reason, decimal? quantity, decimal? countedQty, string? note, string? requestKey, int callerId, CancellationToken ct = default) =>
+        // a sale can take stock between the read and the save: every rule is asked again on what is left then —
+        // the key first, so a resend of this form still answers "บันทึกไปแล้ว"
+        Conflicts.RetryAsync(work, () => AdjustOnceAsync(id, reason, quantity, countedQty, note, requestKey, callerId, ct));
+
+    private async Task<ProductDetail> AdjustOnceAsync(
+        int id, string? reason, decimal? quantity, decimal? countedQty, string? note, string? requestKey, int callerId, CancellationToken ct)
     {
         var owner = await accounts.FindByIdAsync(callerId, ct) ?? throw new StockOwnerOnlyException();
         var product = await products.FindAsync(id, ct);

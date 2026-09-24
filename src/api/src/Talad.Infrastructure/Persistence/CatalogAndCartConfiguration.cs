@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Talad.Domain.Accounts;
 using Talad.Domain.Catalog;
+using Talad.Domain.Members;
+using Talad.Domain.Promotions;
+using Talad.Domain.Settings;
 using Talad.Domain.Sales;
 
 namespace Talad.Infrastructure.Persistence;
@@ -25,7 +28,9 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
         b.Property(x => x.ImagePath).HasColumnName("image_path");
         b.Property(x => x.CurrentPriceVersionId).HasColumnName("current_price_version_id");
         b.HasOne(x => x.CurrentPriceVersion).WithMany().HasForeignKey(x => x.CurrentPriceVersionId).OnDelete(DeleteBehavior.Restrict);
-        b.Property(x => x.StockQty).HasColumnName("stock_qty");
+        // BR-talad-007@v1 · BR-talad-032@v1 — a sale and an adjustment moving the same stock: the second save finds it
+        // moved and is run again from a fresh read (FE-talad-033), never written over
+        b.Property(x => x.StockQty).HasColumnName("stock_qty").IsConcurrencyToken();
         b.Property(x => x.LowStockThreshold).HasColumnName("low_stock_threshold");
         b.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired();
         b.Property(x => x.CreatedAt).HasColumnName("created_at");
@@ -82,6 +87,86 @@ internal sealed class StockAdjustmentConfiguration : IEntityTypeConfiguration<St
         b.Property(x => x.AdjustedAt).HasColumnName("adjusted_at");
         // UI-talad-012 adjustments section — one product's rows newest first, 20 a page (NFR-talad-006)
         b.HasIndex(x => new { x.ProductId, x.AdjustedAt, x.Id }).HasDatabaseName("ix_stock_adjustments_product_adjusted_at");
+    }
+}
+
+internal sealed class SaleConfiguration : IEntityTypeConfiguration<Sale>
+{
+    /// <summary>BR-talad-039@v1 at db — one bill per cart; the name <see cref="SaleRepository"/> looks for in a 23505.</summary>
+    public const string CartIndex = "ix_sales_cart_id";
+
+    public void Configure(EntityTypeBuilder<Sale> b)
+    {
+        b.ToTable("sales", t =>
+        {
+            // ENT-011 — money is numeric(12,2) and never below zero; a VOIDED bill carries who, when and why
+            t.HasCheckConstraint("ck_sales_amounts", "subtotal >= 0 AND promo_discount_total >= 0 AND bill_discount >= 0 AND member_discount >= 0 AND net_total >= 0");
+            t.HasCheckConstraint("ck_sales_void", "status <> 'Voided' OR (voided_by_id IS NOT NULL AND voided_at IS NOT NULL AND length(trim(void_reason)) > 0)");
+        });
+        b.HasKey(x => x.Id);
+        b.Property(x => x.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        b.Property(x => x.ReceiptNo).HasColumnName("receipt_no").IsRequired();
+        // UI-talad-007 — found by its receipt number
+        b.HasIndex(x => x.ReceiptNo).IsUnique().HasDatabaseName("ix_sales_receipt_no");
+        b.Property(x => x.CartId).HasColumnName("cart_id");
+        b.HasOne<Cart>().WithMany().HasForeignKey(x => x.CartId).OnDelete(DeleteBehavior.Restrict);
+        b.HasIndex(x => x.CartId).IsUnique().HasDatabaseName(CartIndex);
+        b.Property(x => x.SellerId).HasColumnName("seller_id");
+        b.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.SellerId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.MemberId).HasColumnName("member_id");
+        b.HasOne<Member>().WithMany().HasForeignKey(x => x.MemberId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.PaidAt).HasColumnName("paid_at");
+        b.Property(x => x.Subtotal).HasColumnName("subtotal").HasPrecision(12, 2);
+        b.Property(x => x.PromoDiscountTotal).HasColumnName("promo_discount_total").HasPrecision(12, 2);
+        b.Property(x => x.BillPromotionVersionId).HasColumnName("bill_promotion_version_id");
+        b.HasOne<PromotionVersion>().WithMany().HasForeignKey(x => x.BillPromotionVersionId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.BillDiscount).HasColumnName("bill_discount").HasPrecision(12, 2);
+        b.Property(x => x.MemberDiscountVersionId).HasColumnName("member_discount_version_id");
+        b.HasOne<MemberDiscountVersion>().WithMany().HasForeignKey(x => x.MemberDiscountVersionId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.MemberDiscount).HasColumnName("member_discount").HasPrecision(12, 2);
+        b.Property(x => x.NetTotal).HasColumnName("net_total").HasPrecision(12, 2);
+        b.Property(x => x.Status).HasColumnName("status").HasConversion<string>().IsRequired();
+        b.Property(x => x.VoidedById).HasColumnName("voided_by_id");
+        b.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.VoidedById).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.VoidedAt).HasColumnName("voided_at");
+        b.Property(x => x.VoidReason).HasColumnName("void_reason");
+        b.HasMany(x => x.Lines).WithOne().HasForeignKey(l => l.SaleId).OnDelete(DeleteBehavior.Restrict);
+        b.Navigation(x => x.Lines).HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
+        // UI-talad-007 · RPT-talad-001..004 — history and reports by date (NFR-talad-006..008), by seller, by member
+        b.HasIndex(x => new { x.PaidAt, x.Id }).HasDatabaseName("ix_sales_paid_at");
+        b.HasIndex(x => new { x.Status, x.PaidAt }).HasDatabaseName("ix_sales_status_paid_at");
+        b.HasIndex(x => new { x.SellerId, x.PaidAt }).HasDatabaseName("ix_sales_seller_paid_at");
+        b.HasIndex(x => x.MemberId).HasDatabaseName("ix_sales_member_id");
+    }
+}
+
+internal sealed class SaleLineConfiguration : IEntityTypeConfiguration<SaleLine>
+{
+    public void Configure(EntityTypeBuilder<SaleLine> b)
+    {
+        b.ToTable("sale_lines", t =>
+        {
+            // ENT-012 — qty at least 1, the free pieces 0..qty, money never below zero
+            t.HasCheckConstraint("ck_sale_lines_qty", "qty >= 1 AND free_qty >= 0 AND free_qty <= qty");
+            t.HasCheckConstraint("ck_sale_lines_amounts", "unit_price >= 0 AND promo_discount >= 0 AND line_net >= 0");
+        });
+        b.HasKey(x => new { x.SaleId, x.LineNo });
+        b.Property(x => x.SaleId).HasColumnName("sale_id");
+        b.Property(x => x.LineNo).HasColumnName("line_no");
+        b.Property(x => x.ProductId).HasColumnName("product_id");
+        b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+        // BR-talad-036@v1 at db — a version a bill points at cannot be deleted
+        b.Property(x => x.PriceVersionId).HasColumnName("price_version_id");
+        b.HasOne<ProductPriceVersion>().WithMany().HasForeignKey(x => x.PriceVersionId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.UnitPrice).HasColumnName("unit_price").HasPrecision(12, 2);
+        b.Property(x => x.Qty).HasColumnName("qty");
+        b.Property(x => x.FreeQty).HasColumnName("free_qty");
+        b.Property(x => x.PromotionVersionId).HasColumnName("promotion_version_id");
+        b.HasOne<PromotionVersion>().WithMany().HasForeignKey(x => x.PromotionVersionId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.PromoDiscount).HasColumnName("promo_discount").HasPrecision(12, 2);
+        b.Property(x => x.LineNet).HasColumnName("line_net").HasPrecision(12, 2);
+        // RPT-talad-003 best sellers — lines by product
+        b.HasIndex(x => x.ProductId).HasDatabaseName("ix_sale_lines_product_id");
     }
 }
 
