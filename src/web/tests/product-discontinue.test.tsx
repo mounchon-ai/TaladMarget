@@ -29,6 +29,7 @@ const orange: ProductDetail = {
   price: 45,
   hasImage: false,
   priceHistory: { items: [], page: 1, pageSize: 20, total: 0 },
+  adjustments: { items: [], page: 1, pageSize: 20, total: 0 },
 };
 
 function apiAnswers(status: number, body?: unknown) {

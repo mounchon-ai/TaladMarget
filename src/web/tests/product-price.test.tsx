@@ -39,6 +39,7 @@ const orange: ProductDetail = {
   price: 45,
   hasImage: false,
   priceHistory: historyOf([]),
+  adjustments: { items: [], page: 1, pageSize: 20, total: 0 },
 };
 
 function apiAnswers(status: number, body: unknown) {
@@ -134,7 +135,9 @@ describe("FE-talad-020 · UI-talad-012 product page (API-019)", () => {
 
     render(await ProductPage({ params: Promise.resolve({ id: "1" }), searchParams: Promise.resolve({}) }));
 
-    expect(screen.getByText("ยังไม่มีรายการ")).toBeTruthy();
+    // the adjustments section (FE-talad-024) says ยังไม่มีรายการ too — this one is the history's
+    const history = screen.getByRole("heading", { name: "ประวัติราคา" }).closest("section")!;
+    expect(within(history).getByText("ยังไม่มีรายการ")).toBeTruthy();
   });
 
   it("state unauthorized · a seller is sent away before the product is read", async () => {

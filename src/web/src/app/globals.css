@@ -645,3 +645,17 @@ body {
   background: var(--brand-subtle);
   color: var(--brand-primary);
 }
+
+/* UI-talad-014 ปรับสต็อก — a window over UI-talad-012 (kind modal); state overflow: a long note scrolls in its own box */
+.field .select,
+.field .textarea {
+  width: 100%;
+}
+.field.invalid .select {
+  border-color: var(--danger);
+  box-shadow: var(--shadow-focus);
+}
+.field .textarea {
+  resize: none;
+  overflow-y: auto;
+}

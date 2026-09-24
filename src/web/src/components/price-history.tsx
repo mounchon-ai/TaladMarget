@@ -1,23 +1,25 @@
 import Link from "next/link";
 import { formatBaht } from "@/lib/money";
+import { productDetailHref } from "@/lib/product-detail-href";
 import type { PriceHistoryPage } from "@/lib/products-api";
 
 /** UI-talad-012 state "empty" in a section — word for word. */
 export const NO_ROWS = "ยังไม่มีรายการ";
 
-const thaiTime = new Intl.DateTimeFormat("th-TH", { timeZone: "Asia/Bangkok", dateStyle: "medium", timeStyle: "short" });
+export const thaiTime = new Intl.DateTimeFormat("th-TH", { timeZone: "Asia/Bangkok", dateStyle: "medium", timeStyle: "short" });
 
 /**
  * UI-talad-012 zone price-history (API-019) — the columns the wireframe MCK-talad-012 draws: ราคาเดิม · ผู้แก้ราคา ·
  * เวลาที่แก้ราคา (Thai time), newest first, 20 a page on its own parameter (state "overflow"). Each row carries
- * data-row-key = the price version's id (ENT-002 key) because its fields repeat once per row (gate 126).
+ * data-row-key = the price version's id (ENT-002 key) because its fields repeat once per row (gate 126). Paging it
+ * keeps the adjustments section on its page (FE-talad-024).
  */
-export function PriceHistory({ history, productId }: { history: PriceHistoryPage; productId: number }) {
+export function PriceHistory({ history, productId, adjustmentsPage = 1 }: { history: PriceHistoryPage; productId: number; adjustmentsPage?: number }) {
   const { items, page, pageSize, total } = history;
   if (items.length === 0) return <p className="muted">{NO_ROWS}</p>;
 
   const pages = Math.max(1, Math.ceil(total / pageSize));
-  const href = (n: number) => `/stock/${productId}${n > 1 ? `?historyPage=${n}` : ""}`;
+  const href = (n: number) => productDetailHref(productId, n, adjustmentsPage);
   return (
     <div className="tablewrap">
       <table>

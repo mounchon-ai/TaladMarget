@@ -3859,7 +3859,227 @@
           "hash": "sha256:2ab7815ee7011d81f7c18dafba91b3fca7101040f8e75de107683f340664da50"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 2,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-024 (round 1)",
+            "result": "Test Files 1 passed | 15 skipped (16) · Tests 18 passed | 197 skipped (215) · tests green (1 suite(s))",
+            "at": "2026-09-24T07:06:48+07:00"
+          },
+          {
+            "cmd": "mutation check: the window keeping its first key when opened again, then npx vitest run tests/stock-adjustment.test.tsx (src/web)",
+            "result": "Tests 1 failed | 17 passed (18) — AC-talad-081 catches it · file restored",
+            "at": "2026-09-24T07:07:02+07:00"
+          },
+          {
+            "cmd": "mutation check: the form not redrawn per answer (key fixed), then npx vitest run tests/stock-adjustment.test.tsx (src/web)",
+            "result": "Tests 1 failed | 17 passed (18) — the twice-refused state error test catches React clearing the form · file restored",
+            "at": "2026-09-24T07:07:05+07:00"
+          },
+          {
+            "cmd": "mutation check: นับสต็อกใหม่ also sending the typed change, then npx vitest run tests/stock-adjustment.test.tsx (src/web)",
+            "result": "Tests 1 failed | 17 passed (18) — AC-talad-076 catches it · file restored",
+            "at": "2026-09-24T07:07:08+07:00"
+          },
+          {
+            "cmd": "mutation check: a duplicate answer not redrawing the detail, then npx vitest run tests/stock-adjustment.test.tsx (src/web)",
+            "result": "Tests 2 failed | 16 passed (18) — AC-talad-079 · 080 catch it · file restored",
+            "at": "2026-09-24T07:07:11+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "next build · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T07:07:21+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web (round 1)",
+            "result": "Tests 1 failed | 214 passed (215) · exit 1 — FE-talad-020's empty-history test found ยังไม่มีรายการ twice now that the adjustments section says it too",
+            "at": "2026-09-24T07:07:26+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web (round 2 — that query scoped to the ประวัติราคา section, same expectation)",
+            "result": "Test Files 16 passed (16) · Tests 215 passed (215) · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T07:07:49+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-024 · npm run lint (src/web)",
+            "result": "Tests 18 passed | 197 skipped (215) · tests green · eslint exit 0",
+            "at": "2026-09-24T07:08:02+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db (PostgreSQL 18, scratch) · Playwright as the owner on ลำไยอีดอ (id 10, stock 29, threshold 5)",
+            "result": "UI-012 draws รายการปรับสต็อก newest first in Thai time · ปรับสต็อก → ของเน่า/เสีย −30 + ลำไยช้ำ → จำนวนคงเหลือต้องไม่ติดลบ (เหลือ 29) under จำนวน, typed values and key kept · −26 in the same form → closed, stock 3, row −26 ของเน่า/เสีย 07:08 ลำไยช้ำ · stock list ใกล้หมด at 3 · reopened: new key, empty form, คงเหลือปัจจุบัน 3 · รับของเข้า +10 → 13, stock list without ใกล้หมด · นับสต็อกใหม่ 13 → no-difference sentence under จำนวนที่นับได้ · 12 → −1 · rows 9 · 8 · 7 keyed by id",
+            "at": "2026-09-24T07:09:38+07:00"
+          },
+          {
+            "cmd": "psql select stock_adjustments of product 10 · curl API-024 with the second web form's key 4dd1c385…",
+            "result": "rows 7 Spoiled −26 key 2c08d891… (the refused-then-saved form kept its key) · 8 Receive 10 key 4dd1c385… · 9 Recount −1 counted 12 · resend 409 รายการปรับสต็อกนี้บันทึกไปแล้ว · stock stays 12",
+            "at": "2026-09-24T07:09:48+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/products-api.ts",
+          "src/web/src/lib/stock-adjustment-form.ts",
+          "src/web/src/lib/product-detail-href.ts",
+          "src/web/src/components/adjust-stock-dialog.tsx",
+          "src/web/src/components/stock-adjustments.tsx",
+          "src/web/src/components/price-history.tsx",
+          "src/web/src/app/(app)/stock/[id]/actions.ts",
+          "src/web/src/app/(app)/stock/[id]/page.tsx",
+          "src/web/src/app/(app)/stock/[id]/loading.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/tests/stock-adjustment.test.tsx",
+          "src/web/tests/product-price.test.tsx",
+          "src/web/tests/product-discontinue.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/stock-adjustment.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "adjustmentDelta",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-003-quantity-delta",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustmentReason",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-003-reason",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustmentBy",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-003-adjusted-by",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustmentAt",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-003-adjusted-at",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustmentNote",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-012-ent-003-note",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustStock",
+            "kind": "create",
+            "dd_ref": null,
+            "testid": "ui-talad-012-adjust-stock",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustCurrentStock",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-014-ent-001-stock-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustReason",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-014-ent-003-reason",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustQuantity",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-014-ent-003-quantity-delta",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustCounted",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-014-ent-003-counted-qty",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "adjustNote",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-014-ent-003-note",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "saveAdjustment",
+            "kind": "create",
+            "dd_ref": null,
+            "testid": "ui-talad-014-save",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "cancelAdjustment",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-014-cancel",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-025",
@@ -6463,8 +6683,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 29,
-      "draft": 17
+      "validated": 30,
+      "draft": 16
     },
     "by_origin": {
       "new": 46

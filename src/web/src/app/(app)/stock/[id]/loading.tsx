@@ -13,10 +13,12 @@ export default function Loading() {
           </div>
         ))}
       </div>
-      <section className="card">
-        <h2>ประวัติราคา</h2>
-        <span className="skeleton" />
-      </section>
+      {["ประวัติราคา", "รายการปรับสต็อก"].map((section) => (
+        <section className="card" key={section}>
+          <h2>{section}</h2>
+          <span className="skeleton" />
+        </section>
+      ))}
     </div>
   );
 }
