@@ -103,6 +103,20 @@ public static class CartEndpoints
             }
         });
 
+        // API-011 · GET /api/sales/{id} — a bill the caller sold, as its receipt shows it (UC-talad-005 · ACL-005); anyone
+        // else's is not found (BR-talad-020@v1). What API-010's Location points at.
+        app.MapGet("/api/sales/{id:int}", async (int id, ClaimsPrincipal user, SaleReceipts receipts, CancellationToken ct) =>
+        {
+            try
+            {
+                return Results.Ok(await receipts.GetOwnAsync(id, OwnerId(user), ct));
+            }
+            catch (SaleNotFoundException)
+            {
+                return Results.NotFound(new CartError("SALE_NOT_FOUND", "ไม่พบบิลนี้"));
+            }
+        });
+
         // API-008 · PUT /api/cart/member — bind an ACTIVE member to the caller's own cart, or unbind
         cart.MapPut("/member", (SetMemberRequest body, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>
             Guard(() => carts.SetMemberAsync(OwnerId(user), body.MemberId, ct)));

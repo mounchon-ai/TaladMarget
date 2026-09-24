@@ -127,6 +127,32 @@ internal sealed class SaleRepository(TaladDbContext db) : ISaleRepository
     }
 }
 
+/// <summary>
+/// API-011 — a bill and what it points at, read without the ACTIVE filters the sales screen uses: a hidden member, a
+/// discontinued product or promotion still names itself on the bill (BR-talad-040@v2 · BR-talad-036@v1).
+/// </summary>
+internal sealed class SaleReader(TaladDbContext db) : ISaleReader
+{
+    public async Task<SaleReading?> FindOwnAsync(int saleId, int sellerId, CancellationToken ct)
+    {
+        var sale = await db.Sales.AsNoTracking().Include(s => s.Lines).SingleOrDefaultAsync(s => s.Id == saleId && s.SellerId == sellerId, ct);
+        if (sale is null) return null;
+
+        var seller = await db.UserAccounts.AsNoTracking().Where(a => a.Id == sale.SellerId).Select(a => a.DisplayName).SingleAsync(ct);
+        var member = sale.MemberId is { } m ? await db.Members.AsNoTracking().SingleAsync(x => x.Id == m, ct) : null;
+        var productIds = sale.Lines.Select(l => l.ProductId).ToList();
+        var names = await db.Products.AsNoTracking().Where(p => productIds.Contains(p.Id)).ToDictionaryAsync(p => p.Id, p => p.Name, ct);
+        var versionIds = sale.Lines.Where(l => l.PromotionVersionId is not null).Select(l => l.PromotionVersionId!.Value).ToList();
+        if (sale.BillPromotionVersionId is { } bill) versionIds.Add(bill);
+        var promotions = await db.PromotionVersions.AsNoTracking().Where(v => versionIds.Contains(v.Id))
+            .ToDictionaryAsync(v => v.Id, v => new PromotionRef(v.PromotionId, v.Name), ct);
+        var rate = sale.MemberDiscountVersionId is { } d
+            ? await db.MemberDiscountVersions.AsNoTracking().Where(v => v.Id == d).Select(v => v.RatePercent).SingleAsync(ct)
+            : 0;
+        return new SaleReading(sale, seller, member, names, promotions, rate);
+    }
+}
+
 /// <summary>The request's DbContext — forgetting what it tracked makes the next read come from the database.</summary>
 internal sealed class UnitOfWork(TaladDbContext db) : IUnitOfWork
 {

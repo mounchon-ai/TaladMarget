@@ -6415,7 +6415,89 @@
           "hash": "sha256:15cd625ab6851d1b9915a3a8340ad2b3f794f090411b3400f0f98e1f41f35938"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "dotnet test --filter feature=FE-talad-035 (src/api) — first run (the time below is approximate; it was not captured)",
+            "result": "Passed! - Failed: 0, Passed: 8, Skipped: 0, Total: 8 — GET /api/sales/{id} serialises field for field the same as the checkout answer for a bill with a member at 5%, a line promotion, a free gift and a whole-bill promotion, so Checkout (FE-talad-033) was left as it is",
+            "at": "2026-09-24T08:14:30+07:00"
+          },
+          {
+            "cmd": "mutation check: any seller's bill answered, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-035",
+            "result": "Failed! - Failed: 1, Passed: 7, Total: 8 — the another-seller test catches it · file restored",
+            "at": "2026-09-24T08:16:12+07:00"
+          },
+          {
+            "cmd": "mutation check: the promotion named by its version id instead of the promotion's, then the same command",
+            "result": "Passed! 8/8 — SURVIVED: in a fresh test db a promotion's first version has the promotion's id. The changes-after-the-sale test now revises an earlier promotion first so the two ids differ",
+            "at": "2026-09-24T08:16:18+07:00"
+          },
+          {
+            "cmd": "mutation check: the member rate not read from the version the bill kept (always 0), then the same command",
+            "result": "Failed! - Failed: 2, Passed: 6, Total: 8 — the changes test and the same-as-checkout test catch it · file restored",
+            "at": "2026-09-24T08:16:24+07:00"
+          },
+          {
+            "cmd": "mutation check: a hidden member dropped from the receipt, then the same command",
+            "result": "Failed! - Failed: 1, Passed: 7, Total: 8 — the changes test catches it (BR-talad-040@v2) · file restored",
+            "at": "2026-09-24T08:16:29+07:00"
+          },
+          {
+            "cmd": "mutation check: lines out of order, then the same command",
+            "result": "Failed! - Failed: 1, Passed: 7, Total: 8 — the same-as-checkout test catches it · file restored",
+            "at": "2026-09-24T08:16:35+07:00"
+          },
+          {
+            "cmd": "mutation check (after the test was strengthened): the promotion named by its version id, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-035",
+            "result": "Failed! - Failed: 1, Passed: 7, Total: 8 — Changes_after_the_sale_do_not_reach_its_receipt catches it · file restored",
+            "at": "2026-09-24T08:16:55+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "0 Warning(s) 0 Error(s) · build done (1 app(s))",
+            "at": "2026-09-24T08:17:06+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1",
+            "result": "api Passed! 385/385 · web Tests 240 passed (240) · tests green (2 suite(s))",
+            "at": "2026-09-24T08:17:09+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · node fe035-real.mjs (reads only, no new sale)",
+            "result": "seller · sale 1 (20260924-000002): 200, member สมหญิง ทดสอบชำระ (Hidden) still on it, rate 5 and −4.50 as kept while the shop's rate is now 0, net 85.50 · seller · sale 15 (20260924-000005): 200, line ส้ม (ทดสอบราคา) ×3 @45 promotion 15 'ส้ม ลด 10% (ทดสอบชำระ web)' −13.50 although promotion 15 is Discontinued · owner · own sale 17 (20260924-000001): 200 · seller · sale 17: 404 SALE_NOT_FOUND ไม่พบบิลนี้ · unknown 9999: 404 · no token: 401",
+            "at": "2026-09-24T08:17:41+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Application/Sales/SaleReceipts.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Sales/CartEndpoints.cs",
+          "src/api/tests/Talad.Tests/Sales/SaleReceiptTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/SaleReceiptTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-011",
+            "route": "GET /api/sales/{id}",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-036",
@@ -7278,8 +7360,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 34,
-      "draft": 12
+      "validated": 35,
+      "draft": 11
     },
     "by_origin": {
       "new": 46
