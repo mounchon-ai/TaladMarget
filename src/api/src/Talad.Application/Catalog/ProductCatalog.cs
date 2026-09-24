@@ -13,7 +13,16 @@ public interface IProductRepository
     /// <summary>BR-talad-033@v1 — the changes of one product's price (every version but the first), newest first, with who made each.</summary>
     Task<(IReadOnlyList<(ProductPriceVersion Version, string ChangedByName)> Items, int Total)> PriceHistoryAsync(int productId, int page, int pageSize, CancellationToken ct);
 
+    /// <summary>ENT-003 — one product's adjustments, newest first, with who made each.</summary>
+    Task<(IReadOnlyList<(StockAdjustment Adjustment, string AdjustedByName)> Items, int Total)> AdjustmentsAsync(int productId, int page, int pageSize, CancellationToken ct);
+
+    /// <summary>BR-talad-041@v1 — whether any adjustment was already saved under this form's key.</summary>
+    Task<bool> AdjustmentKeyTakenAsync(string requestKey, CancellationToken ct);
+
     void Add(ProductPriceVersion version);
+    void Add(StockAdjustment adjustment);
+
+    /// <summary>A second adjustment under a key already saved is <see cref="StockAdjustmentDuplicateException"/>.</summary>
     Task SaveChangesAsync(CancellationToken ct);
 }
 

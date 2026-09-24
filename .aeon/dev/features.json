@@ -3681,7 +3681,113 @@
           "hash": "sha256:64b4c9a023d8aef8b819e9f4417cd0ce2531316df9ee72cf3eb058379940ec59"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "mutation check: StockAdjusting without the request-key check, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-023",
+            "result": "Failed! - Failed: 4, Passed: 22, Total: 26 — AC-talad-079 · 080 and the two resend-order tests catch it · file restored",
+            "at": "2026-09-24T06:58:18+07:00"
+          },
+          {
+            "cmd": "mutation check: Product.Adjust without the below-zero check, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-023",
+            "result": "Failed! - Failed: 1, Passed: 25, Total: 26 — AC-talad-077 catches it · file restored",
+            "at": "2026-09-24T06:58:25+07:00"
+          },
+          {
+            "cmd": "mutation check: Product.Adjust without the owner check, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-023",
+            "result": "Failed! - Failed: 1, Passed: 25, Total: 26 — the domain seller test catches it · file restored",
+            "at": "2026-09-24T06:58:31+07:00"
+          },
+          {
+            "cmd": "mutation check: RECOUNT taking what was counted as the change, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-023",
+            "result": "Failed! - Failed: 2, Passed: 24, Total: 26 — AC-talad-076 and the no-difference refusal catch it · file restored",
+            "at": "2026-09-24T06:58:37+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-023",
+            "result": "Passed! - Failed: 0, Passed: 26, Skipped: 0, Total: 26 - Talad.Tests.dll (net10.0) · tests green (1 suite(s))",
+            "at": "2026-09-24T06:58:02+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T06:58:49+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 200, Skipped: 0, Total: 200 · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T06:58:52+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web (API-019 gained adjustments)",
+            "result": "Test Files 15 passed (15) · Tests 197 passed (197) · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T06:58:59+07:00"
+          },
+          {
+            "cmd": "dotnet ef database update against talad-verify-db (PostgreSQL 18, scratch)",
+            "result": "Applying migration '20260923235558_AddStockAdjustments' · Done · psql describe of stock_adjustments showsix_stock_adjustments_request_key UNIQUE · ix_stock_adjustments_product_adjusted_at (product_id, adjusted_at, id) · both checks · trigger stock_adjustments_insert_only",
+            "at": "2026-09-24T06:59:10+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · curl API-024 · API-003 · API-019 on a throwaway ลำไยอีดอ (id 10, stock 4, threshold 5)",
+            "result": "no token 401 · seller 403 · seller lowStock true → owner RECEIVE +10 201 stock 14 by เจ้าของร้าน → seller and owner lowStock false · same key 409 รายการปรับสต็อกนี้บันทึกไปแล้ว · SPOILED −20 400 จำนวนคงเหลือต้องไม่ติดลบ (เหลือ 14) · RECOUNT 8 201 −6 (counted 8) · RECOUNT 8 again 400 no difference · two parallel same key 201 + 409 · new key +10 201 stock 28 · API-019 adjustments total 4 newest first",
+            "at": "2026-09-24T06:59:34+07:00"
+          },
+          {
+            "cmd": "psql on talad-verify-db: UPDATE and DELETE on stock_adjustments · INSERT a used request_key · UPDATE products.stock_qty to −1",
+            "result": "UPDATE refused and DELETE refused: stock_adjustments is insert-only (BR-talad-032) · duplicate key value violates unique constraint \"ix_stock_adjustments_request_key\" · violates check constraint \"ck_products_stock_qty\" · rows still 4",
+            "at": "2026-09-24T06:59:42+07:00"
+          },
+          {
+            "cmd": "ten parallel curl POST /api/products/10/stock-adjustments with one requestKey (real-race-10)",
+            "result": "1 × 201 · 9 × 409 · stock 28 → 29 · 1 row under that key · no exception in the api log — which of the 409s the index (23505) rather than the key check answered is not visible from outside",
+            "at": "2026-09-24T06:59:55+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Catalog/StockAdjustment.cs",
+          "src/api/src/Talad.Domain/Catalog/Product.cs",
+          "src/api/src/Talad.Application/Catalog/ProductCatalog.cs",
+          "src/api/src/Talad.Application/Catalog/ProductPricing.cs",
+          "src/api/src/Talad.Application/Catalog/StockAdjusting.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartConfiguration.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/CatalogAndCartRepositories.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/TaladDbContext.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923235558_AddStockAdjustments.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/20260923235558_AddStockAdjustments.Designer.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/Migrations/TaladDbContextModelSnapshot.cs",
+          "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs",
+          "src/api/tests/Talad.Tests/Catalog/StockAdjustmentTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Catalog/StockAdjustmentTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-024",
+            "route": "POST /api/products/{id}/stock-adjustments",
+            "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
+          },
+          {
+            "api_ref": "API-019",
+            "route": "GET /api/products/{id}",
+            "file": "src/api/src/Talad.Api/Catalog/ProductEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-024",
@@ -6354,8 +6460,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 28,
-      "draft": 18
+      "validated": 29,
+      "draft": 17
     },
     "by_origin": {
       "new": 46

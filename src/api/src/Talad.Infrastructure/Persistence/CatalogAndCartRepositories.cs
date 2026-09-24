@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using Talad.Application.Catalog;
 using Talad.Application.Sales;
 using Talad.Domain.Catalog;
@@ -43,9 +44,43 @@ internal sealed class ProductRepository(TaladDbContext db) : IProductRepository
         return (rows.Select(r => (r.Version, r.DisplayName)).ToList(), total);
     }
 
+    public async Task<(IReadOnlyList<(StockAdjustment Adjustment, string AdjustedByName)> Items, int Total)> AdjustmentsAsync(int productId, int page, int pageSize, CancellationToken ct)
+    {
+        var rows = db.StockAdjustments.Where(a => a.ProductId == productId);
+        var total = await rows.CountAsync(ct);
+        var items = await rows
+            .OrderByDescending(a => a.AdjustedAt).ThenByDescending(a => a.Id)
+            .Skip((page - 1) * pageSize).Take(pageSize)
+            .Join(db.UserAccounts, a => a.AdjustedById, u => u.Id, (a, u) => new { Adjustment = a, u.DisplayName })
+            .ToListAsync(ct);
+        return (items.Select(r => (r.Adjustment, r.DisplayName)).ToList(), total);
+    }
+
+    public Task<bool> AdjustmentKeyTakenAsync(string requestKey, CancellationToken ct) =>
+        db.StockAdjustments.AnyAsync(a => a.RequestKey == requestKey, ct);
+
     public void Add(ProductPriceVersion version) => db.ProductPriceVersions.Add(version);
 
-    public Task SaveChangesAsync(CancellationToken ct) => db.SaveChangesAsync(ct);
+    public void Add(StockAdjustment adjustment) => db.StockAdjustments.Add(adjustment);
+
+    /// <summary>
+    /// Two saves of the same form can both pass the key check before either commits (a double click, a resend
+    /// racing the first); the unique index turns the second away, and it answers the same as the check would have.
+    /// </summary>
+    public async Task SaveChangesAsync(CancellationToken ct)
+    {
+        try
+        {
+            await db.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException e) when (e.InnerException is PostgresException
+        {
+            SqlState: PostgresErrorCodes.UniqueViolation, ConstraintName: StockAdjustmentConfiguration.RequestKeyIndex,
+        })
+        {
+            throw new StockAdjustmentDuplicateException();
+        }
+    }
 }
 
 internal sealed class CartRepository(TaladDbContext db) : ICartRepository

@@ -53,6 +53,38 @@ internal sealed class ProductPriceVersionConfiguration : IEntityTypeConfiguratio
     }
 }
 
+internal sealed class StockAdjustmentConfiguration : IEntityTypeConfiguration<StockAdjustment>
+{
+    /// <summary>BR-talad-041@v1 at db — the name <see cref="ProductRepository"/> looks for in a 23505.</summary>
+    public const string RequestKeyIndex = "ix_stock_adjustments_request_key";
+
+    public void Configure(EntityTypeBuilder<StockAdjustment> b)
+    {
+        b.ToTable("stock_adjustments", t =>
+        {
+            // ENT-003 · BR-talad-032@v1 at db as well as domain (interfaces.json ruleEnforcement); the rows are
+            // insert-only through the trigger of migration AddStockAdjustments
+            t.HasCheckConstraint("ck_stock_adjustments_quantity_delta", "quantity_delta <> 0");
+            t.HasCheckConstraint("ck_stock_adjustments_counted_qty", "counted_qty IS NULL OR counted_qty >= 0");
+        });
+        b.HasKey(x => x.Id);
+        b.Property(x => x.Id).HasColumnName("id").UseIdentityAlwaysColumn();
+        b.Property(x => x.ProductId).HasColumnName("product_id");
+        b.HasOne<Product>().WithMany().HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.Reason).HasColumnName("reason").HasConversion<string>().IsRequired();
+        b.Property(x => x.QuantityDelta).HasColumnName("quantity_delta");
+        b.Property(x => x.CountedQty).HasColumnName("counted_qty");
+        b.Property(x => x.Note).HasColumnName("note");
+        b.Property(x => x.RequestKey).HasColumnName("request_key").IsRequired();
+        b.HasIndex(x => x.RequestKey).IsUnique().HasDatabaseName(RequestKeyIndex);
+        b.Property(x => x.AdjustedById).HasColumnName("adjusted_by_id");
+        b.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.AdjustedById).OnDelete(DeleteBehavior.Restrict);
+        b.Property(x => x.AdjustedAt).HasColumnName("adjusted_at");
+        // UI-talad-012 adjustments section — one product's rows newest first, 20 a page (NFR-talad-006)
+        b.HasIndex(x => new { x.ProductId, x.AdjustedAt, x.Id }).HasDatabaseName("ix_stock_adjustments_product_adjusted_at");
+    }
+}
+
 internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>
 {
     public void Configure(EntityTypeBuilder<Cart> b)

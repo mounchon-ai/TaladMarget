@@ -67,6 +67,40 @@ public class Product
     }
 
     /// <summary>
+    /// API-024 · UC-talad-020 — the owner's hand change of what is left (ACL-022), on a product still sold. RECEIVE and
+    /// SPOILED carry the change itself, + or − (BR-talad-032@v1 does not tie the sign to the reason); RECOUNT carries
+    /// what was counted and the change is worked out from what the system holds. The change is never 0 and never
+    /// leaves the stock below zero. The caller saves the product and the row it returns together.
+    /// </summary>
+    public StockAdjustment Adjust(
+        StockAdjustmentReason? reason, int? quantity, int? countedQty, string? note, string requestKey, UserAccount by, DateTimeOffset at)
+    {
+        if (by.Role != UserRole.Owner) throw new StockOwnerOnlyException();
+        if (!IsActive) throw new ProductNotActiveException(Id);
+        if (reason is not { } why) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.ReasonRequired, "reason");
+
+        long delta;
+        int? counted = null;
+        if (why == StockAdjustmentReason.Recount)
+        {
+            if (countedQty is not { } c || c < 0) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.CountedRequired, "countedQty");
+            delta = (long)c - StockQty;
+            if (delta == 0) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.NoDifference, "countedQty");
+            counted = c;
+        }
+        else
+        {
+            if (quantity is not { } q || q == 0) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.QuantityRequired, "quantity");
+            if (StockQty + (long)q < 0) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.NegativeStock(StockQty), "quantity");
+            if (StockQty + (long)q > int.MaxValue) throw new StockAdjustmentInvalidException(StockAdjustmentMessages.TooMany, "quantity");
+            delta = q;
+        }
+
+        StockQty += (int)delta;
+        return new StockAdjustment(Id, why, (int)delta, counted, string.IsNullOrWhiteSpace(note) ? null : note.Trim(), requestKey, by.Id, at);
+    }
+
+    /// <summary>
     /// API-023 · UC-talad-018 · STM-talad-001 ACTIVE → DISCONTINUED, final: the owner's alone, on a product still
     /// sold (ACL-020). Whether or not a bill ever sold it, a product is never deleted (BR-talad-037@v1) — its price
     /// versions stay for the bills that point at them, and an open cart that holds it keeps the line until taken out.

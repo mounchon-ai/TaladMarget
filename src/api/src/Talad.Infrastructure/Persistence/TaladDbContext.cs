@@ -14,6 +14,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
     public DbSet<UserAccount> UserAccounts => Set<UserAccount>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductPriceVersion> ProductPriceVersions => Set<ProductPriceVersion>();
+    public DbSet<StockAdjustment> StockAdjustments => Set<StockAdjustment>();
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<Member> Members => Set<Member>();
     public DbSet<MemberDiscountVersion> MemberDiscountVersions => Set<MemberDiscountVersion>();
@@ -25,6 +26,7 @@ public class TaladDbContext(DbContextOptions<TaladDbContext> options) : DbContex
         modelBuilder.ApplyConfiguration(new UserAccountConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ProductPriceVersionConfiguration());
+        modelBuilder.ApplyConfiguration(new StockAdjustmentConfiguration());
         modelBuilder.ApplyConfiguration(new CartConfiguration());
         modelBuilder.ApplyConfiguration(new CartLineConfiguration());
         modelBuilder.ApplyConfiguration(new MemberConfiguration());
