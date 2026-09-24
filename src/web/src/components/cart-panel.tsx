@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition, type ReactNode } from "react";
 import { formatBaht } from "@/lib/money";
 import type { Cart, CartLine, CartPricing } from "@/lib/sales-api";
 
@@ -12,6 +12,8 @@ type Props = {
   pricing: CartPricing | null;
   changeQty: (productId: number, qty: number) => Promise<Result>;
   remove: (productId: number) => Promise<Result>;
+  /** The till's command — ชำระเงิน (FE-talad-034), drawn under ยอดที่ต้องชำระ as the mockup places it. */
+  checkout?: ReactNode;
 };
 
 /**
@@ -25,7 +27,7 @@ type Props = {
  * ยอดที่ต้องชำระ from API-009. While promotions give exactly the same and wait for the staff (BR-talad-029@v1) every
  * total is — : UI-talad-003 asks at ชำระเงิน, which is FE-talad-034's.
  */
-export function CartPanel({ cart, pricing, changeQty, remove }: Props) {
+export function CartPanel({ cart, pricing, changeQty, remove, checkout }: Props) {
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<string | null>(null);
   const [confirming, setConfirming] = useState<CartLine | null>(null);
@@ -201,6 +203,7 @@ export function CartPanel({ cart, pricing, changeQty, remove }: Props) {
             {amount(pricing?.net)}
           </span>
         </div>
+        {checkout}
       </div>
     </>
   );

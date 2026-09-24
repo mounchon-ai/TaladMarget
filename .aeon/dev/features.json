@@ -6230,7 +6230,137 @@
           "hash": "sha256:5f6b1a339b03d31cca31623ffabf160dd3debc8974f8526d751b71a0cfb9f487"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 2,
+        "proof": [
+          {
+            "cmd": "npx vitest run tests/checkout.test.tsx (src/web) — first run",
+            "result": "Tests 9 failed | 5 passed (14) — the tests used jest-dom matchers this project does not install, and pressed UI-talad-003's buttons while the payment's transition was still pending (buttons off); both assertions rewritten, no code changed",
+            "at": "2026-09-24T07:58:27+07:00"
+          },
+          {
+            "cmd": "npx tsc --noEmit -p . · npx eslint src tests (src/web) · powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web",
+            "result": "tsc no errors · eslint no findings · Test Files 18 passed (18) · Tests 240 passed (240) · tests green (1 suite(s))",
+            "at": "2026-09-24T07:59:11+07:00"
+          },
+          {
+            "cmd": "mutation check: the ref guard removed (two presses in one frame both go), then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 6 failed | 8 passed | 226 skipped (240) — AC-talad-027 catches it; the other 5 fail after it because its held payment is never released (AC-talad-028 alone passes under this mutation) · file restored",
+            "at": "2026-09-24T07:59:36+07:00"
+          },
+          {
+            "cmd": "mutation check: the button not off while the cart is empty, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 2 failed | 12 passed | 226 skipped (240) — state empty and the sales-page test catch it · file restored",
+            "at": "2026-09-24T07:59:38+07:00"
+          },
+          {
+            "cmd": "mutation check: checkout sends no cartId, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 1 failed | 13 passed | 226 skipped (240) — the API-010 request test catches it · file restored",
+            "at": "2026-09-24T07:59:41+07:00"
+          },
+          {
+            "cmd": "mutation check: a later tied round forgets the earlier choice, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 1 failed | 13 passed | 226 skipped (240) — the second-tied-round test catches it · file restored",
+            "at": "2026-09-24T07:59:44+07:00"
+          },
+          {
+            "cmd": "mutation check: paid but the page not read again, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 1 failed | 13 passed | 226 skipped (240) — the AC-talad-004 action test catches it · file restored",
+            "at": "2026-09-24T07:59:46+07:00"
+          },
+          {
+            "cmd": "mutation check: a refusal shown as a generic sentence instead of the api's, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 1 failed | 13 passed | 226 skipped (240) — the AC-talad-070 refusal test catches it · file restored",
+            "at": "2026-09-24T07:59:49+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db · node fe034-real.mjs tie · Playwright as the seller, press ชำระเงิน",
+            "result": "ส้ม (ทดสอบราคา) ×3 under two promotions giving the same: totals —, ชำระเงิน opens UI-talad-003 with ส้ม ลด 10% (ทดสอบชำระ web) −฿13.50 and ซื้อ ส้ม 3 ชิ้น ลด 10% (ทดสอบชำระ web) −฿13.50 (data-row-key 15 · 16) · เลือกโปรนี้ on 15 → window closed, 'ชำระเงินสำเร็จ · ใบเสร็จ 20260924-000005 · ฿121.50', new empty cart, ชำระเงิน off · db: sale for cart 5, net 121.50, line qty 3 · 45.00 · promo_discount 13.50 · promotion_version 18 = promotion 15 · ส้ม stock 52 → 49",
+            "at": "2026-09-24T08:02:35+07:00"
+          },
+          {
+            "cmd": "node fe034-real.mjs plain · Playwright reload, double-click ชำระเงิน",
+            "result": "AC-talad-027 on the real stack: one bill 20260924-000006 ฿45.00 for cart 6 and no refusal shown · ส้ม stock 49 → 48",
+            "at": "2026-09-24T08:02:55+07:00"
+          },
+          {
+            "cmd": "node fe034-real.mjs short (RECEIVE +1 on ลำไย, the seller holds it, the owner sells it first) · Playwright reload, press ชำระเงิน",
+            "result": "AC-talad-070 on the real stack: 'ลำไย (ทดสอบราคา) คงเหลือไม่พอ (เหลือ 0)' in the till, the cart still holds ลำไย ×1, ชำระเงิน can be pressed again · db: no sale for cart 7, cart 7 Open, ลำไย stock 0 · node fe034-real.mjs clean: promotions 15 · 16 discontinued, seller cart empty · no 23505 in the api log",
+            "at": "2026-09-24T08:03:30+07:00"
+          },
+          {
+            "cmd": "the same Playwright run, read as screenshots (.playwright-mcp/fe034-tie*.png · fe034-short*.png)",
+            "result": "two display defects found and fixed in globals.css: UI-talad-003 opened from the till inherited the till's light text (title invisible) → .till .modal keeps the page's text colours; เลือกโปรนี้ wrapped and clipped → nowrap; the refusal floated at the viewport's corner (daisyUI's .toast is position fixed) → .till .toast static in the card · re-checked in the browser",
+            "at": "2026-09-24T08:03:40+07:00"
+          },
+          {
+            "cmd": "review before 🛑 — CheckoutZone had no catch: when the browser → web server leg drops, the server action rejects on the client and the page would fall to the error boundary instead of state \"error\" (AC-talad-028's own scenario). Added the catch (OFFLINE, now one constant in src/lib/offline.ts) and made the AC-028 test's first payment REJECT, then npx vitest run tests/checkout.test.tsx (src/web)",
+            "result": "Tests 14 passed (14)",
+            "at": "2026-09-24T08:07:20+07:00"
+          },
+          {
+            "cmd": "mutation check: the client-side catch removed, then npx vitest run -t FE-talad-034 (src/web)",
+            "result": "Tests 1 failed | 13 passed | 226 skipped (240) — AC-talad-028 catches it (unhandled rejection reported) · file restored",
+            "at": "2026-09-24T08:07:42+07:00"
+          },
+          {
+            "cmd": "api + next dev against talad-verify-db · node fe034-real.mjs plain · Playwright page.route on the server-action POST: route.fetch() then route.abort() once, press ชำระเงิน; unroute, press again",
+            "result": "AC-talad-028 on the real stack: first press → 'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองใหม่', cart still shows ส้ม ×1, button on · second press sends the same cart → 'ตะกร้านี้ชำระเงินไปแล้ว', then the new empty cart, button off · db: exactly one bill for cart 7 (20260924-000007 ฿45.00), cart 7 Paid, ส้ม stock 48 → 47 · only console error is the aborted request (net::ERR_FAILED)",
+            "at": "2026-09-24T08:08:10+07:00"
+          },
+          {
+            "cmd": "npx tsc --noEmit -p . · npx eslint src tests (src/web) · powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App web",
+            "result": "tsc no errors · eslint exit 0 · build done (1 app(s))",
+            "at": "2026-09-24T08:08:37+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-034",
+            "result": "Tests 14 passed | 226 skipped (240) · tests green (1 suite(s))",
+            "at": "2026-09-24T08:08:41+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1",
+            "result": "api Passed! 377/377 · web Tests 240 passed (240) · tests green (2 suite(s)) · exit 0",
+            "at": "2026-09-24T08:08:44+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/sales-api.ts",
+          "src/web/src/lib/offline.ts",
+          "src/web/src/app/(app)/cart-actions.ts",
+          "src/web/src/app/(app)/page.tsx",
+          "src/web/src/components/cart-panel.tsx",
+          "src/web/src/components/checkout-zone.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/tests/checkout.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/checkout.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "checkoutButton",
+            "kind": "command",
+            "dd_ref": null,
+            "testid": "ui-talad-002-checkout",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-035",
@@ -7145,8 +7275,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 33,
-      "draft": 13
+      "validated": 34,
+      "draft": 12
     },
     "by_origin": {
       "new": 46

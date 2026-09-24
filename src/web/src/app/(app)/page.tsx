@@ -1,19 +1,20 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { CartPanel } from "@/components/cart-panel";
+import { CheckoutZone } from "@/components/checkout-zone";
 import { MemberPanel } from "@/components/member-panel";
 import { ProductGrid, ProductGridSkeleton } from "@/components/product-grid";
 import { requireScreen } from "@/lib/me";
 import { getCart, getCartPricing, searchProducts } from "@/lib/sales-api";
-import { addToCart, bindToCart, changeQty, findMembers, removeFromCart } from "./cart-actions";
+import { addToCart, bindToCart, changeQty, findMembers, payCart, removeFromCart } from "./cart-actions";
 
 export const metadata: Metadata = { title: "หน้าขาย · ตลาดมาร์เก็ต" };
 
 type Search = Promise<{ search?: string; page?: string }>;
 
 // UI-talad-002 หน้าขาย — the product browser and the cart (UC-talad-001) and the member zone
-// (UC-talad-009), and the totals after discounts (UC-talad-004 · FE-talad-032). The price shortcut and checkout are
-// the zones other units add.
+// (UC-talad-009), the totals after discounts (UC-talad-004 · FE-talad-032) and ชำระเงิน (UC-talad-003 · FE-talad-034).
+// The price shortcut is the zone another unit adds.
 export default async function SalesPage({ searchParams }: { searchParams: Search }) {
   await requireScreen("UI-talad-002");
   const { search = "", page = "1" } = await searchParams;
@@ -53,7 +54,13 @@ export default async function SalesPage({ searchParams }: { searchParams: Search
           </div>
         </section>
         <aside className="narrow">
-          <CartPanel cart={cart} pricing={pricing} changeQty={changeQty} remove={removeFromCart} />
+          <CartPanel
+            cart={cart}
+            pricing={pricing}
+            changeQty={changeQty}
+            remove={removeFromCart}
+            checkout={<CheckoutZone cartId={cart.id} empty={cart.lines.length === 0} pay={payCart} />}
+          />
           <MemberPanel member={cart.member ?? null} find={findMembers} bind={bindToCart} />
         </aside>
       </div>

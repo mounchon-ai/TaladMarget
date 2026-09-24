@@ -704,8 +704,43 @@ body {
   letter-spacing: var(--tracking-wordmark);
 }
 
+/* UI-talad-002 action checkout (FE-talad-034) — the till's pay button, as mockups/UI-talad-002 (reference) draws it */
+.till .btn.pay {
+  margin-top: var(--space-4);
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--brand-on-primary);
+  font-size: var(--text-xl);
+  padding: var(--space-4);
+  height: auto;
+}
+.till .btn.pay:hover {
+  background: var(--state-approved-fg);
+}
+.till .btn.pay[disabled] {
+  background: var(--blue-800);
+  border-color: var(--blue-800);
+  color: var(--blue-300);
+}
+/* daisyUI's own .toast floats fixed at the viewport's corner; the till's messages stay in the card, as the mockup draws */
+.till .toast {
+  position: static;
+  inset: auto;
+  margin: var(--space-4) 0 0;
+}
+/* UI-talad-003 is opened from the till but is not part of it — it keeps the page's own text colours, not the till's */
+.till .modal {
+  color: var(--text-primary);
+}
+.till .modal h2 {
+  color: var(--blue-950);
+}
+
 /* UI-talad-003 เลือกโปรโมชั่นที่ลดเท่ากัน — state overflow: the options scroll inside the window */
 .choices {
   max-height: calc(var(--space-20) * 4);
   overflow-y: auto;
+}
+.choices .btn {
+  white-space: nowrap;
 }

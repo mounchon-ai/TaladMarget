@@ -89,6 +89,38 @@ export async function getCartPricing(choice: readonly number[] = []): Promise<Ca
   return json<CartPricing>(await apiFetch(`/api/cart/pricing${query ? `?${query}` : ""}`));
 }
 
+/** API-010 — the bill just made; only what the sales screen hands on crosses to the client (server-serialization). */
+export type PaidSale = { id: number; receiptNo: string; netTotal: number };
+
+/**
+ * API-010 · POST /api/cart/checkout. Told apart by `code`, never by `message`: PROMOTION_CHOICE_NEEDED carries the tied
+ * promotions UI-talad-003 lists (BR-talad-029@v1); every other refusal's `message` is the rule's own sentence
+ * (BR-talad-007@v1 · BR-talad-037@v1 · BR-talad-039@v1) and is shown as it came.
+ */
+export type CheckoutOutcome =
+  | { ok: true; sale: PaidSale }
+  | { ok: false; code: "PROMOTION_CHOICE_NEEDED"; choices: PromotionChoice[] }
+  | { ok: false; code: "SIGNED_OUT" }
+  | { ok: false; code: "REFUSED"; message: string };
+
+/**
+ * `cartId` is the cart the screen showed — so pressing twice, or sending again after the line dropped, finds that cart
+ * already paid and is refused (AC-talad-027 · 028), never pays the new empty one. `choice` is the promotion picked for
+ * each tied round, in order.
+ */
+export async function checkout(cartId: number, choice: readonly number[]): Promise<CheckoutOutcome> {
+  const response = await apiFetch("/api/cart/checkout", { method: "POST", body: JSON.stringify({ cartId, choice }) });
+  if (response.status === 201) {
+    const sale = (await response.json()) as PaidSale;
+    return { ok: true, sale: { id: sale.id, receiptNo: sale.receiptNo, netTotal: sale.netTotal } };
+  }
+  if (response.status === 401) return { ok: false, code: "SIGNED_OUT" };
+  const body = (await response.json().catch(() => null)) as { code?: string; message?: string; choices?: PromotionChoice[] } | null;
+  if (body?.code === "PROMOTION_CHOICE_NEEDED" && body.choices?.length) return { ok: false, code: "PROMOTION_CHOICE_NEEDED", choices: body.choices };
+  if ((response.status === 409 || response.status === 404) && body?.message) return { ok: false, code: "REFUSED", message: body.message };
+  throw new Error(`POST /api/cart/checkout answered ${response.status}`);
+}
+
 async function change(response: Response): Promise<CartChange> {
   if (response.ok) return { ok: true, cart: (await response.json()) as Cart };
   if (response.status === 409 || response.status === 404) {
