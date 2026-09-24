@@ -9,6 +9,9 @@ namespace Talad.Application.Sales;
 
 public sealed record PromotionRef(int Id, string Name);
 
+/// <summary>One of the tied promotions UI-talad-003 lists — its name and the baht it gives (BR-talad-029@v1).</summary>
+public sealed record PromotionChoice(int Id, string Name, decimal Discount);
+
 /// <summary>
 /// One line of API-009 — the price in force now, and the item-level promotion that took the line with what it gave
 /// this line (BR-talad-016@v2 — a set promotion shows its part under each of its lines). While a choice is pending the
@@ -28,7 +31,7 @@ public sealed record CartPricingView(
     decimal? PromoDiscount, decimal? Subtotal,
     PromotionRef? BillPromotion, int? BillRate, decimal? BillDiscount, decimal? AfterBill,
     MemberView? Member, int? MemberRate, decimal? MemberDiscount, decimal? Net,
-    IReadOnlyList<PromotionRef>? NeedsChoice);
+    IReadOnlyList<PromotionChoice>? NeedsChoice);
 
 /// <summary>
 /// UC-talad-004 · API-009 — the caller's own OPEN cart priced now: prices, promotions and the member rate in force at
@@ -62,7 +65,7 @@ public sealed class CartPricing(ICartRepository carts, IPromotionRepository prom
         {
             var plain = lines.Select(l => new CartPricingLine(l.ProductId, names[l.ProductId], l.Qty, l.UnitPrice, l.Gross, null, null, null)).ToList();
             return new CartPricingView(plain, null, null, null, null, null, null, member is null ? null : MemberView.Of(member), null, null, null,
-                tie.Select(Ref).ToList());
+                tie.Select(p => new PromotionChoice(p.Id, p.Name, items.TieDiscount!.Value)).ToList());
         }
 
         var priced = items.Lines!.Select(l => new CartPricingLine(

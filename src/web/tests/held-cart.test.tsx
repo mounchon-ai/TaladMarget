@@ -18,6 +18,7 @@ vi.mock("next/navigation", () => ({
 }));
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 
+import { noPromotions } from "./pricing-fixture";
 const { signIn } = await import("@/app/login/actions");
 const logout = await import("@/app/logout/route");
 const { getCart } = await import("@/lib/sales-api");
@@ -86,7 +87,7 @@ describe("FE-talad-008 · UC-talad-002 · a held cart on the shop's shared machi
 
     await signInAs("manee", "Manee#2569");
     const cart = await getCart();
-    render(<CartPanel cart={cart} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cart} pricing={noPromotions(cart)} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
 
     expect(api.requests.at(-1)).toEqual({ path: "/api/cart", bearer: "Bearer jwt-manee", cache: "no-store" });
     expect(screen.getByText("ยังไม่มีสินค้าในตะกร้า")).toBeTruthy();
@@ -106,7 +107,7 @@ describe("FE-talad-008 · UC-talad-002 · a held cart on the shop's shared machi
     await signInAs("somchai", "Somchai#2569");
     const cart = await getCart();
     const changeQty = vi.fn(ok);
-    render(<CartPanel cart={cart} changeQty={changeQty} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cart} pricing={noPromotions(cart)} changeQty={changeQty} remove={vi.fn(ok)} />);
 
     expect(api.requests.at(-1)?.bearer).toBe("Bearer jwt-somchai");
     expect(screen.getByTestId("ui-talad-002-ent-010-product").textContent).toBe("ส้มสายน้ำผึ้ง");
@@ -124,7 +125,7 @@ describe("FE-talad-008 · UC-talad-002 · a held cart on the shop's shared machi
 
     await signInAs("owner", "Owner#2569");
     const cart = await getCart();
-    render(<CartPanel cart={cart} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cart} pricing={noPromotions(cart)} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
 
     expect(api.requests.at(-1)?.bearer).toBe("Bearer jwt-owner");
     expect(cart.lines).toEqual([]);

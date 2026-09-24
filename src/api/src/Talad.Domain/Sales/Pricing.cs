@@ -167,10 +167,12 @@ public sealed record PricedLine(int ProductId, int Qty, decimal UnitPrice, ItemP
 
 /// <summary>
 /// CALC-talad-008's answer. While the best promotions of a round are equal and the staff has not chosen among them,
-/// <see cref="NeedsStaffChoice"/> names them and there are no lines yet — nothing is worked out on a guess.
+/// <see cref="NeedsStaffChoice"/> names them, <see cref="TieDiscount"/> is what each of them gives (the same, by
+/// definition — UI-talad-003 shows it beside each name), and there are no lines yet — nothing is worked out on a guess.
 /// </summary>
 public sealed record ItemPromotionPricing(
-    IReadOnlyList<SelectionStep> Steps, IReadOnlyList<PricedLine>? Lines, decimal? PromoDiscount, IReadOnlyList<ItemPromotion>? NeedsStaffChoice);
+    IReadOnlyList<SelectionStep> Steps, IReadOnlyList<PricedLine>? Lines, decimal? PromoDiscount, IReadOnlyList<ItemPromotion>? NeedsStaffChoice,
+    decimal? TieDiscount = null);
 
 /// <summary>CALC-talad-001 · 003 · 009 — after the item-level promotions: the whole-bill discount, then the member's, one after the other.</summary>
 public sealed record BillTotals(
@@ -207,7 +209,7 @@ public static class Pricing
             {
                 tie = top.Select(c => c.Promotion).ToList();
                 var at = choices.TryDequeue(out var chosen) ? top.FindIndex(c => c.Promotion.Id == chosen) : -1;
-                if (at < 0) return new ItemPromotionPricing(steps, null, null, tie);
+                if (at < 0) return new ItemPromotionPricing(steps, null, null, tie, best);
                 pick = top[at];
             }
 

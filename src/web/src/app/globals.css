@@ -659,3 +659,53 @@ body {
   resize: none;
   overflow-y: auto;
 }
+
+/* UI-talad-002 zone totals (FE-talad-032) — the till card and the promotion tag under a cart line, as mockups/UI-talad-002
+   (reference) draws them */
+.tag.promo {
+  background: var(--success-bg);
+  color: var(--state-approved-fg);
+}
+.cartline .promoline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+.till {
+  background: var(--blue-900);
+  border: none;
+  box-shadow: var(--shadow-lg);
+  color: var(--blue-100);
+}
+.till h2 {
+  color: var(--brand-on-primary);
+}
+.till .sum {
+  color: var(--blue-200);
+}
+.till .due {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-top: thin solid var(--blue-700);
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+  color: var(--blue-200);
+  font-size: var(--text-sm);
+}
+.till .due .v {
+  color: var(--brand-on-primary);
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  font-variant-numeric: var(--tabular-nums);
+  letter-spacing: var(--tracking-wordmark);
+}
+
+/* UI-talad-003 เลือกโปรโมชั่นที่ลดเท่ากัน — state overflow: the options scroll inside the window */
+.choices {
+  max-height: calc(var(--space-20) * 4);
+  overflow-y: auto;
+}

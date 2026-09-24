@@ -506,7 +506,7 @@ public sealed class CartPricingApiTests : IDisposable
         var wrong = await Priced(somchai, 999999);
         var chosen = await Priced(somchai, tenPercent);
 
-        Assert.Equal([(tenPercent, "ส้มสายน้ำผึ้ง ลด 10%"), (threeForTen, "ซื้อ ส้มสายน้ำผึ้ง 3 ชิ้น ลด 10%")], asked.NeedsChoice!.Select(p => (p.Id, p.Name)));
+        Assert.Equal([(tenPercent, "ส้มสายน้ำผึ้ง ลด 10%", 13.50m), (threeForTen, "ซื้อ ส้มสายน้ำผึ้ง 3 ชิ้น ลด 10%", 13.50m)], asked.NeedsChoice!.Select(p => (p.Id, p.Name, p.Discount)));
         Assert.Equal((135m, (decimal?)null, (decimal?)null), (asked.Lines.Single().LineGross, asked.Lines.Single().ItemPromoDiscount, asked.Net));
         Assert.NotNull(wrong.NeedsChoice);
         Assert.Null(chosen.NeedsChoice);

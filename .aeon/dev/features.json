@@ -5376,6 +5376,16 @@
             "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · node fe031-real.mjs driving API-027 · 029 · 031 · 013 · 004..009 on throwaway products 11 ส้ม 45 · 12 มังคุด 120 · 13 ลำไย 19.75",
             "result": "no token 401 · AC-128 ลำไย 2.17 + ส้ม 4.95 under the set promotion, promo 7.12, net 57.63 · AC-127 asked: needsChoice [ส้ม ลด 10%, ซื้อ ส้ม 3 ชิ้น ลด 10%], totals null · wrong choice asked again · chose 7: 13.50 · 121.50 · AC-091 promo 9 · bill 20.10 (ลดทั้งบิล 10%) · member 5% 9.05 · net 171.85 · AC-109 ส้ม×5 + มังคุด×2 under ซื้อ ส้ม 2 แถม มังคุด 1: 240 off, net 225 · every test promotion discontinued (204), member rate back to 0, test member hidden, cart empty · no exception in the api log",
             "at": "2026-09-24T07:25:38+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031 (after FE-talad-032 asked for each tied promotion's discount — needsChoice carries it; the AC-talad-127 test now checks 13.50 on both)",
+            "result": "Passed! - Failed: 0, Passed: 153, Skipped: 0, Total: 153 · tests green (1 suite(s))",
+            "at": "2026-09-24T07:35:42+07:00"
+          },
+          {
+            "cmd": "api :5010 against talad-verify-db · GET /api/cart/pricing with two promotions giving 13.50 on ส้ม (ทดสอบราคา) ×3",
+            "result": "needsChoice [{id 13, ส้ม ลด 10% (ทดสอบเสมอ), 13.5}, {id 14, ซื้อ ส้ม 3 ชิ้น ลด 10% (ทดสอบเสมอ), 13.5}] · totals null · test promotions discontinued afterwards",
+            "at": "2026-09-24T07:35:30+07:00"
           }
         ],
         "last_error": null,
@@ -5671,7 +5681,182 @@
           "hash": "sha256:be363957dc378744573780956dd16a0b204a5dc5ea7d4baf08b47c2f3f50df21"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 1,
+        "proof": [
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App web -Filter FE-talad-032",
+            "result": "Test Files 1 passed | 16 skipped (17) · Tests 11 passed | 215 skipped (226) · tests green (1 suite(s))",
+            "at": "2026-09-24T07:33:18+07:00"
+          },
+          {
+            "cmd": "mutation check: ยอดรวมหลังโปรระดับสินค้า read from the cart instead of API-009, then npx vitest run tests/cart-pricing.test.tsx (src/web)",
+            "result": "Tests 3 failed | 8 passed (11) — AC-talad-091 · 127 and the error state catch it · file restored",
+            "at": "2026-09-24T07:33:30+07:00"
+          },
+          {
+            "cmd": "mutation check: the promotion tag never drawn under a line, then npx vitest run tests/cart-pricing.test.tsx (src/web)",
+            "result": "Tests 2 failed | 9 passed (11) — AC-talad-125 · 128 catch it · file restored",
+            "at": "2026-09-24T07:33:32+07:00"
+          },
+          {
+            "cmd": "mutation check: a pricing that cannot be read not caught by the page, then npx vitest run tests/cart-pricing.test.tsx (src/web)",
+            "result": "Tests 1 failed | 10 passed (11) — the error-state page test catches it · file restored",
+            "at": "2026-09-24T07:33:33+07:00"
+          },
+          {
+            "cmd": "mutation check: UI-talad-003 never opening, then npx vitest run tests/cart-pricing.test.tsx (src/web)",
+            "result": "Tests 1 failed | 10 passed (11) — AC-talad-127's window test catches it · file restored",
+            "at": "2026-09-24T07:33:35+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1",
+            "result": "0 Warning(s) 0 Error(s) · next build · build done (2 app(s)) · exit 0",
+            "at": "2026-09-24T07:33:42+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1",
+            "result": "api Passed! 353/353 · web Test Files 17 passed (17) · Tests 226 passed (226) · tests green (2 suite(s)) · exit 0",
+            "at": "2026-09-24T07:33:49+07:00"
+          },
+          {
+            "cmd": "npm run lint (src/web) — after typing the fetch stub instead of two unused parameters",
+            "result": "eslint exit 0, no warnings · FE-talad-032 tests 11 passed",
+            "at": "2026-09-24T07:34:22+07:00"
+          },
+          {
+            "cmd": "api :5010 + next dev :3100 against talad-verify-db · node fe032-real.mjs chain · Playwright as the seller",
+            "result": "ส้ม (ทดสอบราคา) ×2 carries the tag ส้ม ลด 10% (ทดสอบหน้าขาย) −฿9.00, มังคุด none · สรุปยอด ฿201.00 · −฿20.10 · −฿9.05 · ยอดที่ต้องชำระ ฿171.85 · + on the orange → ×3, tag −฿13.50, ฿241.50 · −฿24.15 · −฿10.87 · ฿206.48",
+            "at": "2026-09-24T07:35:11+07:00"
+          },
+          {
+            "cmd": "node fe032-real.mjs tie · Playwright reload of / · node fe032-real.mjs clean",
+            "result": "two promotions giving 13.50 on ส้ม ×3: no tag, all four totals —, no alert · clean: promotions discontinued, member rate 0, test member hidden, cart empty · no exception in the api log",
+            "at": "2026-09-24T07:35:30+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/web/src/lib/sales-api.ts",
+          "src/web/src/app/(app)/page.tsx",
+          "src/web/src/components/cart-panel.tsx",
+          "src/web/src/components/promotion-choice-dialog.tsx",
+          "src/web/src/app/globals.css",
+          "src/web/tests/cart-pricing.test.tsx",
+          "src/web/tests/pricing-fixture.ts",
+          "src/web/tests/held-cart.test.tsx",
+          "src/web/tests/sales-page.test.tsx"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/web/tests/cart-pricing.test.tsx",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [
+          {
+            "id": "linePromotion",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-ent-006-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "subtotalAfterItemPromo",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-subtotal-after-item-promo",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "billDiscount",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-bill-discount",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "memberDiscount",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-member-discount",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "amountDue",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-002-amount-due",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "choicePromotionName",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-003-ent-006-name",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": [],
+            "row_key": {
+              "entity": "ENT-005",
+              "field": "id"
+            }
+          },
+          {
+            "id": "choicePromotionDiscount",
+            "kind": null,
+            "dd_ref": null,
+            "testid": "ui-talad-003-promo-discount",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "choosePromotion",
+            "kind": "command",
+            "dd_ref": null,
+            "testid": "ui-talad-003-choose-promo",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          },
+          {
+            "id": "cancelChoice",
+            "kind": "navigate",
+            "dd_ref": null,
+            "testid": "ui-talad-003-cancel",
+            "binding": null,
+            "validation_refs": [],
+            "depends_on": null,
+            "roles": []
+          }
+        ],
+        "apis": []
+      }
     },
     {
       "id": "FE-talad-033",
@@ -6829,8 +7014,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 31,
-      "draft": 15
+      "validated": 32,
+      "draft": 14
     },
     "by_origin": {
       "new": 46

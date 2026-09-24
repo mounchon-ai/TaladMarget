@@ -6,6 +6,7 @@ const revalidatePath = vi.hoisted(() => vi.fn());
 vi.mock("next/cache", () => ({ revalidatePath }));
 vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => ({ value: "jwt-somchai" }) }) }));
 
+import { noPromotions } from "./pricing-fixture";
 const { CartPanel } = await import("@/components/cart-panel");
 const { ProductGrid } = await import("@/components/product-grid");
 const { AddToCartButton } = await import("@/components/add-to-cart-button");
@@ -31,7 +32,7 @@ const ok = async () => ({ ok: true as const });
 describe("FE-talad-006 · UI-talad-002 cart zone", () => {
   it("AC-talad-001 · + raises the line by one", async () => {
     const changeQty = vi.fn(ok);
-    render(<CartPanel cart={cartOf(orange(1))} changeQty={changeQty} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf(orange(1))} pricing={noPromotions(cartOf(orange(1)))} changeQty={changeQty} remove={vi.fn(ok)} />);
 
     await userEvent.click(screen.getByTestId("ui-talad-002-increase-qty"));
 
@@ -39,7 +40,7 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
   });
 
   it("AC-talad-001 · shows qty 3 and total ฿135.00", () => {
-    render(<CartPanel cart={cartOf(orange(3))} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf(orange(3))} pricing={noPromotions(cartOf(orange(3)))} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
 
     expect(screen.getByTestId("ui-talad-002-ent-010-qty")).toHaveProperty("value", "3");
     expect(screen.getByTestId("ui-talad-002-subtotal-after-item-promo").textContent).toBe("฿135.00");
@@ -47,7 +48,7 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
 
   it("AC-talad-002 · − from 3 lowers to 2 with no confirmation", async () => {
     const changeQty = vi.fn(ok);
-    render(<CartPanel cart={cartOf(orange(3))} changeQty={changeQty} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf(orange(3))} pricing={noPromotions(cartOf(orange(3)))} changeQty={changeQty} remove={vi.fn(ok)} />);
 
     await userEvent.click(screen.getByTestId("ui-talad-002-decrease-qty"));
 
@@ -57,7 +58,7 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
 
   it("AC-talad-003 · − at 1 asks first, and ลบ takes the line out", async () => {
     const remove = vi.fn(ok);
-    render(<CartPanel cart={cartOf(orange(1), mangosteen)} changeQty={vi.fn(ok)} remove={remove} />);
+    render(<CartPanel cart={cartOf(orange(1), mangosteen)} pricing={noPromotions(cartOf(orange(1), mangosteen))} changeQty={vi.fn(ok)} remove={remove} />);
 
     await userEvent.click(screen.getAllByTestId("ui-talad-002-decrease-qty")[0]);
     expect(screen.getByText("ต้องการลบ ส้มสายน้ำผึ้ง ออกจากตะกร้าหรือไม่?")).toBeTruthy();
@@ -68,7 +69,7 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
 
   it("AC-talad-003 · ยกเลิก keeps the line", async () => {
     const remove = vi.fn(ok);
-    render(<CartPanel cart={cartOf(orange(1))} changeQty={vi.fn(ok)} remove={remove} />);
+    render(<CartPanel cart={cartOf(orange(1))} pricing={noPromotions(cartOf(orange(1)))} changeQty={vi.fn(ok)} remove={remove} />);
 
     await userEvent.click(screen.getByTestId("ui-talad-002-remove-line"));
     await userEvent.click(screen.getByRole("button", { name: "ยกเลิก" }));
@@ -78,7 +79,7 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
 
   it("AC-talad-069 · a refused + shows the rule's sentence", async () => {
     const changeQty = vi.fn(async () => ({ ok: false as const, message: "ส้มสายน้ำผึ้ง คงเหลือไม่พอ (เหลือ 2)" }));
-    render(<CartPanel cart={cartOf(orange(2))} changeQty={changeQty} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf(orange(2))} pricing={noPromotions(cartOf(orange(2)))} changeQty={changeQty} remove={vi.fn(ok)} />);
 
     await userEvent.click(screen.getByTestId("ui-talad-002-increase-qty"));
 
@@ -86,14 +87,14 @@ describe("FE-talad-006 · UI-talad-002 cart zone", () => {
   });
 
   it("AC-talad-049 · a cart line has no price to edit", () => {
-    render(<CartPanel cart={cartOf(orange(1))} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf(orange(1))} pricing={noPromotions(cartOf(orange(1)))} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
 
     expect(screen.getAllByRole("textbox")).toHaveLength(1); // the read-only quantity only
     expect(screen.queryByTestId("ui-talad-002-edit-price")).toBeNull();
   });
 
   it("an empty cart says so", () => {
-    render(<CartPanel cart={cartOf()} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
+    render(<CartPanel cart={cartOf()} pricing={noPromotions(cartOf())} changeQty={vi.fn(ok)} remove={vi.fn(ok)} />);
 
     expect(screen.getByText("ยังไม่มีสินค้าในตะกร้า")).toBeTruthy();
   });

@@ -44,6 +44,51 @@ export async function getCart(): Promise<Cart> {
   return json<Cart>(await apiFetch("/api/cart"));
 }
 
+/** API-009 — a promotion as the pricing names it. */
+export type PromotionRef = { id: number; name: string };
+/** One of the tied promotions UI-talad-003 lists, with the baht it gives. */
+export type PromotionChoice = PromotionRef & { discount: number };
+
+/** One line as API-009 prices it — the discount fields are null while a tie waits for the staff. */
+export type PricedLine = {
+  productId: number;
+  name: string;
+  qty: number;
+  unitPrice: number;
+  lineGross: number;
+  promotion: PromotionRef | null;
+  itemPromoDiscount: number | null;
+  lineNet: number | null;
+};
+
+/**
+ * API-009 · UC-talad-004 — the caller's own cart priced now: each line with the promotion that took it, the whole-bill
+ * discount, the member discount and what is to be paid. `needsChoice` names promotions that give exactly the same and
+ * wait for the staff (BR-talad-029@v1) — every total is null until then.
+ */
+export type CartPricing = {
+  lines: PricedLine[];
+  promoDiscount: number | null;
+  subtotal: number | null;
+  billPromotion: PromotionRef | null;
+  billRate: number | null;
+  billDiscount: number | null;
+  afterBill: number | null;
+  member: CartMember | null;
+  memberRate: number | null;
+  memberDiscount: number | null;
+  net: number | null;
+  needsChoice: PromotionChoice[] | null;
+};
+
+/** API-009 · GET /api/cart/pricing — `choice` is the promotion the staff picked for each tied round, in order. */
+export async function getCartPricing(choice: readonly number[] = []): Promise<CartPricing> {
+  const q = new URLSearchParams();
+  for (const c of choice) q.append("choice", String(c));
+  const query = q.toString();
+  return json<CartPricing>(await apiFetch(`/api/cart/pricing${query ? `?${query}` : ""}`));
+}
+
 async function change(response: Response): Promise<CartChange> {
   if (response.ok) return { ok: true, cart: (await response.json()) as Cart };
   if (response.status === 409 || response.status === 404) {
