@@ -89,6 +89,13 @@ internal sealed class PromotionRepository(TaladDbContext db) : IPromotionReposit
 
     public Task<Promotion?> FindAsync(int id, CancellationToken ct) => WithVersion().SingleOrDefaultAsync(p => p.Id == id, ct);
 
+    public async Task<IReadOnlyList<Promotion>> InForceAsync(DateOnly today, CancellationToken ct) =>
+        await db.Promotions.Include(p => p.CurrentVersion)
+            .Where(p => p.Status == PromotionStatus.Active && p.CurrentVersionId != null
+                && p.CurrentVersion!.StartDate <= today && (p.CurrentVersion.EndDate == null || p.CurrentVersion.EndDate >= today))
+            .OrderBy(p => p.Id)
+            .ToListAsync(ct);
+
     public void Add(Promotion promotion) => db.Promotions.Add(promotion);
 
     public void Add(PromotionVersion version) => db.PromotionVersions.Add(version);

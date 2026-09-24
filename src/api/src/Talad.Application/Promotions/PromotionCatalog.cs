@@ -13,6 +13,12 @@ public interface IPromotionRepository
     /// <summary>The promotion with its version in force and that version's products, whatever its status.</summary>
     Task<Promotion?> FindAsync(int id, CancellationToken ct);
 
+    /// <summary>
+    /// BR-talad-015@v1 · BR-talad-038@v1 — ACTIVE promotions whose version in force covers <paramref name="today"/> (the start
+    /// and the end day both count in full; no end date is open-ended), ordered by id.
+    /// </summary>
+    Task<IReadOnlyList<Promotion>> InForceAsync(DateOnly today, CancellationToken ct);
+
     void Add(Promotion promotion);
     void Add(PromotionVersion version);
     Task SaveChangesAsync(CancellationToken ct);

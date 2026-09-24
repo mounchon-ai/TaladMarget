@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Talad.Application.Catalog;
@@ -50,6 +51,11 @@ public static class CartEndpoints
         // API-007 · DELETE /api/cart/lines/{productId}
         cart.MapDelete("/lines/{productId:int}", (int productId, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>
             Guard(() => carts.RemoveAsync(OwnerId(user), productId, ct)));
+
+        // API-009 · GET /api/cart/pricing?choice=&choice= — the caller's own cart priced now (UC-talad-004); each choice is the
+        // promotion id the staff picked for a tied round, in order (BR-talad-029@v1)
+        cart.MapGet("/pricing", ([FromQuery] int[]? choice, ClaimsPrincipal user, CartPricing pricing, CancellationToken ct) =>
+            pricing.PriceAsync(OwnerId(user), choice ?? [], ct));
 
         // API-008 · PUT /api/cart/member — bind an ACTIVE member to the caller's own cart, or unbind
         cart.MapPut("/member", (SetMemberRequest body, ClaimsPrincipal user, CartService carts, CancellationToken ct) =>

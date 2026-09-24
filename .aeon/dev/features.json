@@ -5313,7 +5313,147 @@
           "hash": "sha256:74d1117dce06393a49b5b36963963a263e1d6fd9a3a5d18b37cef1267f946a2f"
         }
       ],
-      "status": "draft"
+      "status": "validated",
+      "build": {
+        "iterations": 2,
+        "proof": [
+          {
+            "cmd": "dotnet test --filter FullyQualifiedName~PricingGoldenTests (src/api) — every row of GD-talad-001..009 read from .aeon/req/requirements.json at run time",
+            "result": "Passed! - Failed: 0, Passed: 110, Skipped: 0, Total: 110",
+            "at": "2026-09-24T07:18:47+07:00"
+          },
+          {
+            "cmd": "dotnet test --filter FullyQualifiedName~CartPricingApiTests (src/api) (round 1)",
+            "result": "Failed — 401 on every call after sign-in: the test clock started on 23 Sep while JwtBearer checks tokens against the real clock · fixed in the test fixture (clock starts at the real now, moved after sign-in), no application code changed",
+            "at": "2026-09-24T07:22:19+07:00"
+          },
+          {
+            "cmd": "dotnet test --filter FullyQualifiedName~CartPricingApiTests (src/api) (round 2)",
+            "result": "Passed! - Failed: 0, Passed: 43, Skipped: 0, Total: 43",
+            "at": "2026-09-24T07:22:43+07:00"
+          },
+          {
+            "cmd": "mutation check: Money.Round with .NET's default banker's rounding, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Failed! - Failed: 8, Passed: 145, Total: 153 — GD-talad-002 · 003 · 001 · 006 rows and AC API tests catch it · file restored",
+            "at": "2026-09-24T07:23:07+07:00"
+          },
+          {
+            "cmd": "mutation check: promotion days by the UTC date instead of the Thai date, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Failed! - Failed: 2, Passed: 151, Total: 153 — AC-talad-025 · 026 at 00:01 Thai time catch it · file restored",
+            "at": "2026-09-24T07:23:19+07:00"
+          },
+          {
+            "cmd": "mutation check: a tie resolved by taking the first promotion, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Failed! - Failed: 4, Passed: 149, Total: 153 — GD-talad-008 tie rows and AC-talad-127 catch it · file restored",
+            "at": "2026-09-24T07:23:31+07:00"
+          },
+          {
+            "cmd": "mutation check: member discount on the subtotal (percents added), then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Failed! - Failed: 4, Passed: 149, Total: 153 — GD-talad-001 · 009 and AC-talad-091 catch it · file restored",
+            "at": "2026-09-24T07:23:44+07:00"
+          },
+          {
+            "cmd": "mutation check: n_a and n_b swapped when a saved promotion reaches the engine, then powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Failed! - Failed: 3, Passed: 150, Total: 153 — AC-talad-117 · 118 · 113 API tests catch it · file restored",
+            "at": "2026-09-24T07:23:56+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-build.ps1 -App api",
+            "result": "0 Warning(s) 0 Error(s) · build done (1 app(s)) · exit 0",
+            "at": "2026-09-24T07:24:14+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api -Filter FE-talad-031",
+            "result": "Passed! - Failed: 0, Passed: 153, Skipped: 0, Total: 153 · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T07:24:16+07:00"
+          },
+          {
+            "cmd": "powershell -ExecutionPolicy Bypass -File scripts/dev-test.ps1 -App api",
+            "result": "Passed! - Failed: 0, Passed: 353, Skipped: 0, Total: 353 · tests green (1 suite(s)) · exit 0",
+            "at": "2026-09-24T07:24:28+07:00"
+          },
+          {
+            "cmd": "dotnet run Talad.Api on :5010 against talad-verify-db · node fe031-real.mjs driving API-027 · 029 · 031 · 013 · 004..009 on throwaway products 11 ส้ม 45 · 12 มังคุด 120 · 13 ลำไย 19.75",
+            "result": "no token 401 · AC-128 ลำไย 2.17 + ส้ม 4.95 under the set promotion, promo 7.12, net 57.63 · AC-127 asked: needsChoice [ส้ม ลด 10%, ซื้อ ส้ม 3 ชิ้น ลด 10%], totals null · wrong choice asked again · chose 7: 13.50 · 121.50 · AC-091 promo 9 · bill 20.10 (ลดทั้งบิล 10%) · member 5% 9.05 · net 171.85 · AC-109 ส้ม×5 + มังคุด×2 under ซื้อ ส้ม 2 แถม มังคุด 1: 240 off, net 225 · every test promotion discontinued (204), member rate back to 0, test member hidden, cart empty · no exception in the api log",
+            "at": "2026-09-24T07:25:38+07:00"
+          }
+        ],
+        "last_error": null,
+        "recorded_by": "mon sai",
+        "recorded_at": "2026-09-24"
+      },
+      "manifest": {
+        "files": [
+          "src/api/src/Talad.Domain/Sales/Pricing.cs",
+          "src/api/src/Talad.Application/Sales/CartPricing.cs",
+          "src/api/src/Talad.Application/Promotions/PromotionCatalog.cs",
+          "src/api/src/Talad.Infrastructure/Persistence/PromotionPersistence.cs",
+          "src/api/src/Talad.Infrastructure/DependencyInjection.cs",
+          "src/api/src/Talad.Api/Sales/CartEndpoints.cs",
+          "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+          "src/api/tests/Talad.Tests/Sales/CartPricingApiTests.cs"
+        ],
+        "unit_tests": [
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-001@v1",
+            "gd_ref": "GD-talad-001"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-002@v1",
+            "gd_ref": "GD-talad-002"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-003@v1",
+            "gd_ref": "GD-talad-003"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-004@v1",
+            "gd_ref": "GD-talad-004"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-005@v1",
+            "gd_ref": "GD-talad-005"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-006@v1",
+            "gd_ref": "GD-talad-006"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-007@v1",
+            "gd_ref": "GD-talad-007"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-008@v1",
+            "gd_ref": "GD-talad-008"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/PricingGoldenTests.cs",
+            "calc_ref": "CALC-talad-009@v1",
+            "gd_ref": "GD-talad-009"
+          },
+          {
+            "file": "src/api/tests/Talad.Tests/Sales/CartPricingApiTests.cs",
+            "calc_ref": null,
+            "gd_ref": null
+          }
+        ],
+        "ui_controls": [],
+        "apis": [
+          {
+            "api_ref": "API-009",
+            "route": "GET /api/cart/pricing",
+            "file": "src/api/src/Talad.Api/Sales/CartEndpoints.cs"
+          }
+        ]
+      }
     },
     {
       "id": "FE-talad-032",
@@ -6686,8 +6826,8 @@
   "rollup": {
     "features_total": 46,
     "by_status": {
-      "validated": 30,
-      "draft": 16
+      "validated": 31,
+      "draft": 15
     },
     "by_origin": {
       "new": 46
